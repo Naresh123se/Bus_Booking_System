@@ -9,37 +9,14 @@ import Button from '@mui/joy/Button';
 import { Link } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import IconButton from '@mui/joy/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import DarkModeToggle from './DarkModeToggle';
 
 
-function ModeToggle() {
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
-  return (
-    <Button
-      variant="soft"
-      onClick={() => {
-        setMode(mode === 'light' ? 'dark' : 'light');
-      }}
-    >
-      {mode === 'light' ? <DarkModeIcon /> : <Brightness4Icon />}
-    </Button>
-  );
-}
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -47,7 +24,7 @@ export default function RegisterPage() {
   return (
     <CssVarsProvider>
       <main>
-        <ModeToggle />
+        <DarkModeToggle/>
         <Sheet
           sx={{
             width: 300,
@@ -69,6 +46,7 @@ export default function RegisterPage() {
             </Typography>
             <Typography level="body-sm">Register in to continue.</Typography>
           </div>
+          <FormControl></FormControl>
           <FormControl>
 
             <FormLabel > <PersonIcon />Full name</FormLabel>
@@ -122,6 +100,7 @@ export default function RegisterPage() {
           <Button as={Link} to="/data" sx={{ mt: 1 /* margin top */ }}>
             Log in
           </Button>
+         
           <Button sx={{ border: '1px solid #bfbfbe', background: 'white', '&:hover': { background: "#f4f1f0" }, color: "black", gap:'12px' , paddingRight:'75px' /* margin top */ }}> 
          <img src='/google.png' alt="google_icon" className='w-6 '/>Continue with google </Button>
         </Sheet>
