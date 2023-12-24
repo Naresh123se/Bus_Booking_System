@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client'; // Import from 'react-dom/client'
 import App from './App.jsx';
 import {
   createBrowserRouter,
@@ -8,29 +8,28 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './store';
+import LoginPage from './Pages/LoginPage.jsx';
+import RegisterPage from './Pages/RegisterPage.jsx';
+
+import Header from './Pages/Header';
 import { Provider } from 'react-redux';
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen.jsx';
-import RegisterScreen from './screens/RegisterScreen.jsx';
-import ProfileScreen from './screens/ProfileScreen.jsx';
-import PrivateRoute from './components/PrivateRoute.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      <Route index={true} path='/' element={<HomeScreen />} />
-      <Route path='/login' element={<LoginScreen />} />
-      <Route path='/register' element={<RegisterScreen />} />
-      <Route path='' element={<PrivateRoute />}>
-        <Route path='/profile' element={<ProfileScreen />} />
-      </Route>
+      <Route index={true} path='/' element={<Header />} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
     </Route>
   )
 );
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+
+// Use createRoot from 'react-dom/client'
+const root = ReactDOM.createRoot(rootElement);
+root.render(
   <Provider store={store}>
     <React.StrictMode>
       <RouterProvider router={router} />
