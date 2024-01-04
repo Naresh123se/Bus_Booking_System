@@ -48,11 +48,11 @@ const Header = () => {
 
       <div className=''>
         {userInfo && (
-         <div className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-sky-700 ' onClick={handleShow}>
-         <AccountCircleIcon className='hover:shadow' />
-         {userInfo.name}
-       </div>
-       
+          <div className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-sky-700 ' onClick={handleShow}>
+            <AccountCircleIcon className='hover:shadow' />
+            {userInfo.name}
+          </div>
+
         )}
 
         {userInfo && (
