@@ -1,8 +1,8 @@
 {
-  "name": "mern-auth",
+  "name": "Bus Booking System",
   "version": "1.0.0",
   "type": "module",
-  "description": "MERN authentication system",
+  "description": "Bus Booking System",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
@@ -10,8 +10,8 @@
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Brad Traversy",
-  "license": "MIT",
+  "author": "Naresh",
+  "license": " ",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",

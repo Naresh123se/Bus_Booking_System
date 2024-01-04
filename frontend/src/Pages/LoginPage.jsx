@@ -123,7 +123,7 @@ const submitHandler = async (e) => {
         >
           Don&apos;t have an account?
         </Typography>
-        <Button sx={{ border: '1px solid #bfbfbe', background: 'white', '&:hover': { background: "#f4f1f0" }, color: "black", gap: '12px', paddingRight: '75px' /* margin top */ }}>
+        <Button sx={{ border: '1px solid #bfbfbe', background: 'white', '&:hover': { background: "#f4f1f0" }, color: "black", gap: '12px' /* margin top */ }}>
           <img src='/google.png' alt="google_icon" className='w-6 ' />Continue with google </Button>
 
 
