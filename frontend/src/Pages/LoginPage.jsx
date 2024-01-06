@@ -68,12 +68,6 @@ const submitHandler = async (e) => {
           <Typography level="body-sm">Sign in to continue.</Typography>
         </div>
 
-
-
-
-
-
-
         <FormControl>
 
           <FormLabel > <AlternateEmailIcon />Email</FormLabel>
@@ -81,6 +75,7 @@ const submitHandler = async (e) => {
             // html input attribute
             name="email"
             type="email"
+            required
             value={email}
             placeholder="naresh@email.com"
             onChange={(e) => setEmail(e.target.value)}
@@ -95,6 +90,7 @@ const submitHandler = async (e) => {
               name="password"
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               sx={{ paddingRight: '40px' }}

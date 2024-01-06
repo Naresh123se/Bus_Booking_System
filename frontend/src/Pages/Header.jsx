@@ -56,38 +56,41 @@ const Header = () => {
         )}
 
         {userInfo && (
-          <Modal show={isModalOpen} onHide={handleClose} className="bg-bth z-50 w-40 fixed  right-1">
-            <Modal.Body>
-              <LinkContainer to='/profile'>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-              </LinkContainer>
-              <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <Modal show={isModalOpen} onHide={handleClose} className="bg-bth z-50 w-40 fixed right-1">
+          <Modal.Body>
+            <LinkContainer to='/profile'>
+              <NavDropdown.Item className="hover:bg-gray-200">Profile</NavDropdown.Item>
+            </LinkContainer>
+          </Modal.Body>
+          <NavDropdown.Item onClick={logoutHandler} className="hover:bg-gray-200">Logout</NavDropdown.Item>
+          <Modal.Footer>
+            <Button variant='secondary' onClick={handleClose} className="hover:bg-gray-200 hover:text-white">
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        
         )}
       </div>
 
       {userInfo ? (
         <div className='hidden'>
-          <Navbar>
-            <Navbar.Toggle aria-controls='basic-navbar-nav' />
-            <Navbar.Collapse id='basic-navbar-nav'>
-              <Nav className='ms-auto'>
-                <NavDropdown title={userInfo.name} id='username' className=''>
-                  <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
-        </div>
+        <Navbar>
+          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          <Navbar.Collapse id='basic-navbar-nav'>
+            <Nav className='flex flex-col items-end'>
+              <NavDropdown title={userInfo.name} id='username' className='flex flex-col items-end'>
+                <LinkContainer to='/profile'>
+                  <NavDropdown.Item className='hover:text-blue-500'>Profile12</NavDropdown.Item>
+                </LinkContainer>
+                <div>car</div>
+                <NavDropdown.Item onClick={logoutHandler} className='hover:text-red-500'>Logout</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+      
       ) : (
         <Link to='/login' className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 '>
           <MenuIcon />
