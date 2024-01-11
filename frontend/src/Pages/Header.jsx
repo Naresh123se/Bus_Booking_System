@@ -12,6 +12,7 @@ import { logout } from '../slices/authSlice';
 
 
 
+
 import { Dropdown } from '@mui/base/Dropdown';
 import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
@@ -53,7 +54,7 @@ const Header = () => {
         </button>
       </div>
 
-      <div className=''>
+      <div>
 
 
         {userInfo && (
