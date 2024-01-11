@@ -10,11 +10,11 @@ const App = () => {
   return (
 <>
          <Header/>
-         <IndexPage/>
+    
       <ToastContainer />
-
+    
         <Outlet />
-     
+       
     </>
   );
 };

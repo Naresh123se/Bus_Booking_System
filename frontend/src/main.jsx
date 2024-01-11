@@ -11,6 +11,7 @@ import './index.css';
 import store from './store';
 import LoginPage from './Pages/LoginPage.jsx';
 import RegisterPage from './Pages/RegisterPage.jsx';
+import IndexPage from './Pages/IndexPage.jsx';
 
 
 import { Provider } from 'react-redux';
@@ -18,6 +19,7 @@ import { Provider } from 'react-redux';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
+      <Route path='/' element={<IndexPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
     </Route>
