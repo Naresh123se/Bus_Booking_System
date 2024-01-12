@@ -15,7 +15,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 const LocationForm = () => {
-  const [fromLocation, setFromLocation] = useState('');
+  const [fromLocation, setFromLocation] = useState('1 Adult');
   const [toLocation, setToLocation] = useState('');
   const [arrowDirection, setArrowDirection] = useState('right');
   const [value, setValue] = React.useState(dayjs());
@@ -146,7 +146,7 @@ const RadioWithHiddenDiv = () => {
     <LocalizationProvider    dateAdapter={AdapterDayjs}>
       <DemoContainer  components={['DatePicker']}>
         <DatePicker
-      sx={{ width: selectedValue === "b" ? ' 5cm' : '9cm' }}
+      sx={{ width: selectedValue === "b" ? ' 5cm' : '10.57cm' }}
           label="Departure"
           value={value}
          
@@ -173,7 +173,22 @@ const RadioWithHiddenDiv = () => {
      
   
     </div>
+    <div>
 
+    <div className='mt-4 ml-7'>
+          <TextField
+            label="FROM"
+            id="people"
+            sx={{ width: '5cm' }}
+            placeholder='Pokhara'
+            value={fromLocation}
+            onChange={(e) => setFromLocation(e.target.value)}
+            InputProps={{
+              startAdornment: <InputAdornment position="start"> </InputAdornment>,
+            }}
+          />
+        </div>
+    </div>
 
 <div className='ml-2 pt-5 '>
 <Button  className=''>
