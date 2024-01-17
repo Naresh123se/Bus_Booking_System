@@ -14,6 +14,9 @@ import RegisterPage from './Pages/RegisterPage.jsx';
 import IndexPage from './Pages/IndexPage.jsx';
 
 
+
+
+
 import { Provider } from 'react-redux';
 
 const router = createBrowserRouter(
@@ -22,6 +25,9 @@ const router = createBrowserRouter(
       <Route path='/' element={<IndexPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
+     
+    
+    
     </Route>
   )
 );
