@@ -25,6 +25,7 @@ import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 
 const IndexPage = () => {
   const [fromLocation, setFromLocation] = useState('');
@@ -280,19 +281,29 @@ const IndexPage = () => {
         </div>
       </div>
 
-      <div className='     '>
+      <div className='flex gap-5 mt-28 '>
 
-        <div className=' w-80  mt-28 ml-20 pt-5 pb-5 border-[1px] border-[#C8C8C8]  w-10bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
-          
+        <div className=' w-96 hover:shadow-lg hover:bg-[#f0f0f0] ml-20 pt-5 pb-5 border-[1px] border-[#C8C8C8]  w-10bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
+          <div className='flex'>
+            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'>Bus Track</p>
+          </div>
+        </div>
+        <div className=' w-96  hover:shadow-lg hover:bg-[#f0f0f0] pt-5 pb-5 border-[1px] border-[#C8C8C8]  w-10bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
+          <div className='flex'>
+            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'>Bus Track</p>
+          </div>
+        </div>
         
-          <WatchLaterIcon  sx={{ fontSize: 40, }}  className=''/>
-       </div>
+        <div className=' w-96 hover:shadow-lg hover:bg-[#f0f0f0]  pt-5 pb-5 border-[1px] border-[#C8C8C8]  w-10bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
+          <div className='flex'>
+            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'>Bus Track</p>
+          </div>
         </div>
 
-        <div className='  border-2  border-[#C8C8C8]  rounded-xl '>
-          22
-        </div>
+      </div>
 
+
+{/* #ca801f */}
 
     </>
   );

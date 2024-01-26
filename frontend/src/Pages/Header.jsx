@@ -41,8 +41,8 @@ const Header = () => {
   return (
     <header className='flex justify-between p-4 bg-bg1 text-Slate-50'>
       <Link to='/' className='flex items-center gap-1 '>
-        <AccountCircleIcon />
-        <span className='z-20'>Logo</span>
+        <div className='w-16' > <img src="3.svg" alt="" /></div>
+
       </Link>
 
       <div className='flex items-center space-x-8'>
