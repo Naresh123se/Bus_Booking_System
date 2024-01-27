@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Bus Booking System",
-  "main": "server.js",
+  "main": "serve.js",
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
@@ -13,7 +13,11 @@
   "author": "Naresh",
   "license": " ",
   "dependencies": {
+    "@adminjs/express": "^6.1.0",
+    "@adminjs/mongoose": "^4.0.0",
+    "adminjs": "^7.5.9",
     "bcryptjs": "^2.4.3",
+    "connect-pg-simple": "^9.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

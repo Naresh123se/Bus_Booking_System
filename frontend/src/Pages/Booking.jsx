@@ -9,8 +9,7 @@ import Button from '@mui/joy/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { CssVarsProvider } from '@mui/joy/styles';
-import DarkModeToggle from './DarkModeToggle';
+
 
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
@@ -23,11 +22,10 @@ import { Dropdown } from '@mui/base/Dropdown';
 import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
+import Booking1 from './Booking1';
 
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 
-const IndexPage = () => {
+const Booking = () => {
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
   const [arrowDirection, setArrowDirection] = useState('right');
@@ -92,12 +90,12 @@ const IndexPage = () => {
   return (
     <>
       {/* image */}
-      <div className='relative'>
-        <img src="bus.png" alt="bus" className='w-full h-auto' />
+      <div className=''>
+        
 
-        <div className='absolute  ml-10 inset-0 mt-80  flex items-center'  >
+        <div className='mt-10  flex items-center'  >
           {/*radio button */}
-          <div className='  shadow-lg ml-10     pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
+          <div className='  shadow-lg ml-20     pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
             <div>
               <Radio
                 checked={selectedValue === 'a'}
@@ -265,44 +263,18 @@ const IndexPage = () => {
               </div>
 
               <div className='ml-2 pt-6  '>
-
-
                 <Button>Search</Button>
               </div>
 
             </div>
 
           </div>
-
         </div>
       </div>
-
-      <div className='flex gap-5 mt-28 '>
-
-        <div className=' w-96 hover:shadow-lg hover:bg-[#f0f0f0] ml-20 pt-5 pb-5 border-[1px] border-[#C8C8C8]  bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
-          <div className='flex'>
-            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'>Bus Track</p>
-          </div>
-        </div>
-        <div className=' w-96  hover:shadow-lg hover:bg-[#f0f0f0] pt-5 pb-5 border-[1px] border-[#C8C8C8]  w-10bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
-          <div className='flex'>
-            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'>Bus Track</p>
-          </div>
-        </div>
-
-        <div className=' w-96 hover:shadow-lg hover:bg-[#f0f0f0]  pt-5 pb-5 border-[1px] border-[#C8C8C8]  w-10bg-[#FFF] shadow-[#b7acac] rounded-xl  grid place-content-center '>
-          <div className='flex'>
-            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'>Bus Track</p>
-          </div>
-        </div>
-
-      </div>
-
-
       {/* #ca801f */}
-
+      <Booking1/>
     </>
   );
 };
 
-export default IndexPage;
+export default Booking;

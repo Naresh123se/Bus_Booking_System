@@ -12,7 +12,9 @@ import store from './store';
 import LoginPage from './Pages/LoginPage.jsx';
 import RegisterPage from './Pages/RegisterPage.jsx';
 import IndexPage from './Pages/IndexPage.jsx';
-import Location from './Directions/Location.jsx';
+import Booking from './Pages/Booking.jsx';
+import Location from './Directions/DirectionMap.jsx';
+
 
 
 
@@ -27,6 +29,7 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/Location' element={<Location />} />
+      <Route path='/Booking' element={<Booking />} />
      
     
     

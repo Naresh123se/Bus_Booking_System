@@ -39,9 +39,9 @@ const Header = () => {
   };
 
   return (
-    <header className='flex justify-between p-4 bg-bg1 text-Slate-50'>
+    <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50'>
       <Link to='/' className='flex items-center gap-1 '>
-        <div className='w-16' > <img src="3.svg" alt="" /></div>
+        <div className='w-16  ml-20' > <img src="3.svg" alt="" /></div>
 
       </Link>
 
@@ -65,7 +65,7 @@ const Header = () => {
         {userInfo && (
           <Dropdown >
             {/* MenuButton styling */}
-            <MenuButton className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-[#5972ff] '>
+            <MenuButton className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-[#5972ff] mr-20 '>
               <AccountCircleIcon />
               {userInfo.name}
             </MenuButton>
