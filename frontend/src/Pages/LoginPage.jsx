@@ -19,6 +19,7 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { toast } from 'react-toastify';
 import DarkModeToggle from './DarkModeToggle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import GoogleAuth from './GoogleAuth';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -119,8 +120,8 @@ const submitHandler = async (e) => {
         >
           Don&apos;t have an account?
         </Typography>
-        <Button sx={{ border: '1px solid #bfbfbe', background: 'white', '&:hover': { background: "#f4f1f0" }, color: "black", gap: '12px' /* margin top */ }}>
-          <img src='/google.png' alt="google_icon" className='w-6 ' />Continue with google </Button>
+        
+          <GoogleAuth/>
 
 
       </Sheet>
