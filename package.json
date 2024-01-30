@@ -26,6 +26,9 @@
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^4.0.0",
     "mongoose": "^7.1.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-google-oauth20": "^2.0.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {

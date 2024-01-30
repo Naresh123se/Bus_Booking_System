@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 const GoogleAuth = () => {
     return (
-        <div>
+        <div className='ml-6'>
             <GoogleOAuthProvider clientId="431471957866-ked37f8n5hijg3hmpu1sh64e9u9spanh.apps.googleusercontent.com">
 
                 <GoogleLogin
