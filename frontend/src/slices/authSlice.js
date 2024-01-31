@@ -4,6 +4,9 @@ const initialState = {
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null,
+    googleLoginData: localStorage.getItem('googleLoginData')
+    ? JSON.parse(localStorage.getItem('googleLoginData'))
+    : null,
 };
 
 const authSlice = createSlice({
@@ -11,12 +14,21 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      state.userInfo = action.payload;
-      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      if (action.payload.googleLogin) {
+        // Google login
+        state.googleLoginData = action.payload.data;
+        localStorage.setItem('googleLoginData', JSON.stringify(action.payload.data));
+      } else {
+        // Regular login
+        state.userInfo = action.payload;
+        localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      }
     },
     logout: (state, action) => {
       state.userInfo = null;
+      state.googleLoginData = null;
       localStorage.removeItem('userInfo');
+      localStorage.removeItem('googleLoginData');
     },
   },
 });

@@ -19,7 +19,7 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { toast } from 'react-toastify';
 import DarkModeToggle from './DarkModeToggle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import GoogleAuth from './GoogleAuth';
+// import GoogleAuth from './GoogleAuth';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -40,6 +40,19 @@ const submitHandler = async (e) => {
     toast.error(err?.data?.message || err.error);
   }
 };
+
+const loginWithGoogle = async () => {
+  try {
+    window.open("http://localhost:5000/auth/google/callback", "_self");
+    const googleLoginResult = await waitForGoogleLoginResponse();
+    dispatch(setCredentials({ data: googleLoginResult, googleLogin: true }));
+  }
+ catch (error) {
+  // Handle errors, for example, display an error message
+  console.error('Google login error:', error);
+}
+};
+
 
   return (
 
@@ -120,8 +133,12 @@ const submitHandler = async (e) => {
         >
           Don&apos;t have an account?
         </Typography>
-        
-          <GoogleAuth/>
+        {/* google */}
+       <div>
+       <Button className='login-with-google-btn' onClick={loginWithGoogle}>
+                    Sign In With Google
+                </Button>
+       </div>
 
 
       </Sheet>
