@@ -20,6 +20,7 @@ import { MenuItem } from '@mui/base/MenuItem';
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
@@ -32,7 +33,8 @@ const Header = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      navigate('/login');
+      window.open("http://localhost:5000/auth/logout", "_self");
+      navigate('/');
     } catch (err) {
       console.error(err);
     }
@@ -62,12 +64,12 @@ const Header = () => {
       <div>
 
 
-        {userInfo && (
+        {user && (
           <Dropdown >
             {/* MenuButton styling */}
             <MenuButton className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-[#5972ff] mr-20 '>
               <AccountCircleIcon />
-              {userInfo.name}
+              {user.displayName} 
             </MenuButton>
 
             {/* Menu styling */}
@@ -101,13 +103,13 @@ const Header = () => {
         )}
       </div>
 
-      {userInfo ? (
+      {user ? (
         <div className='hidden'>
           <Navbar>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
               <Nav className='flex flex-col items-end'>
-                <NavDropdown title={userInfo.name} id='username' className='flex flex-col items-end'>
+                <NavDropdown title={user.displayName} id='username' className='flex flex-col items-end'>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item className='hover:text-blue-500'>Profile12</NavDropdown.Item>
                   </LinkContainer>

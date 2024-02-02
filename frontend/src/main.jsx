@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import store from './store';
-import LoginPage from './Pages/LoginPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './Pages/RegisterPage.jsx';
 import IndexPage from './Pages/IndexPage.jsx';
 import Booking from './Pages/Booking.jsx';
@@ -22,6 +22,9 @@ import Location from './Directions/DirectionMap.jsx';
 
 import { Provider } from 'react-redux';
 
+
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
@@ -30,9 +33,9 @@ const router = createBrowserRouter(
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/Location' element={<Location />} />
       <Route path='/Booking' element={<Booking />} />
-     
-    
-    
+
+
+
     </Route>
   )
 );

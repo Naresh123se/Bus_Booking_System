@@ -1,12 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  userInfo: localStorage.getItem('userInfo')
-    ? JSON.parse(localStorage.getItem('userInfo'))
-    : null,
-    googleLoginData: localStorage.getItem('googleLoginData')
-    ? JSON.parse(localStorage.getItem('googleLoginData'))
-    : null,
+  userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
 };
 
 const authSlice = createSlice({
@@ -14,21 +10,25 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      if (action.payload.googleLogin) {
-        // Google login
-        state.googleLoginData = action.payload.data;
-        localStorage.setItem('googleLoginData', JSON.stringify(action.payload.data));
-      } else {
-        // Regular login
-        state.userInfo = action.payload;
-        localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      try {
+        if (action.payload.userData) {
+          // Google login
+          state.user = action.payload.data;
+          localStorage.setItem('user', JSON.stringify(action.payload.data));
+        } else {
+          // Regular login
+          state.userInfo = action.payload;
+          localStorage.setItem('userInfo', JSON.stringify(action.payload));
+        }
+      } catch (error) {
+        console.error('Error setting credentials:', error);
       }
     },
     logout: (state, action) => {
       state.userInfo = null;
       state.googleLoginData = null;
       localStorage.removeItem('userInfo');
-      localStorage.removeItem('googleLoginData');
+      localStorage.removeItem('user');
     },
   },
 });

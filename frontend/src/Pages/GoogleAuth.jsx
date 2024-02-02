@@ -1,45 +1,38 @@
-// // import React from 'react'
-// // import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-// // import { jwtDecode } from "jwt-decode";
+// App.js or any other React component file
+import React, { useEffect } from 'react';
 
-// // const GoogleAuth = () => {
-// //     return (
-// //         <div className='ml-6'>
-// //             <GoogleOAuthProvider clientId="431471957866-ked37f8n5hijg3hmpu1sh64e9u9spanh.apps.googleusercontent.com">
+const GoogleAuth = () => {
+  useEffect(() => {
+    // Check if there is user data in the URL (after callback)
+    const urlParams = new URLSearchParams(window.location.search);
+    const userDataParam = urlParams.get('userData');
 
-// //                 <GoogleLogin
-// //                     onSuccess={credentialResponse => {
-// //                         const decoded = jwtDecode(credentialResponse.credential);
-// //                         console.log(decoded);
-// //                     }}
-// //                     onError={() => {
-// //                         console.log('Login Failed');
-// //                     }}
-// //                 />
+    if (userDataParam) {
+      // Decode user data from base64
+      const userDataString = atob(userDataParam);
+      const userData = JSON.parse(userDataString);
 
+      // Store userData in localStorage
+      localStorage.setItem('userData', JSON.stringify(userData));
 
-// //             </GoogleOAuthProvider>
-// //         </div>
-// //     )
-// // }
+      // Redirect to remove query parameters from the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []); // Run this effect only once on component mount
 
-// // export default GoogleAuth
+  const handleGoogleAuthClick = () => {
+    // Redirect to the Google authentication route on your backend
+    window.open("http://localhost:5000/auth/google", "_self");
+  };
 
+  return (
+    <div>
+      {/* Add a button to initiate Google authentication */}
+      <button onClick={handleGoogleAuthClick}>Login with Google</button>
 
-// import React from 'react'
+      {/* Your other React components and UI */}
+    </div>
+  );
+};
 
-// const GoogleAuth = () => {
-
-//     const loginwithgoogle = ()=>{
-//         window.open("http://localhost:5000/auth/google/callback","_self")
-//     }
-//   return (
-//     <div>
-//         <button className='login-with-google-btn' onClick={loginwithgoogle}>
-//                     Sign In With Google
-//                 </button>
-//     </div>
-//   )
-// }
-
-// export default GoogleAuth
+export default GoogleAuth;

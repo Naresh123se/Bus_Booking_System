@@ -1,8 +1,8 @@
 
-import React from 'react';
+
 import { CssVarsProvider } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
@@ -19,7 +19,9 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { toast } from 'react-toastify';
 import DarkModeToggle from './DarkModeToggle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-// import GoogleAuth from './GoogleAuth';
+import Google from '../../../backend/models/googleAuth';
+import GoogleAuth from './GoogleAuth';
+import Randers from './Randers';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +30,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const navigate = useNavigate();
-  
+ 
 
 const submitHandler = async (e) => {
   e.preventDefault();
@@ -41,21 +43,9 @@ const submitHandler = async (e) => {
   }
 };
 
-const loginWithGoogle = async () => {
-  try {
-    window.open("http://localhost:5000/auth/google/callback", "_self");
-    const googleLoginResult = await waitForGoogleLoginResponse();
-    dispatch(setCredentials({ data: googleLoginResult, googleLogin: true }));
-  }
- catch (error) {
-  // Handle errors, for example, display an error message
-  console.error('Google login error:', error);
-}
-};
-
 
   return (
-
+   
     <CssVarsProvider>
    < DarkModeToggle />
       <Sheet
@@ -134,13 +124,12 @@ const loginWithGoogle = async () => {
           Don&apos;t have an account?
         </Typography>
         {/* google */}
+        
+        <Randers/>
        <div>
-       <Button className='login-with-google-btn' onClick={loginWithGoogle}>
-                    Sign In With Google
-                </Button>
+       <GoogleAuth/>
        </div>
-
-
+   
       </Sheet>
     </CssVarsProvider>
   )
