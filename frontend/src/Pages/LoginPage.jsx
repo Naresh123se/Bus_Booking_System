@@ -21,7 +21,6 @@ import DarkModeToggle from './DarkModeToggle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import Google from '../../../backend/models/googleAuth';
 import GoogleAuth from './GoogleAuth';
-import Randers from './Randers';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -124,8 +123,7 @@ const submitHandler = async (e) => {
           Don&apos;t have an account?
         </Typography>
         {/* google */}
-        
-        <Randers/>
+  
        <div>
        <GoogleAuth/>
        </div>
