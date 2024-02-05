@@ -36,7 +36,10 @@ const submitHandler = async (e) => {
   try {
     const res = await login({ email, password }).unwrap();
     dispatch(setCredentials({ ...res }));
+    localStorage.removeItem("user");
+    
     navigate('/');
+
   } catch (err) {
     toast.error(err?.data?.message || err.error);
   }
@@ -109,7 +112,7 @@ const submitHandler = async (e) => {
           </div>
         </FormControl>
 
-        <Button type='Submit' value="Submit" sx={{ mt: 1 /* margin top */ }} onClick={submitHandler} >
+        <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor:"#009DF8" /*  margin top */ }} onClick={submitHandler} >
           Log in
         </Button>
 

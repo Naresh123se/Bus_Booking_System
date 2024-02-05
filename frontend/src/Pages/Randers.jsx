@@ -10,6 +10,7 @@ const [user, setUser] = useState(null);
 useEffect(() => {
   const getUser = async () => {
     try {
+      console.log('e');
       const response = await fetch("http://localhost:5000/auth/login/success", {
         method: "GET",
         credentials: "include",

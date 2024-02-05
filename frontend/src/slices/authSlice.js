@@ -11,7 +11,7 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       try {
-        if (action.payload.userData) {
+        if (action.payload.data) {
           // Google login
           state.user = action.payload.data;
           localStorage.setItem('user', JSON.stringify(action.payload.data));

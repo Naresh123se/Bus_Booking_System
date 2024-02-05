@@ -6,7 +6,7 @@ export default {
   ],
   theme: {
     colors:{
-      bg1:'#5081F5',
+      bg1:'#009DF8',
       bth:"#F5F5F5",
     },
     screens: {

@@ -224,7 +224,7 @@ const IndexPage = () => {
                       id="people"
                       sx={{ width: '5cm' }}
                       placeholder='Pokhara'
-                      value={[count, `Passengers`, bike, `Bikes`]}
+                      value={`${count} passenger${count>1 ?"s" :""} ${bike} bike${bike>1 ? "s" : " "}` }
                       onChange={(e) => setFromLocation(e.target.value)}
                       InputProps={{
                         endAdornment: (
