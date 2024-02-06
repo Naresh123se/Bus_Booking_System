@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
-import Button from '@mui/material/Button';
+import React, { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
 
 const DirectionMap = () => {
-  let map, directionsService, directionsRenderer, destAutocomplete, sourceAutocomplete;
-
+  const [map, setMap] = useState(null);
+  const [directionsService, setDirectionsService] = useState(null);
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
+  const [destAutocomplete, setDestAutocomplete] = useState(null);
+  const [sourceAutocomplete, setSourceAutocomplete] = useState(null);
+  const [busMarkers, setBusMarkers] = useState([]);
 
   useEffect(() => {
     loadGoogleMapsScript();
@@ -18,21 +22,17 @@ const DirectionMap = () => {
     document.head.appendChild(script);
   };
 
-  
   const initMap = () => {
-    map = new window.google.maps.Map(document.getElementById('map'), {
+    const mapInstance = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 27.70, lng: 85.32 },
       zoom: 13,
     });
+    setMap(mapInstance);
+    setDirectionsService(new window.google.maps.DirectionsService());
+    setDirectionsRenderer(new window.google.maps.DirectionsRenderer({ map: mapInstance }));
+    setDestAutocomplete(new window.google.maps.places.Autocomplete(document.getElementById('dest')));
+    setSourceAutocomplete(new window.google.maps.places.Autocomplete(document.getElementById('source')));
 
-    directionsService = new window.google.maps.DirectionsService();
-    directionsRenderer = new window.google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
-
-    destAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('dest'));
-    sourceAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('source'));
-   
-    // Get the user's current location and display it on the map
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -40,12 +40,10 @@ const DirectionMap = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          map.setCenter(userLocation);
-
-          // Add a marker at the user's current location
+          mapInstance.setCenter(userLocation);
           new window.google.maps.Marker({
             position: userLocation,
-            map: map,
+            map: mapInstance,
             title: 'Your Location',
           });
         },
@@ -57,40 +55,39 @@ const DirectionMap = () => {
       console.error('Geolocation is not supported by this browser.');
     }
   };
-  
-  const calcRoute1 = () => {
+
+  const calcRoute = () => {
     const source = document.getElementById('source').value;
     const dest = document.getElementById('dest').value;
-  
-    // Use Places API to get place details and extract placeId for the destination
+
     const placesService = new window.google.maps.places.PlacesService(map);
     placesService.findPlaceFromQuery(
-      { query: dest, fields: ['place_id'] },
+      { query: dest, fields: ['place_id', 'geometry'] },
       (results, status) => {
         if (status === 'OK' && results && results.length > 0) {
           const placeId = results[0].place_id;
-  
-          // Now use the obtained placeId for the directions request
-          let request = {
+          const destLocation = results[0].geometry.location;
+          const request = {
             origin: source,
             destination: { placeId },
             travelMode: 'DRIVING',
           };
-  
-          directionsService.route(request, function (result, status) {
+
+          directionsService.route(request, (result, status) => {
             if (status === 'OK') {
               directionsRenderer.setDirections(result);
-  
               if (result.routes && result.routes.length > 0) {
                 const route = result.routes[0];
                 if (route.legs && route.legs.length > 0) {
                   const duration = route.legs[0].duration.text;
-                  updateDurationUI(duration);
-  
-                  // Get place details, including photos, for the specified destination
+                  const distance = route.legs[0].distance.text;
+                  updateDurationUI(duration, distance);
                   getPlaceDetails(placeId);
+                  displayNearbyBusStop(destLocation);
                 }
               }
+            } else {
+              console.error('Error calculating the route:', status);
             }
           });
         } else {
@@ -99,12 +96,43 @@ const DirectionMap = () => {
       }
     );
   };
+
+  const updateDurationUI = (duration, distance) => {
+    document.getElementById('duration').textContent = 'Estimated Duration: ' + duration;
+    document.getElementById('distance').textContent = 'Distance: ' + distance;
+  };
+
+  const displayNearbyBusStop = (destinationLocation) => {
+    const request = {
+      location: destinationLocation,
+      radius: '500',
+      type: 'transit_station' // bus stop
+    };
+    const placesService = new window.google.maps.places.PlacesService(map);
+    placesService.nearbySearch(request, (results, status) => {
+      if (status === 'OK') {
+        clearHotelMarkers();
+        const markers = results.map(place => {
+          const marker = new window.google.maps.Marker({
+            position: place.geometry.location,
+            map: map,
+            title: place.name
+          });
+          marker.addListener('click', () => {
+            console.log('Bus clicked:', place.name);
+          });
+          return marker;
+        });
+        setBusMarkers(markers);
+      } else {
+        console.error('Error fetching nearby Bus:', status);
+      }
+    });
+  };
   
-  const updateDurationUI = (duration) => {
-    const durationElement = document.getElementById('duration');
-    if (durationElement) {
-      durationElement.textContent = 'Estimated Duration: ' + duration;
-    }
+  const clearHotelMarkers = () => {
+    busMarkers.forEach(marker => marker.setMap(null));
+    setBusMarkers([]);
   };
   
   const getPlaceDetails = (dest) => {
@@ -118,7 +146,7 @@ const DirectionMap = () => {
       (place, status) => {
         if (status === 'OK' && place && place.photos && place.photos.length > 0) {
           // Display all photos
-          displayPhotos(place.photos);
+          displayPhotos(place.photos,place.name);
         } else {
           console.error('Error fetching place details:', status);
         }
@@ -127,9 +155,7 @@ const DirectionMap = () => {
   };
   
   
-  
-
-  const displayPhotos = (photos) => {
+  const displayPhotos = (photos,name) => {
     const photoContainer = document.getElementById('photo-container');
     if (photoContainer) {
       // Clear existing content
@@ -148,12 +174,11 @@ const DirectionMap = () => {
       });
     }
   };
-  
-  
   return (
     <div>
       <h1 className="text-center">Direction</h1>
       <p id="duration"></p>
+      <p id="distance"></p>
       <div className="container">
         <div className="form-group">
           <input type="text" className="form-control" placeholder="Source" id="source" />
@@ -161,17 +186,22 @@ const DirectionMap = () => {
         <div className="form-group">
           <input type="text" className="form-control" placeholder="Destination" id="dest" />
         </div>
-        <Button style={{ backgroundColor: 'red' }} onClick={calcRoute1}>
+        <Button style={{ backgroundColor: 'red' }} onClick={calcRoute}>
           Direction
         </Button>
-      <div className='flex'>
-        <div id="map" style={{ height: '500px', width: '100%' }}></div>
-        <div id="photo-container"></div>
+        <div className='flex'>
+          <div id="map" style={{ height: '500px', width: '100%' }}></div>
+
+
+          <div id="photo-container" style={{ height: '500px', overflow: 'auto' }}>
+  {/* Content goes here */}
+</div>
+
+
         </div>
       </div>
     </div>
   );
-  };
-  
-  export default DirectionMap;
-  
+};
+
+export default DirectionMap;
