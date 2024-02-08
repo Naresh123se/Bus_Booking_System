@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    is_verify: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

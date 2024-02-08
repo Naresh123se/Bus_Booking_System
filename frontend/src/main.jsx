@@ -14,6 +14,7 @@ import RegisterPage from './Pages/RegisterPage.jsx';
 import IndexPage from './Pages/IndexPage.jsx';
 import Booking from './Pages/Booking.jsx';
 import Location from './Directions/DirectionMap.jsx';
+import Verify from './Pages/Verify.jsx';
 
 
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/Location' element={<Location />} />
       <Route path='/Booking' element={<Booking />} />
+      <Route path='/Verify' element={<Verify />} />
 
 
 

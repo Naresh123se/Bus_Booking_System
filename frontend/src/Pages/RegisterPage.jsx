@@ -57,7 +57,6 @@ const RegisterPage = () => {
   };
 
 
-
   return (
     <CssVarsProvider>
       < DarkModeToggle />
@@ -92,14 +91,11 @@ const RegisterPage = () => {
             // html input attribute
             name="name"
             type="name"
-            placeholder="e.g Naresh Sejwal"
+            placeholder="e.g NareshSejwal"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </FormControl>
-
-
-
 
         <FormControl>
 
@@ -141,8 +137,6 @@ const RegisterPage = () => {
           Sign up
         </Button>
 
-
-
         <Typography
           endDecorator={<Link to={'/login'} className='underline text-blue-500'>Log in</Link>}
           fontSize="sm"
@@ -150,8 +144,6 @@ const RegisterPage = () => {
         >
           Don&apos;t have an account?
         </Typography>
-
-
 
       </Sheet>
     </CssVarsProvider>

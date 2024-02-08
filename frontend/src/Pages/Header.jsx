@@ -25,7 +25,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
 
-console.log(user)
 
 
 
@@ -62,8 +61,7 @@ console.log(user)
 
 </div>
 <div>
-{  console.log(user)}
-  {console.log(user)}
+
   {user && (
     <Dropdown>
       {/* MenuButton styling */}

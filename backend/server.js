@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import {app} from "./google.js";
-
+import './email.js';
 const port = process.env.PORT || 5000;
 
 connectDB();

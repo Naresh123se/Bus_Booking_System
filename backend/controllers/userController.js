@@ -1,6 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
+import {sendVerificationEmail} from '../email.js';
+import express from "express";
+const app = express();
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -30,21 +33,27 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  const userExists = await User.findOne({ email });
+const userExists = await User.findOne({ email });
+ 
+  
 
   if (userExists) {
     res.status(400);
     throw new Error('User already exists');
   }
 
+
   const user = await User.create({
     name,
     email,
     password,
+    is_verify:0
+
   });
 
   if (user) {
-    generateToken(res, user._id);
+    // Send verification email
+    await sendVerificationEmail(email, user._id);
 
     res.status(201).json({
       _id: user._id,
@@ -56,6 +65,24 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('Invalid user data');
   }
 });
+
+
+
+// @route   Get /api/users/verify
+const verify = asyncHandler(async (req, res) => {
+  const userId = req.query.id;
+  const updateInfo = await User.updateOne(
+    { _id: userId, is_verify: 0 }, // Ensure the user is not already verified
+    { $set: { is_verify: 1 } }
+  );
+  if (updateInfo.nModified === 0) {
+    return res.status(400).json({ success: false, message: "Invalid verification link" });
+  }
+  res.json({ success: true, message: "Email successfully verified" });
+})
+
+
+
 
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/logout
@@ -112,11 +139,15 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
+
 export {
   authUser,
   registerUser,
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  verify,
+
 };
  
