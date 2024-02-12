@@ -1,6 +1,5 @@
 // App.js or any other React component file
-import React, { useEffect } from 'react';
-
+import React from 'react';
 const GoogleAuth = () => {
  
   const handleGoogleAuthClick = () => {
@@ -9,11 +8,12 @@ const GoogleAuth = () => {
   };
 
   return (
-    <div>
-      {/* Add a button to initiate Google authentication */}
-      <button onClick={handleGoogleAuthClick}>Login with Google</button>
-
-      {/* Your other React components and UI */}
+    <div className='flex  gap-10 items-center border border-[#e6dfdf]  h-8 rounded-sm'>
+  <img src="google.png" alt="google"  className='size-4 ml-5 '/> 
+      <button onClick={handleGoogleAuthClick}>
+        Login with Google</button>
+           
+  
     </div>
   );
 };

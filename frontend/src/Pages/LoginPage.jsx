@@ -3,7 +3,7 @@
 import { CssVarsProvider } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import React, { useEffect, useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import IconButton from '@mui/joy/IconButton';
@@ -21,37 +21,37 @@ import DarkModeToggle from './DarkModeToggle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import Google from '../../../backend/models/googleAuth';
 import GoogleAuth from './GoogleAuth';
-
+import Loader from '../Directions/Loader';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
-  const [login] = useLoginMutation();
+  const [login, {isLoading}] = useLoginMutation();
   const navigate = useNavigate();
- 
 
-const submitHandler = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await login({ email, password }).unwrap();
-    dispatch(setCredentials({ ...res }));
-    localStorage.removeItem("user");
-    
-    navigate('/');
 
-  } catch (err) {
-    toast.error(err?.data?.message || err.error);
-  }
-};
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      localStorage.removeItem("user");
+
+      navigate('/');
+
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
 
   return (
-   
+
     <CssVarsProvider>
-   < DarkModeToggle />
+      < DarkModeToggle />
       <Sheet
-      
+
         sx={{
           width: 300,
           mx: 'auto',
@@ -75,13 +75,12 @@ const submitHandler = async (e) => {
         </div>
 
         <FormControl>
-
-          <FormLabel > <AlternateEmailIcon />Email</FormLabel>
+          <FormLabel> <AlternateEmailIcon />Email</FormLabel>
           <Input
             // html input attribute
             name="email"
             type="email"
-            required
+            required  // Add required attribute here
             value={email}
             placeholder="naresh@email.com"
             onChange={(e) => setEmail(e.target.value)}
@@ -112,10 +111,10 @@ const submitHandler = async (e) => {
           </div>
         </FormControl>
 
-        <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor:"#009DF8" /*  margin top */ }} onClick={submitHandler} >
+        <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor: "#009DF8" /*  margin top */ }} onClick={submitHandler} >
           Log in
         </Button>
-
+        {isLoading && <Loader />}
 
 
         <Typography
@@ -126,11 +125,11 @@ const submitHandler = async (e) => {
           Don&apos;t have an account?
         </Typography>
         {/* google */}
-  
-       <div>
-       <GoogleAuth/>
-       </div>
-   
+
+        <div>
+          <GoogleAuth />
+        </div>
+
       </Sheet>
     </CssVarsProvider>
   )

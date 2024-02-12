@@ -66,30 +66,12 @@ const sendVerificationEmail = async (email, userId) => {
     
 
     await transporter.sendMail(mailOptions);
+    return true; // Return true if email is sent successfully
   } catch (error) {
     console.error("Error sending verification email:", error);
-    throw new Error("An error occurred while sending verification email");
+    return false; // Return false if there's an error sending the email
   }
 };
-
-// const verifyEmail = async (req, res) => {
-//   try {
-//     const userId = req.query.id;
-//     const updateInfo = await User.updateOne(
-//       { _id: userId, is_verify: 0 }, // Ensure the user is not already verified
-//       { $set: { is_verify: 1 } }
-//     );
-
-//     if (updateInfo.nModified === 0) {
-//       return res.status(400).json({ success: false, message: "Invalid verification link" });
-//     }
-
-//     res.json({ success: true, message: "Email successfully verified" });
-//   } catch (err) {
-//     console.error("Error verifying email:", err);
-//     res.status(500).json({ success: false, message: "An error occurred while verifying email" });
-//   }
-// };
 
 
 

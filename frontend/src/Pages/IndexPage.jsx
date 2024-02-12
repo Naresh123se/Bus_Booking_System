@@ -11,7 +11,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { CssVarsProvider } from '@mui/joy/styles';
 import DarkModeToggle from './DarkModeToggle';
-import Verify from './Verify.jsx';
+
 
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
@@ -301,7 +301,7 @@ const IndexPage = () => {
 
 
       {/* #ca801f */}
-      <Verify/>
+   
 
     </>
 

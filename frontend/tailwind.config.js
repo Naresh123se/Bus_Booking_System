@@ -8,6 +8,8 @@ export default {
     colors:{
       bg1:'#009DF8',
       bth:"#F5F5F5",
+      hover:"#185EA5",
+      profileH:"#d0d3e0",
     },
     screens: {
       '2xl': {'max': '1535px'},

@@ -22,8 +22,9 @@ function DarkModeToggle() {
       onClick={() => {
         setMode(mode === 'light' ? 'dark' : 'light');
       }}
+      className="rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
-      {mode === 'light' ? <DarkModeIcon /> : <Brightness4Icon />}
+      {mode === 'light' ? <DarkModeIcon className="text-black" /> : <Brightness4Icon className="text-white" />}
     </Button>
   );
 }

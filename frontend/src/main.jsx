@@ -15,6 +15,7 @@ import IndexPage from './Pages/IndexPage.jsx';
 import Booking from './Pages/Booking.jsx';
 import Location from './Directions/DirectionMap.jsx';
 import Verify from './Pages/Verify.jsx';
+import Profile from './Pages/Profile.jsx';
 
 
 
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       <Route path='/Location' element={<Location />} />
       <Route path='/Booking' element={<Booking />} />
       <Route path='/Verify' element={<Verify />} />
+      <Route path='/Profile' element={<Profile />} />
 
 
 
