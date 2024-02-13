@@ -3,7 +3,8 @@ import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 import { sendVerificationEmail } from "../email.js";
 import express from "express";
-const app = express();
+
+import generateVerificationToken from "../utils/generateVerificationToken.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -24,7 +25,7 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid email or password");
   }
 
-  if (user.is_verify === 0) {
+  if (user.isVerified === 0) {
     // Assuming 0 means email is not verified
     res.status(401);
     res.json({
@@ -32,7 +33,7 @@ const authUser = asyncHandler(async (req, res) => {
     });
   }
 
-  if (user.is_verify === 1) {
+  if (user.isVerified === 1) {
     // Assuming 1 means email is verified
     if (await user.matchPassword(password)) {
       generateToken(res, user._id);
@@ -89,8 +90,9 @@ const registerUser = asyncHandler(async (req, res) => {
     );
   }
 
+  const otherToken = generateVerificationToken();
   // Send verification email
-  const emailSent = await sendVerificationEmail(email, userExists?._id); // Use userExists?._id to avoid errors if userExists is null
+  const emailSent = await sendVerificationEmail(email, otherToken); // Use userExists?._id to avoid errors if userExists is null
 
   // If email is sent successfully, create new user
   if (emailSent) {
@@ -99,7 +101,8 @@ const registerUser = asyncHandler(async (req, res) => {
         name,
         email,
         password,
-        is_verify: 0, // Assuming this is the initial value for email verification
+        verificationToken: otherToken,
+        isVerified: false,
       });
 
       // Send success message
@@ -107,15 +110,13 @@ const registerUser = asyncHandler(async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        successMessage: "Registration successful. Please verify your email."
+        successMessage: "Registration successful. Please verify your email.",
       });
-      
-        
     } catch (error) {
       // Handle error if creating user fails
 
-      res.status(500);
-      throw new Error("An error occurred while registering user");
+      console.error("Error registering user:", error);
+      res.status(500).json({ message: "An error occurred while registering user" });
     }
   } else {
     res.status(500);
@@ -125,21 +126,40 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-
 // @route   Get /api/users/verify
 const verify = asyncHandler(async (req, res) => {
-  const userId = req.query.id;
-  const updateInfo = await User.updateOne(
-    { _id: userId, is_verify: 0 }, // Ensure the user is not already verified
-    { $set: { is_verify: 1 } }
-  );
-  if (updateInfo.nModified === 0) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Invalid verification link" });
+  const otherToken = req.query.otherToken;
+
+  // Validate otherToken
+  if (!otherToken || typeof otherToken !== 'string' || otherToken.length === 0) {
+    return res.status(400).json({ success: false, message: "Invalid token" });
   }
-  res.json({ success: true, message: "Email successfully verified" });
+
+  try {
+    const user = await User.findOne({ verificationToken: otherToken });
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found with this verification token" });
+    }
+
+    // Check if user is already verified
+    if (user.isVerified) {
+      return res.status(200).json({ success: true, message: "User is already verified", verificationStatus: "alreadyVerified" });
+    }
+
+    // Mark user as verified 
+    user.isVerified = true;
+    await user.save();
+
+    res.status(200).json({ success: true, message: "Verification successful", verificationStatus: "success" });
+
+  } catch (err) {
+    console.error("Error occurred during verification:", err);
+    res.status(500).json({ success: false, message: "An error occurred during verification" });
+  }
 });
+
 
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/logout

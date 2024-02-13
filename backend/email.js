@@ -1,10 +1,11 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import express from "express";
-import otherToken from "./utils/otherToken.js";
+import otherToken from "./utils/generateVerificationToken.js";
 
 dotenv.config();
 const app = express();
+
 
 const EMAIL_USERNAME = process.env.EMAIL_USERNAME;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
@@ -14,9 +15,8 @@ if (!EMAIL_USERNAME || !EMAIL_PASSWORD) {
   process.exit(1); // Exit the process if email credentials are missing
 }
 
-const sendVerificationEmail = async (email, userId) => {
+const sendVerificationEmail = async (email, otherToken) => {
   try {
-    const token = otherToken(userId); // Generate token here
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -50,7 +50,8 @@ const sendVerificationEmail = async (email, userId) => {
               </div>
              
               <div style="text-align: center; margin-top: 20px;">
-                  <a href="http://localhost:4000?id=${userId}" style="background-color: #009DF8; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; cursor: pointer; border-radius: 4px;">Click to Verify Email</a>
+              <a href="http://localhost:4000/Verify?otherToken=${otherToken}" style="background-color: #009DF8; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; cursor: pointer; border-radius: 4px;">Click to Verify Email</a>
+
               </div>
               <div style="text-align: center; margin-top: 20px;">
                   <p style="font-size: 14px; color: #666;">If you have any questions, <br/>contact us at <a href="mailto:support@anywheel.sg" style="color: #007bff; text-decoration: none;">support@anywheel.sg</a></p>
@@ -75,4 +76,4 @@ const sendVerificationEmail = async (email, userId) => {
 
 
 
-export { app, sendVerificationEmail };
+export { app, sendVerificationEmail,otherToken };
