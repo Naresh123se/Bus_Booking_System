@@ -10,31 +10,40 @@ import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 
+import { CssVarsProvider } from '@mui/joy/styles';
+
+
+import { Dropdown } from '@mui/base/Dropdown';
+import { MenuButton } from '@mui/base/MenuButton';
+import { Menu } from '@mui/base/Menu';
+import { MenuItem } from '@mui/base/MenuItem';
+
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
-  const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleClose = () => setModalOpen(false);
-  const handleShow = () => setModalOpen(true);
+
+
 
   const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
-      navigate('/login');
+      window.open("http://localhost:5000/auth/logout", "_self");
+      navigate('/');
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <header className='flex justify-between p-4 bg-bg1 text-Slate-50'>
+    <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50 ' >
       <Link to='/' className='flex items-center gap-1 '>
-        <AccountCircleIcon />
-        <span className='z-20'>Logo</span>
+        <div className='w-16  ml-20' > <img src="3.svg" alt="" /></div>
+
       </Link>
 
       <div className='flex items-center space-x-8'>
@@ -45,57 +54,90 @@ const Header = () => {
           <SearchIcon />
         </button>
       </div>
+     
+      <div>
 
-      <div className=''>
-        {userInfo && (
-         <div className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-sky-700 ' onClick={handleShow}>
-         <AccountCircleIcon className='hover:shadow' />
-         {userInfo.name}
-       </div>
-       
+        {user && (
+          <Dropdown>
+            {/* MenuButton styling */}
+            <MenuButton className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-hover mr-20 '>
+              <AccountCircleIcon />
+              {user.displayName}
+            </MenuButton>
+
+            {/* Menu styling */}
+            <Menu className='bg-[#f9faff] p-2 rounded-md'>
+              {/* Profile link with hover effect */}
+              <MenuItem className='hover:bg-profileH cursor-pointer  border-b border-gray-300 bg-white'>
+                <Link to='/profile'>Profile</Link>
+              </MenuItem>
+
+              {/* Language settings with hover effect */}
+              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
+                <Link to='/language'>Language settings</Link>
+              </MenuItem>
+
+              {/* Log out with hover effect and cursor-pointer */}
+              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white' onClick={logoutHandler}>
+                Log out
+              </MenuItem>
+            </Menu>
+          </Dropdown>
         )}
 
-        {userInfo && (
-          <Modal show={isModalOpen} onHide={handleClose} className="bg-bth z-50 w-40 fixed  right-1">
-            <Modal.Body>
-              <LinkContainer to='/profile'>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-              </LinkContainer>
-              <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
+        {userInfo && !user && (
+          
+          <Dropdown>
+            {/* MenuButton styling */}
+            <MenuButton className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 mr-20 hover:bg-hover'>
+              <AccountCircleIcon size='' />
+              {userInfo.name}
+            </MenuButton>
+
+            {/* Menu styling */}
+            <Menu className='bg-[#f9faff] p-2 rounded-md'>
+              {/* Profile link with hover effect */}
+              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
+                <Link to='/profile'>Profile</Link>
+              </MenuItem>
+
+              {/* Language settings with hover effect */}
+              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
+                <Link to='/language'>Language settings</Link>
+              </MenuItem>
+
+              {/* Log out with hover effect and cursor-pointer */}
+              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white' onClick={logoutHandler}>
+                Log out
+              </MenuItem>
+            </Menu>
+          </Dropdown>
         )}
+
+        <div>
+          {user ? (
+            <div className='hidden'>
+              <Navbar>
+               
+              </Navbar>
+            </div>
+          ) : userInfo ? (
+            <Navbar className='pb-3'>
+               
+            </Navbar>
+          ) : (
+            <Link to='/login' className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 mr-20 hover:bg-hover'>
+              <MenuIcon />
+              <AccountCircleIcon />
+            </Link>
+          )}
+        </div>
       </div>
 
-      {userInfo ? (
-        <div className='hidden'>
-          <Navbar>
-            <Navbar.Toggle aria-controls='basic-navbar-nav' />
-            <Navbar.Collapse id='basic-navbar-nav'>
-              <Nav className='ms-auto'>
-                <NavDropdown title={userInfo.name} id='username' className=''>
-                  <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
-        </div>
-      ) : (
-        <Link to='/login' className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 '>
-          <MenuIcon />
-          <AccountCircleIcon />
-        </Link>
-      )}
+
     </header>
-  );
+
+  )
 };
 
 export default Header;

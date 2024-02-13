@@ -19,6 +19,10 @@ It includes the following:
 ## Usage
 
 - Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 
 ### Env Variables
 

@@ -9,19 +9,20 @@ import IconButton from '@mui/joy/IconButton';
 import FormControl from '@mui/joy/FormControl';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import LockIcon from '@mui/icons-material/Lock';
+
 import Typography from '@mui/joy/Typography';
 import FormLabel from '@mui/joy/FormLabel';
-import PersonIcon from '@mui/icons-material/Person';
+
 import DarkModeToggle from './DarkModeToggle';
-import { setCredentials } from '../slices/authSlice';
+
 import { toast } from 'react-toastify';
-import { useRegisterMutation } from '../slices/usersApiSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRegisterMutation} from '../slices/usersApiSlice';
 
 
+import LockIcon from '@mui/icons-material/Lock';
+import PersonIcon from '@mui/icons-material/Person';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-
+import Loader from '../Directions/Loader';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -30,32 +31,27 @@ const RegisterPage = () => {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  
 
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate('/');
-    }
-  }, [navigate, userInfo]);
+ 
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await register({ name, email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate('/');
+     await register({ name, email, password }).unwrap();
+
+      navigate('/login');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
 
   };
-
 
 
   return (
@@ -92,14 +88,11 @@ const RegisterPage = () => {
             // html input attribute
             name="name"
             type="name"
-            placeholder="e.g Naresh Sejwal"
+            placeholder="e.g NareshSejwal"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </FormControl>
-
-
-
 
         <FormControl>
 
@@ -140,9 +133,7 @@ const RegisterPage = () => {
         <Button type='Submit' value="Submit" sx={{ mt: 1 /* margin top */ }} onClick={submitHandler} >
           Sign up
         </Button>
-
-
-
+        {isLoading && <Loader />}
         <Typography
           endDecorator={<Link to={'/login'} className='underline text-blue-500'>Log in</Link>}
           fontSize="sm"
@@ -150,8 +141,6 @@ const RegisterPage = () => {
         >
           Don&apos;t have an account?
         </Typography>
-
-
 
       </Sheet>
     </CssVarsProvider>
