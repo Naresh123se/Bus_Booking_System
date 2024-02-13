@@ -27,10 +27,7 @@ import { MenuItem } from '@mui/base/MenuItem';
 
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
-<<<<<<< HEAD
-=======
 import Search from './Search';
->>>>>>> work
 
 const IndexPage = () => {
   const [fromLocation, setFromLocation] = useState('');
@@ -136,56 +133,7 @@ const IndexPage = () => {
 
             {/* location */}
             <div className='flex ml-2' >
-<<<<<<< HEAD
-              <div className='mt-4'>
-                <TextField
-                  label="FROM"
-                  id="fromLocation"
-                  sx={{ width: '5cm' }}
-                  placeholder='Pokhara'
-                  value={fromLocation}
-                  onChange={(e) => setFromLocation(e.target.value)}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                  }}
-                />
-              </div>
-
-              {/* switch button */}
-              <div className='mt-6'>
-                <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
-                  <CompareArrowsRoundedIcon
-                    className='border w-30 h-30 border-sky-500 rounded-full'
-                    sx={{
-                      color: '#2196F3',
-                      borderRadius: '50%',
-                      transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
-                      transition: 'transform 0.3s ease',
-                      fontSize: 35,
-
-
-                    }}
-                  />
-                </button>
-              </div>
-              {/* next location */}
-              <div className='mt-4'>
-                <TextField
-                  label="TO"
-                  id="toLocation"
-                  sx={{ width: '5cm' }}
-                  placeholder='Kathmandu'
-                  value={toLocation}
-                  onChange={(e) => setToLocation(e.target.value)}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                  }}
-                />
-
-              </div>
-=======
               <Search/>
->>>>>>> work
               {/* Departure */}
 
 

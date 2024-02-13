@@ -16,11 +16,20 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    isVerified: {
+      type: Number,
+      required: true,
+    },
+    verificationToken: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
+
 
 // Match user entered password to hashed password in database
 userSchema.methods.matchPassword = async function (enteredPassword) {

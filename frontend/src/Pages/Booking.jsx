@@ -23,11 +23,7 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 import Booking1 from './Booking1';
-<<<<<<< HEAD
-
-=======
 import Search from './Search';
->>>>>>> work
 
 const Booking = () => {
   const [fromLocation, setFromLocation] = useState('');
@@ -95,11 +91,7 @@ const Booking = () => {
     <>
       {/* image */}
       <div className=''>
-<<<<<<< HEAD
         
-=======
-
->>>>>>> work
 
         <div className='mt-10  flex items-center'  >
           {/*radio button */}
@@ -137,60 +129,11 @@ const Booking = () => {
 
             {/* location */}
             <div className='flex ml-2' >
-<<<<<<< HEAD
-              <div className='mt-4'>
-                <TextField
-                  label="FROM"
-                  id="fromLocation"
-                  sx={{ width: '5cm' }}
-                  placeholder='Pokhara'
-                  value={fromLocation}
-                  onChange={(e) => setFromLocation(e.target.value)}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                  }}
-                />
-              </div>
-
-              {/* switch button */}
-              <div className='mt-6'>
-                <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
-                  <CompareArrowsRoundedIcon
-                    className='border w-30 h-30 border-sky-500 rounded-full'
-                    sx={{
-                      color: '#2196F3',
-                      borderRadius: '50%',
-                      transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
-                      transition: 'transform 0.3s ease',
-                      fontSize: 35,
-
-
-                    }}
-                  />
-                </button>
-              </div>
-              {/* next location */}
-              <div className='mt-4'>
-                <TextField
-                  label="TO"
-                  id="toLocation"
-                  sx={{ width: '5cm' }}
-                  placeholder='Kathmandu'
-                  value={toLocation}
-                  onChange={(e) => setToLocation(e.target.value)}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                  }}
-                />
-
-              </div>
-=======
              
 <Search/>
 
 
 
->>>>>>> work
               {/* Departure */}
 
 
@@ -288,11 +231,7 @@ const Booking = () => {
         </div>
       </div>
       {/* #ca801f */}
-<<<<<<< HEAD
-      <Booking1/>
-=======
       <Booking1 />
->>>>>>> work
     </>
   );
 };
