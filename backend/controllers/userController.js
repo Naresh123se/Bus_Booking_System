@@ -17,40 +17,48 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Email and password are required");
   }
 
+  // Find user by email
   const user = await User.findOne({ email });
 
+  // If user not found, return an error
   if (!user) {
     res.status(401);
     throw new Error("Invalid email or password");
   }
 
-  if (user.is_verify === 0) {
-    // Assuming 0 means email is not verified
+  // Check if the user's email is verified
+  if (user.isVerified === 0) {
     res.status(401);
     res.json({
-      message: "Please verify your email address.",
+      message: "Please verify your email address11.",
     });
   }
 
-  if (user.is_verify === 1) {
+  // If the email is verified, check the password
+  if (user.isVerified === 1) {
     // Assuming 1 means email is verified
     if (await user.matchPassword(password)) {
+      // If password is correct, generate and send token
       generateToken(res, user._id);
 
+      // Send user data along with token
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
       });
     } else {
+      // If password is incorrect, return an error
       res.status(401);
       throw new Error("Invalid email or password");
     }
   } else {
+    // If email is not verified, return an error
     res.status(401);
     throw new Error("Please verify your email address.");
   }
 });
+
 
 // @desc    Register a new user
 // @route   POST /api/users
