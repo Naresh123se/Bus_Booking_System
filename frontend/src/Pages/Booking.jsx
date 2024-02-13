@@ -23,7 +23,11 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 import Booking1 from './Booking1';
+<<<<<<< HEAD
 
+=======
+import Search from './Search';
+>>>>>>> work
 
 const Booking = () => {
   const [fromLocation, setFromLocation] = useState('');
@@ -91,7 +95,11 @@ const Booking = () => {
     <>
       {/* image */}
       <div className=''>
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> work
 
         <div className='mt-10  flex items-center'  >
           {/*radio button */}
@@ -129,6 +137,7 @@ const Booking = () => {
 
             {/* location */}
             <div className='flex ml-2' >
+<<<<<<< HEAD
               <div className='mt-4'>
                 <TextField
                   label="FROM"
@@ -175,6 +184,13 @@ const Booking = () => {
                 />
 
               </div>
+=======
+             
+<Search/>
+
+
+
+>>>>>>> work
               {/* Departure */}
 
 
@@ -272,7 +288,11 @@ const Booking = () => {
         </div>
       </div>
       {/* #ca801f */}
+<<<<<<< HEAD
       <Booking1/>
+=======
+      <Booking1 />
+>>>>>>> work
     </>
   );
 };

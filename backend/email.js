@@ -6,7 +6,6 @@ import otherToken from "./utils/generateVerificationToken.js";
 dotenv.config();
 const app = express();
 
-
 const EMAIL_USERNAME = process.env.EMAIL_USERNAME;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 

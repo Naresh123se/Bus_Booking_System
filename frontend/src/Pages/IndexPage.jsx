@@ -27,6 +27,10 @@ import { MenuItem } from '@mui/base/MenuItem';
 
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
+<<<<<<< HEAD
+=======
+import Search from './Search';
+>>>>>>> work
 
 const IndexPage = () => {
   const [fromLocation, setFromLocation] = useState('');
@@ -132,6 +136,7 @@ const IndexPage = () => {
 
             {/* location */}
             <div className='flex ml-2' >
+<<<<<<< HEAD
               <div className='mt-4'>
                 <TextField
                   label="FROM"
@@ -178,6 +183,9 @@ const IndexPage = () => {
                 />
 
               </div>
+=======
+              <Search/>
+>>>>>>> work
               {/* Departure */}
 
 

@@ -20,7 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
  
-
 app.use('/api/users', userRoutes);
 
 if (process.env.NODE_ENV === 'production') {
