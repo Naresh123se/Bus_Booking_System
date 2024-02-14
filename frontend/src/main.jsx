@@ -16,6 +16,8 @@ import Booking from './Pages/Booking.jsx';
 import Location from './Directions/DirectionMap.jsx';
 import Verify from './Pages/Verify.jsx';
 import Profile from './Pages/Profile.jsx';
+import Bus from './Way/Bus.jsx';
+import Extra from './Pages/Extra.jsx';
 
 
 
@@ -37,6 +39,8 @@ const router = createBrowserRouter(
       <Route path='/Booking' element={<Booking />} />
       <Route path='/Verify' element={<Verify />} />
       <Route path='/Profile' element={<Profile />} />
+      <Route path='/Bus' element={<Bus />} />
+      <Route path='/e' element={<Extra />} />
 
 
 

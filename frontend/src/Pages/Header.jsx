@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
-
+import Avatar from '@mui/material/Avatar';
 import { CssVarsProvider } from '@mui/joy/styles';
 
 
@@ -128,7 +128,8 @@ const Header = () => {
           ) : (
             <Link to='/login' className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 mr-20 hover:bg-hover'>
               <MenuIcon />
-              <AccountCircleIcon />
+              <Avatar alt="Naresh" src="Naresh.jpg"  sx={{ width: 25, height: 25 }}  />
+              
             </Link>
           )}
         </div>

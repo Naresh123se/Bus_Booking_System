@@ -1,96 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import CompareArrowsRoundedIcon from '@mui/icons-material/CompareArrowsRounded';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Radio from '@mui/material/Radio';
-import Button from '@mui/joy/Button';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { CssVarsProvider } from '@mui/joy/styles';
-import DarkModeToggle from './DarkModeToggle';
-
-
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-
-import { Dropdown } from '@mui/base/Dropdown';
-import { MenuButton } from '@mui/base/MenuButton';
-import { Menu } from '@mui/base/Menu';
-import { MenuItem } from '@mui/base/MenuItem';
-
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
-import Search from './Search';
+import SearchBar from './SearchBar';
 
 const IndexPage = () => {
-  const [fromLocation, setFromLocation] = useState('');
-  const [toLocation, setToLocation] = useState('');
-  const [arrowDirection, setArrowDirection] = useState('right');
-  const [value, setValue] = React.useState(dayjs());
-
-  const switchLocations = () => {
-    const tempLocation = fromLocation;
-    setFromLocation(toLocation);
-    setToLocation(tempLocation);
-  };
-
-
-  const [selectedValue, setSelectedValue] = React.useState('a');
-
-  const CustomDemoItem = ({ label, defaultValue }) => (
-    <DemoItem label={label}>
-      <MobileDatePicker defaultValue={defaultValue} />
-    </DemoItem>
-  );
-
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-
-  };
-
-  const switchArrowDirection = () => {
-    setArrowDirection(arrowDirection === 'right' ? 'left' : 'right');
-  };
-
-  const RadioWithHiddenDiv = () => {
-    const [selectedValue, setselectedValue] = useState('on');
-  };
-
-  //hover user number
-  const [count, setCount] = useState(1);
-
-  const increment = () => {
-    setCount(prevCount => prevCount + 1);
-  };
-
-  const decrement = () => {
-    if (count > 1) {
-      setCount(prevCount => prevCount - 1);
-    }
-  };
-
-
-  //hover user number
-  const [bike, setBike] = useState(0);
-
-  const add = () => {
-    setBike(prevCount => prevCount + 1);
-  };
-
-  const sub = () => {
-    if (bike > 0) {
-      setBike(prevCount => prevCount - 1);
-    }
-  };
-  //dropdown menu close open(user number)
-
   return (
     <>
       {/* image */}
@@ -98,139 +11,7 @@ const IndexPage = () => {
         <img src="bus.png" alt="bus" className='w-full h-auto' />
 
         <div className='absolute  ml-10 inset-0 mt-80  flex items-center'  >
-          {/*radio button */}
-          <div className='  shadow-lg ml-10     pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
-            <div>
-              <Radio
-                checked={selectedValue === 'a'}
-                onChange={handleChange}
-                value="a"
-                name="radio-buttons"
-                inputProps={{ 'aria-label': 'A' }}
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 28,
-                  },
-                }}
-              />
-              One Way
-              <Radio
-                checked={selectedValue === 'b'}
-                onChange={handleChange}
-                value="b"
-                name="radio-buttons"
-                inputProps={{ 'aria-label': 'B' }}
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 28,
-                  },
-                }}
-              />
-
-              Round Trip
-            </div>
-
-
-            {/* location */}
-            <div className='flex ml-2' >
-              <Search/>
-              {/* Departure */}
-
-
-              {/* calender */}
-              <div className=" flex  ml-5 mt-2" >
-
-                <div >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']}>
-                      <DatePicker
-                        sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                        label="Departure"
-                        value={value}
-
-                        onChange={(newValue) => setValue(newValue)}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </div>
-                <div className=''>
-                  {selectedValue === "b" && (
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={['DatePicker']}>
-                        <DatePicker
-                          sx={{ width: "5cm" }}
-                          label="Return"
-                          value={value}
-
-                          onChange={(newValue) => setValue(newValue)}
-                        />
-                      </DemoContainer>
-                    </LocalizationProvider>
-                  )}
-                </div>
-
-
-              </div>
-              <div className='mt-4 ml-7'>
-
-
-                <Dropdown className='mt-4 ml-7 '>
-                  <MenuButton>
-                    <TextField
-                      label="Passengers"
-                      id="people"
-                      sx={{ width: '5cm' }}
-                      placeholder='Pokhara'
-                      value={`${count} passenger${count>1 ?"s" :""} ${bike} bike${bike>1 ? "s" : " "}` }
-                      onChange={(e) => setFromLocation(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="center">
-
-                            <KeyboardArrowDownIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    /></MenuButton>
-                  <Menu className='bg-[#424a73] p-2 rounded-md'>
-                    <MenuItem onClick={''}>
-                      <div>
-                        Passengers
-
-                        <button className="btn" onClick={decrement}><RemoveCircleIcon /></button>
-                        <span id="count" className='text-xl rounded-md '>{count}</span>
-                        <button className="btn" onClick={increment}><AddCircleIcon /></button>
-
-
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={''}>
-
-                      <div className='flex gap-10 ' >
-                        Bikes
-                        <div className='mb-2'>
-                          <button className="btn" onClick={sub}><RemoveCircleIcon /></button>
-                          <span id="count" className='text-xl rounded-md'>{bike}</span>
-                          <button className="btn" onClick={add}><AddCircleIcon /></button>
-                        </div>
-
-                      </div>
-
-                    </MenuItem>
-                  </Menu>
-                </Dropdown>
-              </div>
-
-              <div className='ml-2 pt-6  '>
-
-
-                <Button>Search</Button>
-              </div>
-
-            </div>
-
-          </div>
-
+          <SearchBar />
         </div>
       </div>
 
@@ -254,14 +35,7 @@ const IndexPage = () => {
         </div>
 
       </div>
-
-
-      {/* #ca801f */}
-   
-
     </>
-
-
   );
 };
 
