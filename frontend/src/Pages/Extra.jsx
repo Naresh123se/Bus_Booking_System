@@ -34,17 +34,20 @@ function MyComponent() {
       // Any cleanup code if needed
     };
   }, []);
+  const booking = schedule?.["17"]?.[0]?.date;
+  const booking1 = schedule?.["17"]?.[1]?.date;
+  const booking2 = schedule?.["17"]?.[2]?.date;
+  const booking3 = schedule?.["17"]?.[3]?.date;
+  const booking4 = schedule?.["17"]?.[4]?.date;
+  const booking5 = schedule?.["17"]?.[5]?.date;
+  const booking6 = schedule?.["17"]?.[6]?.date;
 
   return (
+    <>
     <div>
-      {schedule && schedule["17"] && (
-        <ul>
-          {schedule["17"].map((trip, index) => (
-            <li key={index}>{trip.date}</li>
-          ))}
-        </ul>
-      )}
+      {booking}
     </div>
+  </>
   );
 }
 
