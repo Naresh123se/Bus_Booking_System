@@ -1,54 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-function MyComponent() {
-    const [schedule, setSchedule] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("https://septa.p.rapidapi.com/hackathon/BusSchedules/?req1=17842&req2=17&req3=i&req6=7", {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Key": "5807d2f2acmsh2fe4009e3392c74p111629jsnbeee624f5911",
-            "X-RapidAPI-Host": "septa.p.rapidapi.com"
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        // Assuming you want the StopName from the first item in the array
-       console.log(data)
-
-       const stopNames = data["17"].map(trip => trip.StopName);
-      setSchedule(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-
-    // Cleanup function
-    return () => {
-      // Any cleanup code if needed
-    };
-  }, []);
-  const booking = schedule?.["17"]?.[0]?.date;
-  const booking1 = schedule?.["17"]?.[1]?.date;
-  const booking2 = schedule?.["17"]?.[2]?.date;
-  const booking3 = schedule?.["17"]?.[3]?.date;
-  const booking4 = schedule?.["17"]?.[4]?.date;
-  const booking5 = schedule?.["17"]?.[5]?.date;
-  const booking6 = schedule?.["17"]?.[6]?.date;
+const Seat = ({ number, isBooked, selected, onSelect }) => {
+  let seatClass = 'bg-gray-300 cursor-pointer';
+  if (isBooked) {
+    seatClass = 'bg-orange-500 cursor-not-allowed';
+  } else if (selected) {
+    seatClass = 'bg-green-500';
+  }
 
   return (
-    <>
-    <div>
-      {booking}
-    </div>
-  </>
+    <button 
+      className={`p-2 m-1 ${seatClass}`} 
+      onClick={() => onSelect(number)}
+      disabled={isBooked}
+    >
+      {number}
+    </button>
   );
-}
+};
 
-export default MyComponent;
+const Extra = () => {
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const bookedSeats = [3, 4, 10, 15]; // Update this array based on the seats that are already booked
+
+  const handleSeatSelect = (seatNumber) => {
+    setSelectedSeats(prevSeats => {
+      if (prevSeats.includes(seatNumber)) {
+        return prevSeats.filter(seat => seat !== seatNumber);
+      } else {
+        return [...prevSeats, seatNumber];
+      }
+    });
+  };
+
+  const rows = Array.from({ length: 5 }, (_, i) => i + 1);
+  const columns = Array.from({ length: 6 }, (_, i) => i + 1);
+
+  return (
+    <div className="flex flex-col items-center">
+      {rows.map(row => (
+        <div key={row} className="flex justify-center">
+          {columns.map(column => {
+            const seatNumber = (row - 1) * columns.length + column;
+            const isBooked = bookedSeats.includes(seatNumber);
+            return (
+              <Seat 
+                key={seatNumber} 
+                number={seatNumber} 
+                isBooked={isBooked}
+                selected={selectedSeats.includes(seatNumber)} 
+                onSelect={handleSeatSelect} 
+              />
+            );
+          })}
+        </div>
+      ))}
+      <button className="bg-blue-500 text-white rounded px-4 py-2 mt-4" onClick={() => setSelectedSeats([])}>Clear Selection</button>
+    </div>
+  );
+};
+
+export default Extra;

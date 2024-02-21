@@ -2,8 +2,6 @@ import express from 'express';
 const router = express.Router();
 import passport from 'passport';
 
-
-
 const CLIENT_URL = "http://localhost:4000/";
 
 router.get("/login/success", (req, res) => {

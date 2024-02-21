@@ -62,22 +62,21 @@ const Profile = () => {
             <Form onSubmit={submitHandler} className="max-w-md mx-auto ml-10 mt-4">
                 {(userInfo || user) && (
                     <>
-                       <Form.Group controlId='name' className='mb-4'>
-    <Form.Label><PersonIcon sx={{ fontSize: 21 }} /> Name</Form.Label>
-    <Form.Control
-        type='name'
-        placeholder='Enter name'
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className={`border border-[#a99090] px-3 py-2 rounded-md flex ${
-            user
-                ? 'cursor-not-allowed bg-white'
-                : '' // Empty string if user is not present
-        }`}
-        readOnly={user} // Making the input non-editable if user is present
-        style={{ pointerEvents: user ? 'none' : 'auto' }} // Disabling pointer events if user is present
-    />
-</Form.Group>
+                        <Form.Group controlId='name' className='mb-4'>
+                            <Form.Label><PersonIcon sx={{ fontSize: 21 }} /> Name</Form.Label>
+                            <Form.Control
+                                type='name'
+                                placeholder='Enter name'
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className={`border border-[#a99090] px-3 py-2 rounded-md flex ${user
+                                        ? 'cursor-not-allowed bg-white'
+                                        : '' // Empty string if user is not present
+                                    }`}
+                                readOnly={user} // Making the input non-editable if user is present
+                                style={{ pointerEvents: user ? 'none' : 'auto' }} // Disabling pointer events if user is present
+                            />
+                        </Form.Group>
 
                         <Form.Group controlId='email' className='mb-4'>
                             <Form.Label><AlternateEmailIcon sx={{ fontSize: 21 }} /> Email Address</Form.Label>
@@ -94,9 +93,6 @@ const Profile = () => {
                 )}
                 {userInfo && (
                     <>
-
-
-
                         <Form.Group controlId='password' className='mb-4'>
                             <Form.Label><LockIcon sx={{ fontSize: 21 }} /> Password</Form.Label>
                             <Form.Control
@@ -119,26 +115,24 @@ const Profile = () => {
                         </Form.Group>
                     </>
                 )}
-               <div className='mt-5'>
-    {user ? ( // If user exists
-        <Button
-            type='submit'
-            variant="" disabled
-            
-        >
-            Disabled
-        </Button>
-    ) : ( // If user doesn't exist
-        <Button
-            type='submit'
-            variant="contained"
-        >
-            Update
-        </Button>
-    )}
-</div>
+                <div className='mt-5'>
+                    {user ? ( // If user exists
+                        <Button
+                            type='submit'
+                            variant="" disabled
 
-
+                        >
+                            Disabled
+                        </Button>
+                    ) : ( // If user doesn't exist
+                        <Button
+                            type='submit'
+                            variant="contained"
+                        >
+                        Update
+                        </Button>
+                    )}
+                </div>
                 {isLoading && <Loader />}
             </Form>
         </div>

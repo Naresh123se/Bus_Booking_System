@@ -13,24 +13,27 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Calendar from 'react-calendar'
 
-
+import { useSearchMutation } from '../slices/booking';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../slices/bSlice';
 import { Dropdown } from '@mui/base/Dropdown';
 import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
+import { useNavigate } from 'react-router-dom'
+
 
 
 
 
 const SearchBar = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-
-
-
-
-
-
+    const [search] = useSearchMutation();
     //hover user number
     const [count, setCount] = useState(1);
 
@@ -60,13 +63,19 @@ const SearchBar = () => {
     //dropdown menu close open(user number)
 
     const [selectedValue, setSelectedValue] = React.useState('a');
-    //SEARCH
 
+
+ 
 
     const [fromLocation, setFromLocation] = useState('');
     const [toLocation, setToLocation] = useState('');
+
+
+   
     const [arrowDirection, setArrowDirection] = useState('right');
-    const [value, setValue] = React.useState(dayjs());
+    const [value, setValue] = useState(dayjs()); // Initialize with current date without time
+    const [value1, setValue1] = useState(dayjs('')); //nction to update the value with a new date without the time
+  
     useEffect(() => {
         loadGoogleMapsScript();
     }, []);
@@ -126,12 +135,24 @@ const SearchBar = () => {
         setSelectedValue(event.target.value);
 
     };
-
-
    
-
     const today = dayjs();
 
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
+            dispatch(setCredentials({ ...res }));
+            navigate('/Booking');
+          
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
+            
+        }
+    };
+
+
+  
 
     return (
         <div>
@@ -139,6 +160,7 @@ const SearchBar = () => {
             <div className='  shadow-lg ml-10     pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
                 <div>
                     <Radio
+                    
                         checked={selectedValue === 'a'}
                         onChange={handleChange}
                         value="a"
@@ -167,10 +189,12 @@ const SearchBar = () => {
                     Round Trip
                 </div>
 
-
+             
                 {/* location */}
-                <div className='flex ml-2' >
-                    <div className='mt-4'>
+
+                <form action='/booking'>
+                    <div className='flex ml-2' >
+                        <div className='mt-4'>
                         <TextField
                             label="FROM"
                             id="fromLocation"
@@ -182,134 +206,135 @@ const SearchBar = () => {
                                 startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
                             }}
                         />
-                    </div>
+                        </div>
 
-                    {/* switch button */}
-                    <div className='mt-6'>
-                        <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
-                            <CompareArrowsRoundedIcon
-                                className='border w-30 h-30 border-sky-500 rounded-full'
-                                sx={{
-                                    color: '#2196F3',
-                                    borderRadius: '50%',
-                                    transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
-                                    transition: 'transform 0.3s ease',
-                                    fontSize: 35,
+                        {/* switch button */}
+                        <div className='mt-6'>
+                            <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
+                                <CompareArrowsRoundedIcon
+                                    className='border w-30 h-30 border-sky-500 rounded-full'
+                                    sx={{
+                                        color: '#2196F3',
+                                        borderRadius: '50%',
+                                        transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
+                                        transition: 'transform 0.3s ease',
+                                        fontSize: 35,
+                                    }}
+                                />
+                            </button>
+                        </div>
+
+                        {/* next location */}
+                        <div className='mt-4'>
+                            <TextField
+
+                                label="TO"
+                                id="toLocation"
+                                sx={{ width: '5cm' }}
+                                placeholder='EnterTo Location'
+                                value={toLocation}
+                                onChange={(e) => setToLocation(e.target.value)}
+                               
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
                                 }}
                             />
-                        </button>
-                    </div>
 
-                    {/* next location */}
-                    <div className='mt-4'>
-                        <TextField
-                            label="TO"
-                            id="toLocation"
-                            sx={{ width: '5cm' }}
-                            placeholder='Enter To Location'
-                            value={toLocation}
-                            onChange={(e) => setToLocation(e.target.value)}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                            }}
-                        />
-                    </div>
-                    {/* Departure */}
-
-
-                    {/* calender */}
-                    <div className=" flex  ml-5 mt-2" >
-
-                        <div >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker
-                                        sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                                        label="Departure"
-                                        value={value}
-                                        minDate={today}
-                                        disablePast
-                                        onChange={(newValue) => setValue(newValue)}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
                         </div>
-                        <div className=''>
-                            {selectedValue === "b" && (
+                        {/* Departure */}
+
+
+                        {/* calender */}
+                        <div className=" flex  ml-5 mt-2" >
+
+                            <div >
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['DatePicker']}>
                                         <DatePicker
-                                            sx={{ width: "5cm" }}
-                                            label="Return"
+                                            sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
+                                            label="Departure"
                                             value={value}
                                             minDate={today}
-                                            disablePast
                                             onChange={(newValue) => setValue(newValue)}
+                                            
                                         />
                                     </DemoContainer>
                                 </LocalizationProvider>
-                            )}
+                            </div>
+                            <div className=''>
+                                {selectedValue === "b" && (
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DatePicker']}>
+                                               <DatePicker
+                                            sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
+                                            label="Departure"
+                                            value={value1}
+                                            minDate={today}
+                                            onChange={(newValue) => setValue1(newValue)}
+                                        />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                )}
+                            </div>
+
                         </div>
+                        <div className='mt-4 ml-7'>
 
 
-                    </div>
-                    <div className='mt-4 ml-7'>
+                            <Dropdown className='mt-4 ml-7 '>
+                                <MenuButton>
+                                    <TextField
+                                        label="Passengers"
+                                        id="people"
+                                        sx={{ width: '5cm' }}
+                                        placeholder='passenger'
+
+                                        value={`${count} passenger${count > 1 ? "s" : ""} ${bike} bike${bike > 1 ? "s" : " "}`}
+                                        onChange={(e) => setFromLocation(e.target.value)}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="center">
+
+                                                    <KeyboardArrowDownIcon />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    /></MenuButton>
+                                <Menu className='bg-[#424a73] p-2 rounded-md'>
+                                    <MenuItem onClick={''}>
+                                        <div>
+                                            Passengers
+
+                                            <button className="btn" onClick={decrement}><RemoveCircleIcon /></button>
+                                            <span id="count" className='text-xl rounded-md '>{count}</span>
+                                            <button className="btn" onClick={increment}><AddCircleIcon /></button>
 
 
-                        <Dropdown className='mt-4 ml-7 '>
-                            <MenuButton>
-                                <TextField
-                                    label="Passengers"
-                                    id="people"
-                                    sx={{ width: '5cm' }}
-                                    placeholder='Pokhara'
-                                    value={`${count} passenger${count > 1 ? "s" : ""} ${bike} bike${bike > 1 ? "s" : " "}`}
-                                    onChange={(e) => setFromLocation(e.target.value)}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="center">
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem onClick={''}>
 
-                                                <KeyboardArrowDownIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                /></MenuButton>
-                            <Menu className='bg-[#424a73] p-2 rounded-md'>
-                                <MenuItem onClick={''}>
-                                    <div>
-                                        Passengers
+                                        <div className='flex gap-10 ' >
+                                            Bikes
+                                            <div className='mb-2'>
+                                                <button className="btn" onClick={sub}><RemoveCircleIcon /></button>
+                                                <span id="count" className='text-xl rounded-md'>{bike}</span>
+                                                <button className="btn" onClick={add}><AddCircleIcon /></button>
+                                            </div>
 
-                                        <button className="btn" onClick={decrement}><RemoveCircleIcon /></button>
-                                        <span id="count" className='text-xl rounded-md '>{count}</span>
-                                        <button className="btn" onClick={increment}><AddCircleIcon /></button>
-
-
-                                    </div>
-                                </MenuItem>
-                                <MenuItem onClick={''}>
-
-                                    <div className='flex gap-10 ' >
-                                        Bikes
-                                        <div className='mb-2'>
-                                            <button className="btn" onClick={sub}><RemoveCircleIcon /></button>
-                                            <span id="count" className='text-xl rounded-md'>{bike}</span>
-                                            <button className="btn" onClick={add}><AddCircleIcon /></button>
                                         </div>
 
-                                    </div>
+                                    </MenuItem>
+                                </Menu>
+                            </Dropdown>
+                        </div>
 
-                                </MenuItem>
-                            </Menu>
-                        </Dropdown>
+                        <div className='ml-2 pt-6  '>
+                            <Button onClick={submitHandler}>Search</Button>
+                        </div>
+
                     </div>
-
-                    <div className='ml-2 pt-6  '>
-
-
-                        <Button>Search</Button>
-                    </div>
-
-                </div>
+                </form>
 
             </div>
 

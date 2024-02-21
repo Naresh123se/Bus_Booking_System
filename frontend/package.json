@@ -19,11 +19,15 @@
     "@mui/x-date-pickers-pro": "^6.18.7",
     "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.9.5",
+    "@syncfusion/ej2-maps": "^24.2.4",
+    "@syncfusion/ej2-react-grids": "^24.2.5",
+    "@syncfusion/ej2-react-maps": "^24.2.4",
     "axios": "^1.6.7",
     "bootstrap": "^5.2.3",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
+    "react-calendar": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-google-maps": "^9.4.5",
     "react-icons": "^4.8.0",
@@ -33,7 +37,7 @@
     "react-router-redux": "^4.0.8",
     "react-toastify": "^9.1.2",
     "redux": "^4.2.1",
-    "sweetalert2": "^11.10.5"
+    "sweetalert2": "^11.6.13"
   },
   "devDependencies": {
     "@types/react": "^18.2.47",

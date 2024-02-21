@@ -42,9 +42,7 @@ const App = () => {
   }, []);
 
   return (
-<>
-    
-
+<> 
          <Header/>
       
       <ToastContainer />

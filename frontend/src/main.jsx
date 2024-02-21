@@ -17,7 +17,9 @@ import Location from './Directions/DirectionMap.jsx';
 import Verify from './Pages/Verify.jsx';
 import Profile from './Pages/Profile.jsx';
 import Bus from './Way/Bus.jsx';
-import Extra from './Pages/Extra.jsx';
+import BusSeatSelection from './Pages/BusSeatSelection.jsx';
+import LocationButton from './Pages/LocationButton.jsx';
+import Seat from './Booking/Seat.jsx';
 
 
 
@@ -36,11 +38,14 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/Location' element={<Location />} />
-      <Route path='/Booking' element={<Booking />} />
+      <Route path='/search' element={<Booking />} />
       <Route path='/Verify' element={<Verify />} />
       <Route path='/Profile' element={<Profile />} />
       <Route path='/Bus' element={<Bus />} />
-      <Route path='/e' element={<Extra />} />
+      <Route path='/e' element={<BusSeatSelection />} />
+      <Route path='/love' element={<LocationButton />} />
+      <Route path='/Seat' element={<Seat />} />
+      <Route path='/Booking' element={<Booking />} />
 
 
 

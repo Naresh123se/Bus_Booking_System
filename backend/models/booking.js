@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const bookingSchema = new mongoose.Schema(
+const searchSchema = new mongoose.Schema(
   {
     name: String,
     userID: {
@@ -15,6 +15,6 @@ const bookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Booking = new mongoose.model("Booking", bookingSchema);
+const Search = new mongoose.model("Search", bookingSchema);
 
-export default Booking;
+export default Search;
