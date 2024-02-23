@@ -6,7 +6,7 @@ import Header from './Pages/Header';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './slices/authSlice';
-
+import Header1 from './Admin/Header1';
 
 
 const App = () => {
@@ -41,14 +41,28 @@ const App = () => {
     getUser();
   }, []);
 
+
+
+    const [isAdmin, setIsAdmin] = useState(false); // Assuming isAdmin state
+  
+    useEffect(() => {
+      // Check if the user is logged in from localStorage
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      // Update isAdmin state based on the login status
+      setIsAdmin(isLoggedIn);
+      // console.log(setIsAdmin)
+    }, []);
+
+
+  
+  
+
   return (
-<> 
-         <Header/>
-      
-      <ToastContainer />
-        <Outlet />
-       
-    </>
+    <> 
+    {isAdmin ? <Header1 /> : <Header />}
+    <ToastContainer />
+    <Outlet />
+  </>
   );
 };
 

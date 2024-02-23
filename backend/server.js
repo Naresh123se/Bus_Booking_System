@@ -7,9 +7,10 @@ import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import booking from './routes/booking.js';
+import seat from './routes/seat.js';
 import {app} from "./google.js";
 import './email.js';
-import {dire} from './controllers/busController.js';
+
 
 const port = process.env.PORT || 5000;
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
  
 app.use('/api/users', userRoutes);
 app.use('/api/Booking',booking);
+app.use('/api',seat);
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();

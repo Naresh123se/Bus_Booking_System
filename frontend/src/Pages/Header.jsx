@@ -42,7 +42,7 @@ const Header = () => {
   return (
     <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50 ' >
       <Link to='/' className='flex items-center gap-1 '>
-        <div className='w-16  ml-20' > <img src="3.svg" alt="" /></div>
+        <div className='w-16  ml-20' > <img src="/3.svg" alt="" /></div>
 
       </Link>
 

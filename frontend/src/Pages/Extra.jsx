@@ -21,7 +21,7 @@ const Seat = ({ number, isBooked, selected, onSelect }) => {
 
 const Extra = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const bookedSeats = [3, 4, 10, 15]; // Update this array based on the seats that are already booked
+  const bookedSeats = [3, 4, 5, 10, 15]; // Update this array based on the seats that are already booked
 
   const handleSeatSelect = (seatNumber) => {
     setSelectedSeats(prevSeats => {

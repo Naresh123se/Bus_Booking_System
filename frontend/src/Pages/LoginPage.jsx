@@ -17,7 +17,7 @@ import { useLoginMutation } from '../slices/usersApiSlice';
 import { toast } from 'react-toastify';
 import DarkModeToggle from './DarkModeToggle';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import Google from '../../../backend/models/googleAuth';
+
 import GoogleAuth from './GoogleAuth';
 import Loader from '../Directions/Loader';
 const LoginPage = () => {
@@ -45,15 +45,19 @@ const LoginPage = () => {
 
 
   return (
-
+    <>
+    
     <CssVarsProvider>
       < DarkModeToggle />
+      <div className='size-32 mx-[45%] pt-1 '>
+    <img src="3.1.svg  "  alt="logo" />
+    </div>
       <Sheet
 
         sx={{
           width: 300,
           mx: 'auto',
-          my: 4,
+          my: -3,
           py: 3,
           px: 2,
           display: 'flex',
@@ -130,6 +134,7 @@ const LoginPage = () => {
 
       </Sheet>
     </CssVarsProvider>
+    </>
   )
 }
 

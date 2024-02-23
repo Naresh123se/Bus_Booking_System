@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Import from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import {
   createBrowserRouter,
@@ -20,16 +20,14 @@ import Bus from './Way/Bus.jsx';
 import BusSeatSelection from './Pages/BusSeatSelection.jsx';
 import LocationButton from './Pages/LocationButton.jsx';
 import Seat from './Booking/Seat.jsx';
+import Extra from './Pages/Extra.jsx';
+// *************
 
 
-
-
-
+import AIndex from './Admin/AIndex.jsx';
+import ALoginPage from './Admin/ALoginPage.jsx';
 
 import { Provider } from 'react-redux';
-
-
-
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,17 +44,23 @@ const router = createBrowserRouter(
       <Route path='/love' element={<LocationButton />} />
       <Route path='/Seat' element={<Seat />} />
       <Route path='/Booking' element={<Booking />} />
+      <Route path='/Extra' element={<Extra />} />
+      {/* <Route path='/Extra' element={<Extra />} /> */}
 
 
-
-    </Route>
+     
     
+       <Route path='/admin' element={<AIndex />} />
+       <Route path='admin/Loginpage' element={<ALoginPage />} />
+
+      </Route>  
+      
+   
   )
 );
 
 const rootElement = document.getElementById('root');
 
-// Use createRoot from 'react-dom/client'
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <Provider store={store}>
