@@ -24,16 +24,10 @@ const AIndex = () => {
     }
   }, [navigate]);
 
- 
-
-
-
-
   return(
 
 <>
    
-
 <div className='border border-1 border-bg-[#46546C] size-[15%]  bg-bg1 '>
          <div className>
 
