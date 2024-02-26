@@ -21,6 +21,7 @@ import BusSeatSelection from './Pages/BusSeatSelection.jsx';
 import LocationButton from './Pages/LocationButton.jsx';
 import Seat from './Booking/Seat.jsx';
 import Extra from './Pages/Extra.jsx';
+import PickDirection from './Directions/PickDirection.jsx';
 // *************
 
 
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
       <Route path='/Seat' element={<Seat />} />
       <Route path='/Booking' element={<Booking />} />
       <Route path='/Extra' element={<Extra />} />
+      <Route path='/PickD' element={<PickDirection />} />
       {/* <Route path='/Extra' element={<Extra />} /> */}
 
 

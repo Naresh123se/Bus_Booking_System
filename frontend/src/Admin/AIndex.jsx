@@ -3,13 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faGauge, faTicket, faBusSimple, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faGauge, faTicket, faBusSimple, faUsers, faFileLines} from '@fortawesome/free-solid-svg-icons';
 
 
 const AIndex = () => {
     
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false); // Assuming isAdmin state
+
+
 
   useEffect(() => {
     // Check if the user is logged in from localStorage
@@ -27,11 +29,11 @@ const AIndex = () => {
   return(
 
 <>
-   
-<div className='border border-1 border-bg-[#46546C] size-[15%]  bg-bg1 '>
+<div className=' w-44 bg-[#414E66] text-[#dfdbdb] h-[90vh]  cursor-pointer '>
          <div className>
 
-   <div  className='flex gap-3 text-[20px] hover:bg-hover  pl-4'>
+  <div className='flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1' >
+
     <div>
      <FontAwesomeIcon icon={faGauge} beatFade />   
      </div>
@@ -40,7 +42,7 @@ const AIndex = () => {
     </div>
 </div>
 
-<div  className='flex gap-3 text-[20px] hover:bg-hover pl-4'>
+<div  className='flex gap-3 text-[18px]  hover:bg-[#4f5e7a] pt-1 pb-1 pl-4'>
     <div>
      <FontAwesomeIcon icon={faUsers} beatFade />   
     </div>
@@ -49,7 +51,7 @@ const AIndex = () => {
     </div>
 </div>
 
-<div  className='flex gap-3 text-[20px] hover:bg-hover pl-4'>
+<div  className='flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4'>
     <div>
      <FontAwesomeIcon icon={faTicket} beatFade />   
     </div>
@@ -58,12 +60,20 @@ const AIndex = () => {
     </div>
 </div>
 
-<div className='flex gap-3 text-[20px] hover:bg-hover pl-4'>
+<div className='flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4'>
     <div>
      <FontAwesomeIcon icon={faBusSimple} beatFade />   
     </div>
     <div>
     Bus 
+    </div>
+</div>
+<div className='flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4'>
+    <div>
+    <FontAwesomeIcon icon={faFileLines} beatFade/>   
+    </div>
+    <div>
+    Report 
     </div>
 </div>
 

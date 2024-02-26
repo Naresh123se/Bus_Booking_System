@@ -9,11 +9,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Calendar from 'react-calendar'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+
+
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import { useSearchMutation } from '../slices/booking';
 import { toast } from 'react-toastify';
@@ -64,18 +65,17 @@ const SearchBar = () => {
 
     const [selectedValue, setSelectedValue] = React.useState('a');
 
+    const today = new Date();
 
- 
 
     const [fromLocation, setFromLocation] = useState('');
     const [toLocation, setToLocation] = useState('');
 
 
-   
+
     const [arrowDirection, setArrowDirection] = useState('right');
-    const [value, setValue] = useState(dayjs()); // Initialize with current date without time
-    const [value1, setValue1] = useState(dayjs('')); //nction to update the value with a new date without the time
-  
+   
+
     useEffect(() => {
         loadGoogleMapsScript();
     }, []);
@@ -135,8 +135,8 @@ const SearchBar = () => {
         setSelectedValue(event.target.value);
 
     };
-   
-    const today = dayjs();
+
+
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -144,15 +144,61 @@ const SearchBar = () => {
             const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
             dispatch(setCredentials({ ...res }));
             navigate('/Booking');
-          
+
         } catch (err) {
             toast.error(err?.data?.message || err.error);
-            
+
         }
     };
 
+    const [selectedDate, setSelectedDate] = useState(dayjs());
+    const [value, setValue] = useState(dayjs().format('MM/DD/YYYY'));
+    const [value1, setValue1] = useState('');
+   
 
-  
+    useEffect(() => {
+        setValue(dayjs().format('MM/DD/YYYY'));
+    }, []);
+
+
+
+    const handleChange1 = date => {
+        setSelectedDate(date);
+        // Format the date as needed
+        const formattedDate = date ? formatDate(date) : '';
+        setValue(formattedDate);
+    };
+    const handleChange11 = date => {
+        setSelectedDate(date);
+        // Format the date as needed
+        const formattedDate = date ? formatDate(date) : '';
+        setValue1(formattedDate);
+    };
+
+    const formatDate = date => {
+        // Example: MM/dd/yyyy format
+        const formattedDate = `${(date.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+        return formattedDate;
+    };
+// local Storage
+useEffect(() => {
+    const storedData = localStorage.getItem('search');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+    //   setSelectedValue(parsedData.selectedValue);
+      setFromLocation(parsedData.fromLocation);
+      setToLocation(parsedData.toLocation); 
+      setValue(parsedData.value);
+    //   setValue1(parsedData.value1 ? new Date(parsedData.value1) : null);
+      setValue1(parsedData.value1 );
+      setCount(parsedData.count);
+      setBike(parsedData.bike);
+    }
+  }, []); // Empty dependency arr
+    
+
 
     return (
         <div>
@@ -160,7 +206,7 @@ const SearchBar = () => {
             <div className='  shadow-lg ml-10     pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
                 <div>
                     <Radio
-                    
+
                         checked={selectedValue === 'a'}
                         onChange={handleChange}
                         value="a"
@@ -189,23 +235,23 @@ const SearchBar = () => {
                     Round Trip
                 </div>
 
-             
+
                 {/* location */}
 
                 <form action='/booking'>
                     <div className='flex ml-2' >
                         <div className='mt-4'>
-                        <TextField
-                            label="FROM"
-                            id="fromLocation"
-                            sx={{ width: '5cm' }}
-                            placeholder='Enter From Location'
-                            value={fromLocation}
-                            onChange={(e) => setFromLocation(e.target.value)}
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                            }}
-                        />
+                            <TextField
+                                label="FROM"
+                                id="fromLocation"
+                                sx={{ width: '5cm' }}
+                                placeholder='Enter From Location'
+                                value={fromLocation}
+                                onChange={(e) => setFromLocation(e.target.value)}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+                                }}
+                            />
                         </div>
 
                         {/* switch button */}
@@ -234,7 +280,7 @@ const SearchBar = () => {
                                 placeholder='EnterTo Location'
                                 value={toLocation}
                                 onChange={(e) => setToLocation(e.target.value)}
-                               
+
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
                                 }}
@@ -247,35 +293,53 @@ const SearchBar = () => {
                         {/* calender */}
                         <div className=" flex  ml-5 mt-2" >
 
-                            <div >
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DatePicker']}>
-                                        <DatePicker
+                        
+                                <div className="datepicker-container ml-5 mt-2">
+                                  
+                                    <DatePicker
+
+                                        label="Departure"
+                                        value={value}
+                                        minDate={today}
+                                        onChange={handleChange1}
+                                        className="border border-1"
+                                        startAdornment={<CalendarTodayIcon />}
+                                        customInput={
+                                            <TextField
                                             sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                                            label="Departure"
-                                            value={value}
-                                            minDate={today}
-                                            onChange={(newValue) => setValue(newValue)}
-                                            
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </div>
-                            <div className=''>
+                                              label="Departure"
+                                              className="border border-1"
+                                              InputProps={{
+                                                endAdornment: <CalendarTodayIcon />,
+                                              }}
+                                              />
+                                            }
+                                    />
+                            
+                                </div>
+                        
+                                <div className="datepicker-container ml-5 mt-2 ">
                                 {selectedValue === "b" && (
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']}>
-                                               <DatePicker
-                                            sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                                            label="Departure"
-                                            value={value1}
-                                            minDate={today}
-                                            onChange={(newValue) => setValue1(newValue)}
-                                        />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-                                )}
-                            </div>
+                              
+                                  <DatePicker
+                                      value={value1}
+                                      minDate={today}
+                                      onChange={handleChange11}
+                                      className="border border-1"
+                                      startAdornment={<CalendarTodayIcon />}
+                                      customInput={
+                                          <TextField
+                                          sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
+                                            label="Return"
+                                            className="border border-1"
+                                            InputProps={{
+                                              endAdornment: <CalendarTodayIcon />,
+                                            }}
+                                            />
+                                          }
+                                  />
+                                  )}
+                              </div>
 
                         </div>
                         <div className='mt-4 ml-7'>

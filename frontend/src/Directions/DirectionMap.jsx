@@ -180,12 +180,15 @@ const DirectionMap = () => {
       <p id="duration"></p>
       <p id="distance"></p>
       <div className="container">
+        <div className='flex'>
         <div className="form-group">
           <input type="text" className="form-control" placeholder="Source" id="source" />
         </div>
         <div className="form-group">
           <input type="text" className="form-control" placeholder="Destination" id="dest" />
         </div>
+        </div>
+        
         <Button style={{ backgroundColor: 'red' }} onClick={calcRoute}>
           Direction
         </Button>
