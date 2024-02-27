@@ -60,37 +60,71 @@ const Booking = () => {
         </div>
         <div className='ml-64 mr-[248px]   pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md'>
           <div className='flex  mr-10 ml-10 justify-between'>
-            <div>time</div>
+            <div>03:10</div>
             <hr class=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6] " />
-            <p>time</p>
+            <p>06:00</p>
             <hr class=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6] " />
-            <div className='mr-60'>time</div>
-            <div>price</div>
+            <div className='mr-60'>09:45</div>
+            <div>$25</div>
           </div>
-
           <div className='ml-10 w-[59.6%]  flex justify-between'>
-            <div className=''>locatio</div>
-            <div className=''>place</div>
+            <div className='text-bold'>Pokhara</div>
+            <div className=''>Kathmandu</div>
           </div>
           <div className='ml-10 flex justify-between'>
-            <div>icone</div>
+            <div>icon</div>
             <div className='mt-6 mr-8'>
               <Button className='mt-6' variant="contained" > Booking</Button>
             </div>
-
           </div>
-
-
-
         </div>
 
-        <div className='ml-64 mr-[248px]   pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md  '>
-          <span style={{ fontSize: '16px', fontWeight: 'bold' }}>{Time}</span> <br />
-
-          <span>Kathmandu</span><br />
-          <span>{two}:20</span>
-
+        {/* 2nd */}
+        <div className='ml-64 mr-[248px]   pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md'>
+          <div className='flex  mr-10 ml-10 justify-between'>
+            <div>03:10</div>
+            <hr class=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6] " />
+            <p>06:00</p>
+            <hr class=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6] " />
+            <div className='mr-60'>09:45</div>
+            <div>$25</div>
+          </div>
+          <div className='ml-10 w-[59.6%]  flex justify-between'>
+            <div className='text-bold'>Pokhara</div>
+            <div className=''>Kathmandu</div>
+          </div>
+          <div className='ml-10 flex justify-between'>
+            <div>icon</div>
+            <div className='mt-6 mr-8'>
+              <Button className='mt-6' variant="contained" > Booking</Button>
+            </div>
+          </div>
         </div>
+
+
+        {/* 3rd */}
+        <div className='ml-64 mr-[248px]   pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md'>
+          <div className='flex  mr-10 ml-10 justify-between'>
+            <div>03:10</div>
+            <hr class=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6] " />
+            <p>05:00</p>
+            <hr class=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6] " />
+            <div className='mr-60'>09:45</div>
+            <div>$25</div>
+          </div>
+          <div className='ml-10 w-[59.6%]  flex justify-between'>
+            <div className='text-bold'>Pokhara</div>
+            <div className=''>Dang</div>
+          </div>
+          <div className='ml-10 flex justify-between'>
+            <div>icon</div>
+            <div className='mt-6 mr-8'>
+              <Button className='mt-6' variant="contained" > Booking</Button>
+            </div>
+          </div>
+        </div>
+
+
       </body>
     </>
   )

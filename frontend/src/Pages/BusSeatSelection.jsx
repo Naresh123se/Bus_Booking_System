@@ -29,7 +29,10 @@ const BusSeatSelection = () => {
       if (prevSeats.includes(seatNumber)) {
         return prevSeats.filter(seat => seat !== seatNumber);
       } else {
-        return [...prevSeats, seatNumber];
+        let newSeats = [...prevSeats, seatNumber];
+        // Sort the seats numerically
+        newSeats.sort((a, b) => a - b);
+        return newSeats;
       }
     });
   };
@@ -77,29 +80,27 @@ const BusSeatSelection = () => {
   return (
     <>
       <div className="flex">
-        
-       
         <div className="border ml-[30%] mt-[5%]">
-          <div className="flex flex-col items-center">
-          <div className='size-6 mt-2 ml-36'>
+
+        <div className='size-6 mt-2 ml-44'>
         <img src="steering.png" alt="steering" />
         </div>
+
+          <div className="flex flex-col items-center">
             {rows.map(row => (
               <div key={row} className=" flex  " style={{ margin: '2px' }}> 
-                {columns.map(column => {
-                  const seatNumber = (row - 1) * columns.length + column;
-                  const isBooked = bookedSeats.includes(seatNumber);
-                  return (
+                {columns.map((column, index) => (
+                  <React.Fragment key={column}>
                     <Seat
-                      key={seatNumber}
-                      seatNumber={seatNumber}
-                      isBooked={isBooked}
-                      selected={selectedSeats.includes(seatNumber)}
+                      seatNumber={(row - 1) * columns.length + column}
+                      isBooked={bookedSeats.includes((row - 1) * columns.length + column)}
+                      selected={selectedSeats.includes((row - 1) * columns.length + column)}
                       onSelect={handleSeatSelect}
                     />
-                  );
-                })}
-
+                    {/* Add space between columns */}
+                    {index === columns.length / 2 - 1 && <div style={{ width: '30px' }} />}
+                  </React.Fragment>
+                ))}
                 {row === 1 && <div className=" "></div>} {/* Adding space for the aisle after the first row */}
               </div>
             ))}
@@ -107,11 +108,9 @@ const BusSeatSelection = () => {
         </div>
         <div className="border pl-2  mt-[5%] w-52">
           <div className="mt-3">
-          <WeekendIcon  sx={{marginLeft:'5px'}}/> = available <br /> 
-          <WeekendIcon  sx={{marginLeft:'5px', color:"#009DF8"}}/> = selected <br /> 
-          <WeekendIcon  sx={{marginLeft:'5px', color:"#CC5500"}}/> = unavailable <br /> 
-        
-
+            <WeekendIcon  sx={{marginLeft:'5px'}}/> = available <br /> 
+            <WeekendIcon  sx={{marginLeft:'5px', color:"#009DF8"}}/> = selected <br /> 
+            <WeekendIcon  sx={{marginLeft:'5px', color:"#CC5500"}}/> = unavailable <br /> 
             Selected Seats: {selectedSeatCount} <br />
             Selected Seats number: {selectedSeatCount > 0 ? selectedSeats.join(', ') : ''}
           </div>
@@ -120,9 +119,7 @@ const BusSeatSelection = () => {
           </Button ><br />
           <Button sx={{marginTop:'10px'}} onClick={handleFormSubmit}>Submit</Button>
         </div>
-   
       </div>
-      
     </>
   );
 };

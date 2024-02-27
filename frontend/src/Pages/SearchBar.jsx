@@ -81,17 +81,15 @@ const SearchBar = () => {
     }, []);
 
     const switchLocations = () => {
-        const tempFromLocation = fromLocation;
-        const tempToLocation = toLocation;
-
-        setFromLocation(tempToLocation);
-        setToLocation(tempFromLocation);
-    };
-
-    const switchArrowDirection = () => {
-        const newDirection = arrowDirection === 'right' ? 'left' : 'right';
-        setArrowDirection(newDirection);
-    };
+        const tempLocation = fromLocation;
+        setFromLocation(toLocation);
+        setToLocation(tempLocation);
+      };
+    
+      const switchArrowDirection = () => {
+        setArrowDirection(arrowDirection === 'right' ? 'left' : 'right');
+      };
+    
 
     const loadGoogleMapsScript = () => {
         const script = document.createElement('script');
@@ -238,7 +236,7 @@ useEffect(() => {
 
                 {/* location */}
 
-                <form action='/booking'>
+               
                     <div className='flex ml-2' >
                         <div className='mt-4'>
                             <TextField
@@ -398,7 +396,7 @@ useEffect(() => {
                         </div>
 
                     </div>
-                </form>
+                
 
             </div>
 
