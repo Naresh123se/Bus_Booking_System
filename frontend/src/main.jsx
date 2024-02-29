@@ -20,13 +20,17 @@ import Bus from './Way/Bus.jsx';
 import BusSeatSelection from './Pages/BusSeatSelection.jsx';
 import LocationButton from './Pages/LocationButton.jsx';
 import Seat from './Booking/Seat.jsx';
+
+
 import Extra from './Pages/Extra.jsx';
 import PickDirection from './Directions/PickDirection.jsx';
+
 // *************
 
 
 import AIndex from './Admin/AIndex.jsx';
 import ALoginPage from './Admin/ALoginPage.jsx';
+import ABooking from './Admin/ABooking.jsx';
 
 import { Provider } from 'react-redux';
 
@@ -54,6 +58,7 @@ const router = createBrowserRouter(
     
        <Route path='/admin' element={<AIndex />} />
        <Route path='admin/Loginpage' element={<ALoginPage />} />
+       <Route path='admin/Booking' element={<ABooking />} />
 
       </Route>  
       

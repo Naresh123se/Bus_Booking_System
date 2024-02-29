@@ -26,32 +26,46 @@ const AIndex = () => {
     }
   }, [navigate]);
 
+
+  const handleClick = () => {
+  navigate('/admin/Booking');
+  };
+  const Dashboard = () => {
+  navigate('/admin');
+  };
+
+  const Ticket = () => {
+  navigate('/admin/Ticket');
+  };
+
+  
   return(
 
 <>
 <div className=' w-44 bg-[#414E66] text-[#dfdbdb] h-[90vh]  cursor-pointer '>
          <div className>
 
-  <div className='flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1' >
+  <div className='flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1' onClick={Dashboard} >
 
     <div>
-     <FontAwesomeIcon icon={faGauge} beatFade />   
+     <FontAwesomeIcon icon={faGauge} beatFade /> 
+       
      </div>
      <div>
      Dashboard 
     </div>
 </div>
 
-<div  className='flex gap-3 text-[18px]  hover:bg-[#4f5e7a] pt-1 pb-1 pl-4'>
+<div  className='flex gap-3 text-[18px]  hover:bg-[#4f5e7a] pt-1 pb-1 pl-4' onClick={handleClick} >
     <div>
      <FontAwesomeIcon icon={faUsers} beatFade />   
     </div>
     <div>
     Passengers  
-    </div>
+    </div>   
 </div>
 
-<div  className='flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4'>
+<div  className='flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4' onClick={Ticket}>
     <div>
      <FontAwesomeIcon icon={faTicket} beatFade />   
     </div>
