@@ -46,7 +46,9 @@ const IndexPage = () => {
             < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'  >Route</p>
             </button>
           </div>
-      
+      <div>
+        <p></p>
+      </div>
     
       </div>
     </>
