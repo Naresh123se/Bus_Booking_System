@@ -1,5 +1,5 @@
 // // Import required packages
-import express from "express";
+
 import asyncHandler from "express-async-handler";
 // import direction from './routes/direction.js';
 

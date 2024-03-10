@@ -30,7 +30,7 @@ const busSchedules = new mongoose.Schema(
       }
     );
 // Create the Item model based on the schema
-const BUS = mongoose.model('BUS', busSchedules);
+const Schedule = mongoose.model('Schedule', busSchedules);
 
 // Export the Item model
-export default BUS;
+export default Schedule;

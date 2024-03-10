@@ -13,13 +13,36 @@ import Typography from '@mui/joy/Typography';
 import FormLabel from '@mui/joy/FormLabel';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 
+import ReCAPTCHA from 'react-google-recaptcha';
 const LoginPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
-  const handleLogin = () => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'username') {
+      setUsername(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    }
+  };
+
+  const handleRecaptchaChange = (value) => {
+
+    console.log("Recaptcha value:", value);
+    setIsVerified(true); // or perform any action based on verification status
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Check if reCAPTCHA is verified
+    if (!isVerified) {
+      alert('Please complete the reCAPTCHA verification.');
+      return;
+    }
     // Check if the username and password are admin credentials
     if (username === 'admin' && password === 'admin123') {
       // Store session in localStorage
@@ -102,6 +125,14 @@ const LoginPage = () => {
           </div>
         </FormControl>
 
+        <div className='mr-60'  style={{ transform: 'scale(0.87)' }}>
+        <ReCAPTCHA
+          sitekey="6Lfuh5MpAAAAAFahhgoiOoBiwEJlunbz_mLjDl4D"
+          onChange={handleRecaptchaChange}
+          
+        />
+        </div>
+       
         <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor: "#009DF8" }} onClick={handleLogin}>
           Log in
         </Button>
