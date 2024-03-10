@@ -39,7 +39,7 @@ const AIndex = () => {
 
   return (
     <>
-      <div className='w-44 bg-[#414E66] text-[#dfdbdb] h-[90vh] cursor-pointer'>
+      <div className='w-44 bg-[#414E66] text-[#dfdbdb] h-[671px] cursor-pointer overflow-hidden '>
         <div>
           <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === '' ? 'bg-[#4f5e7a]' : ''}`} onClick={Dashboard}>
             <div>

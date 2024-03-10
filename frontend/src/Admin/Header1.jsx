@@ -35,7 +35,7 @@ const Header1 = () => {
   
 
   return (
-    <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50 ' >
+    <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50 overflow-hidden ' >
       <Link to='/admin' className='flex items-center gap-1 '>
         <div className='w-16  ml-20' > 
         <img src="/3.svg" alt="bus11" /></div>
