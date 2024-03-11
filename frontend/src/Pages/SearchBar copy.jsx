@@ -87,37 +87,8 @@ const SearchBar = () => {
     };
 
 
-    const loadGoogleMapsScript = () => {
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDXMysFoIH3bi9TKU6uBHqFimln-vYCFQg&libraries=places`;
-        script.async = true;
-        script.defer = true;
-        script.onload = initAutocomplete;
-        document.head.appendChild(script);
-    };
-
-    const initAutocomplete = () => {
-        const fromAutocomplete = new window.google.maps.places.Autocomplete(
-            document.getElementById('fromLocation')
-        );
-        const toAutocomplete = new window.google.maps.places.Autocomplete(
-            document.getElementById('toLocation')
-        );
-
-        fromAutocomplete.addListener('place_changed', () => {
-            const place = fromAutocomplete.getPlace();
-            setFromLocation(place.formatted_address);
-        });
-
-        toAutocomplete.addListener('place_changed', () => {
-            const place = toAutocomplete.getPlace();
-            setToLocation(place.formatted_address);
-        });
-
-        // Handle Enter key press for searching places
-        document.getElementById('fromLocation').addEventListener('keydown', handleEnterKeyPress);
-        document.getElementById('toLocation').addEventListener('keydown', handleEnterKeyPress);
-    };
+  
+  
 
     const handleEnterKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -211,6 +182,7 @@ const SearchBar = () => {
                         checked={selectedValue === 'a'}
                         onChange={handleChange}
                         value="a"
+                        id=''
                         name="radio-buttons"
                         inputProps={{ 'aria-label': 'A' }}
                         sx={{

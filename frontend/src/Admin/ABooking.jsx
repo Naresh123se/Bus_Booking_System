@@ -68,7 +68,7 @@ const ABooking = () => {
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
-  };
+  }; 
 
 
 
@@ -96,11 +96,6 @@ const ABooking = () => {
     try {
       console.log('editData:', editData); // Log editData to check its value
       const response = await editSchedule({ id: editData._id, data: editData });
-
-
-
-
-
 
       console.log('Response:', response);
       console.log(editData);
