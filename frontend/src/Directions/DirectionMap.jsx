@@ -67,8 +67,18 @@ const DirectionMap = () => {
     setMap(mapInstance);
     setDirectionsService(new window.google.maps.DirectionsService());
     setDirectionsRenderer(new window.google.maps.DirectionsRenderer({ map: mapInstance }));
-    setDestAutocomplete(new window.google.maps.places.Autocomplete(document.getElementById('toLocation')));
-    setSourceAutocomplete(new window.google.maps.places.Autocomplete(document.getElementById('fromLocation')));
+    const setDestAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('toLocation'));
+    const setSourceAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('fromLocation'));
+
+    setDestAutocomplete.addListener('place_changed', () => {
+      const place = setDestAutocomplete.getPlace();
+      setToLocation(place.formatted_address);
+    });
+
+    setSourceAutocomplete.addListener('place_changed', () => {
+      const place = setSourceAutocomplete.getPlace();
+      setFromLocation(place.formatted_address);
+    });
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

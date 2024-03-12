@@ -97,7 +97,7 @@ const SearchBar = () => {
     };
 
     const initAutocomplete = () => {
-        const fromAutocomplete = new window.google.maps.places.Autocomplete(
+        const fromAutocomplete= new window.google.maps.places.Autocomplete(
             document.getElementById('fromLocation')
         );
         const toAutocomplete = new window.google.maps.places.Autocomplete(

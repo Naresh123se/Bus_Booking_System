@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copy Div Content</title>
+<style>
+  /* Style the container div */
+  .container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: inline-block; /* Ensure that the div wraps around its content */
+  }
+</style>
+</head>
+<body>
+
+<!-- Container div to display the fetched value -->
+<div class="container" id="contentDiv">
+  <!-- Value fetched from backend will be displayed here -->
+  <!-- Example value -->
+  Value from backend
+</div>
+
+<!-- Button to copy the content of the div -->
+<button onclick="copyText()">Copy</button>
+
+<script>
+// Function to copy the content of the div to clipboard
+function copyText() {
+  // Get the content of the div
+  var divContent = document.getElementById('contentDiv').innerText;
+  
+  // Create a temporary textarea element
+  var textarea = document.createElement('textarea');
+  textarea.value = divContent;
+  document.body.appendChild(textarea);
+  
+  // Select the text inside the textarea
+  textarea.select();
+  textarea.setSelectionRange(0, 99999); // For mobile devices
+  
+  // Copy the selected text to the clipboard
+  document.execCommand('copy');
+  
+  // Remove the temporary textarea
+  document.body.removeChild(textarea);
+  
+  // Optionally provide some visual feedback
+  alert("Text copied to clipboard: " + divContent);
+}
+</script>
+
+</body>
+</html>
