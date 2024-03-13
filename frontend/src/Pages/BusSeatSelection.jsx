@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import Button from '@mui/joy/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import { useSeatMutation } from '../slices/seat';
 
 const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
   <button
@@ -23,6 +25,8 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
 const BusSeatSelection = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const bookedSeats = [3, 4, 10, 15]; // Update this array based on the seats that are already booked
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [seat] = useSeatMutation();
 
   const handleSeatSelect = (seatNumber) => {
     setSelectedSeats(prevSeats => {
@@ -35,42 +39,43 @@ const BusSeatSelection = () => {
         return newSeats;
       }
     });
-  };
+};
 
-  const handleFormSubmit = async () => {
-    try {
-      if (selectedSeats.length === 0) {
-        // Show alert if no seats are selected
-        alert('Please select at least one seat before submitting.');
-        return;
+// Inside the handleFormSubmit function
+const handleFormSubmit = async () => {
+  try {
+      setIsSubmitting(true);
+
+      const response = await seat(selectedSeats);
+
+      if (response.error) {
+          toast.error(response.error.data.message);
+      } else if (response.data) {
+          // Display success toast only if there's data
+          toast.success(response.data.message);
+          // Store selected seats in local storage
+          localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
       }
-      
-      const response = await fetch('http://localhost:5000/api/seat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(selectedSeats),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      console.log('Response from server:', data);
-  
-      if (!data.success) {
-        // Display error message from the server in an alert
-        alert(data.error);
-      } else {
-        // Optionally handle other scenarios, such as successful submission
-      }
-    } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      // Optionally handle errors
+  } catch (error) {
+      toast.error(error.message || err.error);
+      // Remove selected seats from local storage on failure
+      localStorage.removeItem('selectedSeats');
+  } finally {
+      setIsSubmitting(false);
+  }
+};
+
+
+// Retrieve selected seats from local storage on component mount
+useEffect(() => {
+    const storedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+    if (storedSeats) {
+      setSelectedSeats(storedSeats);
     }
-  };
+}, []);
+
+// Update local storage when selectedSeats change
+
 
   const selectedSeatCount = selectedSeats.length; // Count of selected seats
 
@@ -79,13 +84,12 @@ const BusSeatSelection = () => {
 
   return (
     <>
+      <ToastContainer />
       <div className="flex">
         <div className="border ml-[30%] mt-[5%]">
-
-        <div className='size-6 mt-2 ml-44'>
-        <img src="steering.png" alt="steering" />
-        </div>
-
+          <div className='size-6 mt-2 ml-44'>
+            <img src="steering.png" alt="steering" />
+          </div>
           <div className="flex flex-col items-center">
             {rows.map(row => (
               <div key={row} className=" flex  " style={{ margin: '2px' }}> 
@@ -117,7 +121,10 @@ const BusSeatSelection = () => {
           <Button sx={{bgcolor:''}} className=" bg-blue-500 text-white rounded px-4 py-2 mt-4" onClick={() => setSelectedSeats([])}>
             Clear Selection
           </Button ><br />
-          <Button sx={{marginTop:'10px'}} onClick={handleFormSubmit}>Submit</Button>
+          <Button sx={{marginTop:'10px'}} onClick={handleFormSubmit} disabled={isSubmitting}>
+            Submit
+            {/* {isLoading ? 'Submitting...' : 'Submit'} */}
+          </Button>
         </div>
       </div>
     </>

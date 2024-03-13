@@ -12,8 +12,8 @@ const TrendingOffers = () => {
             description: 'Save up to Rs 300 on Hamro Bus. Limited time offer!',
             time: '20 Mar',
             bg: 'bg-gradient-to-tr from-[#D37E0B] to-[#F9B961]',
-            image: './Chartered.png',
-            copy: '98222222222229'
+            image: './OCT.png',
+            copy: 'BUSOCT3'
         },
         {
             id: 2,

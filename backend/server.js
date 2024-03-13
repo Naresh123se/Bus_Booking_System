@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes.js';
 import booking from './routes/booking.js';
 import seat from './routes/seat.js';
 import busSchedules from './routes/busSchedules.js';
+import khalti from './routes/khalti.js';
 import {app} from "./google.js";
 import './email.js';
 
@@ -27,6 +28,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/Booking',booking);
 app.use('/api',seat);
 app.use('/api',busSchedules);
+app.use('/api',khalti);
+
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();

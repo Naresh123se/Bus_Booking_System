@@ -8,7 +8,7 @@ const seat = asyncHandler(async (req, res) => {
 
   if (!selectedSeats || selectedSeats.length === 0) {
     res.status(400);
-    throw new Error("Selected seats array is empty");
+    throw new Error("Selected seats array is empty11");
   }
 
   try {
