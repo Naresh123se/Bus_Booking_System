@@ -32,6 +32,7 @@ import AIndex from './Admin/AIndex.jsx';
 import ALoginPage from './Admin/ALoginPage.jsx';
 import ABooking from './Admin/ABooking.jsx';
 import Payment from './Booking/Payment.jsx';
+import Int_Payment from './Booking/Int_Payment.jsx';
 
 import { Provider } from 'react-redux';
 
@@ -53,6 +54,7 @@ const router = createBrowserRouter(
       <Route path='/Extra' element={<Extra />} />
       <Route path='/PickD' element={<PickDirection />} />
       <Route path='/payment' element={<Payment />} />
+      <Route path='/Ipayment' element={<Int_Payment />} />
       {/* <Route path='/Extra' element={<Extra />} /> */}
 
 

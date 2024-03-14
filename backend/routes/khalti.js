@@ -5,7 +5,7 @@ import {
 
 const router = express.Router();
 
-router.post("/payment", khalti);
+router.post("/khalti", khalti);
 
 
 
