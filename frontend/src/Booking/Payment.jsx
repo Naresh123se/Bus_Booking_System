@@ -7,7 +7,7 @@ import axios from 'axios';
 const PaymentButton = () => {
   const handleClick = () => {
     var config = {
-      publicKey: 'test_public_key_54921208d0ff4fdc810b1bc2401dd3a8',
+      publicKey: 'live_public_key_228666a712964f4aa3c13948c1718d7d',
       productIdentity: '1234567890',
       productName: 'Bus-Ticket',
       productUrl: 'http://localhost:4000/payment',

@@ -1,24 +1,24 @@
-// ./components/PieChart.js
-import React from "react";
-import Chart from "chart.js/auto";
-import { Pie } from "react-chartjs-2";
-const labels = ["January", "February", "March", "April", "May", "June"];
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: "My First dataset",
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgb(0,0,255)",
-      data: [10, 10, 51, 2, 20, 30, 45],
-    },
-  ],
-};
-const PieChart = () => {
+import React from 'react'
+
+
+const A1Index = () => {
   return (
     <div>
-      <Pie data={data} />
+
+<div className='flex ml-12  gap-[480px] '>
+ <div className='bg-[red] flex  justify-center items-center size-[100px]'>
+  <h1>TOTAL</h1>
+</div>
+<div className='bg-[red] flex  justify-center items-center size-[100px]'>
+  <h1>TOTAL</h1>
+</div>
+<div className='bg-[red] flex  justify-center items-center size-[100px]'>
+  <h1>TOTAL</h1>
+</div>
+</div>
+
     </div>
-  );
-};
-export default PieChart;
+  )
+}
+
+export default A1Index

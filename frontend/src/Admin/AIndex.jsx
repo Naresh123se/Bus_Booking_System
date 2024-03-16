@@ -25,12 +25,15 @@ const AIndex = () => {
     handleClick('');
   };
 
+  const Passenger = () => {
+    handleClick('Passenger');
+  };
   const Ticket = () => {
     handleClick('Ticket');
   };
 
-  const handleBusClick = () => {
-    handleClick('Booking');
+  const Schedule = () => {
+    handleClick('Schedule');
   };
 
   const handleReportClick = () => {
@@ -49,7 +52,8 @@ const AIndex = () => {
               Dashboard
             </div>
           </div>
-          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === 'Ticket' ? 'bg-[#4f5e7a]' : ''}`} onClick={Ticket}>
+
+          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === 'Passenger' ? 'bg-[#4f5e7a]' : ''}`} onClick={Passenger}>
             <div>
               <FontAwesomeIcon icon={faUsers} beatFade />
             </div>
@@ -57,6 +61,7 @@ const AIndex = () => {
               Passengers
             </div>
           </div>
+
           <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Ticket' ? 'bg-[#4f5e7a]' : ''}`} onClick={Ticket}>
             <div>
               <FontAwesomeIcon icon={faTicket} beatFade />
@@ -65,7 +70,7 @@ const AIndex = () => {
               Ticket
             </div>
           </div>
-          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Booking' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleBusClick}>
+          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Schedule' ? 'bg-[#4f5e7a]' : ''}`} onClick={Schedule}>
             <div>
               <FontAwesomeIcon icon={faBusSimple} beatFade />
             </div>

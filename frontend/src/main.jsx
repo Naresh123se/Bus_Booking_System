@@ -24,15 +24,16 @@ import Seat from './Booking/Seat.jsx';
 
 import Extra from './Pages/Extra.jsx';
 import PickDirection from './Directions/PickDirection.jsx';
-
+import Payment from './Booking/Payment.jsx';
+import Int_Payment from './Booking/Int_Payment.jsx';
 // *************
 
 
-import AIndex from './Admin/AIndex.jsx';
+import Main from './Admin/Main.jsx';
 import ALoginPage from './Admin/ALoginPage.jsx';
 import ABooking from './Admin/ABooking.jsx';
-import Payment from './Booking/Payment.jsx';
-import Int_Payment from './Booking/Int_Payment.jsx';
+import User from './Admin/User.jsx';
+
 
 import { Provider } from 'react-redux';
 
@@ -55,14 +56,16 @@ const router = createBrowserRouter(
       <Route path='/PickD' element={<PickDirection />} />
       <Route path='/payment' element={<Payment />} />
       <Route path='/Ipayment' element={<Int_Payment />} />
+
       {/* <Route path='/Extra' element={<Extra />} /> */}
 
 
      
     
-       <Route path='/admin' element={<AIndex />} />
+       <Route path='/admin' element={<Main />} />
        <Route path='admin/Loginpage' element={<ALoginPage />} />
-       <Route path='admin/Booking' element={<ABooking />} />
+       <Route path='admin/Schedule' element={<ABooking />} />
+       <Route path='admin/Passenger' element={<User />} />
 
       </Route>  
       

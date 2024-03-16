@@ -119,23 +119,6 @@ const ABooking = () => {
   };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
       setSelectedItems([...selectedItems, id]);
@@ -177,20 +160,12 @@ const ABooking = () => {
   };
 
 
-
-
-
-
-
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [startLocation, setStartLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
   const navigate = useNavigate();
-
-
-
 
   useEffect(() => {
     const fetchSchedules = async (e) => {
@@ -246,7 +221,7 @@ const ABooking = () => {
               </div>
             )}
 
-<div>
+            <div>
             <table className="min-w-full   ">
               <thead className="">
                 <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
@@ -291,9 +266,9 @@ const ABooking = () => {
             </table>
             </div>
 
-          </div>
-        </div>
-      </div>
+            </div>
+            </div>
+           </div>
 
       <Dialog className='' open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
         <DialogTitle className='text-center '>Edit Schedule</DialogTitle>

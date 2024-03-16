@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+
+import BusSeatSelection from './BusSeatSelection.jsx'
+
 import { useGetScheduleMutation } from '../slices/busSchedules.js';
 import { faDivide } from '@fortawesome/free-solid-svg-icons';
-
+import Groups2Icon from '@mui/icons-material/Groups2';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import CompareArrowsRoundedIcon from '@mui/icons-material/CompareArrowsRounded';
@@ -16,7 +19,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import dayjs from 'dayjs';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-
+import CallIcon from '@mui/icons-material/Call';
+import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -29,8 +33,8 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 import { useNavigate } from 'react-router-dom'
-
-
+import PowerIcon from '@mui/icons-material/Power';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 
 
 
@@ -40,6 +44,11 @@ const Booking = () => {
   const [get] = useGetScheduleMutation();
   const [data, setData] = useState([]);
 
+  const [showData, setShowData] = useState(false);
+
+  const toggleVisibility = () => {
+    setShowData(!showData);
+  };
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDate(new Date());
@@ -94,7 +103,13 @@ const Booking = () => {
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
-  
+
+
+  const [showData1, setShowData1] = useState(false);
+
+  const toggleVisibility1 = () => {
+    setShowData(!showData);
+  };
 
 
   const dispatch = useDispatch();
@@ -272,13 +287,13 @@ const Booking = () => {
     const fetchSchedules = async (e) => {
       try {
         const result = await get();
-        console.log(fromLocation)
+        // console.log(fromLocation)
         const startlocation = fromLocation.replace(', Nepal', '').replace('44600', '').trim();
 
 
-        console.log(startlocation)
+        // console.log(startlocation)
 
-        console.log(result)
+        // console.log(result)
 
         const filteredData = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startlocation.toLowerCase());
 
@@ -294,7 +309,7 @@ const Booking = () => {
     fetchSchedules()
   }, [fromLocation]);
 
-  
+
   return (
     <>
       <div className='m-10   '>
@@ -524,18 +539,67 @@ const Booking = () => {
                 <div className='mr-80'>{item.endTime}</div>
                 <div>{item.price}</div>
               </div>
-              <div className='ml-10 w-[59.6%]  flex justify-between'>
+              <div className='ml-10 w-[59.6%] mb-3  flex justify-between'>
                 <div className='mr-60'>{item.startLocation}</div>
                 <div>{item.endLocation}</div>
               </div>
-              <div className='ml-10 flex justify-between'>
-                <div>icon</div>
-                <div className='mt-6 mr-8'>
+              <span className='ml-10 -20  border-[#a09898] border rounded-lg  '>
+                <span className='   '><DirectionsBusIcon /></span>
+                <span className='   '><PowerIcon /> </span>
+                <span className='   '></span>
+                <span className='  '><PhotoCameraFrontIcon /></span>
+              </span>
+              <span className='  mb-1 ml-20  '> <Groups2Icon /> Almost full </span>
+{/* DOWN */}
+
+
+              <div className='flex justify-center' >
+
+
+               
+
+                <div onClick={toggleVisibility} className='  cursor-pointer hover:text-[red]'>
+                  bus Photos
+                  <div>
+                    
+
+
+                  </div>
+
+
+                </div>
+
+
+
+                <div>
+                  |  bus Photos
+
+                </div>
+
+
+                <div>
+                  | bus Photos
+                </div>
+
+
+
+                <div className='   mr-2 pb-3'>
+
                   <Button className='mt-6' variant="contained" > Booking</Button>
                 </div>
-              </div>
-            </div>
+               </div>
+               
+
+               {showData && (
+                <div>
+                  <div className='relative mb-20 bg-[#ebebeb]'>
+                    <BusSeatSelection />
+                  </div>
+                </div>
+                )}
+               </div>
           ))}
+
         </div>
       </body>
     </>
