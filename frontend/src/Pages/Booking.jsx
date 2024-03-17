@@ -518,16 +518,16 @@ const Booking = () => {
         </div>
       </div>
 
-      <body className='bg-[#F7F7F7] mt-5 '>
-        <div className='ml-[44vh]  pt-5 pb-5  border-[#C8C8C8] shadow-[#b7acac] rounded-md'>
+      <body className='bg-[#F7F7F7]  '>
+        {/* <div className='ml-[44vh]  pt-5 pb-5  border-[#C8C8C8] shadow-[#b7acac] rounded-md'>
           <ButtonGroup   >
             <Button className='w-72' sx={{ color: "black" }}>{formattedCurrentDate}</Button>
             <Button className='w-72' sx={{ color: "black" }}>{formattedYesterday}</Button>
             <Button className='w-72' sx={{ color: "black" }}> {formattedTomorrow}</Button>
           </ButtonGroup>
-        </div>
+        </div> */}
 
-        <div className='overflow-y-auto h-[46vh] '>
+        <div className='overflow-y-auto h-[58vh] p-5 '>
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
@@ -550,18 +550,18 @@ const Booking = () => {
                 <span className='  '><PhotoCameraFrontIcon /></span>
               </span>
               <span className='  mb-1 ml-20  '> <Groups2Icon /> Almost full </span>
-{/* DOWN */}
+              {/* DOWN */}
 
 
               <div className='flex justify-center' >
 
 
-               
+
 
                 <div onClick={toggleVisibility} className='  cursor-pointer hover:text-[red]'>
                   bus Photos
                   <div>
-                    
+
 
 
                   </div>
@@ -581,23 +581,37 @@ const Booking = () => {
                   | bus Photos
                 </div>
 
-
+                
 
                 <div className='   mr-2 pb-3'>
 
                   <Button className='mt-6' variant="contained" > Booking</Button>
                 </div>
-               </div>
-               
+                
+              </div>
 
-               {showData && (
-                <div>
-                  <div className='relative mb-20 bg-[#ebebeb]'>
-                    <BusSeatSelection />
-                  </div>
+              <div className=' flex justify-end mr-10 bg-[#F7F7F7] '>
+
+
+
+
+
+
+
+
+
+
+
+
+                  <BusSeatSelection />
+
                 </div>
-                )}
-               </div>
+
+              <div>
+               
+              </div>
+
+            </div>
           ))}
 
         </div>

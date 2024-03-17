@@ -17,7 +17,7 @@ const khalti = asyncHandler(async (req, res) => {
   };
 
   try {
-    const verificationResponse = await axios.get("https://khalti.com/api/v2/payment/verify/", data, config);
+    const verificationResponse = await axios.post("https://khalti.com/api/v2/payment/verify/", data, config);
     console.log(verificationResponse.data); // Logging verification response
     res.status(200).json(verificationResponse.data); // Sending verification response to client
   } catch (error) {

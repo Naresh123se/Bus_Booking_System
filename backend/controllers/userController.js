@@ -190,6 +190,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+
+
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
@@ -217,6 +219,17 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const getUser = asyncHandler(async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json({ data: users });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: 'Failed to fetch users', error: error.message });
+  }
+});
+
+
 export {
   authUser,
   registerUser,
@@ -224,4 +237,5 @@ export {
   getUserProfile,
   updateUserProfile,
   verify,
+  getUser,
 };
