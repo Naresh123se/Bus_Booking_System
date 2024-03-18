@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 import { sendVerificationEmail } from "../email.js";
-import express from "express";
+
 
 import generateVerificationToken from "../utils/generateVerificationToken.js";
 

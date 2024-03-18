@@ -28,11 +28,11 @@ import Payment from './Booking/Payment.jsx';
 import Int_Payment from './Booking/Int_Payment.jsx';
 // *************
 
-
 import Main from './Admin/Main.jsx';
 import ALoginPage from './Admin/ALoginPage.jsx';
 import ABooking from './Admin/ABooking.jsx';
 import User from './Admin/User.jsx';
+import ABus from './Admin/Bus.jsx';
 
 
 import { Provider } from 'react-redux';
@@ -47,7 +47,7 @@ const router = createBrowserRouter(
       <Route path='/search' element={<Booking />} />
       <Route path='/Verify' element={<Verify />} />
       <Route path='/Profile' element={<Profile />} />
-      <Route path='/Bus' element={<Bus />} />
+      <Route path='/Bus' element={<Bus/>} />
       <Route path='/e' element={<BusSeatSelection />} />
       <Route path='/love' element={<LocationButton />} />
       <Route path='/Seat' element={<Seat />} />
@@ -66,6 +66,7 @@ const router = createBrowserRouter(
        <Route path='admin/Loginpage' element={<ALoginPage />} />
        <Route path='admin/Schedule' element={<ABooking />} />
        <Route path='admin/Passenger' element={<User />} />
+       <Route path='admin/Bus' element={<ABus />} />
 
       </Route>  
       

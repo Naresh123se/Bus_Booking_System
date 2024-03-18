@@ -222,7 +222,7 @@ const ABooking = () => {
             )}
 
             <div>
-            <table className="min-w-full   ">
+            <table className="min-w-full">
               <thead className="">
                 <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
                   <th className="w-1/12">Select</th>

@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import booking from './routes/booking.js';
-import seat from './routes/seat.js';
+import bus from './routes/bus.js';
 import busSchedules from './routes/busSchedules.js';
 import passenger from './routes/passenger.js';
 import khalti from './routes/khalti.js';
@@ -27,7 +27,7 @@ app.use(cookieParser());
  
 app.use('/api/users', userRoutes);
 app.use('/api/Booking',booking);
-app.use('/api',seat);
+app.use('/api',bus);
 app.use('/api',busSchedules);
 app.use('/api',khalti);
 app.use('/api',passenger);

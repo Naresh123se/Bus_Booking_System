@@ -28,8 +28,8 @@ const AIndex = () => {
   const Passenger = () => {
     handleClick('Passenger');
   };
-  const Ticket = () => {
-    handleClick('Ticket');
+  const Bus = () => {
+    handleClick('Bus');
   };
 
   const Schedule = () => {
@@ -62,12 +62,12 @@ const AIndex = () => {
             </div>
           </div>
 
-          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Ticket' ? 'bg-[#4f5e7a]' : ''}`} onClick={Ticket}>
+          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Bus' ? 'bg-[#4f5e7a]' : ''}`} onClick={Bus}>
             <div>
               <FontAwesomeIcon icon={faTicket} beatFade />
             </div>
             <div>
-              Ticket
+              Bus
             </div>
           </div>
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Schedule' ? 'bg-[#4f5e7a]' : ''}`} onClick={Schedule}>
@@ -75,7 +75,7 @@ const AIndex = () => {
               <FontAwesomeIcon icon={faBusSimple} beatFade />
             </div>
             <div>
-              Bus
+            Schedule
             </div>
           </div>
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Report' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleReportClick}>
