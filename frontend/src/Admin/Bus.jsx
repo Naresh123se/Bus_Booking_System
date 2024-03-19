@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useAddbusMutation } from '../slices/bus.js';
-import { useGetbusMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/bus.js';
+import { useGetbusMutation, useEditbusMutation, useDeleteScheduleMutation } from '../slices/bus.js';
+import { MenuItem } from '@mui/material';
 
-const ABooking = () => {
+const Bus = () => {
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -20,15 +21,82 @@ const ABooking = () => {
 
   const [addbus] = useAddbusMutation();
   const [getbus] = useGetbusMutation();
-  const [editSchedule] = useEditScheduleMutation(); // Hook for editing schedule
+  const [editbus] = useEditbusMutation(); // Hook for editing schedule
   const [deleteSchedule] = useDeleteScheduleMutation(); // Hook for deleting schedule
 
-  const addData = (newData) => {
-    setData([newData, ...data]);
-    setShowAddPanel(false);
-  };
+
+
+  const [region1, setRegion1] = useState('');
+  const [lot, setLot] = useState('');
+  const [number, setNumber] = useState('');
+  const [alphabet, setAlphabet] = useState('');
+  const [capacity, setCapacity] = useState('');
+  const [seat, setSeat] = useState('');
+
+  // const addData = (newData) => {
+  //   setData([newData, ...data]);
+  //   setShowAddPanel(false);
+  // };
 
   // Inside ABooking component
+
+
+  useEffect(() => {
+    fetchData(); // Fetch data when the component mounts
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const result = await getbus();
+      const newData = result.data.data;
+
+      console.log("Original data:", newData); // Log the original data
+
+      // Create a copy of the newData array and then reverse it
+      const reversedData = [...newData].reverse();
+      console.log("Reversed data:", reversedData); // Log the reversed data
+
+      // Set the reversed data in the state
+      setData(reversedData);
+    } catch (error) {
+      console.error('Failed to fetch schedules:', error);
+    }
+  };
+
+
+
+
+  const handleAddSubmit = async (event) => {
+    event.preventDefault();
+    const { region1, lot, number, alphabet, capacity, seat } = event.target.elements;
+
+    try {
+      const response = await addbus({
+        region1: region1.value,
+        lot: lot.value,
+        number: number.value,
+        alphabet: alphabet.value,
+        capacity: capacity.value,
+        seat: seat.value
+
+
+
+
+      }).unwrap();
+      // addData(response.data);
+
+
+
+      // Show success message
+      toast.success('Data added successfully');
+      fetchData();
+    } catch (err) {
+      console.log(err)
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
+
 
   const deleteData = async (id) => {
     try {
@@ -49,39 +117,8 @@ const ABooking = () => {
 
 
 
-  const handleAddSubmit = async (event) => {
-
-    event.preventDefault();
-
-    // const { region, lot,number,alphabet,  capacity, seat   } = event.target.elements;
-
-    try {
-     await addbus({
-      region, lot,number,alphabet,  capacity, seat 
-     }).unwrap();
 
 
-
-      // const response = await addbus({
-      //   region: region.value,
-      //   lot: lot.value,
-      //   number: number.value,
-      //   alphabet: alphabet.value,
-      //   capacity: capacity.value,
-      //   seat: seat.value,
-      // }).unwrap();
-
-
-
-
-      // addData(response.data);
-      // Show success message
-      toast.success('Data added successfully');
-    } catch (err) {
-      console.log(err)
-      toast.error(err?.data?.message || err.error);
-    }
-  };
 
 
 
@@ -108,10 +145,10 @@ const ABooking = () => {
   const handleEditSubmit = async () => {
     try {
       console.log('editData:', editData); // Log editData to check its value
-      const response = await editSchedule({ id: editData._id, data: editData });
+      const response = await editbus({ id: editData._id, data: editData });
 
-      console.log('Response:', response);
-      console.log(editData);
+      // console.log('Response:', response);
+      // console.log(editData);
       if (!response || !response.data || !response.data.data) {
         throw new Error('Invalid response format');
       }
@@ -173,31 +210,11 @@ const ABooking = () => {
   };
 
 
-  const [region, setRegion] = useState('');
-  const [lot, setLot] = useState('');
-  const [number, setNumber] = useState('');
-  const [alphabet, setAlphabet] = useState('');
-  const [capacity, setCapacity] = useState('');
-  const [seat, setSeat] = useState('');
+
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchSchedules = async (e) => {
-      try {
 
-        const result = await getbus();
-        console.log(result)
-        setData(result.data.data);
-
-
-      } catch (error) {
-        console.error('Failed to fetch schedules:', error);
-      }
-    };
-
-    fetchSchedules();
-  }, []);
 
 
 
@@ -229,7 +246,7 @@ const ABooking = () => {
 
                       {/* <label htmlFor="license_plate_number">License Plate Number</label> */}
                       <div className="row">
-                        <select id="license_plate_region" className="form-control border rounded-lg " name="license_plate_region" required value={region} onChange={(e) => setRegion(e.target.value)}>
+                        <select type="text" className=" border rounded-lg" name="region1" required value={region1} onChange={(e) => setRegion1(e.target.value)}>
                           <option value="" selected="selected">-- Region --</option>
                           <option value="लुम्बिनी प्रदेश">लुम्बिनी प्रदेश</option>
 
@@ -274,10 +291,10 @@ const ABooking = () => {
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
-                      <input id="license_plate_lot" type="number" className="form-control border rounded-lg" name="license_plate_lot" min="0" placeholder="Lot" required value={lot} onChange={(e) => setLot(e.target.value)} />
+                      <input type="number" className="form-control border rounded-lg" name="lot" min="0" placeholder="Lot" required value={lot} onChange={(e) => setLot(e.target.value)} />
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
-                      <select id="license_plate_alphabet" className="form-control border rounded-lg" name="license_plate_alphabet" required value={alphabet} onChange={(e) => setAlphabet(e.target.value)}>
+                      <select className="form-control border rounded-lg" name="alphabet" required value={alphabet} onChange={(e) => setAlphabet(e.target.value)}>
                         <option value="" selected="selected">-- Alphabet --</option>
                         <option value="क">क</option>
 
@@ -353,11 +370,12 @@ const ABooking = () => {
                       </select>
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
-                      <input id="license_plate_number" type="number" className="form-control border rounded-lg " name="license_plate_number" min="0" placeholder="Number" required value={number} onChange={(e) => setNumber(e.target.value)} />
+                      <input type="number" className="form-control border rounded-lg " name="number" min="0" placeholder="Number" required value={number} onChange={(e) => setNumber(e.target.value)} />
                     </div>
                   </div>
-                  <input id="license_plate_number" type="number" className="form-control border rounded-lg " name="license_plate_number" min="0" placeholder="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
-                  <input id="license_plate_number" type="number" className="form-control border rounded-lg " name="license_plate_number" min="0" placeholder="seat Number" required value={seat} onChange={(e) => setSeat(e.target.value)} />
+                  <input type="number" className="form-control border rounded-lg " name="capacity" min="0" placeholder="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
+                  <input type="number" className="form-control border rounded-lg " name="seat" min="0" placeholder="seat Number" required value={seat} onChange={(e) => setSeat(e.target.value)} />
+
 
 
                   <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</Button>
@@ -388,7 +406,7 @@ const ABooking = () => {
                         <td className="w-28 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.region}</td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.region1}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.lot}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.number}</td>
                         <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.alphabet}</td>
@@ -411,14 +429,148 @@ const ABooking = () => {
         </div>
       </div>
 
-      <Dialog className='' open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle className='text-center '>Edit Schedule</DialogTitle>
-        <DialogContent >
-          <form className='flex flex-col gap-4 mt-2 '>
-            <TextField label="Start Time" name="startTime" value={editData.startTime} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="End Time" name="endTime" value={editData.endTime} onChange={handleEditInputChange} className='mb-3' />
+      <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        <DialogTitle className='text-center'>Edit Schedule</DialogTitle>
+        <DialogContent>
+          <form className='flex flex-col gap-4 mt-2'>
+            <TextField
+              select
+              label="Region"
+              name="region1"
+              value={editData.region1 || ''}
+              onChange={handleEditInputChange}
+              className='mb-3'
+            >
+              <MenuItem value="">-- Region --</MenuItem>
+              <MenuItem value="लुम्बिनी प्रदेश">लुम्बिनी प्रदेश</MenuItem>
+              <MenuItem value="कर्णाली प्रदेश">कर्णाली प्रदेश</MenuItem>
+              <MenuItem value="बागमती प्रदेश">बागमती प्रदेश</MenuItem>
+
+              <MenuItem value="गण्डकी प्रदेश">गण्डकी प्रदेश</MenuItem>
+
+              <MenuItem value="मधेश प्रदेश">मधेश प्रदेश</MenuItem>
+
+              <MenuItem value="प्रदेश ३">प्रदेश ३</MenuItem>
+
+              <MenuItem value="प्रदेश ६">प्रदेश ६</MenuItem>
+
+              <MenuItem value="प्रदेश २">प्रदेश २</MenuItem>
+
+              <MenuItem value="सुप.प्र">सुप.प्र</MenuItem>
+
+              <MenuItem value="बा">बा</MenuItem>
+
+              <MenuItem value="लु">लु</MenuItem>
+
+              <MenuItem value="रा">रा</MenuItem>
+
+              <MenuItem value="भे">भे</MenuItem>
+
+              <MenuItem value="ना">ना</MenuItem>
+
+              <MenuItem value="से">से</MenuItem>
+
+              <MenuItem value="मा">मा</MenuItem>
+
+              <MenuItem value="ग">ग</MenuItem>
+
+              <MenuItem value="ध">ध</MenuItem>
+
+              <MenuItem value="स">स</MenuItem>
+
+              <MenuItem value="ज">ज</MenuItem>
+            </TextField>
+
+            <TextField label="End Time" name="lot" value={editData.lot} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Start Location" name="number" value={editData.number} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="End Location" name="alphabet" value={editData.alphabet} onChange={handleEditInputChange} className='mb-3' />
+
+            <TextField
+              select
+              label="Alphabet"
+              name="alphabet"
+              value={editData.alphabet || ''}
+              onChange={handleEditInputChange}
+              className='mb-3'
+            >
+              <MenuItem value="" selected="selected">-- Alphabet --</MenuItem>
+              <MenuItem value="क">क</MenuItem>
+
+              <MenuItem value="ख">ख</MenuItem>
+
+              <MenuItem value="ग">ग</MenuItem>
+
+              <MenuItem value="घ">घ</MenuItem>
+
+              <MenuItem value="ङ">ङ</MenuItem>
+
+              <MenuItem value="च">च</MenuItem>
+
+              <MenuItem value="छ">छ</MenuItem>
+
+              <MenuItem value="ज">ज</MenuItem>
+
+              <MenuItem value="झ">झ</MenuItem>
+
+              <MenuItem value="ञ">ञ</MenuItem>
+
+              <MenuItem value="ट">ट</MenuItem>
+
+              <MenuItem value="ठ">ठ</MenuItem>
+
+              <MenuItem value="ड">ड</MenuItem>
+
+              <MenuItem value="ढ">ढ</MenuItem>
+
+              <MenuItem value="ण">ण</MenuItem>
+
+              <MenuItem value="त">त</MenuItem>
+
+              <MenuItem value="थ">थ</MenuItem>
+
+              <MenuItem value="द">द</MenuItem>
+
+              <MenuItem value="ध">ध</MenuItem>
+
+              <MenuItem value="न">न</MenuItem>
+
+              <MenuItem value="प">प</MenuItem>
+
+              <MenuItem value="फ">फ</MenuItem>
+
+              <MenuItem value="ब">ब</MenuItem>
+
+              <MenuItem value="भ">भ</MenuItem>
+
+              <MenuItem value="म">म</MenuItem>
+
+              <MenuItem value="य">य</MenuItem>
+
+              <MenuItem value="र">र</MenuItem>
+
+              <MenuItem value="ल">ल</MenuItem>
+
+              <MenuItem value="व">व</MenuItem>
+
+              <MenuItem value="श">श</MenuItem>
+
+              <MenuItem value="ष">ष</MenuItem>
+
+              <MenuItem value="स">स</MenuItem>
+
+              <MenuItem value="ह">ह</MenuItem>
+
+              <MenuItem value="क्ष">क्ष</MenuItem>
+
+              <MenuItem value="त्र">त्र</MenuItem>
+
+              <MenuItem value="ज्ञ">ज्ञ</MenuItem>
+
+
+
+            </TextField>
+
+
+
             <TextField label="Price" name="capacity" type="capacity" value={editData.capacity} onChange={handleEditInputChange} className='mb-3' />
           </form>
         </DialogContent>
@@ -428,8 +580,9 @@ const ABooking = () => {
         </DialogActions>
       </Dialog>
 
+
     </>
   );
 };
 
-export default ABooking;
+export default Bus;      

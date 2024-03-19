@@ -1,9 +1,11 @@
 import express from "express";
 import {
-    bus,
+    Buses,
     busget,
-} from "../controllers/bus.js";
+    updateBus,
+} from "../admin/bus.js";
 const router = express.Router();
-router.post("/addbus", bus);
+router.post("/addbus", Buses);
 router.get("/getbus", busget);
+router.put("/editbus/:id", updateBus);
 export default router;

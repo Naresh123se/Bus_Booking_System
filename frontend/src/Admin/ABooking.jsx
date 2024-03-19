@@ -29,25 +29,6 @@ const ABooking = () => {
   };
   // Inside ABooking component
 
-  const deleteData = async (id) => {
-    try {
-      console.log("ID:", id); // Check the value of id
-      const response = await deleteSchedule(id); // Assuming deleteSchedule accepts ID as a parameter
-
-      if (response.error) {
-        throw new Error(response.error.message || 'Failed to delete schedule');
-      }
-      setData(data.filter(item => item._id !== id));
-      toast.success('Schedule deleted successfully');
-    } catch (error) {
-      console.error('Failed to delete schedule:', error);
-      toast.error(error.message || 'Failed to delete schedule');
-    }
-  };
-
-
-
-
   const handleAddSubmit = async (event) => {
     event.preventDefault();
     const { startTime, endTime, startLocation, endLocation, price } = event.target.elements;
@@ -70,7 +51,21 @@ const ABooking = () => {
     }
   }; 
 
+  const deleteData = async (id) => {
+    try {
+      console.log("ID:", id); // Check the value of id
+      const response = await deleteSchedule(id); // Assuming deleteSchedule accepts ID as a parameter
 
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to delete schedule');
+      }
+      setData(data.filter(item => item._id !== id));
+      toast.success('Schedule deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete schedule:', error);
+      toast.error(error.message || 'Failed to delete schedule');
+    }
+  };
 
 
 
@@ -173,6 +168,7 @@ const ABooking = () => {
 
         const result = await get();
         setData(result.data.data);
+        console.log(result)
 
 
       } catch (error) {

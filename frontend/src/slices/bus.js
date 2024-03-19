@@ -19,9 +19,9 @@ export const bus = apiSlice.injectEndpoints({
       }),
     }),
 
-    editSchedule: builder.mutation({
+    editbus: builder.mutation({
       query: ({ id, data }) => ({
-        url: `${SCHEDULES_URL}/edit/${id}`,
+        url: `${SCHEDULES_URL}/editbus/${id}`,
         method: 'PUT',
         body: data, // Include data in the request body
       }),
@@ -40,7 +40,7 @@ export const bus = apiSlice.injectEndpoints({
 export const {
   useAddbusMutation,
   useGetbusMutation,
-  useEditScheduleMutation,
+  useEditbusMutation,
   useDeleteScheduleMutation,
 } = bus;
 

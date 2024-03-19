@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const busSchema = new mongoose.Schema(
   {
-    region: { 
+    region1: { 
       type: String,
        required: true },
     lot:

@@ -219,6 +219,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+//@get users
 const getUser = asyncHandler(async (req, res) => {
   try {
     const users = await User.find({});
