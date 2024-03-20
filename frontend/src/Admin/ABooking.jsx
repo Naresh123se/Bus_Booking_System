@@ -270,8 +270,8 @@ const ABooking = () => {
         <DialogTitle className='text-center '>Edit Schedule</DialogTitle>
         <DialogContent >
           <form className='flex flex-col gap-4 mt-2 '>
-            <TextField label="Start Time" name="startTime" value={editData.startTime} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="End Time" name="endTime" value={editData.endTime} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="Start Time" type='time' name="startTime" value={editData.startTime} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="End Time" type='time' name="endTime" value={editData.endTime} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Start Location" name="startLocation" value={editData.startLocation} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="End Location" name="endLocation" value={editData.endLocation} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Price" name="price" type="price" value={editData.price} onChange={handleEditInputChange} className='mb-3' />

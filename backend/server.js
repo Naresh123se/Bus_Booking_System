@@ -10,6 +10,7 @@ import booking from './routes/booking.js';
 import bus from './routes/bus.js';
 import busSchedules from './routes/busSchedules.js';
 import passenger from './routes/passenger.js';
+import seat from './routes/seat.js';
 import khalti from './routes/khalti.js';
 import {app} from "./google.js";
 import './email.js';
@@ -31,6 +32,7 @@ app.use('/api',bus);
 app.use('/api',busSchedules);
 app.use('/api',khalti);
 app.use('/api',passenger);
+app.use('/api',seat);
 
 
 if (process.env.NODE_ENV === 'production') {

@@ -34,7 +34,7 @@ import ABooking from './Admin/ABooking.jsx';
 import User from './Admin/User.jsx';
 import ABus from './Admin/Bus.jsx';
 
-
+// import BusSeatSelection from './Pages/BusSeatSelection.jsx'
 import { Provider } from 'react-redux';
 
 const router = createBrowserRouter(
@@ -56,6 +56,8 @@ const router = createBrowserRouter(
       <Route path='/PickD' element={<PickDirection />} />
       <Route path='/payment' element={<Payment />} />
       <Route path='/Ipayment' element={<Int_Payment />} />
+      <Route path='/hlo' element={<BusSeatSelection />} />
+
 
       {/* <Route path='/Extra' element={<Extra />} /> */}
 

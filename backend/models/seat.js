@@ -1,0 +1,16 @@
+import mongoose from "mongoose";
+
+const seatSchema = new mongoose.Schema(
+  {
+    selectedSeats: [Number],
+    userId: {
+      type: String,
+      required: true 
+    }
+  },
+  { timestamps: true }
+);
+
+const Seat = mongoose.model("Seat", seatSchema);
+
+export default Seat;
