@@ -3,7 +3,6 @@ import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 import { sendVerificationEmail } from "../email.js";
 
-
 import generateVerificationToken from "../utils/generateVerificationToken.js";
 
 // @desc    Auth user & get token
@@ -116,7 +115,9 @@ const registerUser = asyncHandler(async (req, res) => {
       // Handle error if creating user fails
 
       console.error("Error registering user:", error);
-      res.status(500).json({ message: "An error occurred while registering user" });
+      res
+        .status(500)
+        .json({ message: "An error occurred while registering user" });
     }
   } else {
     res.status(500);
@@ -131,7 +132,11 @@ const verify = asyncHandler(async (req, res) => {
   const otherToken = req.query.otherToken;
 
   // Validate otherToken
-  if (!otherToken || typeof otherToken !== 'string' || otherToken.length === 0) {
+  if (
+    !otherToken ||
+    typeof otherToken !== "string" ||
+    otherToken.length === 0
+  ) {
     return res.status(400).json({ success: false, message: "Invalid token" });
   }
 
@@ -140,26 +145,46 @@ const verify = asyncHandler(async (req, res) => {
 
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found with this verification token" });
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "User not found with this verification token",
+        });
     }
 
     // Check if user is already verified
     if (user.isVerified) {
-      return res.status(200).json({ success: true, message: "User is already verified", verificationStatus: "alreadyVerified" });
+      return res
+        .status(200)
+        .json({
+          success: true,
+          message: "User is already verified",
+          verificationStatus: "alreadyVerified",
+        });
     }
 
-    // Mark user as verified 
+    // Mark user as verified
     user.isVerified = true;
     await user.save();
 
-    res.status(200).json({ success: true, message: "Verification successful", verificationStatus: "success" });
-
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Verification successful",
+        verificationStatus: "success",
+      });
   } catch (err) {
     console.error("Error occurred during verification:", err);
-    res.status(500).json({ success: false, message: "An error occurred during verification" });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "An error occurred during verification",
+      });
   }
 });
-
 
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/logout
@@ -189,8 +214,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
-
-
 
 // @desc    Update user profile
 // @route   PUT /api/users/profile
@@ -226,10 +249,11 @@ const getUser = asyncHandler(async (req, res) => {
     res.status(200).json({ data: users });
   } catch (error) {
     console.error("Error fetching users:", error);
-    res.status(500).json({ message: 'Failed to fetch users', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch users", error: error.message });
   }
 });
-
 
 export {
   authUser,

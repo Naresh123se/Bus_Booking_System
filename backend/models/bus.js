@@ -2,24 +2,15 @@ import mongoose from "mongoose";
 
 const busSchema = new mongoose.Schema(
   {
-    region1: { 
+    name1: { type: String, required: true },
+    capacity: { type: String, required: true },
+    region1: {
       type: String,
-       required: true },
-    lot:
-     { type: String,
-       required: true },
-    number: 
-    { type: Number,
-       required: true },
-    alphabet: 
-    { type: String, 
-      required: true },
-    capacity: 
-    { type: String, 
-      required: true },
-    seat: 
-    { type: String, 
-    required: true },
+      required: true,
+    },
+    lot: { type: String, required: true },
+    number: { type: Number, required: true },
+    alphabet: { type: String, required: true },
   },
   { timestamps: true }
 );

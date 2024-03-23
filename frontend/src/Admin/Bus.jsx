@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useAddbusMutation } from '../slices/bus.js';
-import { useGetbusMutation, useEditbusMutation, useDeleteScheduleMutation } from '../slices/bus.js';
+import { useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
 import { MenuItem } from '@mui/material';
 
 const Bus = () => {
@@ -22,16 +22,17 @@ const Bus = () => {
   const [addbus] = useAddbusMutation();
   const [getbus] = useGetbusMutation();
   const [editbus] = useEditbusMutation(); // Hook for editing schedule
-  const [deleteSchedule] = useDeleteScheduleMutation(); // Hook for deleting schedule
+  const [deleteSchedule] = useDeletebusMutation(); // Hook for deleting schedule
 
 
 
+  const [name1, setName1] = useState('');
   const [region1, setRegion1] = useState('');
   const [lot, setLot] = useState('');
   const [number, setNumber] = useState('');
   const [alphabet, setAlphabet] = useState('');
   const [capacity, setCapacity] = useState('');
-  const [seat, setSeat] = useState('');
+  // const [seat, setSeat] = useState('');
 
   // const addData = (newData) => {
   //   setData([newData, ...data]);
@@ -65,36 +66,33 @@ const Bus = () => {
 
 
 
-
   const handleAddSubmit = async (event) => {
     event.preventDefault();
-    const { region1, lot, number, alphabet, capacity, seat } = event.target.elements;
+    const { name1, capacity, region1, lot, number, alphabet } = event.target.elements;
 
+  
     try {
       const response = await addbus({
+        name1: name1.value,
+        capacity: capacity.value,
         region1: region1.value,
         lot: lot.value,
         number: number.value,
-        alphabet: alphabet.value,
-        capacity: capacity.value,
-        seat: seat.value
-
-
-
-
+        alphabet: alphabet.value
       }).unwrap();
-      // addData(response.data);
-
-
-
+      
       // Show success message
       toast.success('Data added successfully');
+      
+      // Assuming fetchData is a function to refetch data after adding a bus
       fetchData();
     } catch (err) {
-      console.log(err)
+      console.log(err);
+      // Show error message
       toast.error(err?.data?.message || err.error);
     }
   };
+  
 
 
 
@@ -234,17 +232,18 @@ const Bus = () => {
             </div>
 
             {showAddPanel && (
-              <div className="bg-white ml-5  ">
+              <div className="bg-white ml-10  ">
                 <h1 className="text-md font-semibold">Add New Buses</h1>
-                <h1 className='font-semibold'> Bus Number</h1>
+                <h1 className='font-semibold flex justify-center mr-80 text-[#4a81da]'> Bus Number</h1>
                 <form onSubmit={handleAddSubmit} className="flex gap-10">
 
+                  <input type="text" className=" border rounded-lg " name="name1" placeholder="BusName" required value={name1} onChange={(e) => setName1(e.target.value)} />
+                  <input type="number" className="form-control border rounded-lg " name="capacity" min="0" placeholder="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
 
                   <div className="flex gap-5 border-[#4a81da] border  rounded  xl p-1">
 
                     <div className="">
 
-                      {/* <label htmlFor="license_plate_number">License Plate Number</label> */}
                       <div className="row">
                         <select type="text" className=" border rounded-lg" name="region1" required value={region1} onChange={(e) => setRegion1(e.target.value)}>
                           <option value="" selected="selected">-- Region --</option>
@@ -373,8 +372,7 @@ const Bus = () => {
                       <input type="number" className="form-control border rounded-lg " name="number" min="0" placeholder="Number" required value={number} onChange={(e) => setNumber(e.target.value)} />
                     </div>
                   </div>
-                  <input type="number" className="form-control border rounded-lg " name="capacity" min="0" placeholder="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
-                  <input type="number" className="form-control border rounded-lg " name="seat" min="0" placeholder="seat Number" required value={seat} onChange={(e) => setSeat(e.target.value)} />
+                  {/* <input type="number" className="form-control border rounded-lg " name="seat" min="0" placeholder="seat Number" required value={seat} onChange={(e) => setSeat(e.target.value)} /> */}
 
 
 
@@ -406,12 +404,13 @@ const Bus = () => {
                         <td className="w-28 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.name1}</td>
                         <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.region1}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.lot}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.number}</td>
                         <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.alphabet}</td>
                         <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.capacity}</td>
-                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.seat}</td>
+
                         <td className="flex gap-2">
                           <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
                           <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}><DeleteIcon className='text-white' /></button>
@@ -433,6 +432,9 @@ const Bus = () => {
         <DialogTitle className='text-center'>Edit Schedule</DialogTitle>
         <DialogContent>
           <form className='flex flex-col gap-4 mt-2'>
+            <TextField label="Name" name="name1" type="text" value={editData.name1} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="capacity" name="capacity" type="number" value={editData.capacity} onChange={handleEditInputChange} className='mb-3' />
+
             <TextField
               select
               label="Region"
@@ -481,8 +483,8 @@ const Bus = () => {
               <MenuItem value="ज">ज</MenuItem>
             </TextField>
 
-            <TextField label="End Time" name="lot" value={editData.lot} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="Start Location" name="number" value={editData.number} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="Lot" name="lot" value={editData.lot} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="Number" name="number" value={editData.number} onChange={handleEditInputChange} className='mb-3' />
 
             <TextField
               select
@@ -571,7 +573,6 @@ const Bus = () => {
 
 
 
-            <TextField label="Price" name="capacity" type="capacity" value={editData.capacity} onChange={handleEditInputChange} className='mb-3' />
           </form>
         </DialogContent>
         <DialogActions>

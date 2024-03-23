@@ -12,6 +12,7 @@ import { useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutat
 
 const ABooking = () => {
   const [data, setData] = useState([]);
+  const [buses, setBuses] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState({});
@@ -31,9 +32,10 @@ const ABooking = () => {
 
   const handleAddSubmit = async (event) => {
     event.preventDefault();
-    const { startTime, endTime, startLocation, endLocation, price } = event.target.elements;
+    const { bus, startTime, endTime, startLocation, endLocation, price } = event.target.elements;
     try {
       const response = await add({
+        bus: bus.value,
         startTime: startTime.value,
         endTime: endTime.value,
         startLocation: startLocation.value,
@@ -49,7 +51,7 @@ const ABooking = () => {
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
-  }; 
+  };
 
   const deleteData = async (id) => {
     try {
@@ -155,6 +157,7 @@ const ABooking = () => {
   };
 
 
+  const [bus, setBus] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [startLocation, setStartLocation] = useState('');
@@ -186,6 +189,21 @@ const ABooking = () => {
     setStartTime(`${hours}:${minutes}`);
     setEndTime(`${hours}:${minutes}`);
 
+
+    const busesfetch = async (e) => {
+      try {
+
+        const result = await get();
+        setData(result.data.data);
+        console.log(result)
+
+
+      } catch (error) {
+        console.error('Failed to fetch schedules:', error);
+      }
+    };
+
+
   }, []);
 
   return (
@@ -196,7 +214,7 @@ const ABooking = () => {
         </div>
 
         <div className='  w-full'>
-          <div style={{  }}>
+          <div style={{}}>
             <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
               Booking Schedules
               <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
@@ -207,6 +225,12 @@ const ABooking = () => {
               <div className="bg-white p-4 mb-4 ml-5  ">
                 <h1 className="text-md font-semibold mb-2">Add New Schedules </h1>
                 <form onSubmit={handleAddSubmit} className='flex gap-10'>
+                  <select value={bus} onChange={e => setBus(e.target.value)}>
+                    <option value="">Select a bus</option>
+                    {buses.map(bus => (
+                      <option key={bus._id} value={bus._id}>{bus.name}</option>
+                    ))}
+                  </select>
                   <input type="time" name="startTime" placeholder=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
                   <input type="time" name="endTime" placeholder="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <input type="text" name="startLocation" placeholder="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
@@ -218,53 +242,53 @@ const ABooking = () => {
             )}
 
             <div>
-            <table className="min-w-full">
-              <thead className="">
-                <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
-                  <th className="w-1/12">Select</th>
-                  <th className="w-1/12">Start Time</th>
-                  <th className="w-2/12">End Time</th>
-                  <th className="w-2/12">Start Location</th>
-                  <th className="w-2/12">End Location</th>
-                  <th className="w-2/12">Price</th>
-                  <th className="w-1/12">Actions</th>
-                </tr>
-              </thead>
-
-
-
-             
-
-            
-              <tbody  className='  '   style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                <div className='h-[78.5vh]  overflow-y-auto  w-full'>
-                
-                {data.map((item, index) => (
-                  <tr key={item.id} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}  className='flex'>
-                    <td className="w-28 ml-12">
-                      <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
-                    </td>
-                    <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime}</td>
-                    <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
-                    <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>
-                    <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endLocation}</td>
-                    <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
-                    <td className="flex gap-2">
-                      <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
-                      <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}><DeleteIcon className='text-white' /></button>
-                    </td>
+              <table className="min-w-full">
+                <thead className="">
+                  <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
+                    <th className="w-1/12">Select</th>
+                    <th className="w-1/12">Start Time</th>
+                    <th className="w-2/12">End Time</th>
+                    <th className="w-2/12">Start Location</th>
+                    <th className="w-2/12">End Location</th>
+                    <th className="w-2/12">Price</th>
+                    <th className="w-1/12">Actions</th>
                   </tr>
-                ))}
-                </div>
-              </tbody>
-          
+                </thead>
 
-            </table>
+
+
+
+
+
+                <tbody className='  ' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+                  <div className='h-[78.5vh]  overflow-y-auto  w-full'>
+
+                    {data.map((item, index) => (
+                      <tr key={item.id} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} className='flex'>
+                        <td className="w-28 ml-12">
+                          <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
+                        </td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime}</td>
+                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
+                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>
+                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endLocation}</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
+                        <td className="flex gap-2">
+                          <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
+                          <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}><DeleteIcon className='text-white' /></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </div>
+                </tbody>
+
+
+              </table>
             </div>
 
-            </div>
-            </div>
-           </div>
+          </div>
+        </div>
+      </div>
 
       <Dialog className='' open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
         <DialogTitle className='text-center '>Edit Schedule</DialogTitle>

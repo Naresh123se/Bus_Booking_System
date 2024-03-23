@@ -20,12 +20,13 @@ import Bus from './Way/Bus.jsx';
 import BusSeatSelection from './Pages/BusSeatSelection.jsx';
 import LocationButton from './Pages/LocationButton.jsx';
 import Seat from './Booking/Seat.jsx';
+import Ticket from './Booking/Ticket.jsx';
 
 
 import Extra from './Pages/Extra.jsx';
 import PickDirection from './Directions/PickDirection.jsx';
 import Payment from './Booking/Payment.jsx';
-import Int_Payment from './Booking/Int_Payment.jsx';
+// import Int_Payment from './Booking/Int_Payment.jsx';
 // *************
 
 import Main from './Admin/Main.jsx';
@@ -55,8 +56,9 @@ const router = createBrowserRouter(
       <Route path='/Extra' element={<Extra />} />
       <Route path='/PickD' element={<PickDirection />} />
       <Route path='/payment' element={<Payment />} />
-      <Route path='/Ipayment' element={<Int_Payment />} />
+      {/* <Route path='/Ipayment' element={<Int_Payment />} /> */}
       <Route path='/hlo' element={<BusSeatSelection />} />
+      <Route path='/Ticket' element={<Ticket />} />
 
 
       {/* <Route path='/Extra' element={<Extra />} /> */}

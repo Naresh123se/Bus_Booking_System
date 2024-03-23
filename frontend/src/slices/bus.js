@@ -41,6 +41,6 @@ export const {
   useAddbusMutation,
   useGetbusMutation,
   useEditbusMutation,
-  useDeleteScheduleMutation,
+  useDeletebusMutation,
 } = bus;
 

@@ -1,0 +1,45 @@
+
+
+
+import asyncHandler from "express-async-handler";
+import { Bus11 , Schedule11 } from "../models/naresh.js";
+
+
+// Route to get all buses
+const buses = asyncHandler(async (req, res) => {
+// bus.get('/buses', async (req, res) => {
+    try {
+        const buses = await Bus11.find();
+        res.json(buses);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Route to create a schedule
+const schedu = asyncHandler(async (req, res) => {
+// bus.post('/schedules', async (req, res) => {
+    try {
+        const { busId, startTime, endTime } = req.body;
+
+        // Ensure the bus exists
+        const bus = await Bus11.findById(busId);
+        if (!bus) {
+            return res.status(400).json({ error: 'Selected bus does not exist' });
+        }
+
+        // Create the schedule
+        const schedule = new Schedule11({
+            bus: busId,
+            startTime,
+            endTime
+        });
+
+        await schedule.save();
+        res.status(201).json(schedule);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+export { buses, schedu};
