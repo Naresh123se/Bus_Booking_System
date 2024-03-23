@@ -2,14 +2,14 @@
 
 
 import asyncHandler from "express-async-handler";
-import { Bus11 , Schedule11 } from "../models/naresh.js";
+import { Bus , Schedule11 } from "../models/naresh.js";
 
 
 // Route to get all buses
 const buses = asyncHandler(async (req, res) => {
 // bus.get('/buses', async (req, res) => {
     try {
-        const buses = await Bus11.find();
+        const buses = await Bus.find();
         res.json(buses);
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
@@ -23,7 +23,7 @@ const schedu = asyncHandler(async (req, res) => {
         const { busId, startTime, endTime } = req.body;
 
         // Ensure the bus exists
-        const bus = await Bus11.findById(busId);
+        const bus = await Bus.findById(busId);
         if (!bus) {
             return res.status(400).json({ error: 'Selected bus does not exist' });
         }

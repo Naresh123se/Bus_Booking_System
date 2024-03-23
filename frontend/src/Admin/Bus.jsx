@@ -50,6 +50,7 @@ const Bus = () => {
     try {
       const result = await getbus();
       const newData = result.data.data;
+      
 
       console.log("Original data:", newData); // Log the original data
 
@@ -59,6 +60,8 @@ const Bus = () => {
 
       // Set the reversed data in the state
       setData(reversedData);
+
+      
     } catch (error) {
       console.error('Failed to fetch schedules:', error);
     }

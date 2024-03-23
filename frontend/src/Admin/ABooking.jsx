@@ -7,8 +7,8 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@m
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
-import { useAddMutation } from '../slices/busSchedules.js';
-import { useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
+import {useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
+import { useGetbusMutation } from '../slices/bus.js';
 
 const ABooking = () => {
   const [data, setData] = useState([]);
@@ -21,8 +21,19 @@ const ABooking = () => {
 
   const [add] = useAddMutation();
   const [get] = useGetScheduleMutation();
+  const [getbus] = useGetbusMutation();
+
   const [editSchedule] = useEditScheduleMutation(); // Hook for editing schedule
   const [deleteSchedule] = useDeleteScheduleMutation(); // Hook for deleting schedule
+
+  const [bus, setBus] = useState('');
+  const [selectedBus, setSelectedBus] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [startLocation, setStartLocation] = useState('');
+  const [endLocation, setEndLocation] = useState('');
+  const [price, setPrice] = useState('');
+  const navigate = useNavigate();
 
   const addData = (newData) => {
     setData([newData, ...data]);
@@ -32,10 +43,10 @@ const ABooking = () => {
 
   const handleAddSubmit = async (event) => {
     event.preventDefault();
-    const { bus, startTime, endTime, startLocation, endLocation, price } = event.target.elements;
+    const { busId:selectedBus, startTime, endTime, startLocation, endLocation, price } = event.target.elements;
     try {
       const response = await add({
-        bus: bus.value,
+        selectedBus: selectedBus.value,
         startTime: startTime.value,
         endTime: endTime.value,
         startLocation: startLocation.value,
@@ -68,6 +79,30 @@ const ABooking = () => {
       toast.error(error.message || 'Failed to delete schedule');
     }
   };
+  useEffect(() => {
+    fetchData(); // Fetch data when the component mounts
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const result = await getbus();
+      const newData = result.data.data;
+
+      console.log("Original data1:", newData); // Log the original data
+
+      // Create a copy of the newData array and then reverse it
+      const reversedData = [...newData].reverse();
+      console.log("Reversed data:", reversedData); // Log the reversed data
+
+      
+      // Set the reversed data in the state
+      setBuses(reversedData);
+    } catch (error) {
+      console.error('Failed to fetch schedules:', error);
+    }
+  };
+
+
 
 
 
@@ -157,13 +192,7 @@ const ABooking = () => {
   };
 
 
-  const [bus, setBus] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [startLocation, setStartLocation] = useState('');
-  const [endLocation, setEndLocation] = useState('');
-  const [price, setPrice] = useState('');
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchSchedules = async (e) => {
@@ -202,7 +231,7 @@ const ABooking = () => {
         console.error('Failed to fetch schedules:', error);
       }
     };
-
+console.log(buses)
 
   }, []);
 
@@ -225,17 +254,17 @@ const ABooking = () => {
               <div className="bg-white p-4 mb-4 ml-5  ">
                 <h1 className="text-md font-semibold mb-2">Add New Schedules </h1>
                 <form onSubmit={handleAddSubmit} className='flex gap-10'>
-                  <select value={bus} onChange={e => setBus(e.target.value)}>
+                  <select className='border-[#F0F0F0] border rounded-lg ' value={selectedBus} onChange={e => setSelectedBus(e.target.value)}>
                     <option value="">Select a bus</option>
                     {buses.map(bus => (
-                      <option key={bus._id} value={bus._id}>{bus.name}</option>
+                      <option key={bus._id} value={bus._id}>{bus.name1}</option>
                     ))}
                   </select>
                   <input type="time" name="startTime" placeholder=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
                   <input type="time" name="endTime" placeholder="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <input type="text" name="startLocation" placeholder="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <input type="text" name="endLocation" placeholder="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <input type="number" name="price" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#792b2b]   rounded-md" />
+                  <input type="number" name="price" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
                   <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</Button>
                 </form>
               </div>
@@ -255,11 +284,6 @@ const ABooking = () => {
                   </tr>
                 </thead>
 
-
-
-
-
-
                 <tbody className='  ' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                   <div className='h-[78.5vh]  overflow-y-auto  w-full'>
 
@@ -268,6 +292,7 @@ const ABooking = () => {
                         <td className="w-28 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.selectedBus}</td>
                         <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>

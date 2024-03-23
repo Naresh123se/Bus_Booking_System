@@ -1,11 +1,11 @@
 
 import asyncHandler from "express-async-handler";
-import { Bus11 } from "../models/naresh.js";
+import { Bus } from "../models/naresh.js";
 // Get all buses
 
 const na = asyncHandler(async (req, res) => {
     try {
-        const buses = await Bus11.find();
+        const buses = await Bus.find();
         res.json(buses);
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
@@ -16,7 +16,7 @@ const na = asyncHandler(async (req, res) => {
 const nar = asyncHandler(async (req, res) => {
     try {
         const { name, type, capacity } = req.body;
-        const newBus = new Bus11({ name, type, capacity });
+        const newBus = new Bus({ name, type, capacity });
         await newBus.save();
         res.status(201).json(newBus);
     } catch (error) {
@@ -27,7 +27,7 @@ const busdel = asyncHandler(async (req, res) => {
     try {
       const busId = req.params.id;
       console.log("Bus ID:", busId); // Add console log here
-      await Bus11.findByIdAndDelete(busId);
+      await Bus.findByIdAndDelete(busId);
       res.json({ message: 'Bus deleted successfully' });
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });

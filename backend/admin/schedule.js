@@ -1,12 +1,28 @@
 import asyncHandler from "express-async-handler";
-import Schedule from "../models/busSchedules.js";
+import {Bus, Schedule11} from "../models/naresh.js";
+
+
+const buses = asyncHandler(async (req, res) => {
+// bus.get('/buses', async (req, res) => {
+    try {
+        const buses = await Bus.find();
+        res.json(buses);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 const addSchedule = asyncHandler(async (req, res) => {
   try {
-    const { startTime, endTime, startLocation, endLocation, price } = req.body;
+    const { busId, startTime, endTime, startLocation, endLocation, price } = req.body;
     
+    const bus = await Bus.findById(busId);
+    if (!bus) {
+        return res.status(400).json({ error: 'Selected bus does not exist' });
+    }
 
     const schedule = await Schedule.create({
+      bus: busId,
       startTime,
       endTime,
       startLocation,
