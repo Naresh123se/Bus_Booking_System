@@ -1,5 +1,3 @@
-// models.js
-
 import mongoose from "mongoose";
 
 // Define the Bus schema
@@ -38,20 +36,34 @@ const scheduleSchema = new mongoose.Schema({
     required: true,
   },
   startTime: {
-    type: Date,
+    type: String,
     required: true,
   },
   endTime: {
-    type: Date,
+    type: String,
     required: true,
   },
-  // Add more fields as needed
+  startLocation: {
+    type: String,
+    required: true,
+  },
+  endLocation: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+},
+{
+  timestamps: true,
 });
 
 // Define the Bus model
 const Bus = mongoose.model("Bus", busSchema);
 
 // Define the Schedule model
-const Schedule11 = mongoose.model("Schedule11", scheduleSchema);
+const Schedule = mongoose.model("Schedule", scheduleSchema);
 
-export { Bus, Schedule11 };
+export { Bus, Schedule };

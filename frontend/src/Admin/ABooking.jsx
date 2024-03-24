@@ -7,7 +7,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@m
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
-import {useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
+import { useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
 import { useGetbusMutation } from '../slices/bus.js';
 
 const ABooking = () => {
@@ -26,8 +26,8 @@ const ABooking = () => {
   const [editSchedule] = useEditScheduleMutation(); // Hook for editing schedule
   const [deleteSchedule] = useDeleteScheduleMutation(); // Hook for deleting schedule
 
-  const [bus, setBus] = useState('');
-  const [selectedBus, setSelectedBus] = useState('');
+  const [busId, setBusId] = useState('');
+  const [bus20, setBus20] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [startLocation, setStartLocation] = useState('');
@@ -35,34 +35,79 @@ const ABooking = () => {
   const [price, setPrice] = useState('');
   const navigate = useNavigate();
 
-  const addData = (newData) => {
-    setData([newData, ...data]);
-    setShowAddPanel(false);
-  };
+  
   // Inside ABooking component
+
+
+  useEffect(() => {
+    fetchData(); 
+    fetchSchedules();
+    // Fetch data when the component mounts
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const result = await getbus();
+      const newData = result.data.data;
+      
+
+      console.log("Original data1:", newData); // Log the original data
+
+      // Create a copy of the newData array and then reverse it
+      const reversedData = [...newData].reverse();
+      console.log("Reversed data:", reversedData); // Log the reversed data
+
+      // Set the reversed data in the state
+      setBus20(reversedData);
+
+       
+    } catch (error) {
+      console.error('Failed to fetch schedules:', error);
+    }
+  };
+
+  
+
+    const fetchSchedules = async (e) => {
+      try {
+
+        const result = await get();
+
+        const newSchedules = result.data.data;
+
+
+
+        const reversedSchedules = [...newSchedules].reverse();
+        setData(reversedSchedules);
+  
+        console.log(result)
+
+
+      } catch (error) {
+        console.error('Failed to fetch schedules:', error);
+      }
+    };
+
+
+    const addData = (newData) => {
+      setData([newData, ...data]);
+      setShowAddPanel(false);
+    };
+
 
   const handleAddSubmit = async (event) => {
     event.preventDefault();
-    const { busId:selectedBus, startTime, endTime, startLocation, endLocation, price } = event.target.elements;
     try {
-      const response = await add({
-        selectedBus: selectedBus.value,
-        startTime: startTime.value,
-        endTime: endTime.value,
-        startLocation: startLocation.value,
-        endLocation: endLocation.value,
-        price: price.value
-      }).unwrap();
 
-      // Update local state with the newly added item
-      addData(response.data);
-
-      // Show success message
+      await add({ busId, startTime, endTime, startLocation, endLocation, price }).unwrap();
       toast.success('Data added successfully');
+      fetchSchedules();
     } catch (err) {
+      console.log(err)
       toast.error(err?.data?.message || err.error);
     }
   };
+
 
   const deleteData = async (id) => {
     try {
@@ -77,28 +122,6 @@ const ABooking = () => {
     } catch (error) {
       console.error('Failed to delete schedule:', error);
       toast.error(error.message || 'Failed to delete schedule');
-    }
-  };
-  useEffect(() => {
-    fetchData(); // Fetch data when the component mounts
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const result = await getbus();
-      const newData = result.data.data;
-
-      console.log("Original data1:", newData); // Log the original data
-
-      // Create a copy of the newData array and then reverse it
-      const reversedData = [...newData].reverse();
-      console.log("Reversed data:", reversedData); // Log the reversed data
-
-      
-      // Set the reversed data in the state
-      setBuses(reversedData);
-    } catch (error) {
-      console.error('Failed to fetch schedules:', error);
     }
   };
 
@@ -165,7 +188,7 @@ const ABooking = () => {
       if (selectedItems.length === 0) {
         throw new Error('Please select at least one item to delete.');
       }
-
+  
       // Loop through each selected item and delete it
       await Promise.all(selectedItems.map(async (id) => {
         const response = await deleteSchedule(id);
@@ -173,43 +196,28 @@ const ABooking = () => {
           throw new Error(response.error.message || 'Failed to delete schedule');
         }
       }));
-
+  
       // Remove deleted items from the data array
-      setData(data.filter(item => !selectedItems.includes(item._id)));
-
+      const updatedData = data.filter(item => !selectedItems.includes(item._id));
+      setData(updatedData);
+  
       // Clear selected items
       setSelectedItems([]);
-
+  
       // Clear checkboxes
       const checkboxes = document.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach(checkbox => checkbox.checked = false);
-
+  
       toast.success('Selected schedules deleted successfully');
     } catch (error) {
       console.error('Failed to delete schedules:', error);
       toast.error(error.message || 'Failed to delete schedules');
     }
   };
+  
 
 
 
-
-  useEffect(() => {
-    const fetchSchedules = async (e) => {
-      try {
-
-        const result = await get();
-        setData(result.data.data);
-        console.log(result)
-
-
-      } catch (error) {
-        console.error('Failed to fetch schedules:', error);
-      }
-    };
-
-    fetchSchedules();
-  }, []);
 
   useEffect(() => {
     const now = new Date();
@@ -219,19 +227,19 @@ const ABooking = () => {
     setEndTime(`${hours}:${minutes}`);
 
 
-    const busesfetch = async (e) => {
-      try {
+    // const busesfetch = async (e) => {
+    //   try {
 
-        const result = await get();
-        setData(result.data.data);
-        console.log(result)
+    //     const result = await get();
+    //     setData(result.data.data);
+    //     console.log(result)
 
 
-      } catch (error) {
-        console.error('Failed to fetch schedules:', error);
-      }
-    };
-console.log(buses)
+    //   } catch (error) {
+    //     console.error('Failed to fetch schedules:', error);
+    //   }
+    // };
+    // console.log(buses)
 
   }, []);
 
@@ -254,9 +262,12 @@ console.log(buses)
               <div className="bg-white p-4 mb-4 ml-5  ">
                 <h1 className="text-md font-semibold mb-2">Add New Schedules </h1>
                 <form onSubmit={handleAddSubmit} className='flex gap-10'>
-                  <select className='border-[#F0F0F0] border rounded-lg ' value={selectedBus} onChange={e => setSelectedBus(e.target.value)}>
-                    <option value="">Select a bus</option>
-                    {buses.map(bus => (
+                  <select type="text" className=" border rounded-lg" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
+
+
+                    {/* <select name="bus" defaultValue=""> */}
+                    <option value="" disabled>Select a bus</option>
+                    {bus20.map(bus => (
                       <option key={bus._id} value={bus._id}>{bus.name1}</option>
                     ))}
                   </select>
@@ -292,8 +303,9 @@ console.log(buses)
                         <td className="w-28 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.selectedBus}</td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime}</td>
+                        <td className="w" style={{ fontSize: '1.2rem', color: '#333' }}>{item.selectedBus}</td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.bus.name1   }</td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime   }</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>
                         <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endLocation}</td>

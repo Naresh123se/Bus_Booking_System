@@ -4,6 +4,7 @@ import {Bus} from "../models/naresh.js";
 const Buses = asyncHandler(async (req, res) => {
   // Extract parameters from the request body or query parameters
   const { name1 , region1, lot, number, alphabet, capacity } = req.body;
+  console.log(name1 , region1, lot, number, alphabet, capacity )
 
     if (!capacity || capacity.length === 0) {
       res.status(400);

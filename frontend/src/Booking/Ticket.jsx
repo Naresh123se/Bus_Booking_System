@@ -1,105 +1,45 @@
-// App.js
-import { toast } from 'react-toastify';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
-function Ticket() {
-  const [buses, setBuses] = useState([]);
-  const [selectedBus, setSelectedBus] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [bus, setBus] = useState('');
+import React, { useState } from 'react';
 
-  const [startLocation, setStartLocation] = useState('');
-  const [endLocation, setEndLocation] = useState('');
-  const [price, setPrice] = useState('');
-  const [add] = useAddMutation();
-  useEffect(() => {
-    // Fetch all buses when the component mounts
-    axios.get('/api/bus/bus11')
-      .then(response => {
-        setBuses(response.data);
-        console.log(buses)
-      })
-      .catch(error => {
-        console.error('Error fetching buses:', error);
-      });
-  }, []);
+const BusBookingSystem = () => {
+  const [selectedSeat, setSelectedSeat] = useState(null);
 
-  // const handleCreateSchedule = () => {
-  //   // Create a new schedule
-  //   axios.post('/api/bus/schedules', {
-  //     busId: selectedBus,
-  //     startTime,
-  //     endTime
-  //   })
-  //   .then(response => {
-  //     console.log('Schedule created:', response.data);
-  //     // Clear input fields after successful creation
-  //     setSelectedBus('');
-  //     setStartTime('');
-  //     setEndTime('');
-  //   })
-  //   .catch(error => {
-  //     console.error('Error creating schedule:', error);
-  //   });
-  // };
-
-  const handleCreateSchedule = async (event) => {
-    event.preventDefault();
-    const { bus, startTime, endTime, startLocation, endLocation, price } = event.target.elements;
-    try {
-      const response = await add({
-        selectedBus: bus.value,
-        startTime: startTime.value,
-        endTime: endTime.value,
-        startLocation: startLocation.value,
-        endLocation: endLocation.value,
-        price: price.value
-      }).unwrap();
-
-      // Update local state with the newly added item
-      // addData(response.data);
-
-      // Show success message
-      toast.success('Data added successfully');
-    } catch (err) {
-      console.log(err)
-      toast.error(err?.data?.message || err.error);
-    }
+  const handleSeatSelection = (seatNumber) => {
+    setSelectedSeat(seatNumber);
   };
 
+  const renderSeats = () => {
+    const totalSeats = 30; // Assuming there are 30 seats in the bus
 
+    const seats = [];
+    for (let i = 1; i <= totalSeats; i++) {
+      const isSeatSelected = selectedSeat === i;
+      const seatClassName = isSeatSelected ? 'selected-seat' : 'available-seat';
+      
+      seats.push(
+        <div
+          key={i}
+          className={seatClassName}
+          onClick={() => handleSeatSelection(i)}
+        >
+          {i}
+        </div>
+      );
+    }
 
+    return seats;
+  };
 
-
-  const currentDate = new Date().toISOString().split('T')[0];
   return (
-    <div>
-      <h1>Bus Schedule App</h1>
-      <h2>Create Schedule</h2>
-      <div>
-        <label>Select Bus:</label>
-        <select name="bus" defaultValue="">
-    <option value="" disabled>Select a bus</option>
-    {buses.map(bus => (
-      <option key={bus._id} value={bus._id}>{bus.name1}</option>
-    ))}
-  </select>
+    <div className="bus-booking-system">
+      <h2>Bus Booking System</h2>
+      <div className="seats-container">
+        {renderSeats()}
       </div>
-      <div>
-        <label>Start Time:</label>
-        <input type="datetime-local" value={startTime} onChange={e => setStartTime(e.target.value)} required />
+      <div className="selected-seat-info">
+        {selectedSeat && <p>Selected Seat: {selectedSeat}</p>}
       </div>
-      <div>
-        <label>End Time:</label>
-        <input type="date" value={endTime} min= {currentDate} onChange={e => setEndTime(e.target.value)} required />
-
-        
-      </div>
-      <button onClick={handleCreateSchedule}>Create Schedule</button>
     </div>
   );
-}
+};
 
-export default Ticket;
+export default BusBookingSystem;

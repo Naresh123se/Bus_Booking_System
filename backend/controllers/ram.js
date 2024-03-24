@@ -2,7 +2,7 @@
 
 
 import asyncHandler from "express-async-handler";
-import { Bus , Schedule11 } from "../models/naresh.js";
+import { Bus , Schedule } from "../models/naresh.js";
 
 
 // Route to get all buses
@@ -29,7 +29,7 @@ const schedu = asyncHandler(async (req, res) => {
         }
 
         // Create the schedule
-        const schedule = new Schedule11({
+        const schedule = new Schedule({
             bus: busId,
             startTime,
             endTime
