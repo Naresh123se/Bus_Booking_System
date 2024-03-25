@@ -230,6 +230,12 @@ const Booking = () => {
     }
   };
 
+  const book = (id) => {
+    localStorage.setItem("scheduleId", id);
+    navigate('/e');
+  }
+
+
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
@@ -584,8 +590,7 @@ const Booking = () => {
                 
 
                 <div className='   mr-2 pb-3'>
-
-                  <Button className='mt-6' variant="contained" > Booking</Button>
+                <Button className='mt-6' variant="contained" onClick={() => book(item._id)}>Booking</Button>
                 </div>
                 
               </div>
