@@ -1,16 +1,22 @@
 import mongoose from "mongoose";
 
-const seatSchema = new mongoose.Schema(
+const busseat = new mongoose.Schema(
   {
-    selectedSeats: [Number],
-    userId: {
-      type: String,
-      required: true 
-    }
+    schedule: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Schedule",
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    seseats: [Number],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
-
-const Seat = mongoose.model("Seat", seatSchema);
-
+const Seat = mongoose.model("Seat", busseat);
 export default Seat;

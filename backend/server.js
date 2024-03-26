@@ -14,8 +14,7 @@ import seat from './routes/seat.js';
 import khalti from './routes/khalti.js';
 import {app} from "./google.js";
 import './email.js';
-import ram from './routes/ram.js'
-import nar from './routes/nar.js'
+
 
 
 const port = process.env.PORT || 5000;
@@ -35,8 +34,8 @@ app.use('/api',busSchedules);
 app.use('/api',khalti);
 app.use('/api',passenger);
 app.use('/api',seat);
-app.use('/api/bus',ram);
-app.use('/api/ok',nar);
+
+
 
 
 if (process.env.NODE_ENV === 'production') {

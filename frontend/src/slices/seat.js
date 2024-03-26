@@ -11,9 +11,18 @@ export const seat = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    Getseat: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/getseat`,
+        method: 'GET',
+        body: data,
+      }),
+    }),
   }),
 });
 
 export const {
   useSelseatMutation,
+  useGetseatMutation,
 } = seat;

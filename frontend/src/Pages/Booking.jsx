@@ -608,7 +608,7 @@ const Booking = () => {
 
 
 
-                  <BusSeatSelection />
+                  {/* <BusSeatSelection /> */}
 
                 </div>
 

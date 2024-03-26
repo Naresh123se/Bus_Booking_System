@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
-import {Bus, Schedule} from "../models/naresh.js";
+import  Schedule  from "../models/busSchedules.js";
+import  Bus  from "../models/bus.js";
 
 
 // const buses = asyncHandler(async (req, res) => {

@@ -20,6 +20,9 @@ function Seat() {
       });
   }, []);
 
+
+
+  
   const handleAddBus = () => {
     // Create a new bus
     axios.post('/api/ok/nar', {

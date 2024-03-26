@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import Button from '@mui/joy/Button';
 import { ToastContainer, toast } from 'react-toastify';
-import { useSelseatMutation } from '../slices/seat';
+import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
+
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
@@ -15,8 +16,8 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
     disabled={isBooked}
   >
     {/* Icon */}
-    <span className="">
-      <WeekendIcon />
+    <span className=" ">
+      <WeekendIcon sx={{ fontSize: '40px' }}/>
     </span>
     {/* Selection Indicator */}
     {selected && (
@@ -26,19 +27,22 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
 );
 
 const BusSeatSelection = () => {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const bookedSeats = [3, 4, 10, 15]; // Update this array based on the seats that are already booked
+  const [seseats, setSeseats] = useState([]);
+ 
+  
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [Selseat] = useSelseatMutation();
+  const [Getseat] = useGetseatMutation();
   const [showSeat, setShowSeat] = useState(false);
 
   const [formData, setFormData] = useState([]);
   const [formError, setFormError] = useState(false);
   const [passengerNumber, setPassengerNumber] = useState(0);
-
+  const [seats, setSeats] = useState([]);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const passengerss = localStorage.getItem('search');
-
     const parsedData = JSON.parse(passengerss);
     const storedPassengerNumber = parsedData.count;
     // console.log(storedPassengerNumber)
@@ -48,18 +52,59 @@ const BusSeatSelection = () => {
   }, []);
 
 
-
   useEffect(() => {
-    const scheduleId = localStorage.getItem('scheduleId');
-    console.log(scheduleId);
+    fetchSeats(); 
+    const sceid = localStorage.getItem('scheduleId');
+    console.log(sceid);
   }, []);
 
+
+  const [seseatsArray, setSeseatsArray] = useState([]);
+
+const fetchSeats = async () => {
+  try {
+    const response = await Getseat();
+    const seatData = response.data.data; // Assuming this contains the array of seat objects
+    
+    // Extract seseats arrays from each seat object and concatenate them into a single array
+    const seseats = seatData.reduce((accumulator, seat) => {
+      return accumulator.concat(seat.seseats);
+    }, []);
+
+    const seatId = localStorage.getItem('scheduleId');
+    const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
+
+    console.log(filteredSeats);
+
+    // Extract selected seats from filteredSeats
+    const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
+      return accumulator.concat(seat.seseats);
+    }, []);
+
+    // Update seseatsArray state with the selected seats
+    setSeseatsArray(selectedSeats);
+
+    console.log(selectedSeats); // Output: Selected seats
+  } catch (error) {
+    console.error('Error fetching seat data:', error);
+    setError(error.message);
+  }
+};
+
+  
+
+ 
+
+  const bookedSeats =  seseatsArray; // need a sseats value here
+  // 
+
+  
 
 
   const handleSeatSelect = (seatNumber) => {
     // Check if the number of selected seats is less than or equal to the passenger number
-    if (selectedSeats.length < passengerNumber) {
-      setSelectedSeats((prevSeats) => {
+    if (seseats.length < passengerNumber) {
+      setSeseats((prevSeats) => {
         if (prevSeats.includes(seatNumber)) {
           return prevSeats.filter((seat) => seat !== seatNumber);
         } else {
@@ -76,9 +121,9 @@ const BusSeatSelection = () => {
 
 
   const handleClearSelection = () => {
-    setSelectedSeats([]);
+    setSeseats([]);
     setFormData([]);
-    localStorage.removeItem('selectedSeats');
+    localStorage.removeItem('seseats');
   };
 
   const userdata = async (event) => {
@@ -96,21 +141,54 @@ const BusSeatSelection = () => {
 
 
 
+  // const handleFormSubmit = async () => {
+  //   try {
+  //     // if (formData.length !== seseats.length) {
+  //     //   setFormError(true);
+  //     //   return;
+  //     // }
+  //     // setIsSubmitting(true);
+  //     // const user = JSON.parse(localStorage.getItem('userInfo'));
+  //     // const userId = user?.name;
+  //     // if (!userId) {
+  //     //   throw new Error('User not authenticated or userId not found');
+  //     // }
+  //     const response = await Selseat({scheduleId,  userId, seseats }).unwrap();
+
+  //     console.log(response);
+  //     toast.success('Seats booked successfully!');
+  //   } catch (error) {
+  //     console.error('Error occurred:', error);
+  //     toast.error('An error occurred while booking seats. Please try again.');
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+
+  
+
   const handleFormSubmit = async () => {
     try {
-      if (formData.length !== selectedSeats.length) {
+      if (formData.length !== seseats.length) {
         setFormError(true);
         return;
       }
       setIsSubmitting(true);
       const user = JSON.parse(localStorage.getItem('userInfo'));
-      const userId = user?.name;
+      const ScId = localStorage.getItem('scheduleId');
+      const userId = user?._id;
+      console.log(userId)
       if (!userId) {
         throw new Error('User not authenticated or userId not found');
       }
-      const response = await Selseat({ userId, selectedSeats, formData }).unwrap();
+      const response = await Selseat({ ScId, userId, seseats }).unwrap();
+      
+  
       console.log(response);
       toast.success('Seats booked successfully!');
+       fetchSeats();
+       handleClearSelection();
     } catch (error) {
       console.error('Error occurred:', error);
       toast.error('An error occurred while booking seats. Please try again.');
@@ -118,25 +196,26 @@ const BusSeatSelection = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   useEffect(() => {
-    const storedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+    const storedSeats = JSON.parse(localStorage.getItem('seseats'));
     if (storedSeats) {
-      setSelectedSeats(storedSeats);
+      setSeseats(storedSeats);
     }
   }, []);
 
 
 
   useEffect(() => {
-    localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+    localStorage.setItem('seseats', JSON.stringify(seseats));
     setFormError(false);
     const newFormData = [];
     for (let i = 0; i < passengerNumber; i++) {
       newFormData.push({ firstName: '', lastName: '' });
     }
     setFormData(newFormData);
-  }, [selectedSeats, passengerNumber]);
+  }, [seseats, passengerNumber]);
 
 
   const [showForm, setShowForm] = useState(false);
@@ -172,19 +251,19 @@ const BusSeatSelection = () => {
 
   return (
     <>
-    <div className='flex  '> 
+    <div className='flex'> 
     <div className='  ml-20 w-6/12    mt-5 rounded-lg '> 
     <div className="border  pl-5  rounded-lg pr-5 " >
     <div className='flex  mt-5 mb-5'>
-      <h1 className=' font-semibold text-2xl     size-8 flex  items-center justify-center border rounded-md    bg-[#009DF8]'>1</h1>
+      <h1 className=' font-semibold text-2xl size-8 flex  items-center justify-center border rounded-md    bg-[#009DF8]'>1</h1>
      <h1 className=' ml-4 text-[23px] font-semibold'> Seat Reservation</h1>
     </div>
   
-      <div  className='mb-5 border rounded-lg mr-2'>
+      <div  className='mb-5 p-2 border-2 border-[#aed2e8] border- rounded-lg mr-2 '>
         <ToastContainer />
-        <div className="flex">
-          <div className="border ">
-            <div className="size-6 mt-2 ml-44">
+        <div className="flex ">
+          <div className=" border-2 border-[#cbd5e3] drop-shadow-lg  bg-[#fafbfc] rounded-md pl-6 pr-6 ">
+            <div className="size-9 mt-5 mb-2 ml-60">
               <img src="steering.png" alt="steering" />
             </div>
             <div className="flex flex-col items-center">
@@ -195,7 +274,7 @@ const BusSeatSelection = () => {
                       <Seat
                         seatNumber={(row - 1) * columns.length + column}
                         isBooked={bookedSeats.includes((row - 1) * columns.length + column)}
-                        selected={selectedSeats.includes((row - 1) * columns.length + column)}
+                        selected={seseats.includes((row - 1) * columns.length + column)}
                         onSelect={handleSeatSelect}
                       />
                       {index === columns.length / 2 - 1 && <div style={{ width: '30px' }} />}
@@ -206,21 +285,29 @@ const BusSeatSelection = () => {
               ))}
             </div>
           </div>
-          <div className="border  pl-4   w-auto">
-            <div className="mt-3   l-20 mr-[20px]">
-              <WeekendIcon sx={{ marginLeft: '5px' }} /> = available <br />
-              <WeekendIcon sx={{ marginLeft: '5px', color: '#009DF8' }} /> = selected <br />
-              <WeekendIcon sx={{ marginLeft: '5px', color: '#CC5500' }} /> = unavailable <br />
-              Selected Seats: {selectedSeats.length} <br />
-              Selected Seats number: {selectedSeats.length > 0 ? selectedSeats.join(', ') : ''}
+          <div className="  pl-5  w-auto">
+            <div className=' border pl-2 rounded-lg mt-1'>
+
+          
+            <div className="mt-3   mr-[20px]">
+              <div className=" border-2 border-[#b8c4cb]  w-[104%]  rounded-lg bg-[#faf6f6]">
+
+            
+              <WeekendIcon sx={{ marginLeft: '5px', fontSize: '40px'  }}  />  <span className="text-[20px] "> = available</span>  
+              <WeekendIcon sx={{ marginLeft: '10px', color: '#009DF8',fontSize: '40px',  }} /> <span className="text-[20px]  "> = selected</span> <br />
+              <WeekendIcon sx={{ marginLeft: '5px', color: '#CC5500',fontSize: '40px' }} /> <span className="text-[20px] "> = unavailable</span> <br />
+              </div>
+              Selected Seats: {seseats.length} <br />
+              Selected Seats number: {seseats.length > 0 ? seseats.join(', ') : ''}
             </div>
-            <Button sx={{ marginTop: '10px', bgcolor: '#422bd6' }} onClick={handleClearSelection}>
+            <Button sx={{ marginTop: '10px', marginBottom: '10px', bgcolor: '#422bd6' }} onClick={handleClearSelection}>
               Clear
             </Button>
             <br />
             <Button sx={{ marginTop: '10px' }} onClick={handleFormSubmit} disabled={isSubmitting}>
               Submit
             </Button>
+          </div>
           </div>
         </div>
       </div>
@@ -313,17 +400,6 @@ const BusSeatSelection = () => {
     <Button type="submit">Submit</Button>
   </form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -80,7 +80,7 @@ const ABooking = () => {
         const reversedSchedules = [...newSchedules].reverse();
         setData(reversedSchedules);
   
-        console.log(result)
+        // console.log(result)
 
 
       } catch (error) {
@@ -98,7 +98,7 @@ const ABooking = () => {
   const handleAddSubmit = async (event) => {
     event.preventDefault();
     try {
-
+ 
       await add({ busId, startTime, endTime, startLocation, endLocation, price }).unwrap();
       toast.success('Data added successfully');
       fetchSchedules();

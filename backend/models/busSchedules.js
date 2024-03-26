@@ -4,6 +4,11 @@ import mongoose from "mongoose";
 // Define the schema for the Item model
 const busSchedules = new mongoose.Schema(
   {
+    bus: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bus",
+      required: true,
+    },
     startTime: {
       type: String,
       required: true,
@@ -29,6 +34,10 @@ const busSchedules = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+
+// Define the Bus model
+
 // Create the Item model based on the schema
 const Schedule = mongoose.model("Schedule", busSchedules);
 

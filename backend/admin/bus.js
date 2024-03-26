@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import {Bus} from "../models/naresh.js";
+import Bus from "../models/bus.js";
 
 const Buses = asyncHandler(async (req, res) => {
   // Extract parameters from the request body or query parameters
