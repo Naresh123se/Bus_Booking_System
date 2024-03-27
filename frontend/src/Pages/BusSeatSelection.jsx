@@ -41,6 +41,18 @@ const BusSeatSelection = () => {
   const [passengerNumber, setPassengerNumber] = useState(0);
   const [seats, setSeats] = useState([]);
   const [error, setError] = useState(null);
+
+  const [userdata1, setUserData1] = useState({
+    email: '',
+    phoneNumber: ''
+  })
+ const handleInputChange1 = (e) => {
+    setFormData({
+      ...userdata1,
+      [e.target.name]: e.target.value
+    });
+  };
+
   useEffect(() => {
     const passengerss = localStorage.getItem('search');
     const parsedData = JSON.parse(passengerss);
@@ -138,8 +150,8 @@ const fetchSeats = async () => {
     }
   };
 
-
-
+ 
+// console.log(formData)
 
   // const handleFormSubmit = async () => {
   //   try {
@@ -376,8 +388,8 @@ const fetchSeats = async () => {
         <input className='border rounded-md  p-2'
           type="email"
           name="email"
-          // value={data.firstName}
-          onChange={(e) => handleInputChange(index, e)}
+          value={userdata1.email}
+          onChange={handleInputChange1}
           placeholder="naresh@gmail.com"
           required
         />
@@ -387,8 +399,8 @@ const fetchSeats = async () => {
         <input className='border rounded-md p-2'
           type="tel"
           name="phoneNumber"
-          // value={data.lastName}
-          onChange={(e) => handleInputChange(index, e)}
+          value={userdata1.phoneNumber}
+          onChange={handleInputChange1}
           placeholder="9829111111"
           pattern="[0-9]{10}"  // Regular expression for a 10-digit phone number
           title="Please enter a valid 10-digit phone number"  // Error message to display if the pattern doesn't match

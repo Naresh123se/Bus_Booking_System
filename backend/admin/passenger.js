@@ -11,7 +11,7 @@ const deleteSchedule = asyncHandler(async (req, res) => {
     console.log("ID:", id);
 
     // Retrieve the schedule object
-    const schedule = await Schedule.findById(id);
+    const schedule = await passenger.findById(id);
     if (!schedule) {
       return res.status(404).json({ message: 'Schedule not found' });
     }

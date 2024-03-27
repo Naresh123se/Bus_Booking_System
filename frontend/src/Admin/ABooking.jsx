@@ -24,7 +24,7 @@ const ABooking = () => {
   const [getbus] = useGetbusMutation();
 
   const [editSchedule] = useEditScheduleMutation(); // Hook for editing schedule
-  const [deleteSchedule] = useDeleteScheduleMutation(); // Hook for deleting schedule
+  const [deleteSchedule1] = useDeleteScheduleMutation(); // Hook for deleting schedule
 
   const [busId, setBusId] = useState('');
   const [bus20, setBus20] = useState('');
@@ -75,10 +75,11 @@ const ABooking = () => {
 
         const newSchedules = result.data.data;
 
-
+// console.log(result)
 
         const reversedSchedules = [...newSchedules].reverse();
         setData(reversedSchedules);
+        // console.log(data)
   
         // console.log(result)
 
@@ -109,21 +110,21 @@ const ABooking = () => {
   };
 
 
-  const deleteData = async (id) => {
-    try {
-      console.log("ID:", id); // Check the value of id
-      const response = await deleteSchedule(id); // Assuming deleteSchedule accepts ID as a parameter
+  // const deleteData = async (id) => {
+  //   try {
+  //     console.log("ID11:", id); // Check the value of id
+  //     const response = await deleteSchedule(id); // Assuming deleteSchedule accepts ID as a parameter
 
-      if (response.error) {
-        throw new Error(response.error.message || 'Failed to delete schedule');
-      }
-      setData(data.filter(item => item._id !== id));
-      toast.success('Schedule deleted successfully');
-    } catch (error) {
-      console.error('Failed to delete schedule:', error);
-      toast.error(error.message || 'Failed to delete schedule');
-    }
-  };
+  //     if (response.error) {
+  //       throw new Error(response.error.message || 'Failed to delete schedule');
+  //     }
+  //     setData(data.filter(item => item._id !== id));
+  //     toast.success('Schedule deleted successfully');
+  //   } catch (error) {
+  //     console.error('Failed to delete schedule:', error);
+  //     toast.error(error.message || 'Failed to delete schedule');
+  //   }
+  // };
 
 
 
@@ -183,41 +184,85 @@ const ABooking = () => {
   };
 
 
+  // const handleDeleteSelected = async () => {
+  //   try {
+  //     if (selectedItems.length === 0) {
+  //       throw new Error('Please select at least one item to delete.');
+  //     }
+  
+  //     // Loop through each selected item and delete it
+  //     await Promise.all(selectedItems.map(async (id) => {
+  //       const response = await deleteSchedule(id);
+  //       if (response.error) {
+  //         throw new Error(response.error.message || 'Failed to delete schedule');
+  //       }
+  //     }));
+  
+  //     // Remove deleted items from the data array
+  //     const updatedData = data.filter(item => !selectedItems.includes(item._id));
+  //     setData(updatedData);
+  
+  //     // Clear selected items
+  //     setSelectedItems([]);
+  
+  //     // Clear checkboxes
+  //     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  //     checkboxes.forEach(checkbox => checkbox.checked = false);
+  
+  //     toast.success('Selected schedules deleted successfully');
+  //   } catch (error) {
+  //     console.error('Failed to delete schedules:', error);
+  //     toast.error(error.message || 'Failed to delete schedules');
+  //   }
+  // };
+  
+  const deleteData = async (id) => {
+    try {
+      console.log("ID:", id); // Check the value of id
+      const response = await deleteSchedule1(id); // Assuming deleteSchedule accepts ID as a parameter
+
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to delete schedule');
+      }
+      setData(data.filter(item => item._id !== id));
+      toast.success('Schedule deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete schedule:', error);
+      toast.error(error.message || 'Failed to delete schedule');
+    }
+  };
+
+
   const handleDeleteSelected = async () => {
     try {
       if (selectedItems.length === 0) {
         throw new Error('Please select at least one item to delete.');
       }
-  
+
       // Loop through each selected item and delete it
       await Promise.all(selectedItems.map(async (id) => {
-        const response = await deleteSchedule(id);
+        const response = await deleteSchedule1(id);
         if (response.error) {
           throw new Error(response.error.message || 'Failed to delete schedule');
         }
       }));
-  
+
       // Remove deleted items from the data array
-      const updatedData = data.filter(item => !selectedItems.includes(item._id));
-      setData(updatedData);
-  
+      setData(data.filter(item => !selectedItems.includes(item._id)));
+
       // Clear selected items
       setSelectedItems([]);
-  
+
       // Clear checkboxes
       const checkboxes = document.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach(checkbox => checkbox.checked = false);
-  
+
       toast.success('Selected schedules deleted successfully');
     } catch (error) {
       console.error('Failed to delete schedules:', error);
       toast.error(error.message || 'Failed to delete schedules');
     }
   };
-  
-
-
-
 
   useEffect(() => {
     const now = new Date();

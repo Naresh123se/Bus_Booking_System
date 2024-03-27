@@ -67,26 +67,23 @@ const updateSchedule = asyncHandler(async (req, res) => {
 
 const deleteSchedule = asyncHandler(async (req, res) => {
   try {
-    const { ids } = req.body; // Assuming you're sending an array of schedule IDs in the request body
-    
-    if (!ids || !Array.isArray(ids) || ids.length === 0) {
-      throw new Error('Please provide at least one schedule ID to delete.');
+    const { id } = req.params;
+    // Log the received ID to inspect its format
+    console.log("ID:", id);
+
+    // Retrieve the schedule object
+    const schedule = await Schedule.findById(id);
+    if (!schedule) {
+      return res.status(304).json({ message: 'Schedule not found1' });
     }
 
-    // Loop through each schedule ID and delete it
-    await Promise.all(ids.map(async (id) => {
-      const schedule = await Schedule.findById(id);
-      if (!schedule) {
-        console.error(`Schedule with ID ${id} not found.`);
-        return; // Skip deletion if schedule not found
-      }
-      await schedule.deleteOne();
-    }));
+    // Delete the schedule object
+    await schedule.deleteOne();
 
-    res.status(200).json({ message: 'Selected schedules deleted successfully' });
+    res.status(200).json({ message: 'Schedule deleted successfully' });
   } catch (error) {
-    console.error('Failed to delete selected schedules:', error);
-    res.status(500).json({ message: error.message || 'Failed to delete selected schedules' });
+    console.error("Error deleting schedule:", error);
+    res.status(500).json({ message: 'Failed to delete schedule', error: error.message });
   }
 });
 

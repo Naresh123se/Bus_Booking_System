@@ -29,7 +29,7 @@ export const busSchedules = apiSlice.injectEndpoints({
     
     deleteSchedule: builder.mutation({
       query: (id) => ({
-        url: `${SCHEDULES_URL}/delete/${id}`,
+        url: `${SCHEDULES_URL}/delete1/${id}`,
         method: 'DELETE',
       }),
     }),
