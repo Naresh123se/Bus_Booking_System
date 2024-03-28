@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGauge, faTicket, faBusSimple, faUsers, faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { faGauge, faTicket, faBusSimple, faUsers, faFileLines, faLocationDot  } from '@fortawesome/free-solid-svg-icons';
 
 const AIndex = () => {
   const navigate = useNavigate();
@@ -38,6 +38,9 @@ const AIndex = () => {
 
   const handleReportClick = () => {
     handleClick('Report');
+  };
+  const handleDestinationClick = () => {
+    handleClick('Des');
   };
 
   return (
@@ -84,6 +87,14 @@ const AIndex = () => {
             </div>
             <div>
               Report
+            </div>
+          </div>
+          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleDestinationClick}>
+            <div>
+              <FontAwesomeIcon icon={faLocationDot} beatFade />
+            </div>
+            <div>
+            Destination
             </div>
           </div>
         </div>

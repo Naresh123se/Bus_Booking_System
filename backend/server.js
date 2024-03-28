@@ -11,6 +11,7 @@ import bus from './routes/bus.js';
 import busSchedules from './routes/busSchedules.js';
 import passenger from './routes/passenger.js';
 import seat from './routes/seat.js';
+import addDes from './routes/destinations.js';
 import khalti from './routes/khalti.js';
 import {app} from "./google.js";
 import './email.js';
@@ -34,6 +35,7 @@ app.use('/api',busSchedules);
 app.use('/api',khalti);
 app.use('/api',passenger);
 app.use('/api',seat);
+app.use('/api',addDes);
 
 
 

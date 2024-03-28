@@ -34,6 +34,7 @@ import ALoginPage from './Admin/ALoginPage.jsx';
 import ABooking from './Admin/ABooking.jsx';
 import User from './Admin/User.jsx';
 import ABus from './Admin/Bus.jsx';
+import Des from './Admin/Destinations.jsx';
 
 // import BusSeatSelection from './Pages/BusSeatSelection.jsx'
 import { Provider } from 'react-redux';
@@ -71,6 +72,7 @@ const router = createBrowserRouter(
        <Route path='admin/Schedule' element={<ABooking />} />
        <Route path='admin/Passenger' element={<User />} />
        <Route path='admin/Bus' element={<ABus />} />
+       <Route path='admin/Des' element={<Des />} />
 
       </Route>  
       

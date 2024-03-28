@@ -1,45 +1,33 @@
 import React, { useState } from 'react';
 
-const BusBookingSystem = () => {
-  const [selectedSeat, setSelectedSeat] = useState(null);
+const ImageUploader = () => {
+  const [selectedImages, setSelectedImages] = useState([]);
 
-  const handleSeatSelection = (seatNumber) => {
-    setSelectedSeat(seatNumber);
-  };
-
-  const renderSeats = () => {
-    const totalSeats = 30; // Assuming there are 30 seats in the bus
-
-    const seats = [];
-    for (let i = 1; i <= totalSeats; i++) {
-      const isSeatSelected = selectedSeat === i;
-      const seatClassName = isSeatSelected ? 'selected-seat' : 'available-seat';
-      
-      seats.push(
-        <div
-          key={i}
-          className={seatClassName}
-          onClick={() => handleSeatSelection(i)}
-        >
-          {i}
-        </div>
-      );
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    if (files) {
+      const imageArray = Array.from(files).map((file) => URL.createObjectURL(file));
+      setSelectedImages((prevImages) => [...prevImages, ...imageArray]);
     }
-
-    return seats;
   };
 
   return (
-    <div className="bus-booking-system">
-      <h2>Bus Booking System</h2>
-      <div className="seats-container">
-        {renderSeats()}
-      </div>
-      <div className="selected-seat-info">
-        {selectedSeat && <p>Selected Seat: {selectedSeat}</p>}
+    <div>
+      <h1>Image Uploader</h1>
+      <input type="file" accept="image/*" multiple onChange={handleImageChange} />
+      <br />
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {selectedImages.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Uploaded Image ${index + 1}`}
+            style={{ maxWidth: '50px', marginRight: '10px', marginBottom: '10px', display: 'inline-block' }}
+          />
+        ))}
       </div>
     </div>
   );
 };
 
-export default BusBookingSystem;
+export default ImageUploader;

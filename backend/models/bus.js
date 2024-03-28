@@ -26,7 +26,12 @@ const busSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+},
+{
+  timestamps: true,
+}
+
+);
 
 // Define the Schedule schema
 

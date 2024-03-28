@@ -1,88 +1,84 @@
-// src/Seat.js
+import React from 'react';
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-function Seat() {
-  const [buses, setBuses] = useState([]);
-  const [newBusName, setNewBusName] = useState('');
-  const [newBusType, setNewBusType] = useState('');
-  const [newBusCapacity, setNewBusCapacity] = useState('');
-
-  useEffect(() => {
-    // Fetch all buses when component mounts
-    axios.get('/api/ok/na')
-      .then(response => {
-        setBuses(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching buses:', error);
-      });
-  }, []);
-
-
-
-  
-  const handleAddBus = () => {
-    // Create a new bus
-    axios.post('/api/ok/nar', {
-      name: newBusName,
-      type: newBusType,
-      capacity: newBusCapacity
-    })
-    .then(response => {
-      setBuses([...buses, response.data]); // Add new bus to the list
-      setNewBusName('');
-      setNewBusType('');
-      setNewBusCapacity('');
-    })
-    .catch(error => {
-      console.error('Error adding bus:', error);
-    });
-  };
-
-  const handleDeleteBus = (id) => {
-    console.log('Deleting bus with id:', id); // Log the id parameter
-    // Delete a bus
-    axios.delete(`/api/ok/busdel/${id}`)
-      .then(() => {
-        setBuses(buses.filter(bus => bus._id !== id)); // Remove deleted bus from the list
-      })
-      .catch(error => {
-        console.error('Error deleting bus:', error);
-      });
-  };
-  
+const Seat = () => {
+  // Sample data for each card
+  const cardData = [
+    {
+      imageUrl: 'destinations/man.png',
+      // category: 'CATEGORY 1',
+      title: 'The Catalyzer',
+      description: 'ok',
+      likes: '1.2K',
+      comments: '6'
+    },
+    {
+      imageUrl: 'destinations/pokhara.png',
+      // category: 'CATEGORY 2',
+      title: 'The 400 Blows',
+      description: 'ok',
+      likes: '1.2K',
+      comments: '6'
+    },
+    {
+      imageUrl: 'destinations/sm.jpg',
+      // category: 'CATEGORY 3',
+      title: 'Shooting Stars',
+      description: 'ok',
+      likes: '1.2K',
+      comments: '6'
+    },
+    {
+      imageUrl: 'destinations/lumb.png',
+      // category: 'CATEGORY 3',
+      title: 'Shooting Stars',
+      description: 'ok',
+      likes: '1.2K',
+      comments: '6'
+    }
+    ,
+    {
+      imageUrl: 'destinations/POKHARA.jpg',
+      // category: 'CATEGORY 3',
+      title: 'Shooting Stars',
+      description: 'ok',
+      likes: '1.2K',
+      comments: '6'
+    }
+  ];
 
   return (
-    <div>
-      <h1>Bus Management</h1>
-      <h2>Add New Bus</h2>
-      <div>
-        <label>Name:</label>
-        <input type="text" value={newBusName} onChange={(e) => setNewBusName(e.target.value)} />
-      </div>
-      <div>
-        <label>Type:</label>
-        <input type="text" value={newBusType} onChange={(e) => setNewBusType(e.target.value)} />
-      </div>
-      <div>
-        <label>Capacity:</label>
-        <input type="number" value={newBusCapacity} onChange={(e) => setNewBusCapacity(e.target.value)} />
-      </div>
-      <button onClick={handleAddBus}>Add Bus</button>
+    <section className="text-gray-600 body-font  bg-[#f5f5f5]">
+      <div className="mr-24 ml-14 pt-10 pb-10 mt-20 ">
+      
+       
+        <div className="flex  flex-wrap -m-" style={{ flexWrap: 'nowrap' }}>
+          {cardData.map((card, index) => (
+            <div key={index} className="flex bg" style={{ flex: '0 0 18.33%', marginRight: '30px' }}>
+              <div className="h-full  shadow-lg shadow-[#a2b0b9] bg-[white] border-[#d2bebe] border-opacity-60 rounded-lg overflow-hidden">
+                <div className='p-2  '>
+                <img className="w-full rounded-xl  h-64 object-cover object-center" src={card.imageUrl} alt="blog" />
 
-      <h2>All Buses</h2>
-      <ul>
-        {buses.map(bus => (
-          <li key={bus._id}>
-            {bus.name} - {bus.type} - {bus.capacity}
-            <button onClick={() => handleDeleteBus(bus._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+                </div>
+                <div className=" mb-2 ">
+              
+                  <div className=" w-40 bg-[#b6cbca] pl-2  rounded-r-[50%] title-font text-lg font-medium text-gray-900 mb-3">{card.title}</div>
+
+                 
+                </div>
+              </div>
+            </div>
+            
+          ))}
+        </div>
+        
+        
+      </div>
+    
+    </section>
+      
   );
-}
+};
 
 export default Seat;
+
+
