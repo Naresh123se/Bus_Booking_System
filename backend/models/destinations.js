@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 
 // Define the Bus schema
-const desSchema = new mongoose.Schema({
+const desSchema = new mongoose.Schema(
+  {
     selectedImages: {
-    type: [String],
-    required: true,
+      type: [String],
+      required: true,
+    },
+    place: {
+      type: String,
+      required: true,
+    },
   },
-  place: {
-    type: String,
-    required: true,
-  }
-  
-},
-{
+  {
     timestamps: true,
   }
 );

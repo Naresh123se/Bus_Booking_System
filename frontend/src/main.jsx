@@ -21,6 +21,7 @@ import BusSeatSelection from './Pages/BusSeatSelection.jsx';
 import LocationButton from './Pages/LocationButton.jsx';
 import Seat from './Booking/Seat.jsx';
 import Ticket from './Booking/Ticket.jsx';
+import Des from './Booking/Destinations.jsx';
 
 
 import Extra from './Pages/Extra.jsx';
@@ -34,7 +35,7 @@ import ALoginPage from './Admin/ALoginPage.jsx';
 import ABooking from './Admin/ABooking.jsx';
 import User from './Admin/User.jsx';
 import ABus from './Admin/Bus.jsx';
-import Des from './Admin/Destinations.jsx';
+import ADes from './Admin/Destinations.jsx';
 
 // import BusSeatSelection from './Pages/BusSeatSelection.jsx'
 import { Provider } from 'react-redux';
@@ -60,6 +61,7 @@ const router = createBrowserRouter(
       {/* <Route path='/Ipayment' element={<Int_Payment />} /> */}
       <Route path='/hlo' element={<BusSeatSelection />} />
       <Route path='/Ticket' element={<Ticket />} />
+      <Route path='/Des' element={<Des />} />
 
 
       {/* <Route path='/Extra' element={<Extra />} /> */}
@@ -72,7 +74,7 @@ const router = createBrowserRouter(
        <Route path='admin/Schedule' element={<ABooking />} />
        <Route path='admin/Passenger' element={<User />} />
        <Route path='admin/Bus' element={<ABus />} />
-       <Route path='admin/Des' element={<Des />} />
+       <Route path='admin/Des' element={<ADes />} />
 
       </Route>  
       

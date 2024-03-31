@@ -4,7 +4,7 @@ import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlin
 import SearchBar from './SearchBar';
 import Offers from '../Booking/Offers.jsx';
 import { useNavigate } from 'react-router-dom';
-
+import Destinations from '../Booking/Destinations.jsx';
 const IndexPage = () => {
   const navigate = useNavigate();
   const click11 = () => {
@@ -53,7 +53,10 @@ const IndexPage = () => {
       <div>
         <p></p>
       </div>
-    
+      </div>
+
+      <div className='  '>
+      <Destinations/>
       </div>
     </>
   );

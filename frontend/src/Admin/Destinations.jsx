@@ -68,31 +68,30 @@ const Destinations = () => {
 // 
 
 
-const [selectedImages, setSelectedImages] = useState([]);
     const [place, setPlace] = useState([]);
 
-    const handleImageChange = (event) => {
-        const files = event.target.files;
-        if (files) {
-            const imageArray = Array.from(files).map((file) => URL.createObjectURL(file));
-            setSelectedImages((prevImages) => [...prevImages, ...imageArray]);
-        }
-    };
-
-    const handleAddSubmit = async (event) => {
+    const [selectedImages, setSelectedImages] = useState([]);
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files); console.log(files)
+        setSelectedImages(files);
+        console.log("Selected images:",   setSelectedImages(files));
+      };
+      
+    //   console.log("Selected images:",   setSelectedImages(files));
+      
+      const handleAddSubmit = async (event) => {
         event.preventDefault();
         try {
-     
+          // Assuming addDecc is an asynchronous function that returns a Promise
+          // and is wrapped with Redux Toolkit's createAsyncThunk
           await addDecc({ place, selectedImages }).unwrap();
           toast.success('Data added successfully');
-          fetchSchedules();
+          fetchSchedules(); // Assuming this function is defined and fetches schedules after adding data
         } catch (err) {
-          console.log(err)
+          console.error(err);
           toast.error(err?.data?.message || err.error);
         }
       };
-      const allImages = [...editData.previousImages, ...selectedImages];
-
 
 
 
@@ -242,34 +241,31 @@ const [selectedImages, setSelectedImages] = useState([]);
                             <div className="bg-white ml-10   ">
                                 <h1>Image Uploader</h1>
                                 <form onSubmit={handleAddSubmit} className="flex gap-10 mt-2">
-
-
-                                    <div className=''>
-                                        <input type="text" className="form-control border rounded-lg p-1" name="place" placeholder="PlaceName" required value={place} onChange={(e) => setPlace(e.target.value)} />
-                                    </div>
-                                    <div className='border  p-1 rounded-lg border-[#c1aaaa] '>
-
-                                        <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-
-
-                                        <div className='' style={{ border: '', }}>
-                                            {selectedImages.map((image, index) => (
-                                                <img
-                                                    key={index}
-                                                    src={image}
-                                                    alt={`Uploaded Image ${index + 1}`}
-                                                    style={{ maxWidth: '60px', padding: '5px', display: 'inline-block' }}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div>
-
-                                        <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</Button>
-                                    </div>
-
-                                </form>
+      <div>
+        <input type="text" className="form-control border rounded-lg p-1" name="place" placeholder="PlaceName" required value={place} onChange={(e) => setPlace(e.target.value)} />
+      </div>
+      <div className="border p-1 rounded-lg border-[#c1aaaa]">
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+          />
+          <div className="mt-2">
+            {selectedImages.map((image, index) => (
+              <img
+                key={index}
+                src={URL.createObjectURL(image)}
+                alt={`Uploaded Image ${index + 1}`}
+                style={{ maxWidth: '60px', padding: '5px', display: 'inline-block' }}
+              />
+            ))}
+          </div>
+      </div>
+      <div>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</button>
+      </div>
+    </form>
                             </div>
                         )}
 
@@ -328,28 +324,7 @@ const [selectedImages, setSelectedImages] = useState([]);
             <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                 <DialogTitle className='text-center'>Edit Schedule</DialogTitle>
                 <DialogContent>
-                    <form className='flex flex-col gap-4 mt-2'>
-                        <TextField label="Name" name="name1" type="text" value={editData.place} onChange={handleEditInputChange} className='mb-3' />
-
-                           
-                        {allImages.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Uploaded Image ${index + 1}`}
-                style={{ maxWidth: '60px', padding: '5px', display: 'inline-block' }}
-              />
-            ))}
-
-                           
-
-                        <TextField label="Lot" name="lot" value={editData.lot} onChange={handleEditInputChange} className='mb-3' />
-
-                        
-
-
-
-                    </form>
+                    ol
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>

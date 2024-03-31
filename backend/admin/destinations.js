@@ -1,7 +1,9 @@
 import asyncHandler from "express-async-handler";
 import  Des  from "../models/destinations.js";
 import  Bus  from "../models/bus.js";
-
+import multer from 'multer';
+import path from 'path';
+import cloudinary from 'cloudinary'
 
 // const buses = asyncHandler(async (req, res) => {
 // // bus.get('/buses', async (req, res) => {
@@ -13,23 +15,107 @@ import  Bus  from "../models/bus.js";
 //     }
 // });
 
-const addDes = asyncHandler(async (req, res) => {
-  try {
-    const { place ,selectedImages } = req.body;
-    
-    const des = await Des.create({
-      place ,
-      selectedImages
-      
-    });
 
-    res.status(201).json({ message: 'Destinations added successfully', data: des });
+
+
+
+
+// // Multer configuration
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/'); // Directory where uploaded files will be stored
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // File name will be originalname + timestamp
+//   }
+// });
+
+// const upload = multer({ storage: storage });
+
+// const addDes = asyncHandler(async (req, res) => {
+//   try {
+//     // Extract data from request body
+//     const { place } = req.body;
+
+//     // Extract filenames of uploaded images from req.files
+//     const selectedImages = req.files?.map(file => file.filename);
+
+
+//     // Create new destination object
+//     const des = await Des.create({
+//       place,
+//       selectedImages
+//     });
+
+//     res.status(201).json({ message: 'Destinations added successfully', data: des });
+//   } catch (error) {
+//     // Handle errors
+//     console.error("Error adding destinations:", error);
+//     res.status(500).json({ message: 'Failed to add destinations', error: error.message });
+//   }
+// });
+
+
+const addDes = asyncHandler(async (req, res, next) => {
+  try {
+  
+    const {place, selectedImages } = req.body;
+
+  
+
+    let post; // undefined variable for creating the post
+
+    // checking if the images are in from of arrary or string
+    if (selectedImages) {
+      // Converting the image to the array if only one image is provided
+      let images = [];
+      console.log('I am here');
+      if (typeof req.body.selectedImages === 'string') {
+        images.push(req.body.selectedImages);
+      } else {
+        images = req.body.selectedImages;
+      }
+
+      // Now uploading the images to the cloudinary
+      const imagesLinks = [];
+      for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+          folder: 'posts',
+          crop: 'pad',
+          quality: 'auto:best',
+          fetch_format: 'auto',
+        });
+
+        // updating
+        imagesLinks.push({
+          public_id: result.public_id,
+          url: result.secure_url,
+        });
+      }
+      console.log('image upload successfull');
+      // Creating the Post
+      post = await Des.create({
+
+        place,
+        selectedImages: imagesLinks,
+
+      });
+    } 
+
+
+    res.status(201).json({
+      success: true,
+      post,
+    });
   } catch (error) {
-    // Handle errors
-    console.error("Error adding destinations:", error);
-    res.status(500).json({ message: 'Failed to add destinations', error: error.message });
+    res.status(500).json({ message: 'Failed to add schedule', error: error.message });
+    
   }
 });
+
+
+
+
 
 
 // Update Schedule
