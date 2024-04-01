@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 // Define the Bus schema
 const desSchema = new mongoose.Schema(
   {
-    selectedImages: {
-      type: [String],
-      required: true,
-    },
+    selectedImages: [{
+      public_id: { type: String, required: true },
+      url: { type: String, required: true }
+    }],
     place: {
       type: String,
       required: true,

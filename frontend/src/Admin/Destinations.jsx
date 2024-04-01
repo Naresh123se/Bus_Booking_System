@@ -72,29 +72,47 @@ const Destinations = () => {
 
     const [selectedImages, setSelectedImages] = useState([]);
     const handleImageChange = (e) => {
-        const files = Array.from(e.target.files); console.log(files)
-        setSelectedImages(files);
-        console.log("Selected images:",   setSelectedImages(files));
+        const files = Array.from(e.target.files);
+    
+        setSelectedImages([]);
+    
+        files.forEach((file) => {
+          const reader = new FileReader();
+    
+          reader.onload = () => {
+            if (reader.readyState === 2) {
+                setSelectedImages((old) => [...old, reader.result]);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
       };
+    
       
     //   console.log("Selected images:",   setSelectedImages(files));
       
-      const handleAddSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = new FormData();
+        selectedImages.forEach((image, index) => {
+          data.append(`selectedImages[${index}]`, image);
+        });
+        data.append('place', place);
+      
         try {
-          // Assuming addDecc is an asynchronous function that returns a Promise
-          // and is wrapped with Redux Toolkit's createAsyncThunk
-          await addDecc({ place, selectedImages }).unwrap();
-          toast.success('Data added successfully');
-          fetchSchedules(); // Assuming this function is defined and fetches schedules after adding data
-        } catch (err) {
-          console.error(err);
-          toast.error(err?.data?.message || err.error);
+          // Assuming addDecc returns a promise
+          await addDecc({place, selectedImages});
+          // If addDecc doesn't throw an error, it's considered successful
+          toast.success('Post Created Successfully');
+          // Reset form fields or state after successful submission
+          setPlace('');
+          setSelectedImages([]);
+        } catch (error) {
+          // If addDecc throws an error, handle it here
+          toast.error(error.message || 'An error occurred while creating the post');
         }
       };
-
-
-
+      
 
 
 
@@ -240,32 +258,72 @@ const Destinations = () => {
                         {showAddPanel && (
                             <div className="bg-white ml-10   ">
                                 <h1>Image Uploader</h1>
-                                <form onSubmit={handleAddSubmit} className="flex gap-10 mt-2">
-      <div>
-        <input type="text" className="form-control border rounded-lg p-1" name="place" placeholder="PlaceName" required value={place} onChange={(e) => setPlace(e.target.value)} />
-      </div>
-      <div className="border p-1 rounded-lg border-[#c1aaaa]">
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-          />
-          <div className="mt-2">
-            {selectedImages.map((image, index) => (
-              <img
-                key={index}
-                src={URL.createObjectURL(image)}
-                alt={`Uploaded Image ${index + 1}`}
-                style={{ maxWidth: '60px', padding: '5px', display: 'inline-block' }}
-              />
-            ))}
+
+  
+
+
+                                <form onSubmit={handleSubmit} className="flex flex-col ">
+          <br />
+          <div>
+            <label className="pb-2">
+              Caption <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="place"
+              value={place}
+              className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={(e) => setPlace(e.target.value)}
+              placeholder="Your Status...."
+            />
           </div>
-      </div>
-      <div>
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</button>
-      </div>
-    </form>
+
+          <div className="mt-4">
+            <label className="pb-2">Upload Images</label>
+            <input
+              type="file"
+              name="photos"
+              id="upload"
+            //   className="hidden"
+              multiple
+              onChange={handleImageChange}
+            />
+
+            
+            <br />
+            <div className="w-full flex items-center flex-wrap">
+          {selectedImages.map((i, index) => (
+            <img
+              src={i}
+              key={index}
+              alt=""
+              className="h-[120px] w-[120px] object-cover m-2"
+            />
+          ))}
+        </div>
+
+            <div className="mt-4">
+              <input
+                type="submit"
+                value="Upload"
+                // disabled={isLoading}
+                className="mt-2 cursor-pointer appearance-none text-center block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
+            </div>
+          </div>
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+
                             </div>
                         )}
 
@@ -293,11 +351,17 @@ const Destinations = () => {
                                                     <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                                                 </td>
                                                 <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.place}</td>
-                                                <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>
-  {item.selectedImages.map((imageUrl, index) => (
-    <img key={index} src={imageUrl} alt={`Image ${index + 1}`} style={{ maxWidth: '100px' }} />
-  ))}
-</td>
+                                                {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.selectedImages.url}</td> */}
+                                                {item.selectedImages.map((image, index) => (
+  <React.Fragment key={index}>
+    <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}></td>
+    <td className="w-36">
+      <img src={image.url} alt="Image" />
+    </td>
+  </React.Fragment>
+))}
+
+
 
                                                 <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.lot}</td>
                                                 <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.number}</td>

@@ -40,10 +40,10 @@ const Ticket = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+    data.append('place', place);
     selectedImages.forEach((image, index) => {
       data.append(`selectedImages[${index}]`, image);
     });
-    data.append('place', place);
     // data.append('status', postStatus);
 
     try {

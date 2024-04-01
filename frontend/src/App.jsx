@@ -7,9 +7,20 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './slices/authSlice';
 import Header1 from './Admin/Header1';
-
+import { io } from "socket.io-client";
 
 const App = () => {
+
+  const socket = io("http://localhost:5000");
+useEffect(() => {
+  socket.on("connect", () => {
+    console.log("connected",socket.id);
+  });
+}, []);
+
+
+
+
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   useEffect(() => {

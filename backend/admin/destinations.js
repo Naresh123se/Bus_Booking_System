@@ -58,12 +58,12 @@ import cloudinary from 'cloudinary'
 
 const addDes = asyncHandler(async (req, res, next) => {
   try {
+   
   
+    
     const {place, selectedImages } = req.body;
-
-  
-
-    let post; // undefined variable for creating the post
+// console.log(place, selectedImages);
+   
 
     // checking if the images are in from of arrary or string
     if (selectedImages) {
@@ -94,22 +94,21 @@ const addDes = asyncHandler(async (req, res, next) => {
       }
       console.log('image upload successfull');
       // Creating the Post
-      post = await Des.create({
-
+      addDes = await Des.create({
+        
         place,
-        selectedImages: imagesLinks,
-
+        selectedImages: imagesLinks
+    
       });
     } 
-
-
+    
+    await Dec.save();
     res.status(201).json({
-      success: true,
-      post,
+      success: true
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to add schedule', error: error.message });
-    
+    res.status(500).json({ message: 'Failed to fetch schedules', error: error.message });
+  
   }
 });
 

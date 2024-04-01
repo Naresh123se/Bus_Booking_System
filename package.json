@@ -7,8 +7,8 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm run dev --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "npm run dev --prefix frontend -- --host 0.0.0.0",
+    "dev": "concurrently \"npm run server -- --host 0.0.0.0\" \"npm run client\""
   },
   "author": "Naresh",
   "license": " ",
@@ -37,6 +37,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
     "react-dom": "^18.2.0",
+    "socket.io": "^4.7.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

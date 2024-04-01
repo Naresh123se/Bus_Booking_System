@@ -7,7 +7,7 @@ import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-
+import Tooltip from '@mui/material/Tooltip';
 const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
   <button
     className={`p-2 m-1 relative ${selected ? 'text-[#009DF8]' : isBooked ? 'text-[#CC5500] cursor-not-allowed' : 'bg-gray-300 cursor-pointer'
@@ -15,13 +15,20 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
     onClick={() => onSelect(seatNumber)}
     disabled={isBooked}
   >
+   
     {/* Icon */}
-    <span className=" ">
-      <WeekendIcon sx={{ fontSize: '40px' }}/>
-    </span>
+
+    <span className="">
+    <Tooltip key={seatNumber} title={`${seatNumber}${seatNumber === 1 ? 'st' : seatNumber === 2 ? 'nd' : seatNumber === 3 ? 'rd' : 'th'} seat`} placement="top" arrow>
+    <WeekendIcon sx={{ fontSize: '40px' }} />
+  </Tooltip>
+</span>
+
+
     {/* Selection Indicator */}
     {selected && (
-      <span className="">{/* ... */}</span>
+      <span className="">
+        {seatNumber}{/* ... */}</span>
     )}
   </button>
 );
@@ -67,7 +74,7 @@ const BusSeatSelection = () => {
   useEffect(() => {
     fetchSeats(); 
     const sceid = localStorage.getItem('scheduleId');
-    console.log(sceid);
+    // console.log(sceid);
   }, []);
 
 
@@ -283,8 +290,10 @@ const fetchSeats = async () => {
                 <div key={row} className=" flex  " style={{ margin: '2px' }}>
                   {columns.map((column, index) => (
                     <React.Fragment key={column}>
+                      
                       <Seat
                         seatNumber={(row - 1) * columns.length + column}
+                       
                         isBooked={bookedSeats.includes((row - 1) * columns.length + column)}
                         selected={seseats.includes((row - 1) * columns.length + column)}
                         onSelect={handleSeatSelect}
