@@ -27,9 +27,7 @@ const authUser = asyncHandler(async (req, res) => {
   if (user.isVerified === 0) {
     // Assuming 0 means email is not verified
     res.status(401);
-    res.json({
-      message: "Please verify your email address.",
-    });
+    throw new Error("Please verify your email address");
   }
 
   if (user.isVerified === 1) {

@@ -11,12 +11,16 @@ import { io } from "socket.io-client";
 
 const App = () => {
 
-  const socket = io("http://localhost:5000");
-useEffect(() => {
-  socket.on("connect", () => {
-    console.log("connected",socket.id);
-  });
-}, []);
+//   const [username, setUsername] = useState("");
+//   const [user1, setUser1] = useState("");
+//   // const [socket, setSocket] = useState(null);
+
+
+
+
+// useEffect(() =>{
+//   socket.emit("newUser",user1)
+// }, [socket, user1]);
 
 
 
@@ -73,6 +77,10 @@ useEffect(() => {
     {isAdmin ? <Header1 /> : <Header />}
     <ToastContainer />
     <Outlet />
+
+
+   
+
   </>
   );
 };

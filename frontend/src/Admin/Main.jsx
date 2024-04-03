@@ -1,6 +1,6 @@
 import React from 'react';
 import AIndex from './AIndex';
-import Extra from '../Pages/Extra';
+
 import AllGraphs from './AllGraph';
 import Pie from './Pie';
 import Line from './Line';

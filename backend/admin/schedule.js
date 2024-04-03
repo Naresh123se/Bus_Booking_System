@@ -3,15 +3,6 @@ import  Schedule  from "../models/busSchedules.js";
 import  Bus  from "../models/bus.js";
 
 
-// const buses = asyncHandler(async (req, res) => {
-// // bus.get('/buses', async (req, res) => {
-//     try {
-//         const buses = await Bus.find();
-//         res.json(buses);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Internal server error' });
-//     }
-// });
 
 const addSchedule = asyncHandler(async (req, res) => {
   try {

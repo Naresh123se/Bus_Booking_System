@@ -60,18 +60,7 @@ app.use('/api',addDes);
   secure: true 
 });
 
-// async function checkConnection() {
-//   try {
-//     // Upload a dummy image (you can replace 'dummy_image' with a path to an actual image)
-//     const result = await cloudinary.uploader.upload('frontend/public/80x80.png', { resource_type: "image" });
-//     console.log('Connected to Cloudinary:', result.url);
-//   } catch (error) {
-//     console.error('Error connecting to Cloudinary:', error);
-//   }
-// }
 
-// // Call the function to check the connection
-// checkConnection();
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
@@ -89,10 +78,47 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-io.on('connection',(socket) =>{
-  console.log("user connections");
-  console.log("Id", socket.id);
+let onlineUsers = [];
 
+// Function to add a new user to the online users array
+const addNewUser = (username, socketId) => {
+  const existingUserIndex = onlineUsers.findIndex(user => user.username === username);
+  if (existingUserIndex === -1) {
+    onlineUsers.push({ username, socketId });
+  } else {
+    onlineUsers[existingUserIndex].socketId = socketId;
+  }
+};
+
+// Function to remove a user from the online users array
+const removeUser = (socketId) => {
+  onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
+};
+
+// Function to get user by username
+const getUser = (username) => {
+  return onlineUsers.find(user => user.username === username);
+};
+
+// Admin emits a notification to all users
+io.on('connection', (socket) => {
+  console.log(`User connection ${socket.id}`);
+
+  // Add new user when they connect
+  socket.on('addUser', (username) => {
+    addNewUser(username, socket.id);
+  });
+
+  // Remove user when they disconnect
+  socket.on('disconnect', () => {
+    removeUser(socket.id);
+  });
+
+  // Send notification to all users except the sender
+  socket.on('sendNotification', (notification) => {
+    console.log(`Admin sent a notification: ${notification}`);
+    io.emit('notification', notification);
+  });
 });
 
 server.listen(port, () => console.log(`Server started on port ${port}`));

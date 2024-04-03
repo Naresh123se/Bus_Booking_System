@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 
-import BusSeatSelection from './BusSeatSelection.jsx'
+// import BusSeatSelection from './BusSeatSelection.jsx'
 
 import { useGetScheduleMutation } from '../slices/busSchedules.js';
 import { faDivide } from '@fortawesome/free-solid-svg-icons';
@@ -41,7 +41,7 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 const Booking = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [get] = useGetScheduleMutation();
+  const [getSchedule] = useGetScheduleMutation();
   const [data, setData] = useState([]);
 
   const [showData, setShowData] = useState(false);
@@ -230,8 +230,13 @@ const Booking = () => {
     }
   };
 
-  const book = (id) => {
+  const book = (id, startTime, price,endTime,capacity ) => {
     localStorage.setItem("scheduleId", id);
+    localStorage.setItem("price", price);
+    localStorage.setItem("startTime", startTime);
+    localStorage.setItem("endTime", endTime);
+    localStorage.setItem("capacity", capacity);
+    
     navigate('/e');
   }
 
@@ -288,32 +293,34 @@ const Booking = () => {
     }
   }, []);
 
-  // const [filteredData, setFilteredData] = useState([]);
-  useEffect(() => {
-    const fetchSchedules = async (e) => {
-      try {
-        const result = await get();
-        // console.log(fromLocation)
-        const startlocation = fromLocation.replace(', Nepal', '').replace('44600', '').trim();
+  const [filteredData, setFilteredData] = useState([]);
 
+useEffect(() => {
+  const fetchSchedules = async () => {
+    try {
+      if (!fromLocation) return; // Add a check for empty fromLocation to avoid unnecessary API calls
 
-        // console.log(startlocation)
+      const result = await getSchedule();
+      console.log(result);
+      const startLocation = fromLocation.replace(', Nepal', '').replace('44600', '').trim();
+console.log(startLocation);
 
-        // console.log(result)
+      const filteredData = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startLocation.toLowerCase());
+console.log(filteredData)
 
-        const filteredData = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startlocation.toLowerCase());
+setData(filteredData);
+console.log( )
+     
+       // Use setFilteredData to update the state
 
-        console.log(filteredData)
+    } catch (error) {
+      console.error('Failed to fetch schedules:', error);
+    }
+  };
 
-        setData(filteredData);
+  fetchSchedules();
+}, [fromLocation]);
 
-      } catch (error) {
-        console.error('Failed to fetch schedules:', error);
-      }
-    };
-
-    fetchSchedules()
-  }, [fromLocation]);
 
 
   return (
@@ -590,7 +597,7 @@ const Booking = () => {
                 
 
                 <div className='   mr-2 pb-3'>
-                <Button className='mt-6' variant="contained" onClick={() => book(item._id)}>Booking</Button>
+                <Button className='mt-6' variant="contained" onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity )}>Booking</Button>
                 </div>
                 
               </div>

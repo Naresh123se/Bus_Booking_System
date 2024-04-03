@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-const SCHEDULES_URL = '/api';
+const SCHEDULES_URL = '/api/';
 
 
 export const busSchedules = apiSlice.injectEndpoints({
@@ -14,7 +14,7 @@ export const busSchedules = apiSlice.injectEndpoints({
 
     getSchedule: builder.mutation({
       query: () => ({
-        url: `${SCHEDULES_URL}/get`, // Remove body field for GET request
+        url: `${SCHEDULES_URL}getschedule`, // Remove body field for GET request
         method: 'GET',
       }),
     }),

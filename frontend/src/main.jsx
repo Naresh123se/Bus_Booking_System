@@ -24,9 +24,10 @@ import Ticket from './Booking/Ticket.jsx';
 import Des from './Booking/Destinations.jsx';
 
 
-import Extra from './Pages/Extra.jsx';
+
 import PickDirection from './Directions/PickDirection.jsx';
 import Payment from './Booking/Payment.jsx';
+import Not from './Pages/Notification.jsx';
 // import Int_Payment from './Booking/Int_Payment.jsx';
 // *************
 
@@ -36,6 +37,7 @@ import ABooking from './Admin/ABooking.jsx';
 import User from './Admin/User.jsx';
 import ABus from './Admin/Bus.jsx';
 import ADes from './Admin/Destinations.jsx';
+
 
 // import BusSeatSelection from './Pages/BusSeatSelection.jsx'
 import { Provider } from 'react-redux';
@@ -55,16 +57,17 @@ const router = createBrowserRouter(
       <Route path='/love' element={<LocationButton />} />
       <Route path='/Seat' element={<Seat />} />
       <Route path='/Booking' element={<Booking />} />
-      <Route path='/Extra' element={<Extra />} />
+   
       <Route path='/PickD' element={<PickDirection />} />
       <Route path='/payment' element={<Payment />} />
       {/* <Route path='/Ipayment' element={<Int_Payment />} /> */}
       <Route path='/hlo' element={<BusSeatSelection />} />
       <Route path='/Ticket' element={<Ticket />} />
       <Route path='/Des' element={<Des />} />
+      <Route path='/Not' element={<Not />} />
 
 
-      {/* <Route path='/Extra' element={<Extra />} /> */}
+
 
 
      
