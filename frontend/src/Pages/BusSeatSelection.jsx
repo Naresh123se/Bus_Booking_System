@@ -475,81 +475,91 @@ const BusSeatSelection = () => {
         </div>
 
         <div className='ml-20 mt-5 w-[26%]'>
-          <div className='border p-3 rounded-sm bg-[#23adfd]'>
-            <div className="border  p-1  rounded-lg pr-5 bg-[white] ">
-              <h1 className='text-[20px]'>Your Booking</h1>
-              <div className='border rounded-md bg-[#F1F1F1] '>
-                <div className='flex'>
-
-                  <div >
-                    <TimelineIcon className='mt-2' sx={{ transform: 'rotate(135deg)', fontSize: '36px' }} />
-
-                  </div>
-
-                  <div className=' '>
-                    <p> {fromLocation}</p>
-                    <p>{toLocation}</p>
-
-
-                  </div>
-                  <div className='ml-20 '>
-                    <p > {tostartTime}</p>
-                    <p> {toendTime}</p>
-
-                  </div>
+          <div className=' '>
+            
 
 
 
-                </div>
+{/* 
+ */}
+ <div className="border p-4 rounded-xl border-[#af9c9c] shadow-xl bg-[#ffffff]">
+  <h1 className='text-2xl font-bold mb-4'>Your Booking</h1>
+  
+  <div className='border rounded-md bg-[#F1F1F1] p-2 mb-2'>
+    <div className='flex items-center'>
+      <TimelineIcon className='mr-4 text-[gray-600]' sx={{ transform: 'rotate(135deg)', fontSize: '36px' }} />
+      <div>
+        <p className='text-lg'>{fromLocation}</p>
+        <p className='text-lg'>{toLocation}</p>
+      </div>
+      <div className='ml-auto'>
+        <p className='text-lg'>{tostartTime}</p>
+        <p className='text-lg'>{toendTime}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div className='flex justify-between mb-2'>
+    <p className='text-lg'>{passengerNumber === 1 ? '1 adult' : `${passengerNumber} adults`}</p>
+    <p className='text-lg font-semibold'>Rs. {(price * passengerNumber) - 1.00}</p>
+  </div>
+  
+  <hr className='border-[#afa2a2]' />
+  
+  <div className='flex justify-between mb-2'>
+    <p className='text-lg'>Service Fee</p>
+    <p className='text-lg font-semibold'>Rs. 1.00</p>
+  </div>
+  
+  <hr className='border-[#afa2a2]' />
+  
+  <div className='flex justify-between mb-4'>
+    <div className='flex items-center'>
+      <h1 className='text-lg font-bold'>Total</h1>
+      <p className='text-lg ml-1'>(incl. VAT)</p>
+    </div>
+    <h1 className='text-lg font-bold'>Rs. {price * passengerNumber}</h1>
+  </div>
+  
+  <div className="p-4">
+    <div className={`bg-gray-200 border border-gray-300 rounded-md py-2 px-2 cursor-pointer flex items-center justify-between ${showForm ? 'w-[130px]' : 'w-[130px]'}`} onClick={toggleForm}>
+      <span><ConfirmationNumberIcon className="mr-1" />Voucher</span>
+      {showForm ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+    </div>
+    {showForm && (
+      <div className="mt-1">
+        <form onSubmit={submitVoucher}>
+          <input
+            type="text"
+            value={voucher}
+            onChange={(e) => setVoucher(e.target.value)}
+            placeholder="Enter voucher"
+            className="border border-gray-300 rounded-md py-2 px-4 mr-2 focus:outline-none focus:ring focus:border-blue-300"
+            required
+          />
+          <Button type="submit" className="bg-btn text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">
+            Redeem
+          </Button>
+        </form>
+        
+      </div>
+    )}
+    <input
+  type='checkbox'
+  className="appearance-none w-6 h-6 rounded border border-gray-300 checked:bg-blue-600 checked:border-transparent focus:outline-none focus:ring focus:border-blue-300 mt-4"
+/>
+
+  </div>
+
+  <p className='text-lg'>Booking Description</p>
+</div>
 
 
-              </div>
-              <div className='flex  justify-between ml-2 mr-3'>
-
-                <p className='text-lg '>{passengerNumber === 1 ? '1 adult' : `${passengerNumber} adults`}</p>
-
-                <p className='text-lg font-semibold '>Rs.{price * passengerNumber}</p>
-              </div>
-
-              <hr />
-              <h1>Total </h1>
-              <div>
-                {/*  */}
-                <div className="p-4">
-                  <div
-                    className={`bg-gray-200 border border-gray-300 rounded-md py-2 px-2 cursor-pointer flex items-center justify-between  ${showForm ? 'w-[130px]' : 'w-[130px]'}`}
-                    onClick={toggleForm}
-                  >
-                    <span> <ConfirmationNumberIcon /> Voucher</span>
-                    {showForm ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                  </div>
-                  {showForm && (
-                    <div className="mt-4" >
-                      <form onSubmit={submitVoucher}>
-                        <input
-                          type="text"
-                          value={voucher}
-                          onChange={(e) => setVoucher(e.target.value)}
-                          placeholder="Enter voucher"
-                          className="border border-gray-300 rounded-md py-2 px-4 mr-2 focus:outline-none focus:ring focus:border-blue-300"
-                          required
-                        />
-                        <Button
-                          type="submit"
-                          className="bg-btn text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600"
-                        >
-                          Submit
-                        </Button>
-                      </form>
-                    </div>
-                  )}
-                </div>
 
 
 
-              </div>
-              <p>booking desc</p>
-            </div>
+
+
 
           </div>
 

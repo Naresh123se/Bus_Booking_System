@@ -29,7 +29,7 @@ const TrendingOffers = () => {
             description: "Get free shipping on all orders over $50. Don't miss out!",
             bg: 'bg-gradient-to-tr from-[#2B4669] to-[#4BBE8F]',
             image: './80x80.png',
-            copy: 'XXXYYY'
+            copy: '222'
         },
     ];
 
@@ -66,8 +66,7 @@ const TrendingOffers = () => {
         autoplaySpeed: 1600,
        dots: false, // Hide the dots navigation
         arrows: false // Hide the next and previous arrows
-        // nextArrow: <CustomNextArrow />, // Custom next arrow
-        // prevArrow: <CustomPrevArrow /> // Custom previous arrow
+        
     };
 
     return (
@@ -104,3 +103,7 @@ const TrendingOffers = () => {
 };
 
 export default TrendingOffers;
+
+
+
+

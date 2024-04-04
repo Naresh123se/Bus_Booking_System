@@ -39,6 +39,7 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 
 
 const Booking = () => {
+  
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
   const [getSchedule] = useGetScheduleMutation();
@@ -55,6 +56,8 @@ const Booking = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
+    const api = import.meta.env.GOOGLE_MAPS_API_KEY;
+    console.log('hi',api);
   }, []);
 
   useEffect(() => {
@@ -174,7 +177,7 @@ const Booking = () => {
 
   const loadGoogleMapsScript = () => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDXMysFoIH3bi9TKU6uBHqFimln-vYCFQg&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=api&libraries=places`;
     script.async = true;
     script.defer = true;
     script.onload = initAutocomplete;
@@ -585,7 +588,7 @@ console.log( )
 
 
                 <div>
-                  |  bus Photos
+                  |  bus Photo
 
                 </div>
 

@@ -78,47 +78,56 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-let onlineUsers = [];
+// let onlineUsers = [];
 
 // Function to add a new user to the online users array
-const addNewUser = (username, socketId) => {
-  const existingUserIndex = onlineUsers.findIndex(user => user.username === username);
-  if (existingUserIndex === -1) {
-    onlineUsers.push({ username, socketId });
-  } else {
-    onlineUsers[existingUserIndex].socketId = socketId;
-  }
-};
+// const addNewUser = (username, socketId) => {
+//   const existingUserIndex = onlineUsers.findIndex(user => user.username === username);
+//   if (existingUserIndex === -1) {
+//     onlineUsers.push({ username, socketId });
+//   } else {
+//     onlineUsers[existingUserIndex].socketId = socketId;
+//   }
+// };
 
-// Function to remove a user from the online users array
-const removeUser = (socketId) => {
-  onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
-};
+// // Function to remove a user from the online users array
+// const removeUser = (socketId) => {
+//   onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
+// };
 
 // Function to get user by username
-const getUser = (username) => {
-  return onlineUsers.find(user => user.username === username);
-};
+// const getUser = (username) => {
+//   return onlineUsers.find(user => user.username === username);
+// };
 
-// Admin emits a notification to all users
-io.on('connection', (socket) => {
-  console.log(`User connection ${socket.id}`);
+// // Admin emits a notification to all users
+// io.on('connection', (socket) => {
+//   console.log(`User connection ${socket.id}`);
 
-  // Add new user when they connect
-  socket.on('addUser', (username) => {
-    addNewUser(username, socket.id);
-  });
+//   // Add new user when they connect
+//   socket.on('addUser', (username) => {
+//     addNewUser(username, socket.id);
+//   });
 
-  // Remove user when they disconnect
-  socket.on('disconnect', () => {
-    removeUser(socket.id);
-  });
+//   // Remove user when they disconnect
+//   socket.on('disconnect', () => {
+//     removeUser(socket.id);
+//   });
 
-  // Send notification to all users except the sender
-  socket.on('sendNotification', (notification) => {
-    console.log(`Admin sent a notification: ${notification}`);
-    io.emit('notification', notification);
-  });
-});
+//   // Send notification to all users except the sender
+//   socket.on('sendNotification', (notification) => {
+//     console.log(`Admin sent a notification: ${notification}`);
+//     io.emit('notification', notification);
+//   });
+// });
+
+
+// // Middleware to handle CORS
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4173'); // Adjust this to your React app's URL
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
 
 server.listen(port, () => console.log(`Server started on port ${port}`));
