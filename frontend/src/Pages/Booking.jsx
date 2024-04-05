@@ -35,7 +35,7 @@ import { MenuItem } from '@mui/base/MenuItem';
 import { useNavigate } from 'react-router-dom'
 import PowerIcon from '@mui/icons-material/Power';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-
+import BusPhoto from '../Booking/BusPhoto.jsx'
 
 
 const Booking = () => {
@@ -543,7 +543,7 @@ console.log( )
           </ButtonGroup>
         </div> */}
 
-        <div className='overflow-y-auto h-[58vh] p-5 '>
+<div className='overflow-y-auto h-[58vh] p-5 '>
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
@@ -574,8 +574,8 @@ console.log( )
 
 
 
-                <div onClick={toggleVisibility} className='  cursor-pointer hover:text-[red]'>
-                  bus Photos
+                <div className=''>
+                <BusPhoto/>
                   <div>
 
 
@@ -593,15 +593,18 @@ console.log( )
                 </div>
 
 
-                <div>
+                <div className=''>
                   | bus Photos
                 </div>
 
                 
 
-                <div className='   mr-2 pb-3'>
-                <Button className='mt-6' variant="contained" onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity )}>Booking</Button>
-                </div>
+                
+  <div className=''>
+    <Button className='' variant="contained" onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity)}>Booking</Button>
+  </div>
+
+
                 
               </div>
 
@@ -629,7 +632,17 @@ console.log( )
             </div>
           ))}
 
+
+
+
+
+
+
+
         </div>
+
+
+
       </body>
     </>
   )

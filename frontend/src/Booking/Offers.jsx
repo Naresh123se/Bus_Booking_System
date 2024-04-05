@@ -94,7 +94,7 @@ const TrendingOffers = () => {
                 ))}
             </Slider>
             {copiedText && (
-                <div className="fixed bottom-2 right-[95vh] bg-[black] text-[white] p-3 rounded-md mr-4 mb-4 z-50">
+                <div className="fixed bottom-2 right-[11vh] bg-[black] text-[white] p-3 rounded-md  mb-4 ">
                     <p>{copiedText} code copied! </p>
                 </div>
             )}

@@ -73,12 +73,10 @@ const BusPhoto = () => {
     <>
 
 
-<div>
-<button onClick={toggleVisibility} className='cursor-pointer hover:text-[red] ml-96'>bus Photos</button>
-
-</div>
+<button onClick={toggleVisibility} className='cursor-pointer hover:text-[red] fixed top-100 left-0 right-80'>bus Photos</button>
 {isVisible && 
-      <div className='bg-[#7f7d7d] w-[515px] ml-10 mt-10 relative'>
+
+      <div className='bg-[#7f7d7d] w-[515px] ml-10 mt-10 '>
 
         {/* <h2 className="text-xl font-semibold mb-4 ml-16">Trending Offers for Discount Coupons</h2> */}
         <Slider {...settings} className="w-[450px] ml-8 ">
