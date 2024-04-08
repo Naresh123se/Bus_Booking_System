@@ -28,7 +28,7 @@ import Des from './Booking/Destinations.jsx';
 import PickDirection from './Directions/PickDirection.jsx';
 import Payment from './Booking/Payment.jsx';
 import Not from './Pages/Notification.jsx';
-// import Int_Payment from './Booking/Int_Payment.jsx';
+import Int_Payment from './Booking/Stripe.jsx';
 // *************
 
 import Main from './Admin/Main.jsx';
@@ -46,25 +46,25 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route path='/' element={<IndexPage />} />
-      <Route path='/login' element={<LoginPage />} />
-      <Route path='/register' element={<RegisterPage />} />
-      <Route path='/Location' element={<Location />} />
-      <Route path='/search' element={<Booking />} />
-      <Route path='/Verify' element={<Verify />} />
-      <Route path='/Profile' element={<Profile />} />
-      <Route path='/Bus' element={<Bus/>} />
-      <Route path='/e' element={<BusSeatSelection />} />
-      <Route path='/love' element={<LocationButton />} />
-      <Route path='/Seat' element={<Seat />} />
-      <Route path='/Booking' element={<Booking />} />
+      <Route path='/login' element={<LoginPage/>} />
+      <Route path='/register' element={<RegisterPage/>} />
+      <Route path='/Location' element={<Location/>} />
+      <Route path='/search' element={<Booking/>} />
+      <Route path='/Verify' element={<Verify/>} />
+      <Route path='/Profile' element={<Profile/>} />
+      <Route path='/Bus' element={<Bus/>}/>
+      <Route path='/e' element={<BusSeatSelection/>} />
+      <Route path='/love' element={<LocationButton/>} />
+      <Route path='/Seat' element={<Seat/>} />
+      <Route path='/Booking' element={<Booking/>} />
    
-      <Route path='/PickD' element={<PickDirection />} />
-      <Route path='/payment' element={<Payment />} />
-      {/* <Route path='/Ipayment' element={<Int_Payment />} /> */}
-      <Route path='/hlo' element={<BusSeatSelection />} />
-      <Route path='/Ticket' element={<Ticket />} />
-      <Route path='/Des' element={<Des />} />
-      <Route path='/Not' element={<Not />} />
+      <Route path='/PickD' element={<PickDirection/>} />
+      <Route path='/payment' element={<Payment/>} />
+      <Route path='/Ipayment' element={<Int_Payment />} />
+      <Route path='/hlo' element={<BusSeatSelection/>} />
+      <Route path='/Ticket' element={<Ticket/>} />
+      <Route path='/Des' element={<Des/>} />
+      <Route path='/Not' element={<Not/>} />
 
 
 

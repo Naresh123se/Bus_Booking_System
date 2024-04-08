@@ -19,6 +19,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 import cors from 'cors';
+import stripe from './routes/stripe.js'
 
 
 const port = process.env.PORT || 5000;
@@ -52,6 +53,8 @@ app.use('/api',khalti);
 app.use('/api',passenger);
 app.use('/api',seat);
 app.use('/api',addDes);
+app.use('/api',stripe);
+
 
  cloudinary.config({ 
   cloud_name: 'busbookingsystem', 

@@ -1,8 +1,7 @@
 import asyncHandler from "express-async-handler";
 import  Des  from "../models/destinations.js";
 import  Bus  from "../models/bus.js";
-import multer from 'multer';
-import path from 'path';
+
 import cloudinary from 'cloudinary'
 
 // const buses = asyncHandler(async (req, res) => {
