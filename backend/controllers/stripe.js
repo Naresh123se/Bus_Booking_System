@@ -7,21 +7,28 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 const getStripeKey = asyncHandler(async (req, res) => {
   res.status(200).json({
-    message: 'success',
-    key: process.env.STRIPE_PUBLISHABLE_KEY
+    message: "success",
+    key: process.env.STRIPE_PUBLISHABLE_KEY,
   });
 });
 
 const newPayment = asyncHandler(async (req, res, next) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 1000, // Amount in cents
+      amount: req.body.amount * 100,
       currency: "usd",
-      payment_method_types: ["card"],
+      metadata: {
+        company: "Bus_booking_system",
+      },
+      automatic_payment_methods: {
+        enabled: true,
+      },
     });
-    res.status(200).json({ success: true, paymentIntent });
+    res
+      .status(200)
+      .json({ message: "success", client_secret: paymentIntent.client_secret });
   } catch (error) {
-    return next(new Error('Payment failed'));
+    return next(new Error("Payment failed"));
   }
 });
 

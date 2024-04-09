@@ -4,55 +4,6 @@ import  Bus  from "../models/bus.js";
 
 import cloudinary from 'cloudinary'
 
-// const buses = asyncHandler(async (req, res) => {
-// // bus.get('/buses', async (req, res) => {
-//     try {
-//         const buses = await Bus.find();
-//         res.json(buses);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Internal server error' });
-//     }
-// });
-
-
-
-
-
-
-// // Multer configuration
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/'); // Directory where uploaded files will be stored
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // File name will be originalname + timestamp
-//   }
-// });
-
-// const upload = multer({ storage: storage });
-
-// const addDes = asyncHandler(async (req, res) => {
-//   try {
-//     // Extract data from request body
-//     const { place } = req.body;
-
-//     // Extract filenames of uploaded images from req.files
-//     const selectedImages = req.files?.map(file => file.filename);
-
-
-//     // Create new destination object
-//     const des = await Des.create({
-//       place,
-//       selectedImages
-//     });
-
-//     res.status(201).json({ message: 'Destinations added successfully', data: des });
-//   } catch (error) {
-//     // Handle errors
-//     console.error("Error adding destinations:", error);
-//     res.status(500).json({ message: 'Failed to add destinations', error: error.message });
-//   }
-// });
 
 
 const addDes = asyncHandler(async (req, res, next) => {

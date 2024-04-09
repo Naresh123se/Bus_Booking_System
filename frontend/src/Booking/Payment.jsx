@@ -38,7 +38,7 @@ const PaymentButton = () => {
 
   return (
     <div>
-      <h1>Welcome to My React App</h1>
+      <h1>nnp</h1>
       <Button onClick={handleClick}>Pay with Khalti</Button>
     </div>
   );

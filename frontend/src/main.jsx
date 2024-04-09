@@ -29,6 +29,7 @@ import PickDirection from './Directions/PickDirection.jsx';
 import Payment from './Booking/Payment.jsx';
 import Not from './Pages/Notification.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
+import Completion from './Booking/Completion.jsx';
 // *************
 
 import Main from './Admin/Main.jsx';
@@ -65,6 +66,7 @@ const router = createBrowserRouter(
       <Route path='/Ticket' element={<Ticket/>} />
       <Route path='/Des' element={<Des/>} />
       <Route path='/Not' element={<Not/>} />
+      <Route path='/completion' element={<Completion/>} />
 
 
 

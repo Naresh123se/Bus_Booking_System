@@ -7,21 +7,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './slices/authSlice';
 import Header1 from './Admin/Header1';
-import { io } from "socket.io-client";
+
 
 const App = () => {
-
-//   const [username, setUsername] = useState("");
-//   const [user1, setUser1] = useState("");
-//   // const [socket, setSocket] = useState(null);
-
-
-
-
-// useEffect(() =>{
-//   socket.emit("newUser",user1)
-// }, [socket, user1]);
-
 
 
 
