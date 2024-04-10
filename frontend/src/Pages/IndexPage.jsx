@@ -5,6 +5,7 @@ import SearchBar from './SearchBar';
 import Offers from '../Booking/Offers.jsx';
 import { useNavigate } from 'react-router-dom';
 import Destinations from '../Booking/Destinations.jsx';
+import Blog from '../Pages/Blog.jsx';
 const IndexPage = () => {
   const navigate = useNavigate();
   const click11 = () => {
@@ -34,8 +35,9 @@ const IndexPage = () => {
         
      
           <div className=' '>
-            <button className=' w-80 hover:shadow-lg hover:bg-[#f0f0f0] ml-20 pt-5 pb-5 border-[1px] border-[#C8C8C8]  bg-[#FFF] shadow-[#b7acac] rounded-xl  flex place-content-center  ' onClick={click11}>
-            < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'  >Route</p>
+            <button className=' w-80   ml-20    flex place-content-center  ' onClick={click11}>
+            {/* < AddLocationAltOutlinedIcon sx={{ fontSize: 45, }} className='' />    <p className='pt-2 text-xl'  >Route</p> */}
+            <img src="Paper map.gif" alt="" className='size-60  shadow-[#b7acac]  border-[#C8C8C8] hover:shadow-lg border-[1px] rounded-xl'/>
             </button>
           </div>
 
@@ -57,6 +59,9 @@ const IndexPage = () => {
 
       <div className='  '>
       <Destinations/>
+      </div>
+      <div className=''>
+        <Blog/>
       </div>
     </>
   );

@@ -54,8 +54,21 @@ const Destinations = () => {
             <div key={index} className="flex bg" style={{ flex: '0 0 18.33%', marginRight: '30px' }}>
               <div className="h-full  shadow-lg shadow-[#a2b0b9] bg-[white] border-[#d2bebe] border-opacity-60 rounded-lg overflow-hidden">
                 <div className='p-2  '>
-                  <img className="w-full rounded-xl  h-64 object-cover object-center" src={card.imageUrl} alt="Destinations" />
- 
+                  <div className='inline-block overflow-hidden'>
+                    <div className="group relative">
+                      <img
+                        src={card.imageUrl}
+                        alt="Image"
+                        className="w-full rounded-xl  h-64 object-cover object-center transform scale-100 transition-transform duration-300 ease-in-out"
+                        style={{ transformOrigin: 'center center', transition: 'transform 0.3s ease-in-out' }}
+                        onMouseEnter={(e) => (e.target.style.transform = 'scale(1.2)')}
+                        onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+                      />
+                    </div>
+                  </div>
+                  {/* <img className="w-full rounded-xl  h-64 object-cover object-center" src={card.imageUrl} alt="Destinations" /> */}
+
+
                 </div>
                 <div className="mb-2">
                   <div className=" w-40 bg-[#b6cbca] pl-2  rounded-tr-[100px] shadow-lg shadow-[#9aa7cb] text-[#0f0f0f] title-font text-lg font-medium text-gray-900 mb-3">{card.title}</div>
