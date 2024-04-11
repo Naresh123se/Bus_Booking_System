@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 
@@ -8,10 +8,9 @@ const TrendingOffers = () => {
     const trendingOffers = [
         {
             id: 1,
-           
             description: 'Save up to Rs 300 on Hamro Bus. Limited time offer!',
-            time: '20 Mar',
-            bg: 'bg-gradient-to-tr from-[#D37E0B] to-[#F9B961]',
+            time:'20 Mar',
+            bg:'bg-gradient-to-tr from-[#D37E0B] to-[#F9B961]',
             image: './OCT.png',
             copy: 'BUSOCT3'
         },
@@ -21,7 +20,7 @@ const TrendingOffers = () => {
             description: 'Buy one, get one free on all clothing items. Hurry up!',
             bg: 'bg-gradient-to-tr from-[#113F93] to-[#386ECE]',
             image: './80x801.png',
-            copy: '20172050'
+            copy: 'BUS300'
         },
         {
             id: 3,
@@ -29,34 +28,17 @@ const TrendingOffers = () => {
             description: "Get free shipping on all orders over $50. Don't miss out!",
             bg: 'bg-gradient-to-tr from-[#2B4669] to-[#4BBE8F]',
             image: './80x80.png',
-            copy: '222'
+            copy: 'SUPERHIT'
         },
     ];
-
     const [copiedText, setCopiedText] = useState(null);
-
     const copyText = (text) => {
         navigator.clipboard.writeText(text);
         setCopiedText(text);
-
         setTimeout(() => {
             setCopiedText(null);
         }, 1000); // Remove copied message after 1.5 seconds
     };
-
-//     const CustomNextArrow = ({ onClick }) => (
-//         <button className="slick-arrow slick-next custom-next-arrow bg-blue-500 text-white rounded-full w-10 h-10" onClick={onClick}>
-//             Next1
-//         </button>
-//     );
-
-//     const CustomPrevArrow = ({ onClick }) => (
-      
-//         <button className="slick-arrow slick-prev custom-prev-arrow bg-blue-500 text-white rounded-full w-10 h-10 flex items-end justify-start" onClick={onClick}>
-//     Previous
-// </button>
-
-//     );
 
     const settings = {
         infinite: true,
@@ -64,9 +46,8 @@ const TrendingOffers = () => {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 1600,
-       dots: false, // Hide the dots navigation
+        dots: false, // Hide the dots navigation
         arrows: false // Hide the next and previous arrows
-        
     };
 
     return (

@@ -18,16 +18,11 @@ import Verify from './Pages/Verify.jsx';
 import Profile from './Pages/Profile.jsx';
 import Blog from './Pages/Blog.jsx';
 
-
-
 import Bus from './Way/Bus.jsx';
 import BusSeatSelection from './Pages/BusSeatSelection.jsx';
-import LocationButton from './Pages/LocationButton.jsx';
 import Seat from './Booking/Seat.jsx';
 import Ticket from './Booking/Ticket.jsx';
 import Des from './Booking/Destinations.jsx';
-
-
 
 
 import PickDirection from './Directions/PickDirection.jsx';
@@ -60,7 +55,7 @@ const router = createBrowserRouter(
       <Route path='/Profile' element={<Profile/>} />
       <Route path='/Bus' element={<Bus/>}/>
       <Route path='/e' element={<BusSeatSelection/>} />
-      <Route path='/love' element={<LocationButton/>} />
+      
       <Route path='/Seat' element={<Seat/>} />
       <Route path='/Booking' element={<Booking/>} />
       <Route path='/blog' element={<Blog/>} />

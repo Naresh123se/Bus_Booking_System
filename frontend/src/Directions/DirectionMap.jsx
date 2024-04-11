@@ -44,12 +44,6 @@ const DirectionMap = () => {
     loadGoogleMapsScript();
   }, []);
 
-
-
-
-
-
-
   const loadGoogleMapsScript = () => {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDXMysFoIH3bi9TKU6uBHqFimln-vYCFQg&libraries=places`;
@@ -185,10 +179,7 @@ const DirectionMap = () => {
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
 
-
-
   const [arrowDirection, setArrowDirection] = useState('right');
-
 
   useEffect(() => {
     loadGoogleMapsScript();
@@ -205,9 +196,6 @@ const DirectionMap = () => {
   };
 
 
-
-
-
   const handleEnterKeyPress = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault(); // Prevent form submission
@@ -219,8 +207,6 @@ const DirectionMap = () => {
 
   };
 
-
-
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -230,24 +216,12 @@ const DirectionMap = () => {
 
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-
     }
   };
 
-
   const [selectedDate, setSelectedDate] = useState(dayjs());
-
   const [value, setValue] = useState(new Date().toLocaleDateString('en-US'));
-
-
-
-
-
   const [value1, setValue1] = useState('');
-
-
-
-
 
   const handleChange1 = date => {
     setSelectedDate(date);
@@ -343,7 +317,6 @@ const DirectionMap = () => {
     );
   };
 
-
   const displayPhotos = (photos, name) => {
     const photoContainer = document.getElementById('photo-container');
     if (photoContainer) {
@@ -402,8 +375,6 @@ const DirectionMap = () => {
 
 
         {/* location */}
-
-
         <div className='flex ml-2' >
           <div className='mt-4'>
             <TextField

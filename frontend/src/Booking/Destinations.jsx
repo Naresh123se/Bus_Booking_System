@@ -35,58 +35,41 @@ const Destinations = () => {
       likes: '1.2K',
       comments: '6'
     }
-    ,
-    {
-      imageUrl: 'destinations/POKHARA.jpg',
-      // category: 'CATEGORY 3',
-      title: 'Shooting Stars',
-      description: 'ok',
-      likes: '1.2K',
-      comments: '6'
-    }
   ];
 
   return (
-    <section className="text-gray-600 body-font  bg-[#f5f5f5]">
-      <div className="mr-24 ml-20 pt-10 pb-10 mt-20 ">
-        <div className="flex  flex-wrap -m-" style={{ flexWrap: 'nowrap' }}>
-          {cardData.map((card, index) => (
-            <div key={index} className="flex bg" style={{ flex: '0 0 18.33%', marginRight: '30px' }}>
-              <div className="h-full  shadow-lg shadow-[#a2b0b9] bg-[white] border-[#d2bebe] border-opacity-60 rounded-lg overflow-hidden">
-                <div className='p-2  '>
-                  <div className='inline-block overflow-hidden'>
-                    <div className="group relative">
-                      <img
-                        src={card.imageUrl}
-                        alt="Image"
-                        className="w-full rounded-xl  h-64 object-cover object-center transform scale-100 transition-transform duration-300 ease-in-out"
-                        style={{ transformOrigin: 'center center', transition: 'transform 0.3s ease-in-out' }}
-                        onMouseEnter={(e) => (e.target.style.transform = 'scale(1.2)')}
-                        onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
-                      />
-                    </div>
+    <>
+      <section className="text-gray-600 body-font bg-[#f5f5f5]">
+        <div className="mr-24 ml-20 pt-10 pb-10 mt-20">
+          <div className="grid grid-cols-4 gap-10">
+
+            {cardData.map((card, index) => (
+              <div className={`border-[#d2bebe] border-opacity-60 rounded-lg overflow-hidden ${index === 1 || index === 3 ? 'mt-8' : ''}`}>
+                <div key={index} className="relative overflow-hidden rounded-lg border border-[#d2bebe] border-opacity-60">
+                  <img
+                    src={card.imageUrl}
+                    alt="Destinations"
+                    className="w-full h-96 object-cover object-center opacity-90 transform scale-100 transition-transform duration-300 ease-in-out"
+                    style={{ transformOrigin: 'center center', transition: 'transform 0.8s ease-in-out' }}
+                    onMouseEnter={(e) => (e.target.style.transform = 'scale(1.2)')}
+                    onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+                  />
+                  <div>
                   </div>
-                  {/* <img className="w-full rounded-xl  h-64 object-cover object-center" src={card.imageUrl} alt="Destinations" /> */}
-
-
-                </div>
-                <div className="mb-2">
-                  <div className=" w-40 bg-[#b6cbca] pl-2  rounded-tr-[100px] shadow-lg shadow-[#9aa7cb] text-[#0f0f0f] title-font text-lg font-medium text-gray-900 mb-3">{card.title}</div>
+                  <div className='absolute top-[93%] grid place-self-end bg-[#090a0a] rounded-r-xl opacity-80 text-lg '>
+                    <span className='opacity-100 text-[white] pr-2 rounded-xl'>
+                      {card.title}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-
-          ))}
+            ))}
+          </div>
         </div>
-
-
-      </div>
-
-    </section>
-
+      </section>
+    </>
   );
+
 };
 
 export default Destinations;
-
-

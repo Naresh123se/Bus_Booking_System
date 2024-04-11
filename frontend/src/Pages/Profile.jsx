@@ -70,8 +70,8 @@ const Profile = () => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className={`border border-[#a99090] px-3 py-2 rounded-md flex ${user
-                                        ? 'cursor-not-allowed bg-white'
-                                        : '' // Empty string if user is not present
+                                    ? 'cursor-not-allowed bg-white'
+                                    : '' // Empty string if user is not present
                                     }`}
                                 readOnly={user} // Making the input non-editable if user is present
                                 style={{ pointerEvents: user ? 'none' : 'auto' }} // Disabling pointer events if user is present
@@ -115,21 +115,27 @@ const Profile = () => {
                         </Form.Group>
                     </>
                 )}
-                <div className='mt-5'>
+                <div className='mt-5 w-24 rounded-md'>
                     {user ? ( // If user exists
                         <Button
-                            type='submit'
-                            variant="" disabled
-
-                        >
-                            Disabled
-                        </Button>
+                        sx={{ 
+                            background: '#1976D2', 
+                            color: 'white', 
+                            ":hover": { background: 'red', color: 'white' },
+                            cursor: 'not-allowed' // Add the cursor property here
+                        }}
+                        type='submit'
+                        variant="disabled" 
+                    >
+                        Disabled
+                    </Button>
+                    
                     ) : ( // If user doesn't exist
-                        <Button
+                        <Button className=''
                             type='submit'
                             variant="contained"
                         >
-                        Update
+                            Update
                         </Button>
                     )}
                 </div>

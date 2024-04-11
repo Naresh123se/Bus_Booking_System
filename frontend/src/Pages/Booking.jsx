@@ -564,70 +564,38 @@ console.log( )
                 <span className='   '><PowerIcon /> </span>
                 <span className='   '></span>
                 <span className='  '><PhotoCameraFrontIcon /></span>
+                
               </span>
               <span className='  mb-1 ml-20  '> <Groups2Icon /> Almost full </span>
+              
+    <span className='ml-[57%] bg-[red] p-1.5 rounded-md ' variant="contained"   onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity)}>Continue</span>
+  
+              
               {/* DOWN */}
 
 
-              <div className='flex justify-center' >
+             
+<div className=' flex '>
+<div className=''>
+  <ul>
+   
+    <li className='ml-[20vh] '> <BusPhoto/></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>           
+
+</div>
 
 
-
-
-                <div className=''>
-                <BusPhoto/>
-                  <div>
-
-
-
-                  </div>
-
-
-                </div>
-
-
-
-                <div>
-                  |  bus Photo
-
-                </div>
-
-
-                <div className=''>
-                  | bus Photos
-                </div>
-
-                
-
-                
-  <div className=''>
-    <Button className='' variant="contained" onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity)}>Booking</Button>
-  </div>
 
 
                 
-              </div>
+            
 
-              <div className=' flex justify-end mr-10 bg-[#F7F7F7] '>
+              
 
-
-
-
-
-
-
-
-
-
-
-
-                  {/* <BusSeatSelection /> */}
-
-                </div>
-
-              <div>
-               
-              </div>
+            
 
             </div>
           ))}
@@ -649,3 +617,6 @@ console.log( )
 }
 
 export default Booking
+
+
+
