@@ -143,46 +143,64 @@ const verify = asyncHandler(async (req, res) => {
 
     // Check if user exists
     if (!user) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "User not found with this verification token",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "User not found with this verification token",
+      });
     }
 
     // Check if user is already verified
     if (user.isVerified) {
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "User is already verified",
-          verificationStatus: "alreadyVerified",
-        });
+      return res.status(200).json({
+        success: true,
+        message: "User is already verified",
+        verificationStatus: "alreadyVerified",
+      });
     }
 
     // Mark user as verified
     user.isVerified = true;
     await user.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Verification successful",
-        verificationStatus: "success",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Verification successful",
+      verificationStatus: "success",
+    });
   } catch (err) {
     console.error("Error occurred during verification:", err);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "An error occurred during verification",
-      });
+    res.status(500).json({
+      success: false,
+      message: "An error occurred during verification",
+    });
   }
 });
+
+
+//status
+const status = asyncHandler(async (req, res) => {
+  const {id, value} = req.body;
+  console.log(id, value);
+
+  try {
+    const user = await User.findOne({_id:id});
+     user.active = value;
+     await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Verification successful",
+      verificationStatus: "success",
+    });
+  } catch (err) {
+    console.error("Error occurred during status:", err);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred during status",
+    });
+  }
+});
+
 
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/logout
@@ -261,4 +279,5 @@ export {
   updateUserProfile,
   verify,
   getUser,
+  status,
 };
