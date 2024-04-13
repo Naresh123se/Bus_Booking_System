@@ -1,28 +1,35 @@
-import asyncHandler from 'express-async-handler';
+import asyncHandler from "express-async-handler";
 import axios from 'axios';
-import dotenv from "dotenv";
-dotenv.config();
 
 const khalti = asyncHandler(async (req, res) => {
-  const { token, amount } = req.body;
-  console.log(token, amount); // Corrected logging statement
-
-  let data = {
-    token: token,
-    amount: amount
+  const {amount } = req.body;
+  console.log(amount)
+  const requestData = {
+    return_url: "http://localhost:4000/confirmation",
+    website_url: "http://localhost:4000/payment",
+    amount: amount*100,
+    purchase_order_id: "Order01",
+    purchase_order_name: "test",
+    customer_info: {
+      name: "Ram Bahadur",
+      email: "test@khalti.com",
+      phone: "9800000001"
+    }
   };
 
-  let config = {
-    headers: {'Authorization': 'process.env.GOOGLE_CLIENT_ID,'} // Corrected Authorization header
+  const config = {
+    headers: {
+      'Authorization': 'key live_secret_key_68791341fdd94846a146f0457ff7b455',
+      'Content-Type': 'application/json'
+    }
   };
 
   try {
-    const verificationResponse = await axios.post("https://khalti.com/api/v2/payment/verify/", data, config);
-    console.log(verificationResponse.data); // Logging verification response
-    res.status(200).json(verificationResponse.data); // Sending verification response to client
+    const response = await axios.post('https://a.khalti.com/api/v2/epayment/initiate/', requestData, config);
+    res.json(response.data);
   } catch (error) {
-    console.error("Error occurred during payment verification:", error);
-    res.status(500).json({ error: 'An error occurred while verifying payment.' });
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while initiating payment.' });
   }
 });
 

@@ -1,45 +1,36 @@
-// frontend/src/PaymentButton.js
 import React from 'react';
-import KhaltiCheckout from 'khalti-checkout-web';
 import Button from '@mui/joy/Button';
-import axios from 'axios';
+import { useInitiatePaymentMutation } from '../slices/khalti.js';
 
 const PaymentButton = () => {
-  const handleClick = () => {
-    var config = {
-      publicKey: 'live_public_key_228666a712964f4aa3c13948c1718d7d',
-      productIdentity: '1234567890',
-      productName: 'Bus-Ticket',
-      productUrl: 'http://localhost:4000/payment',
-      paymentPreference: ['KHALTI', 'EBANKING', 'MOBILE_BANKING', 'CONNECT_IPS', 'SCT'],
-      eventHandler: {
-        onSuccess(payload) {
-          console.log(payload);
-          axios.post('http://localhost:5000/api/khalti', { token: payload.token, amount: 1000 })
-            .then(response => {
-              console.log(response.data);
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        },
-        onError(error) {
-          console.log(error);
-        },
-        onClose() {
-          console.log('Widget is closing');
-        }
-      }
-    };
+  const [khalti, { isLoading, isError, error }] = useInitiatePaymentMutation();
 
-    var checkout = new KhaltiCheckout(config);
-    checkout.show({ amount: 1000 });
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await khalti({ amount: 5000 }).unwrap();
+      redirectToKhalti(response);
+    } catch (err) {
+      console.error("Error occurred during payment initiation:", err);
+      // Display error to the user
+    }
   };
+
+  const redirectToKhalti = (response) => {
+    if (response && response.payment_url) {
+      window.location = response.payment_url;
+    } else {
+      console.error("Invalid response from Khalti:", response);
+      // Handle invalid response
+    }
+  }
 
   return (
     <div>
-      <h1>nnp</h1>
-      <Button onClick={handleClick}>Pay with Khalti</Button>
+      <Button onClick={handleClick} disabled={isLoading}>
+        {isLoading ? 'Processing...' : 'Pay with Khalti'}
+      </Button>
+      {isError && <div>Error: {error.message}</div>}
     </div>
   );
 };

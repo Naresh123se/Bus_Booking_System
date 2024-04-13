@@ -19,6 +19,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 
+
+
 import stripe from './routes/stripe.js'
 
 
@@ -33,15 +35,12 @@ app.use(express.urlencoded({ extended: true}));
 app.use(cookieParser());
 
 
-
-
-
-
 app.use('/api/users', userRoutes);
 app.use('/api/Booking',booking);
 app.use('/api',bus);
 app.use('/api',busSchedules);
 app.use('/api',khalti);
+
 app.use('/api',passenger);
 app.use('/api',seat);
 app.use('/api',addDes);

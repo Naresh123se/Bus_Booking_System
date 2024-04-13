@@ -11,6 +11,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import Tooltip from '@mui/material/Tooltip';
+import PayNow from '../Booking/PayNow.jsx';
 
 
 const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
@@ -68,91 +69,91 @@ const BusSeatSelection = () => {
   const [seat, setSeat] = useState('');
 
 
-  const [userdata1, setUserData1] = useState({
-    email: '',
-    phoneNumber: ''
-  })
-  const handleInputChange1 = (e) => {
-    setFormData({
-      ...userdata1,
-      [e.target.name]: e.target.value
-    });
-  };
+  // const [userdata1, setUserData1] = useState({
+  //   email: '',
+  //   phoneNumber: ''
+  // })
+  // const handleInputChange1 = (e) => {
+  //   setFormData({
+  //     ...userdata1,
+  //     [e.target.name]: e.target.value
+  //   });
+  // };
 
 
 
 
-  useEffect(() => {
-    fetchSeats();
+  // useEffect(() => {
+  //   fetchSeats();
 
-    const passengerss = localStorage.getItem('search');
-    const parsedData = JSON.parse(passengerss);
-    const storedPassengerNumber = parsedData.count;
-    const placefromLocation = parsedData.fromLocation;
-    const placetoLocation = parsedData.toLocation;
-    setFromLocation(placefromLocation);
-    setToLocation(placetoLocation);
-    const startTime = localStorage.getItem('startTime');
-    const endTime = localStorage.getItem('endTime');
-    setTostartTime(startTime);
-    setToendTime(endTime);
-    const capacity = localStorage.getItem('capacity');
-    setSeat(capacity);
-
-
-    fetchData();
-
-    const priceFromLocalStorage = localStorage.getItem('price');
-    if (priceFromLocalStorage) {
-      setPrice(parseFloat(priceFromLocalStorage)); // Assuming price is stored as a string and needs to be converted to a number
-    }
-    console.log("first", passengerNumber)
+  //   const passengerss = localStorage.getItem('search');
+  //   const parsedData = JSON.parse(passengerss);
+  //   const storedPassengerNumber = parsedData.count;
+  //   const placefromLocation = parsedData.fromLocation;
+  //   const placetoLocation = parsedData.toLocation;
+  //   setFromLocation(placefromLocation);
+  //   setToLocation(placetoLocation);
+  //   const startTime = localStorage.getItem('startTime');
+  //   const endTime = localStorage.getItem('endTime');
+  //   setTostartTime(startTime);
+  //   setToendTime(endTime);
+  //   const capacity = localStorage.getItem('capacity');
+  //   setSeat(capacity);
 
 
+  //   fetchData();
+
+  //   const priceFromLocalStorage = localStorage.getItem('price');
+  //   if (priceFromLocalStorage) {
+  //     setPrice(parseFloat(priceFromLocalStorage)); // Assuming price is stored as a string and needs to be converted to a number
+  //   }
+  //   console.log("first", passengerNumber)
 
 
-    // console.log(storedPassengerNumber)
-    if (storedPassengerNumber) {
-      setPassengerNumber(storedPassengerNumber);
-      console.log(passengerNumber);
-    }
+
+
+  //   // console.log(storedPassengerNumber)
+  //   if (storedPassengerNumber) {
+  //     setPassengerNumber(storedPassengerNumber);
+  //     console.log(passengerNumber);
+  //   }
  
-    // console.log(sceid);
-  }, []);
+  //   // console.log(sceid);
+  // }, []);
 
-  console.log("naresh", final);
+  
 
   const [seseatsArray, setSeseatsArray] = useState([]);
 
-  const fetchSeats = async () => {
-    try {
-      const response = await Getseat();
-      const seatData = response.data.data; // Assuming this contains the array of seat objects
+  // const fetchSeats = async () => {
+  //   try {
+  //     const response = await Getseat();
+  //     const seatData = response.data.data; // Assuming this contains the array of seat objects
 
-      // Extract seseats arrays from each seat object and concatenate them into a single array
-      const seseats = seatData.reduce((accumulator, seat) => {
-        return accumulator.concat(seat.seseats);
-      }, []);
+  //     // Extract seseats arrays from each seat object and concatenate them into a single array
+  //     const seseats = seatData.reduce((accumulator, seat) => {
+  //       return accumulator.concat(seat.seseats);
+  //     }, []);
 
-      const seatId = localStorage.getItem('scheduleId');
-      const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
+  //     const seatId = localStorage.getItem('scheduleId');
+  //     const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
 
-      console.log(filteredSeats);
+  //     console.log(filteredSeats);
 
-      // Extract selected seats from filteredSeats
-      const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
-        return accumulator.concat(seat.seseats);
-      }, []);
+  //     // Extract selected seats from filteredSeats
+  //     const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
+  //       return accumulator.concat(seat.seseats);
+  //     }, []);
 
-      // Update seseatsArray state with the selected seats
-      setSeseatsArray(selectedSeats);
+  //     // Update seseatsArray state with the selected seats
+  //     setSeseatsArray(selectedSeats);
 
-      console.log(selectedSeats); // Output: Selected seats
-    } catch (error) {
-      console.error('Error fetching seat data:', error);
-      setError(error.message);
-    }
-  };
+  //     console.log(selectedSeats); // Output: Selected seats
+  //   } catch (error) {
+  //     console.error('Error fetching seat data:', error);
+  //     setError(error.message);
+  //   }
+  // };
 
 // Capacity
 
@@ -227,54 +228,54 @@ const BusSeatSelection = () => {
 
 
 
-  const handleFormSubmit = async () => {
-    try {
-      if (formData.length !== seseats.length) {
-        setFormError(true);
-        return;
-      }
-      setIsSubmitting(true);
-      const user = JSON.parse(localStorage.getItem('userInfo'));
-      const ScId = localStorage.getItem('scheduleId');
-      const userId = user?._id;
-      console.log(userId)
-      if (!userId) {
-        throw new Error('User not authenticated or userId not found');
-      }
-      const response = await Selseat({ ScId, userId, seseats }).unwrap();
+  // const handleFormSubmit = async () => {
+  //   try {
+  //     if (formData.length !== seseats.length) {
+  //       setFormError(true);
+  //       return;
+  //     }
+  //     setIsSubmitting(true);
+  //     const user = JSON.parse(localStorage.getItem('userInfo'));
+  //     const ScId = localStorage.getItem('scheduleId');
+  //     const userId = user?._id;
+  //     console.log(userId)
+  //     if (!userId) {
+  //       throw new Error('User not authenticated or userId not found');
+  //     }
+  //     const response = await Selseat({ ScId, userId, seseats }).unwrap();
 
 
-      console.log(response);
-      // toast.success('Seats booked successfully!');
-      fetchSeats();
-      handleClearSelection();
-    } catch (error) {
-      console.error('Error occurred:', error);
-      toast.error('An error occurred while booking seats. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //     console.log(response);
+  //     // toast.success('Seats booked successfully!');
+  //     fetchSeats();
+  //     handleClearSelection();
+  //   } catch (error) {
+  //     console.error('Error occurred:', error);
+  //     toast.error('An error occurred while booking seats. Please try again.');
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
 
-  useEffect(() => {
-    const storedSeats = JSON.parse(localStorage.getItem('seseats'));
-    if (storedSeats) {
-      setSeseats(storedSeats);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedSeats = JSON.parse(localStorage.getItem('seseats'));
+  //   if (storedSeats) {
+  //     setSeseats(storedSeats);
+  //   }
+  // }, []);
 
 
 
-  useEffect(() => {
-    localStorage.setItem('seseats', JSON.stringify(seseats));
-    setFormError(false);
-    const newFormData = [];
-    for (let i = 0; i < passengerNumber; i++) {
-      newFormData.push({ firstName: '', lastName: '' });
-    }
-    setFormData(newFormData);
-  }, [seseats, passengerNumber]);
+  // useEffect(() => {
+  //   localStorage.setItem('seseats', JSON.stringify(seseats));
+  //   setFormError(false);
+  //   const newFormData = [];
+  //   for (let i = 0; i < passengerNumber; i++) {
+  //     newFormData.push({ firstName: '', lastName: '' });
+  //   }
+  //   setFormData(newFormData);
+  // }, [seseats, passengerNumber]);
 
 
   const [showForm, setShowForm] = useState(false);
@@ -287,8 +288,7 @@ const BusSeatSelection = () => {
   const submitVoucher = (event) => {
     event.preventDefault();
     console.log('Voucher submitted:', voucher);
-    // Further logic, such as submitting the voucher to the backend, can be added here
-    // Clear the voucher input field
+    
     setVoucher('');
   };
 
@@ -312,7 +312,13 @@ const BusSeatSelection = () => {
   console.log(rows)
   const columns = Array.from({ length: 4 }, (_, i) => i + 1);
 
+  const [isChecked, setIsChecked] = useState(false);
 
+  // Function to handle checkbox change
+  const handleCheckboxChange = () => {
+    // Toggle the checkbox value
+    setIsChecked(!isChecked);
+  };
 
 
   return (
@@ -372,9 +378,9 @@ const BusSeatSelection = () => {
                       Clear
                     </Button>
                     <br />
-                    <Button sx={{ marginTop: '10px' }} onClick={handleFormSubmit} disabled={isSubmitting}>
+                    {/* <Button sx={{ marginTop: '10px' }} onClick={handleFormSubmit} disabled={isSubmitting}>
                       Submit
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </div>
@@ -383,7 +389,7 @@ const BusSeatSelection = () => {
 
 
 
-          <div className="border pl-5 mt-5 rounded-lg w-full">
+          {/* <div className="border pl-5 mt-5 rounded-lg w-full">
             {passengerNumber > 0 && (
               <div className="">
                 <form onSubmit={userdata}>
@@ -428,11 +434,11 @@ const BusSeatSelection = () => {
                 </form>
               </div>
             )}
-          </div>
+          </div> */}
 
 
 
-          <div className="border pl-5 mt-5 rounded-lg w-full">
+          {/* <div className="border pl-5 mt-5 rounded-lg w-full">
             <form onSubmit={userdata}>
               <div className='flex mt-5'>
                 <h1 className='font-semibold text-2xl size-8 flex items-center justify-center border rounded-md bg-[#009DF8]'>3</h1>
@@ -467,7 +473,7 @@ const BusSeatSelection = () => {
               {formError && <div className="text-[red]">Please fill all the fields</div>}
               <Button type="submit">Submit</Button>
             </form>
-          </div>
+          </div> */}
 
 
 
@@ -544,14 +550,30 @@ const BusSeatSelection = () => {
         
       </div>
     )}
-    <input
-  type='checkbox'
-  className="appearance-none w-6 h-6 rounded border border-gray-300 checked:bg-blue-600 checked:border-transparent focus:outline-none focus:ring focus:border-blue-300 mt-4"
-/>
+    <div className='flex mt-2 gap-1  '>
+    <label>
+        {/* Checkbox input */}
+        <input
+          type="checkbox"
+          required
+          checked={isChecked} // Controlled by the state
+          onChange={handleCheckboxChange}
+          className='size-6 mt-2 mr-2' // Handle checkbox change
+        />
+      </label>
+      <p className=''>I declare to have read the Privacy Policy and I agree to the T&C of Booking </p>
+
+    </div>
+ 
 
   </div>
 
-  <p className='text-lg'>Booking Description</p>
+<PayNow/>
+
+
+
+
+
 </div>
 
 

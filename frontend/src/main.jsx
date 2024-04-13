@@ -19,7 +19,7 @@ import Profile from './Pages/Profile.jsx';
 import Blog from './Pages/Blog.jsx';
 
 import Bus from './Way/Bus.jsx';
-import BusSeatSelection from './Pages/BusSeatSelection.jsx';
+import BusSeat from './Pages/BusSeat.jsx';
 import Seat from './Booking/Seat.jsx';
 import Ticket from './Booking/Ticket.jsx';
 import Des from './Booking/Destinations.jsx';
@@ -27,6 +27,7 @@ import Des from './Booking/Destinations.jsx';
 
 import PickDirection from './Directions/PickDirection.jsx';
 import Payment from './Booking/Payment.jsx';
+import Confirmation from './Booking/PaymentCon.jsx';
 import Not from './Pages/Notification.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
 import Completion from './Booking/Completion.jsx';
@@ -40,7 +41,7 @@ import ABus from './Admin/Bus.jsx';
 import ADes from './Admin/Destinations.jsx';
 
 
-// import BusSeatSelection from './Pages/BusSeatSelection.jsx'
+
 import { Provider } from 'react-redux';
 
 const router = createBrowserRouter(
@@ -54,16 +55,17 @@ const router = createBrowserRouter(
       <Route path='/Verify' element={<Verify/>} />
       <Route path='/Profile' element={<Profile/>} />
       <Route path='/Bus' element={<Bus/>}/>
-      <Route path='/e' element={<BusSeatSelection/>} />
+      <Route path='/seat' element={<BusSeat/>} />
       
-      <Route path='/Seat' element={<Seat/>} />
+      <Route path='/Seat1' element={<Seat/>} />
       <Route path='/Booking' element={<Booking/>} />
       <Route path='/blog' element={<Blog/>} />
    
       <Route path='/PickD' element={<PickDirection/>} />
       <Route path='/payment' element={<Payment/>} />
+      <Route path='/confirmation' element={<Confirmation/>} />
       <Route path='/Ipayment' element={<Int_Payment />} />
-      <Route path='/hlo' element={<BusSeatSelection/>} />
+
       <Route path='/Ticket' element={<Ticket/>} />
       <Route path='/Des' element={<Des/>} />
       <Route path='/Not' element={<Not/>} />
