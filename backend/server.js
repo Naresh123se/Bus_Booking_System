@@ -16,8 +16,6 @@ import khalti from './routes/khalti.js';
 import {app} from "./google.js";
 import './email.js';
 import { v2 as cloudinary } from 'cloudinary';
-import { Server } from 'socket.io';
-import { createServer } from 'http';
 
 
 

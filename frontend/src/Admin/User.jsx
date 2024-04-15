@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AIndex from './AIndex.jsx'
-import { jsx, css } from '@emotion/react'; // Import jsx and css from Emotion
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import Button from '@mui/joy/Button';
-import { toast } from 'react-toastify';
-import { useAddMutation } from '../slices/busSchedules.js';
-// import { useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
 import { useGetUserMutation } from '../slices/usersApiSlice.js';
-import Seat from '../Booking/Seat.jsx'
+
 
 
 
@@ -54,48 +45,21 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 
 const Users = () => {
   const [data, setData] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
-  const [editData, setEditData] = useState({});
-  const [showAddPanel, setShowAddPanel] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  // const [add] = useAddMutation();
+
+
   const [user] = useGetUserMutation();
-  // const [editSchedule] = useEditScheduleMutation(); // Hook for editing schedule
-  // const [deleteSchedule] = useDeleteScheduleMutation(); // Hook for deleting schedule
-
-
-  // Inside Users component
-
- 
-
-
-
-
-
-
-
-
-
-
-  // console.log(editData);
-
-
-
-
-
-
-  const navigate = useNavigate();
-
+  const [active1, setActive1] = useState([]);
   useEffect(() => {
     const fetchSchedules = async (e) => {
       try {
-
         const result = await user();
         setData(result.data.data);
-
         console.log(result);
+
+        setActive1(data[0].active)
+        console.log(active1)
+
 
       } catch (error) {
         console.error('Failed to fetch schedules:', error);
@@ -105,48 +69,56 @@ const Users = () => {
     fetchSchedules();
   }, []);
 
-  
-  const [value, setValue] = React.useState(false);
-const [id, setId] = React.useState()
-  const handleChange = async (event) => {
+
+
+
+  const [id, setId] = React.useState()
+
+  const handleChange = async (event, index) => {
     const newValue = event.target.checked;
-    setValue(newValue);
+    const userId = data[index]._id; // Get the user ID
     try {
+      // Create a copy of the data array
+      const updatedData = [...data];
+      // Update the active state of the specific user
+      updatedData[index] = { ...updatedData[index], active: newValue };
+      // Update the state with the modified data
+      setData(updatedData);
+  
+      // Send a request to update the backend
       const response = await fetch('http://localhost:4000/api/users/status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ value: newValue, id:id }),
+        body: JSON.stringify({ value: newValue, id: userId }),
       });
       if (!response.ok) {
         throw new Error('Failed to update value');
       }
       console.log(`Switch toggled to ${newValue}`);
-      // Add your logic here to handle any UI updates if necessary
     } catch (error) {
       console.error('Error updating value:', error);
-      // Add your error handling logic here
     }
   };
-
+  
 
 
   const deleteData = async (id) => {
     try {
-      console.log(id)
-     setId(id) 
-      
-      // Add your deletion logic here
+
+      setId(id)
+
+
     } catch (error) {
       console.error('Error deleting data:', error);
-      // Handle any errors that occur during the deletion process
+
     }
   };
-  console.log(id)
 
 
-  
+
+
 
 
   return (
@@ -182,53 +154,40 @@ const [id, setId] = React.useState()
 
 
                 <tbody className='' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-  <div className='h-[78.5vh] overflow-y-auto w-full'>
-    {data.map((item, index) => (
-      <tr key={item.id} style={{ 
-        backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white',
-        borderRadius: '8px',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-        ...(item.active ? { backgroundColor: '#eff7ff' } : { backgroundColor: '#fdeeee' }), // Apply different background color based on active status
-      }} className='flex'>
-        <td className="w-28 ml-12">
-          <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
-        </td>
-        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.name}</td>
-        <td className="w-80" style={{ fontSize: '1.2rem', color: '#555' }}>{item.email}</td>
-        {/* <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.isVerified}</td> */}
-        <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}> {new Date(item.createdAt).toLocaleDateString('en-US')}</td>
-        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
-        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.active}</td>
+                  <div className='h-[78.5vh] overflow-y-auto w-full'>
+                    {data.map((item, index) => (
+                      <tr key={item.id} style={{
+                        backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        ...(item.active ? { backgroundColor: '#eff7ff' } : { backgroundColor: '#fdeeee' }), // Apply different background color based on active status
+                      }} className='flex'>
+                        <td className="w-28 ml-12">
+                          <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
+                        </td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.name}</td>
+                        <td className="w-80" style={{ fontSize: '1.2rem', color: '#555' }}>{item.email}</td>
+                        {/* <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.isVerified}</td> */}
+                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}> {new Date(item.createdAt).toLocaleDateString('en-US')}</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
+                        {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.active}</td> */}
 
-        <span onClick={() => deleteData(item._id)}>
+                        <span onClick={() => deleteData(item._id)}>
 
-        <FormGroup>
-      <FormControlLabel
-        control={<Android12Switch checked={value} onChange={handleChange} />}
-        label=""
-      />
-    </FormGroup>
-        </span>
+                          <FormGroup>
+                            <FormControlLabel
+                              control={<Android12Switch checked={item.active} 
+                              onChange={(event) => handleChange(event, index)}
+                              />}
+                              label=""
+                            />
+                          </FormGroup>
+                        </span>
 
-
-     
-
-    
-
-      
-        {/* <td className="flex gap-2">
-          <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
-          <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}>
-            
-            
-            
-            
-           </button>
-        </td> */}
-      </tr>
-    ))}
-  </div>
-</tbody>
+                      </tr>
+                    ))}
+                  </div>
+                </tbody>
 
 
               </table>

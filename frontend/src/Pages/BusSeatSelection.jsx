@@ -541,7 +541,7 @@ const BusSeatSelection = () => {
             onChange={(e) => setVoucher(e.target.value)}
             placeholder="Enter voucher"
             className="border border-gray-300 rounded-md py-2 px-4 mr-2 focus:outline-none focus:ring focus:border-blue-300"
-            required
+          
           />
           <Button type="submit" className="bg-btn text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">
             Redeem

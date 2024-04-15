@@ -31,6 +31,7 @@ import Confirmation from './Booking/PaymentCon.jsx';
 import Not from './Pages/Notification.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
 import Completion from './Booking/Completion.jsx';
+import EXT from './Booking/Extra.jsx'
 // *************
 
 import Main from './Admin/Main.jsx';
@@ -57,6 +58,8 @@ const router = createBrowserRouter(
       <Route path='/Bus' element={<Bus/>}/>
       <Route path='/seat' element={<BusSeat/>} />
       
+      <Route path='/Extra' element={<EXT/>} />
+
       <Route path='/Seat1' element={<Seat/>} />
       <Route path='/Booking' element={<Booking/>} />
       <Route path='/blog' element={<Blog/>} />

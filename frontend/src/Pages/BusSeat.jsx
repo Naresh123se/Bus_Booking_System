@@ -57,10 +57,10 @@ const BusSeatSelection = () => {
 
     const [formData, setFormData] = useState([]);
     const [formError, setFormError] = useState(false);
-    const [passengerNumber, setPassengerNumber] = useState(0);
+    const [passengerNumber, setPassengerNumber] = useState(null);
     const [seats, setSeats] = useState([]);
     const [error, setError] = useState(null);
-    const [price, setPrice] = useState();
+    const [price, setPrice] = useState(null);
     const [fromLocation, setFromLocation] = useState('');
     const [toLocation, setToLocation] = useState('');
     const [tostartTime, setTostartTime] = useState('');
@@ -68,6 +68,7 @@ const BusSeatSelection = () => {
     const [final, setFinal] = useState('');
     const [seat, setSeat] = useState('');
 
+    const data22 =  price * passengerNumber;
 
     const [userdata1, setUserData1] = useState({
         email: '',
@@ -285,10 +286,6 @@ const BusSeatSelection = () => {
         setShowForm(prevState => !prevState);
     };
 
-    const submitVoucher = (event) => {
-        event.preventDefault();
-        setVoucher('');
-    };
 
 
     const handleInputChange = (index, event) => {
@@ -317,6 +314,51 @@ const BusSeatSelection = () => {
         // Toggle the checkbox value
         setIsChecked(!isChecked);
     };
+
+  
+    console.log(passengerNumber)
+    const [discountAmount, setDiscountAmount] = useState(0);
+
+    const [price11, setPrice11] = useState(price); // Initial price value
+    const [passengerNumber11, setPassengerNumber11] = useState(passengerNumber); // Initial passenger number
+
+    const originalPrice = price * passengerNumber// Define your original price here
+    console.log(originalPrice)
+
+    const [discountedPrice, setDiscountedPrice] = useState(originalPrice);
+
+    const submitVoucher = (event) => {
+        
+        event.preventDefault();
+        console.log(voucher)
+        let discount = 10;
+        if (voucher === 'COUPON123') {
+            discount = 50; 
+           
+          }else if (voucher === 'COUPON12') {
+            discount = 40; 
+            
+          }
+          else if (voucher === 'COUPON1') {
+            discount = 40; 
+          }
+          
+          else {
+            toast.error('Invalid coupon code. Please try again.');
+          }
+        
+
+          const discountAmountValue = discount;
+          setDiscountAmount(discountAmountValue);
+         
+          const discountedValue = (originalPrice - discount);
+          setDiscountedPrice(discountedValue);
+    };
+    
+
+
+  
+ 
 
 
     return (
@@ -528,12 +570,26 @@ const BusSeatSelection = () => {
 
                             <hr className='border-[#afa2a2]' />
 
+                            {discountedPrice !== null && (
+                                
+            <div className='flex'> 
+        <div className='flex w-full'>
+           <p>Discount Amount: </p>
+           </div>
+            <div className='flex justify-end w-full'>
+            ${discountAmount}
+            </div>
+            </div>
+         
+      
+        
+      )}
                             <div className='flex justify-between m-2'>
                                 <div className='flex items-center'>
                                     <h1 className='text-lg font-bold'>Total</h1>
                                     <p className='text-lg ml-1'>(incl. VAT)</p>
                                 </div>
-                                <h1 className='text-lg font-bold'>Rs. {price * passengerNumber}</h1>
+                                <h1 className='text-lg font-bold'>Rs. {discountedPrice}</h1>
                             </div>
 {/* voucher */}
                             <div className=" ml-1 p-1">
@@ -559,6 +615,11 @@ const BusSeatSelection = () => {
 
                                     </div>
                                 )}
+                                {/* DISCOUNT LOGIC */}
+
+                                <div>
+
+                                </div>
                                 <div className='flex mt-2 gap-1  '>
                                     <label>
                                         {/* Checkbox input */}
