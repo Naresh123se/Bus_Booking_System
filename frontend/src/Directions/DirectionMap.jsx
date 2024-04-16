@@ -30,9 +30,9 @@ import { useNavigate } from 'react-router-dom'
 
 
 
-
-
 const DirectionMap = () => {
+
+
   const [map, setMap] = useState(null);
   const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
@@ -42,11 +42,14 @@ const DirectionMap = () => {
 
   useEffect(() => {
     loadGoogleMapsScript();
+    
+  
   }, []);
+
 
   const loadGoogleMapsScript = () => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDXMysFoIH3bi9TKU6uBHqFimln-vYCFQg&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.defer = true;
     script.onload = initMap;

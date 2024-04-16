@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
@@ -45,6 +45,8 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
     </button>
 );
 
+let totalPrice;
+
 const BusSeatSelection = () => {
     const [seseats, setSeseats] = useState([]);
 
@@ -68,7 +70,7 @@ const BusSeatSelection = () => {
     const [final, setFinal] = useState('');
     const [seat, setSeat] = useState('');
 
-    const data22 =  price * passengerNumber;
+
 
     const [userdata1, setUserData1] = useState({
         email: '',
@@ -108,10 +110,8 @@ const BusSeatSelection = () => {
         if (priceFromLocalStorage) {
             setPrice(parseFloat(priceFromLocalStorage)); // Assuming price is stored as a string and needs to be converted to a number
         }
-        console.log("first", passengerNumber)
-
-
-
+       
+    
 
         // console.log(storedPassengerNumber)
         if (storedPassengerNumber) {
@@ -130,7 +130,7 @@ const BusSeatSelection = () => {
         try {
             const response = await Getseat();
             const seatData = response.data.data; // Assuming this contains the array of seat objects
-
+ console.log(seatData)
             // Extract seseats arrays from each seat object and concatenate them into a single array
             const seseats = seatData.reduce((accumulator, seat) => {
                 return accumulator.concat(seat.seseats);
@@ -217,7 +217,7 @@ const BusSeatSelection = () => {
         try {
             localStorage.setItem('formData', JSON.stringify(formData));
 
-            toast.success('Seats booked successfully!asdsadasd');
+            toast.success('Seats booked successfully!');
         } catch (err) {
             console.log(err);
             toast.error(err?.data?.message || err.error);
@@ -304,7 +304,7 @@ const BusSeatSelection = () => {
 
 
     const rows = Array.from({ length: (seat / 4) }, (_, i) => i + 1);
-    console.log(rows)
+   
     const columns = Array.from({ length: 4 }, (_, i) => i + 1);
 
     const [isChecked, setIsChecked] = useState(false);
@@ -315,23 +315,83 @@ const BusSeatSelection = () => {
         setIsChecked(!isChecked);
     };
 
+
   
-    console.log(passengerNumber)
+    // console.log(passengerNumber)
     const [discountAmount, setDiscountAmount] = useState(0);
 
-    const [price11, setPrice11] = useState(price); // Initial price value
-    const [passengerNumber11, setPassengerNumber11] = useState(passengerNumber); // Initial passenger number
 
-    const originalPrice = price * passengerNumber// Define your original price here
-    console.log(originalPrice)
+console.log(totalPrice)
+const [discountedPrice, setDiscountedPrice] = useState();
 
-    const [discountedPrice, setDiscountedPrice] = useState(originalPrice);
+useEffect(() => {
+    if (totalPrice !== undefined) {
+        setDiscountedPrice(totalPrice);
+    }
+}, []);
 
-    const submitVoucher = (event) => {
+console.log(discountedPrice)
+
+const priceFromStorage = localStorage.getItem('price');
+    const userFromStorage = localStorage.getItem('search');
+
+    let price11, count;
+
+    // Check if priceFromStorage and userFromStorage are not null and not undefined
+    if (priceFromStorage !== null && priceFromStorage !== undefined) {
+        // Convert the price value to the appropriate data type if needed
+        price11 = parseFloat(priceFromStorage);
+        console.log(price)
+    } else {
+        // Handle the case where price is not available in local storage
+        console.error('Price not found in local storage');
+    }
+
+    // Check if userFromStorage is not null and not undefined
+    if (userFromStorage !== null && userFromStorage !== undefined) {
+        // Parse the user JSON string to extract the user data
+        const user = JSON.parse(userFromStorage);
         
+        // Extract the count from the user object
+        if (user && typeof user === 'object' && user.hasOwnProperty('count')) {
+            count = user.count;
+        } else {
+            // Handle the case where count is not available in user object
+            console.error('Count not found in user object');
+        }
+    } else {
+        // Handle the case where user is not available in local storage
+        console.error('User not found in local storage');
+    }
+
+    console.log(price11, count)
+    // Calculate the total price
+    useEffect(() => {
+        if (price11 !== undefined && count !== undefined) {
+            totalPrice = price11 * count;
+            console.log(totalPrice)
+        }
+    }, [price11, count]);
+
+    // Log the total price for testing purposes
+    console.log('Total Price:', totalPrice);
+
+
+
+
+
+
+
+
+
+
+
+   
+    const submitVoucher = (event) => {
+        setTotalVoucher(true);
         event.preventDefault();
         console.log(voucher)
-        let discount = 10;
+        let discount = 0;
         if (voucher === 'COUPON123') {
             discount = 50; 
            
@@ -344,17 +404,21 @@ const BusSeatSelection = () => {
           }
           
           else {
-            toast.error('Invalid coupon code. Please try again.');
+            toast.error('Invalid coupon code.');
           }
         
 
           const discountAmountValue = discount;
           setDiscountAmount(discountAmountValue);
          
-          const discountedValue = (originalPrice - discount);
+          const discountedValue = (totalPrice - discount);
           setDiscountedPrice(discountedValue);
+          console.log(discountedPrice)
     };
     
+  
+    const [totalVoucher, setTotalVoucher] = useState(false);
+   
 
 
   
@@ -569,22 +633,22 @@ const BusSeatSelection = () => {
                             </div>
 
                             <hr className='border-[#afa2a2]' />
+                 
 
-                            {discountedPrice !== null && (
-                                
-            <div className='flex'> 
+
+{totalVoucher && voucher.trim() !== '' && voucher.trim() !== '0' && (
+    <div className='flex'> 
         <div className='flex w-full'>
-           <p>Discount Amount: </p>
-           </div>
-            <div className='flex justify-end w-full'>
-            ${discountAmount}
-            </div>
-            </div>
-         
-      
-        
-      )}
-                            <div className='flex justify-between m-2'>
+            <p>Discount Amount: </p>
+        </div>
+        <div className='flex justify-end w-full font-medium text-lg'>
+            Rs. -{discountAmount}
+        </div>
+    </div>
+)}
+
+
+                                        <div className='flex justify-between '>
                                 <div className='flex items-center'>
                                     <h1 className='text-lg font-bold'>Total</h1>
                                     <p className='text-lg ml-1'>(incl. VAT)</p>
@@ -592,7 +656,7 @@ const BusSeatSelection = () => {
                                 <h1 className='text-lg font-bold'>Rs. {discountedPrice}</h1>
                             </div>
 {/* voucher */}
-                            <div className=" ml-1 p-1">
+                            <div className=" mt-2">
                                 <div className={`bg-[#f4f5f5] border border-[#B8C4CB] rounded-md py-1.5 px-1.5 cursor-pointer flex items-center justify-between ${showForm ? 'w-[130px]' : 'w-[130px]'}`} onClick={toggleForm}>
                                     <span><ConfirmationNumberIcon sx={{color:'#2b75ad'}} className="mr-1" />Voucher</span>
                                     {showForm ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -637,8 +701,10 @@ const BusSeatSelection = () => {
 
 
                             </div>
-<div className='mt-2'>
-<PayNow />
+<div className='mt-2 '>
+   
+    <PayNow  />
+    
 
 </div>
 

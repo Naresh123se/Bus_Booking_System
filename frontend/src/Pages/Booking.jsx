@@ -4,7 +4,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 
 // import BusSeatSelection from './BusSeatSelection.jsx'
-
+import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
 import { useGetScheduleMutation } from '../slices/busSchedules.js';
 import { faDivide } from '@fortawesome/free-solid-svg-icons';
 import Groups2Icon from '@mui/icons-material/Groups2';
@@ -46,7 +46,7 @@ const Booking = () => {
   const [data, setData] = useState([]);
 
   const [showData, setShowData] = useState(false);
-
+  const [Getseat] = useGetseatMutation();
   const toggleVisibility = () => {
     setShowData(!showData);
   };
@@ -56,8 +56,7 @@ const Booking = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-    const api = import.meta.env.GOOGLE_MAPS_API_KEY;
-    console.log('hi',api);
+    
   }, []);
 
   useEffect(() => {
@@ -69,12 +68,71 @@ const Booking = () => {
   }, []);
 
   useEffect(() => {
+    fetchSeats();
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000); // Update every second
 
     return () => clearInterval(interval); // Cleanup interval on unmount
+   
   }, []);
+
+  const [seseatsArray, setSeseatsArray] = useState([]);
+  const [Filter, setSfilter] = useState([]);
+  const fetchSeats = async () => {
+    try {
+        const response = await Getseat();
+        const seatData = response.data.data; // Assuming this contains the array of seat objects
+console.log(response)
+        // Extract seseats arrays from each seat object and concatenate them into a single array
+        const seseats = seatData.reduce((accumulator, seat) => {
+            return accumulator.concat(seat.seseats);
+        }, []);
+
+        const seatId = localStorage.getItem('scheduleId');
+        const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
+
+        console.log(filteredSeats);
+
+        setSfilter(seatData)
+        // Extract selected seats from filteredSeats
+        const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
+            return accumulator.concat(seat.seseats);
+        }, []);
+
+        // Update seseatsArray state with the selected seats
+        setSeseatsArray(selectedSeats);
+
+        console.log(selectedSeats); // Output: Selected seats
+    } catch (error) {
+        console.error('Error fetching seat data:', error);
+        setError(error.message);
+    }
+};
+
+console.log(seseatsArray)
+console.log(Filter)
+
+
+
+
+function getScheduleSeatCounts(Filter) {
+  const scheduleSeatCounts = {};
+  for (const entry of Filter) {
+    const scheduleId = entry.schedule;
+    const seatCount = entry.seseats.length;
+    if (scheduleSeatCounts[scheduleId]) {
+      scheduleSeatCounts[scheduleId] += seatCount;
+    } else {
+      scheduleSeatCounts[scheduleId] = seatCount;
+    }
+  }
+  return scheduleSeatCounts;
+}
+const scheduleSeatCounts = getScheduleSeatCounts(Filter);
+console.log('Schedule Seat Counts:', scheduleSeatCounts);
+
+
 
   // time
   const time = { hour: 'numeric', hour12: false }
@@ -177,7 +235,7 @@ const Booking = () => {
 
   const loadGoogleMapsScript = () => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=api&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.defer = true;
     script.onload = initAutocomplete;
@@ -233,6 +291,7 @@ const Booking = () => {
     }
   };
 
+  const [startTime, setStartTime] = useState('');
   const book = (id, startTime, price,endTime,capacity ) => {
     localStorage.setItem("scheduleId", id);
     localStorage.setItem("price", price);
@@ -240,9 +299,10 @@ const Booking = () => {
     localStorage.setItem("endTime", endTime);
     localStorage.setItem("capacity", capacity);
     
-    navigate('/e');
+    navigate('/seat');
   }
 
+  console.log(startTime)
 
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -312,7 +372,7 @@ console.log(startLocation);
 console.log(filteredData)
 
 setData(filteredData);
-console.log( )
+
      
        // Use setFilteredData to update the state
 
@@ -325,7 +385,13 @@ console.log( )
 }, [fromLocation]);
 
 
+ 
 
+
+
+
+ 
+const [isVisible, setIsVisible] = useState(false);
   return (
     <>
       <div className='m-10   '>
@@ -493,26 +559,26 @@ console.log( )
                         ),
                       }}
                     /></MenuButton>
-                  <Menu className='bg-[#424a73] p-2 rounded-md'>
+                  <Menu className='bg-[#70b8e1] w-48 p-1  rounded-md'>
                     <MenuItem onClick={''}>
-                      <div>
+                      <div className='ml-3'>
                         Passengers
 
-                        <button className="btn" onClick={decrement}><RemoveCircleIcon /></button>
+                        <button className="btn ml-5" onClick={decrement}><RemoveCircleIcon sx={{color:'#009DF8'}} /></button>
                         <span id="count" className='text-xl rounded-md '>{count}</span>
-                        <button className="btn" onClick={increment}><AddCircleIcon /></button>
+                        <button className="btn" onClick={increment}><AddCircleIcon sx={{color:'#009DF8'}} /></button>
 
 
                       </div>
                     </MenuItem>
                     <MenuItem onClick={''}>
 
-                      <div className='flex gap-10 ' >
+                      <div className='flex gap-10 ml-3 ' >
                         Bikes
-                        <div className='mb-2'>
-                          <button className="btn" onClick={sub}><RemoveCircleIcon /></button>
+                        <div className='mb-2 ml-5'>
+                          <button className="btn" onClick={sub}><RemoveCircleIcon sx={{color:'#009DF8'}} /></button>
                           <span id="count" className='text-xl rounded-md'>{bike}</span>
-                          <button className="btn" onClick={add}><AddCircleIcon /></button>
+                          <button className="btn" onClick={add}><AddCircleIcon sx={{color:'#009DF8'}} /></button>
                         </div>
 
                       </div>
@@ -535,51 +601,80 @@ console.log( )
       </div>
 
       <body className='bg-[#F7F7F7]  '>
-        {/* <div className='ml-[44vh]  pt-5 pb-5  border-[#C8C8C8] shadow-[#b7acac] rounded-md'>
-          <ButtonGroup   >
-            <Button className='w-72' sx={{ color: "black" }}>{formattedCurrentDate}</Button>
-            <Button className='w-72' sx={{ color: "black" }}>{formattedYesterday}</Button>
-            <Button className='w-72' sx={{ color: "black" }}> {formattedTomorrow}</Button>
-          </ButtonGroup>
-        </div> */}
-
-<div className='overflow-y-auto h-[58vh] p-5 '>
+       
+     
+<div className='overflow-y-scroll  h-[58vh] p-5 '>
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
               <div className='flex  mr-10 ml-10 justify-between'>
-                <div>{item.startTime}</div>
-                <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6]" />
-                <p>3:20</p>
-                <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#a7a6a6]" />
-                <div className='mr-80'>{item.endTime}</div>
-                <div>{item.price}</div>
+                <div className='font-semibold text-xl'>{item.startTime}</div>
+                <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
+                <p>{(item.startTime)}</p>
+                <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
+                <div className='mr-80 font-semibold text-xl'>{item.endTime}</div>
+                <div className='font-semibold text-xl'>{item.price}</div>
               </div>
               <div className='ml-10 w-[59.6%] mb-3  flex justify-between'>
-                <div className='mr-60'>{item.startLocation}</div>
-                <div>{item.endLocation}</div>
-              </div>
-              <span className='ml-10 -20  border-[#a09898] border rounded-lg  '>
-                <span className='   '><DirectionsBusIcon /></span>
-                <span className='   '><PowerIcon /> </span>
-                <span className='   '></span>
-                <span className='  '><PhotoCameraFrontIcon /></span>
+                <div className='mr-60 text-lg'>{item.startLocation}</div>
+                <div className='mr-60 text-lg'>{item.endLocation}</div>
                 
-              </span>
-              <span className='  mb-1 ml-20  '> <Groups2Icon /> Almost full </span>
+             
+                
+                
               
-    <span className='ml-[57%] bg-[red] p-1.5 rounded-md ' variant="contained"   onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity)}>Continue</span>
-  
+                <div></div>
+                {/* <div> {item.bus.capacity}</div> */}
+                <div> {item.bus.name1}</div> {/* Display total seats */}
+                {/* <div>Total Seats: {scheduleSeatCounts[item._id]}</div> Display total seats */}
+
+                <div>
+ {item.bus.capacity - scheduleSeatCounts[item._id]}
+</div>
+
+              </div>
+              <span className='ml-10  border-[#b5b1b1] border rounded-lg  '>
+                <span className='   '><DirectionsBusIcon sx={{color:'#757575'}}/></span>
+                <span className='   '><PowerIcon sx={{color:'#757575'}}/> </span>
+                <span className='   '></span>
+                <span className='  '><PhotoCameraFrontIcon sx={{color:'#757575'}}/></span>
+              
+              </span>
+              <span className='  mb-1 ml-20  '> <Groups2Icon sx={{color:'#475362'}} /> Seats available </span>
+              
+              <div className='ml-[50%]'>
+    <div className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity)}>
+  <strong>Continue</strong>
+</div>
+
+
+
+
+
+
+
+              </div>
+
+
+          
+   
+   
+      
+              <div className=' ml-[30%]'> <BusPhoto/></div>
+          
+    
+      
+              
               
               {/* DOWN */}
 
 
              
-<div className=' flex '>
+<div className='  '>
 <div className=''>
   <ul>
    
-    <li className='ml-[20vh] '> <BusPhoto/></li>
+   
     <li></li>
     <li></li>
   </ul>

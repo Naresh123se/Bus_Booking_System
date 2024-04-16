@@ -26,6 +26,10 @@ import Des from './Booking/Destinations.jsx';
 
 
 import PickDirection from './Directions/PickDirection.jsx';
+import Loc from './Directions/Location.jsx';
+import Mobile from './Directions/Mobile.jsx';
+
+
 import Payment from './Booking/Payment.jsx';
 import Confirmation from './Booking/PaymentCon.jsx';
 import Not from './Pages/Notification.jsx';
@@ -73,6 +77,11 @@ const router = createBrowserRouter(
       <Route path='/Des' element={<Des/>} />
       <Route path='/Not' element={<Not/>} />
       <Route path='/completion' element={<Completion/>} />
+
+
+
+      <Route path='/L' element={<Loc/>} />
+      <Route path='/M' element={<Mobile/>} />
 
 
 

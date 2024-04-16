@@ -208,7 +208,7 @@ const Ticket = () => {
     </div>
     <div className='grid justify-items-end w-full'>
         <img src="3n.svg" alt="" className='size-16' />
-        <a href="mailto:merobus2@gmail.com" className='text-[#009DF8]  underline'>merobus2@gmail.com</a>
+        <a href="mailto:merobus3@gmail.com" className='text-[#009DF8]  underline'>merobus3@gmail.com</a>
 
         <p>Journey Date:</p>
         <p>Departure Time:</p>

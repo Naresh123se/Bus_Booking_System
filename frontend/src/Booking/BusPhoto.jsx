@@ -48,13 +48,13 @@ const BusPhoto = () => {
   };
 
   const CustomNextArrow = ({ onClick }) => (
-    <button className="slick-next custom-next-arrow " onClick={onClick}>
+    <button style={{ color: "red", background:'#009DF8' }}  className="slick-next custom-next-arrow  rounded  " onClick={onClick}>
 
     </button>
   );
 
   const CustomPrevArrow = ({ onClick }) => (
-    <button className="slick-arrow slick-prev custom-prev-arrow " onClick={onClick}>
+    <button style={{ background:'#009DF8'}}  className="slick-arrow slick-prev custom-prev-arrow rounded  " onClick={onClick}>
       Previous
     </button>
   );
@@ -66,8 +66,9 @@ const BusPhoto = () => {
     dots: false,
     arrows: true,
     nextArrow: <CustomNextArrow />,
-    prevArrow: <CustomPrevArrow />
+    prevArrow: <CustomPrevArrow  />
   };
+  
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -76,22 +77,20 @@ const BusPhoto = () => {
     <>
 
 
-<span onClick={toggleVisibility} className='cursor-pointer hover:text-[red] ml-96'>bus Photos</span>
+<span onClick={toggleVisibility} className='cursor-pointer shadow hover:text-[#009DF8]  ml-40  '>Bus Photos</span>
 {isVisible && 
-
-      <div className='bg-[#7f7d7d] w-[90vh] px-10 bg mt-10 '>
+  <div className=''>
+      <div className=' w-[80vh] px-7 bg mt-5  '>
 
         {/* <h2 className="text-xl font-semibold mb-4 ml-16">Trending Offers for Discount Coupons</h2> */}
-        <Slider {...settings} className=" ">
+        <Slider {...settings} className="mr-44 ">
           {trendingOffers.map(offer => (
-            <div key={offer.id}>
-              <div className='flex'>
-              <div className=''>
+            <div key={offer.id} >
+              <div className='flex h-60 p   p-1 bg-[#185EA5] rounded-md'>
+             
                   <img src={offer.image} className="object-cover   object-center "  />
-                </div>
-                <div className=''>
-                  <img src={offer.image1} className="object-cover   object-center "  />
-                </div>
+          
+               
               </div>
                 
                 
@@ -99,12 +98,9 @@ const BusPhoto = () => {
             </div>
           ))}
         </Slider>
-        {copiedText && (
-          <div className="fixed bottom-2 right-[95vh] bg-[black] text-[white] p-3 rounded-md mr-4 mb-4 z-50">
-            <p>{copiedText} code copied! </p>
-          </div>
-        )}
+       
 
+      </div>
       </div>
       }
     </>
