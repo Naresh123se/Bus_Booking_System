@@ -110,8 +110,8 @@ console.log(response)
     }
 };
 
-console.log(seseatsArray)
-console.log(Filter)
+// console.log(seseatsArray)
+// console.log(Filter)
 
 
 
@@ -130,7 +130,7 @@ function getScheduleSeatCounts(Filter) {
   return scheduleSeatCounts;
 }
 const scheduleSeatCounts = getScheduleSeatCounts(Filter);
-console.log('Schedule Seat Counts:', scheduleSeatCounts);
+// console.log('Schedule Seat Counts:', scheduleSeatCounts);
 
 
 
@@ -302,7 +302,7 @@ console.log('Schedule Seat Counts:', scheduleSeatCounts);
     navigate('/seat');
   }
 
-  console.log(startTime)
+ 
 
 
   const [selectedDate, setSelectedDate] = useState(dayjs());

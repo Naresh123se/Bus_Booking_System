@@ -1,5 +1,5 @@
 import React from 'react';
-import PayNow from '../Booking/PayNow';
+
 
 const Destinations = () => {
   // Sample data for each card

@@ -84,7 +84,7 @@ const Users = () => {
       updatedData[index] = { ...updatedData[index], active: newValue };
       // Update the state with the modified data
       setData(updatedData);
-  
+
       // Send a request to update the backend
       const response = await fetch('http://localhost:4000/api/users/status', {
         method: 'POST',
@@ -101,7 +101,7 @@ const Users = () => {
       console.error('Error updating value:', error);
     }
   };
-  
+
 
 
   const deleteData = async (id) => {
@@ -176,8 +176,8 @@ const Users = () => {
 
                           <FormGroup>
                             <FormControlLabel
-                              control={<Android12Switch checked={item.active} 
-                              onChange={(event) => handleChange(event, index)}
+                              control={<Android12Switch checked={item.active}
+                                onChange={(event) => handleChange(event, index)}
                               />}
                               label=""
                             />

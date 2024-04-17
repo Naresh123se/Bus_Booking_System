@@ -8,13 +8,13 @@ const stripePromise = loadStripe('pk_test_51OuFwxRwfoVrnzomyIvjrX4FCfEYw7nR9zwl2
 function Payment() {
   const [clientSecret, setClientSecret] = useState('');
   const [showPaymentForm, setShowPaymentForm] = useState(false);
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState('10');
   const [paymentMessage, setPaymentMessage] = useState('');
   const [isPaying, setIsPaying] = useState(false); // Add loading state
 
-  const handlePayButtonClick = () => {
-    setShowPaymentForm(true);
-  };
+  useEffect(() => {
+    handlePayment();
+  }, []); // Empty dependency array ensures this effect runs only once, on mount
 
   const handlePayment = async () => {
     try {
@@ -34,7 +34,7 @@ function Payment() {
       const data = await response.json();
       const secret = data.client_secret;
       setClientSecret(secret);
-      setPaymentMessage('Payment successful');
+      setPaymentMessage('😊');
       setShowPaymentForm(true);
     } catch (error) {
       setPaymentMessage('Payment failed');
@@ -47,21 +47,9 @@ function Payment() {
     <>
       <div>
         <h1>Make a Payment</h1>
-        <div>
-          <label htmlFor="amount">Amount:</label>
-          <input
-            type="number"
-            id="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </div>
-        <button onClick={handlePayment} disabled={isPaying}>Pay {isPaying ? <Loader/> : ''}</button>
         {paymentMessage && <p>{paymentMessage}</p>}
       </div>
       <div>
-        <h1>Stripe Checkout Form</h1>
-        <button onClick={handlePayButtonClick}>Pay</button>
         {showPaymentForm && (
           <Elements stripe={stripePromise} options={{ clientSecret }}>
             <CheckoutForm />
@@ -104,7 +92,7 @@ const CheckoutForm = () => {
       <PaymentElement />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"> <Loader/></div> : "Pay now"}
+          {isLoading ? <div className="spinner" id="spinner"> <Loader /></div> : "Pay now"}
         </span>
       </button>
       {message && <div id="payment-message">{message}</div>}

@@ -1,34 +1,62 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
-function Completion(props) {
+function Completion() {
   const [messageBody, setMessageBody] = useState('');
-  const { stripePromise } = props;
+  const [paymentStatus, setPaymentStatus] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!stripePromise) return;
-
+    // Load Stripe promise
+    const stripePromise = loadStripe('pk_test_51OuFwxRwfoVrnzomyIvjrX4FCfEYw7nR9zwl2ktkAdpuuoeTKCIhCEGRr22ls5hbi3FoMG0jR7yK3FA7ZvT7MoTX00EwcOa9pa');
+    
+    // Fetch payment intent status
     stripePromise.then(async (stripe) => {
       const url = new URL(window.location);
       const clientSecret = url.searchParams.get('payment_intent_client_secret');
-      console.log('Client Secret:', clientSecret); // Log clientSecret
-
+      console.log('Client Secret:', clientSecret);
+  
       const { error, paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
-      console.log('Payment Intent:', paymentIntent); // Log paymentIntent
+      console.log('Payment Intent:', paymentIntent);
+  
+      const newMessageBody = error ? `> ${error.message}` : `> Payment ${paymentIntent.status}: ${paymentIntent.id}`;
+      setMessageBody(newMessageBody);
 
-      setMessageBody(error ? `> ${error.message}` : (
-        <>&gt; Payment {paymentIntent.status}: <a href={`https://dashboard.stripe.com/test/payments/${paymentIntent.id}`} target="_blank" rel="noreferrer">{paymentIntent.id}</a></>
-      ));
-      console.log('Message Body:', messageBody); // Log messageBody
+      setPaymentStatus(paymentIntent.status);
     });
-  }, [stripePromise]);
+  }, []);
+
+  useEffect(() => {
+    if (paymentStatus === 'succeeded') {
+      paymentAlert(); // Call paymentAlert function if payment status is succeeded
+    }
+  }, [paymentStatus]);
+
+  const paymentAlert = () => {
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      color: "#716add",
+      background: "#00000 url(ll.png)",
+      title: "Your work has been saved",
+      showConfirmButton: true,
+      backdrop: `
+        rgba(10,0,123,0.4)
+        left top
+        no-repeat
+      `
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/') // Redirect to the home page
+      }
+    });
+  };
 
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Thank you!</h1>
-      <a href="/" className="text-blue-500 hover:underline">home</a>
-      <div id="messages" role="alert" style={messageBody ? { display: 'block' } : {}} className="md:block bg-[#3f3fa5] text-[green] p-4 my-4 rounded-md text-lg">
-        {messageBody}
-      </div>
     </>
   );
 }

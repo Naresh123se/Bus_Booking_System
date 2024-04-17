@@ -1,10 +1,16 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
 import { useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
+import CryptoJS from 'crypto-js';
 
+
+
+import { loadStripe } from '@stripe/stripe-js';
+import Loader from '../Directions/Loader';
+import { Elements, useStripe, useElements, LinkAuthenticationElement, PaymentElement } from '@stripe/react-stripe-js';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -12,7 +18,8 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import Tooltip from '@mui/material/Tooltip';
 import PayNow from '../Booking/PayNow.jsx';
-
+import { useInitiatePaymentMutation } from '../slices/khalti.js';
+import { useNavigate } from 'react-router-dom';
 
 const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
     <button
@@ -46,12 +53,9 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
 );
 
 let totalPrice;
-
 const BusSeatSelection = () => {
     const [seseats, setSeseats] = useState([]);
-
     const [getbus] = useGetbusMutation();
-
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [Selseat] = useSelseatMutation();
     const [Getseat] = useGetseatMutation();
@@ -61,7 +65,7 @@ const BusSeatSelection = () => {
     const [formError, setFormError] = useState(false);
     const [passengerNumber, setPassengerNumber] = useState(null);
     const [seats, setSeats] = useState([]);
-    const [error, setError] = useState(null);
+    const [error1, setError1] = useState(null);
     const [price, setPrice] = useState(null);
     const [fromLocation, setFromLocation] = useState('');
     const [toLocation, setToLocation] = useState('');
@@ -70,8 +74,15 @@ const BusSeatSelection = () => {
     const [final, setFinal] = useState('');
     const [seat, setSeat] = useState('');
 
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+    const Navigate = useNavigate(); // Initialize useHistory hook
+    const [khalti, { isLoading, isError, error }] = useInitiatePaymentMutation();
 
 
+    
+    const handlePaymentMethodChange = (event) => {
+      setSelectedPaymentMethod(event.target.value);
+    };
     const [userdata1, setUserData1] = useState({
         email: '',
         phoneNumber: ''
@@ -83,12 +94,9 @@ const BusSeatSelection = () => {
         });
     };
 
-
-
-
     useEffect(() => {
         fetchSeats();
-
+        fetchData();
         const passengerss = localStorage.getItem('search');
         const parsedData = JSON.parse(passengerss);
         const storedPassengerNumber = parsedData.count;
@@ -102,16 +110,11 @@ const BusSeatSelection = () => {
         setToendTime(endTime);
         const capacity = localStorage.getItem('capacity');
         setSeat(capacity);
-
-
-        fetchData();
-
+      
         const priceFromLocalStorage = localStorage.getItem('price');
         if (priceFromLocalStorage) {
             setPrice(parseFloat(priceFromLocalStorage)); // Assuming price is stored as a string and needs to be converted to a number
         }
-       
-    
 
         // console.log(storedPassengerNumber)
         if (storedPassengerNumber) {
@@ -123,14 +126,13 @@ const BusSeatSelection = () => {
     }, []);
 
 
-
     const [seseatsArray, setSeseatsArray] = useState([]);
 
     const fetchSeats = async () => {
         try {
             const response = await Getseat();
             const seatData = response.data.data; // Assuming this contains the array of seat objects
- console.log(seatData)
+            console.log(seatData)
             // Extract seseats arrays from each seat object and concatenate them into a single array
             const seseats = seatData.reduce((accumulator, seat) => {
                 return accumulator.concat(seat.seseats);
@@ -152,7 +154,7 @@ const BusSeatSelection = () => {
             console.log(selectedSeats); // Output: Selected seats
         } catch (error) {
             console.error('Error fetching seat data:', error);
-            setError(error.message);
+            setError1(error.message);
         }
     };
 
@@ -180,13 +182,8 @@ const BusSeatSelection = () => {
     };
 
 
-
     const bookedSeats = seseatsArray;
     // 
-
-
-
-
     const handleSeatSelect = (seatNumber) => {
         // Check if the number of selected seats is less than or equal to the passenger number
         if (seseats.length < passengerNumber) {
@@ -205,7 +202,7 @@ const BusSeatSelection = () => {
         }
     };
 
-
+// clear seat
     const handleClearSelection = () => {
         setSeseats([]);
         setFormData([]);
@@ -223,10 +220,6 @@ const BusSeatSelection = () => {
             toast.error(err?.data?.message || err.error);
         }
     };
-
-
-
-
 
 
     const handleFormSubmit = async () => {
@@ -286,6 +279,75 @@ const BusSeatSelection = () => {
         setShowForm(prevState => !prevState);
     };
 
+// payment
+
+const redirectToKhalti = (response) => {
+    if (response && response.payment_url) {
+      window.location = response.payment_url;
+    } else {
+      console.error("Invalid response from Khalti:", response);
+      // Handle invalid response
+    }
+  }
+
+  const userInfoString = localStorage.getItem("userInfo");
+
+  const userInfo = JSON.parse(userInfoString);
+    const user = userInfo.name;
+    const customerEmail = userInfo.email;
+
+    const customerPhone = '982911';
+
+    // TOTAL PRICE
+
+    const encryptedPrice = CryptoJS.AES.encrypt(JSON.stringify(totalPrice), 'BUS2024').toString();
+    localStorage.setItem('finalPrice', encryptedPrice);
+   
+  
+//   const [decryptedBytes, setDecryptedBytes] = useState('');
+//  // Retrieve the encryptedPrice from localStorage
+// const encryptedPrice = localStorage.getItem('finalPrice');
+// console.log('Encrypted Price:', encryptedPrice);
+
+// // Decrypt the totalPrice when retrieving it
+// const decrypted = CryptoJS.AES.decrypt(encryptedPrice, 'BUS2023');
+// const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
+
+
+
+
+  const handleClick = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    try {
+      const response = await khalti({ amount: totalPrice ,customerName:user, customerEmail:customerEmail, customerPhone:customerPhone }).unwrap();
+      redirectToKhalti(response);
+    } catch (err) {
+      console.error("Error occurred during payment initiation:", err);
+      // Display error to the user
+    }
+  };
+
+
+
+//   BOTH PAYMENT
+  const handlePayment = (e) => {
+    // Perform payment based on the selectedPaymentMethod
+    if (selectedPaymentMethod === 'card') {
+        console.log("first")
+        Navigate('/Ipayment')
+       // Pass the event parameter to handleClick
+    } else if (selectedPaymentMethod === 'Khalti') {
+      handleClick(e);
+    } else {
+      // No payment method selected
+      toast.error('Please select a payment method'); // Display error toast
+    }
+  };
+  // Check if a payment method is selected
+  const isPaymentMethodSelected = selectedPaymentMethod !== '';
+
 
 
     const handleInputChange = (index, event) => {
@@ -304,7 +366,7 @@ const BusSeatSelection = () => {
 
 
     const rows = Array.from({ length: (seat / 4) }, (_, i) => i + 1);
-   
+
     const columns = Array.from({ length: 4 }, (_, i) => i + 1);
 
     const [isChecked, setIsChecked] = useState(false);
@@ -316,23 +378,23 @@ const BusSeatSelection = () => {
     };
 
 
-  
+
     // console.log(passengerNumber)
     const [discountAmount, setDiscountAmount] = useState(0);
 
 
-console.log(totalPrice)
-const [discountedPrice, setDiscountedPrice] = useState();
+    // console.log(totalPrice)
+    const [discountedPrice, setDiscountedPrice] = useState();
 
-useEffect(() => {
-    if (totalPrice !== undefined) {
-        setDiscountedPrice(totalPrice);
-    }
-}, []);
+    useEffect(() => {
+        if (totalPrice !== undefined) {
+            setDiscountedPrice(totalPrice);
+        }
+    }, []);
 
-console.log(discountedPrice)
 
-const priceFromStorage = localStorage.getItem('price');
+// price and passenger logic
+    const priceFromStorage = localStorage.getItem('price');
     const userFromStorage = localStorage.getItem('search');
 
     let price11, count;
@@ -341,7 +403,7 @@ const priceFromStorage = localStorage.getItem('price');
     if (priceFromStorage !== null && priceFromStorage !== undefined) {
         // Convert the price value to the appropriate data type if needed
         price11 = parseFloat(priceFromStorage);
-        console.log(price)
+        // console.log(price)
     } else {
         // Handle the case where price is not available in local storage
         console.error('Price not found in local storage');
@@ -351,7 +413,7 @@ const priceFromStorage = localStorage.getItem('price');
     if (userFromStorage !== null && userFromStorage !== undefined) {
         // Parse the user JSON string to extract the user data
         const user = JSON.parse(userFromStorage);
-        
+
         // Extract the count from the user object
         if (user && typeof user === 'object' && user.hasOwnProperty('count')) {
             count = user.count;
@@ -371,59 +433,45 @@ const priceFromStorage = localStorage.getItem('price');
             totalPrice = price11 * count;
             console.log(totalPrice)
         }
+
     }, [price11, count]);
 
+    // console.log(totalPrice)
     // Log the total price for testing purposes
-    console.log('Total Price:', totalPrice);
+    // console.log('Total Price:', totalPrice);
+    // const encryptedPrice = CryptoJS.AES.encrypt(JSON.stringify(totalPrice), 'BUS2023').toString();
+    // localStorage.setItem('finalPrice', encryptedPrice);
 
-
-
-
-
-
-
-
-
-
-
-   
+    //COUPON
     const submitVoucher = (event) => {
         setTotalVoucher(true);
         event.preventDefault();
         console.log(voucher)
         let discount = 0;
         if (voucher === 'COUPON123') {
-            discount = 50; 
-           
-          }else if (voucher === 'COUPON12') {
-            discount = 40; 
-            
-          }
-          else if (voucher === 'COUPON1') {
-            discount = 40; 
-          }
-          
-          else {
+            discount = 50;
+
+        } else if (voucher === 'COUPON12') {
+            discount = 40;
+
+        }
+        else if (voucher === 'COUPON1') {
+            discount = 40;
+        }
+
+        else {
             toast.error('Invalid coupon code.');
-          }
-        
+        }
+        const discountAmountValue = discount;
+        setDiscountAmount(discountAmountValue);
 
-          const discountAmountValue = discount;
-          setDiscountAmount(discountAmountValue);
-         
-          const discountedValue = (totalPrice - discount);
-          setDiscountedPrice(discountedValue);
-          console.log(discountedPrice)
+        const discountedValue = (totalPrice - discount);
+        setDiscountedPrice(discountedValue);
+        console.log(discountedPrice)
     };
-    
-  
+
+
     const [totalVoucher, setTotalVoucher] = useState(false);
-   
-
-
-  
- 
-
 
     return (
         <>
@@ -484,7 +532,7 @@ const priceFromStorage = localStorage.getItem('price');
 
                                         </div>
                                         <div className='flex justify-center'>
-                                            <Button sx={{ marginTop: '10px', marginBottom: '10px', bgcolor: '#3CC1FF', marginRight: '16px', width:'200px' }} onClick={handleClearSelection} >
+                                            <Button sx={{ marginTop: '10px', marginBottom: '10px', bgcolor: '#3CC1FF', marginRight: '16px', width: '200px' }} onClick={handleClearSelection} >
                                                 Clear
                                             </Button>
                                             {/* <Button sx={{ marginTop: '10px' }} onClick={handleFormSubmit} disabled={isSubmitting}>
@@ -505,15 +553,15 @@ const priceFromStorage = localStorage.getItem('price');
                             <div className="mt-5">
                                 <form onSubmit={userdata}>
                                     <div className='flex'>
-                                    <h1 className='font-semibold text-2xl size-8 flex items-center justify-center  rounded-md bg-[#009DF8]'>2</h1>
-                                     <h1 className='ml-4 text-[23px] font-semibold'> Passenger Details</h1>
+                                        <h1 className='font-semibold text-2xl size-8 flex items-center justify-center  rounded-md bg-[#009DF8]'>2</h1>
+                                        <h1 className='ml-4 text-[23px] font-semibold'> Passenger Details</h1>
                                     </div>
-                               
+
                                     {formData.map((data, index) => (
-                                        
+
                                         <div key={index} className="mb-5">
                                             <div className='flex mt-2'>
-                                                
+
                                             </div>
                                             <div className="flex mt-3">
                                                 <div className="mr-5">
@@ -633,32 +681,32 @@ const priceFromStorage = localStorage.getItem('price');
                             </div>
 
                             <hr className='border-[#afa2a2]' />
-                 
 
 
-{totalVoucher && voucher.trim() !== '' && voucher.trim() !== '0' && (
-    <div className='flex'> 
-        <div className='flex w-full'>
-            <p>Discount Amount: </p>
-        </div>
-        <div className='flex justify-end w-full font-medium text-lg'>
-            Rs. -{discountAmount}
-        </div>
-    </div>
-)}
+
+                            {totalVoucher && voucher.trim() !== '' && voucher.trim() !== '0' && (
+                                <div className='flex'>
+                                    <div className='flex w-full'>
+                                        <p>Discount Amount: </p>
+                                    </div>
+                                    <div className='flex justify-end w-full font-medium text-lg'>
+                                        Rs. -{discountAmount}
+                                    </div>
+                                </div>
+                            )}
 
 
-                                        <div className='flex justify-between '>
+                            <div className='flex justify-between '>
                                 <div className='flex items-center'>
                                     <h1 className='text-lg font-bold'>Total</h1>
                                     <p className='text-lg ml-1'>(incl. VAT)</p>
                                 </div>
                                 <h1 className='text-lg font-bold'>Rs. {discountedPrice}</h1>
                             </div>
-{/* voucher */}
+                            {/* voucher */}
                             <div className=" mt-2">
                                 <div className={`bg-[#f4f5f5] border border-[#B8C4CB] rounded-md py-1.5 px-1.5 cursor-pointer flex items-center justify-between ${showForm ? 'w-[130px]' : 'w-[130px]'}`} onClick={toggleForm}>
-                                    <span><ConfirmationNumberIcon sx={{color:'#2b75ad'}} className="mr-1" />Voucher</span>
+                                    <span><ConfirmationNumberIcon sx={{ color: '#2b75ad' }} className="mr-1" />Voucher</span>
                                     {showForm ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                 </div>
                                 {showForm && (
@@ -701,12 +749,59 @@ const priceFromStorage = localStorage.getItem('price');
 
 
                             </div>
-<div className='mt-2 '>
-   
-    <PayNow  />
-    
+                            <div className='mt-2 '>
 
-</div>
+                            <div>
+        {/* Payment method selection */}
+        <div className='flex'>
+          <div className=' ml-10 flex border rounded-xl p-1.5 border-[#a8c0d7] shadow-lg bg-[#FAFBFC]'>
+            <label>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="card"
+                checked={selectedPaymentMethod === 'card'}
+                onChange={handlePaymentMethodChange}
+                className='size-5 mr-2 mt-1'
+              />
+            </label>
+            <img src="/Card/Card.svg" alt="Card"  className='mr-10'/>
+            <label>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="Khalti"
+                checked={selectedPaymentMethod === 'Khalti'}
+                onChange={handlePaymentMethodChange}
+                className='size-5 mr-2 mt-1'
+              />
+            </label>
+            <img src="/Card/Khalti.svg" style={{ width: '80px' }} alt="Card" />
+          </div>
+        </div>
+  
+        {/* Pay button */}
+        {isPaymentMethodSelected && (
+          <div className='mt-5  flex justify-center '>
+            <Button className=''
+  onClick={handlePayment}
+  sx={{
+    width: '300px',
+    bgcolor: selectedPaymentMethod === 'card' ? '#009DF8' : '#3D1060', // Change color based on the selected payment method
+    '&:hover': {
+      bgcolor: selectedPaymentMethod === 'card' ? '#0077C9' : '#472e82', // Change color on hover based on the selected payment method
+    },
+  }}
+>
+  {selectedPaymentMethod === 'card' ? 'Pay with Card' : 'Pay with Khalti'}
+</Button>
+
+          </div>
+        )}
+      </div>
+
+
+                            </div>
 
 
 

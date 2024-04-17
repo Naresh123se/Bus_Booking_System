@@ -14,7 +14,7 @@ const PaymentCon = () => {
   const urlParams = new URLSearchParams(queryString);
   const pidx = urlParams.get('pidx');
 
-  {pidx == null ?  navigate('/') :''  }
+  // {pidx == null ?  navigate('/') :''  }
 
   useEffect(() => {
     const fetchData = async () => {

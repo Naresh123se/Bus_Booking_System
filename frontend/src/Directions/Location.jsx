@@ -1,22 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react'
 
-const LocationTracker = () => {
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-    });
-  }, []);
-
+const Location = () => {
+  const locations = [ 'London', 'Paris', 'New York']
   return (
-    <div>
-      Latitude: {latitude}<br />
-      Longitude: {longitude}
-    </div>
-  );
-};
+    <div>Location</div>
+  )
+}
 
-export default LocationTracker;
+export default Location

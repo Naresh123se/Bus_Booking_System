@@ -2,8 +2,8 @@ import asyncHandler from "express-async-handler";
 import axios from 'axios';
 
 const khalti = asyncHandler(async (req, res) => {
-  const {amount } = req.body;
-  console.log(amount)
+  const {amount,customerName, customerEmail,customerPhone} = req.body;
+  console.log(amount,customerName, customerEmail,customerPhone)
   const requestData = {
     return_url: "http://localhost:4000/confirmation",
     website_url: "http://localhost:4000/payment",
@@ -11,9 +11,9 @@ const khalti = asyncHandler(async (req, res) => {
     purchase_order_id: "Order01",
     purchase_order_name: "test",
     customer_info: {
-      name: "Ram Bahadur",
-      email: "test@khalti.com",
-      phone: "9800000001"
+      name:customerName,
+      email: customerEmail,
+      phone: customerPhone
     }
   };
 
