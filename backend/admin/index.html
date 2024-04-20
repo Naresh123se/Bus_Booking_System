@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Integration</title>
+    <style>
+        /* Set the size of the map container */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google Maps Integration</h1>
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+            // Specify the coordinates to center the map
+            var myLatLng = { lat: -34.397, lng: 150.644 };
+
+            // Create a new map instance
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8, // Set the initial zoom level
+                center: myLatLng, // Set the center of the map
+            });
+
+            // Add a marker using AdvancedMarkerElement
+            var marker = new google.maps.marker.AdvancedMarkerElement({
+                position: myLatLng,
+                map: map,
+                title: "Hello World!", // Tooltip text when marker is hovered
+            });
+        }
+    </script>
+
+    <!-- Load the Google Maps JavaScript API with async and defer attributes -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVxJEDb1OPqsG9hP-Nac9IckUHiTa7uDo&callback=initMap&libraries=marker,advanced-marker" async defer></script>
+</body>
+</html>

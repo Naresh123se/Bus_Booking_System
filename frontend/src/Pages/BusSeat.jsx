@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
 import { useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
 import CryptoJS from 'crypto-js';
-
+import TextField from '@mui/material/TextField';
 
 
 import { loadStripe } from '@stripe/stripe-js';
@@ -47,7 +47,7 @@ const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
         {/* Selection Indicator */}
         {selected && (
             <span className="">
-                {seatNumber}{ }</span>
+            </span>
         )}
     </button>
 );
@@ -62,7 +62,10 @@ const BusSeatSelection = () => {
     const [showSeat, setShowSeat] = useState(false);
 
     const [formData, setFormData] = useState([]);
+    const [contact, setContact] = useState([]);
     const [formError, setFormError] = useState(false);
+    const [formErro1, setFormError1] = useState(false);
+    const [agree, setAgree] = useState(false);
     const [passengerNumber, setPassengerNumber] = useState(null);
     const [seats, setSeats] = useState([]);
     const [error1, setError1] = useState(null);
@@ -79,20 +82,36 @@ const BusSeatSelection = () => {
     const [khalti, { isLoading, isError, error }] = useInitiatePaymentMutation();
 
 
-    
+
     const handlePaymentMethodChange = (event) => {
-      setSelectedPaymentMethod(event.target.value);
+        setSelectedPaymentMethod(event.target.value);
     };
     const [userdata1, setUserData1] = useState({
         email: '',
         phoneNumber: ''
     })
     const handleInputChange1 = (e) => {
-        setFormData({
+        setUserData1({
             ...userdata1,
             [e.target.name]: e.target.value
         });
     };
+
+    // const allData = () => {
+
+    //     const busData = {
+    //         price: price,
+    //         name: data,
+
+    //     };
+    //     const dataString = JSON.stringify(busData);
+    //     localStorage.setItem('allData', dataString);
+    // };
+
+
+   
+
+
 
     useEffect(() => {
         fetchSeats();
@@ -110,7 +129,7 @@ const BusSeatSelection = () => {
         setToendTime(endTime);
         const capacity = localStorage.getItem('capacity');
         setSeat(capacity);
-      
+
         const priceFromLocalStorage = localStorage.getItem('price');
         if (priceFromLocalStorage) {
             setPrice(parseFloat(priceFromLocalStorage)); // Assuming price is stored as a string and needs to be converted to a number
@@ -202,24 +221,35 @@ const BusSeatSelection = () => {
         }
     };
 
-// clear seat
+    // clear seat
     const handleClearSelection = () => {
         setSeseats([]);
         setFormData([]);
         localStorage.removeItem('seseats');
     };
 
-    const userdata = async (event) => {
-        event.preventDefault();
-        try {
-            localStorage.setItem('formData', JSON.stringify(formData));
+    // const userdata = async (event) => {
+    //     event.preventDefault();
+    //     try {
+    //         localStorage.setItem('formData', JSON.stringify(formData));
 
-            toast.success('Seats booked successfully!');
-        } catch (err) {
-            console.log(err);
-            toast.error(err?.data?.message || err.error);
-        }
-    };
+    //         toast.success('Seats booked successfully!');
+    //     } catch (err) {
+    //         console.log(err);
+    //         toast.error(err?.data?.message || err.error);
+    //     }
+    // };
+    // const mainUserData = async (event) => {
+    //     event.preventDefault();
+    //     try {
+    //         localStorage.setItem('formData', JSON.stringify(formData));
+
+    //         toast.success('Seats booked successfully!');
+    //     } catch (err) {
+    //         console.log(err);
+    //         toast.error(err?.data?.message || err.error);
+    //     }
+    // };
 
 
     const handleFormSubmit = async () => {
@@ -279,20 +309,20 @@ const BusSeatSelection = () => {
         setShowForm(prevState => !prevState);
     };
 
-// payment
+    // payment
 
-const redirectToKhalti = (response) => {
-    if (response && response.payment_url) {
-      window.location = response.payment_url;
-    } else {
-      console.error("Invalid response from Khalti:", response);
-      // Handle invalid response
+    const redirectToKhalti = (response) => {
+        if (response && response.payment_url) {
+            window.location = response.payment_url;
+        } else {
+            console.error("Invalid response from Khalti:", response);
+            // Handle invalid response
+        }
     }
-  }
 
-  const userInfoString = localStorage.getItem("userInfo");
+    const userInfoString = localStorage.getItem("userInfo");
 
-  const userInfo = JSON.parse(userInfoString);
+    const userInfo = JSON.parse(userInfoString);
     const user = userInfo.name;
     const customerEmail = userInfo.email;
 
@@ -302,53 +332,50 @@ const redirectToKhalti = (response) => {
 
     const encryptedPrice = CryptoJS.AES.encrypt(JSON.stringify(totalPrice), 'BUS2024').toString();
     localStorage.setItem('finalPrice', encryptedPrice);
-   
-  
-//   const [decryptedBytes, setDecryptedBytes] = useState('');
-//  // Retrieve the encryptedPrice from localStorage
-// const encryptedPrice = localStorage.getItem('finalPrice');
-// console.log('Encrypted Price:', encryptedPrice);
-
-// // Decrypt the totalPrice when retrieving it
-// const decrypted = CryptoJS.AES.decrypt(encryptedPrice, 'BUS2023');
-// const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
 
 
+    //   const [decryptedBytes, setDecryptedBytes] = useState('');
+    //  // Retrieve the encryptedPrice from localStorage
+    // const encryptedPrice = localStorage.getItem('finalPrice');
+    // console.log('Encrypted Price:', encryptedPrice);
 
-
-  const handleClick = async (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    try {
-      const response = await khalti({ amount: totalPrice ,customerName:user, customerEmail:customerEmail, customerPhone:customerPhone }).unwrap();
-      redirectToKhalti(response);
-    } catch (err) {
-      console.error("Error occurred during payment initiation:", err);
-      // Display error to the user
-    }
-  };
+    // // Decrypt the totalPrice when retrieving it
+    // const decrypted = CryptoJS.AES.decrypt(encryptedPrice, 'BUS2023');
+    // const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
 
 
 
-//   BOTH PAYMENT
-  const handlePayment = (e) => {
-    // Perform payment based on the selectedPaymentMethod
-    if (selectedPaymentMethod === 'card') {
-        console.log("first")
-        Navigate('/Ipayment')
-       // Pass the event parameter to handleClick
-    } else if (selectedPaymentMethod === 'Khalti') {
-      handleClick(e);
-    } else {
-      // No payment method selected
-      toast.error('Please select a payment method'); // Display error toast
-    }
-  };
-  // Check if a payment method is selected
-  const isPaymentMethodSelected = selectedPaymentMethod !== '';
 
+    const handleClick = async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+        try {
+            const response = await khalti({ amount: totalPrice, customerName: user, customerEmail: customerEmail, customerPhone: customerPhone }).unwrap();
+            redirectToKhalti(response);
+        } catch (err) {
+            console.error("Error occurred during payment initiation:", err);
+            // Display error to the user
+        }
+    };
 
+    //   BOTH PAYMENT
+    const handlePayment = (e) => {
+        // Perform payment based on the selectedPaymentMethod
+        if (selectedPaymentMethod === 'card') {
+            console.log("first")
+            Navigate('/Ipayment')
+            // Pass the event parameter to handleClick
+        } else if (selectedPaymentMethod === 'Khalti') {
+            // handleClick(e);
+            handleFormSubmit1();
+        } else {
+            // No payment method selected
+            toast.error('Please select a payment method'); // Display error toast
+        }
+    };
+    // Check if a payment method is selected
+    const isPaymentMethodSelected = selectedPaymentMethod !== '';
 
     const handleInputChange = (index, event) => {
         const { name, value } = event.target;
@@ -362,38 +389,25 @@ const redirectToKhalti = (response) => {
         setFormData(newData);
     };
 
-
-
-
     const rows = Array.from({ length: (seat / 4) }, (_, i) => i + 1);
-
     const columns = Array.from({ length: 4 }, (_, i) => i + 1);
-
     const [isChecked, setIsChecked] = useState(false);
-
     // Function to handle checkbox change
     const handleCheckboxChange = () => {
         // Toggle the checkbox value
         setIsChecked(!isChecked);
     };
-
-
-
     // console.log(passengerNumber)
     const [discountAmount, setDiscountAmount] = useState(0);
-
-
     // console.log(totalPrice)
     const [discountedPrice, setDiscountedPrice] = useState();
-
     useEffect(() => {
         if (totalPrice !== undefined) {
             setDiscountedPrice(totalPrice);
         }
     }, []);
 
-
-// price and passenger logic
+    // price and passenger logic
     const priceFromStorage = localStorage.getItem('price');
     const userFromStorage = localStorage.getItem('search');
 
@@ -408,7 +422,6 @@ const redirectToKhalti = (response) => {
         // Handle the case where price is not available in local storage
         console.error('Price not found in local storage');
     }
-
     // Check if userFromStorage is not null and not undefined
     if (userFromStorage !== null && userFromStorage !== undefined) {
         // Parse the user JSON string to extract the user data
@@ -453,26 +466,86 @@ const redirectToKhalti = (response) => {
 
         } else if (voucher === 'COUPON12') {
             discount = 40;
-
         }
         else if (voucher === 'COUPON1') {
             discount = 40;
         }
-
         else {
             toast.error('Invalid coupon code.');
         }
         const discountAmountValue = discount;
         setDiscountAmount(discountAmountValue);
-
         const discountedValue = (totalPrice - discount);
         setDiscountedPrice(discountedValue);
         console.log(discountedPrice)
     };
+    const handleFormSubmit1 = async (e) => {
+        if (seseats.length === 0) {
+            toast.error('Please select seats');
+            return;
+        }
+
+        if (Object.keys(formData).length !== seseats.length) {
+            toast.error('Passenger details do not equal seat selection.');
+            return;
+        }
+        console.log("first")
+        console.log(formData)
+        const hasEmptyFields  = formData.some(data => !data.firstName.trim() || !data.lastName.trim());
+        if (hasEmptyFields) {
+            setFormError1(true);
+            toast.error('Please provide passenger information.');
+            return;
+        }
+    
+        if (!userdata1.email.trim() || !userdata1.phoneNumber.trim()) {
+            setFormError(true);
+            toast.error('Email and phone number cannot be empty.');
+            return;
+        }
+    
+        if (!isChecked) {
+            setAgree(true);
+            toast.error('Please agree to the T&C and Privacy Policy.');
+            return;
+        }
+    
+
+        setIsSubmitting(true);
+    
+        const user = JSON.parse(localStorage.getItem('userInfo'));
+        const ScId = localStorage.getItem('scheduleId');
+        const userId = user?._id;
+    
+        if (!userId) {
+            console.error('User not authenticated or userId not found');
+            toast.error('User not authenticated or userId not found');
+            return;
+        }
+    
+        const busData = {
+            SchId: ScId,
+            userId: userId,
+            seat: seseats,
+            customer: formData,
+            contact: userdata1
+        };
+    
+        const dataString = JSON.stringify(busData);
+        localStorage.setItem('allData', dataString);
+
+        handleClick(e);
+        setIsSubmitting(false);
+    };
+
+    console.log(isChecked)
+    
+   
+
+
 
 
     const [totalVoucher, setTotalVoucher] = useState(false);
-
     return (
         <>
             <div className='flex'>
@@ -482,9 +555,7 @@ const redirectToKhalti = (response) => {
                             <h1 className=' font-semibold text-2xl size-8 flex  items-center justify-center  rounded-md    bg-[#009DF8]'>1</h1>
                             <h1 className=' ml-4 text-[23px] font-semibold'> Seat Reservation</h1>
                         </div>
-
                         <div className='mb-5 p-2 border-2 border-[#aed2e8] border- rounded-lg mr-2  bg'>
-
                             <div className="flex ">
                                 <div className=" border-2 border-[#cbd5e3] drop-shadow-lg  bg-[#fafbfc] rounded-md w-[56%]   ">
                                     <div className="size-9 mt-5 mb-2 ml-72">
@@ -495,10 +566,8 @@ const redirectToKhalti = (response) => {
                                             <div key={row} className=" flex  " style={{ margin: '2px' }}>
                                                 {columns.map((column, index) => (
                                                     <React.Fragment key={column}>
-
                                                         <Seat
                                                             seatNumber={(row - 1) * columns.length + column}
-
                                                             isBooked={bookedSeats.includes((row - 1) * columns.length + column)}
                                                             selected={seseats.includes((row - 1) * columns.length + column)}
                                                             onSelect={handleSeatSelect}
@@ -515,12 +584,8 @@ const redirectToKhalti = (response) => {
                                 {/* seat clear &submit */}
                                 <div className="  pl-7 w-auto">
                                     <div className='  pl-4 rounded-lg mt-1 border border-[#b8c4cb]'>
-
-
                                         <div className="mt-3   mr-[20px]">
                                             <div className=" border-2 border-[#b8c4cb]  w-[104%]  rounded-lg bg-[#faf6f6] ">
-
-
                                                 <WeekendIcon sx={{ marginLeft: '10px', fontSize: '40px' }} />  <span className="text-[20px] "> = available</span><br />
                                                 <WeekendIcon sx={{ marginLeft: '10px', color: '#009DF8', fontSize: '40px', }} /> <span className="text-[20px]  "> = selected</span> <br />
                                                 <WeekendIcon sx={{ marginLeft: '10px', color: '#CC5500', fontSize: '40px' }} /> <span className="text-[20px] "> = unavailable</span> <br />
@@ -529,7 +594,6 @@ const redirectToKhalti = (response) => {
                                                 <p className=''> SELECTED SEATS : {seseats.length}</p>
                                                 <p>SELECTED SEATS NUMBER : {seseats.length > 0 ? seseats.join(', ') : ''}</p>
                                             </div>
-
                                         </div>
                                         <div className='flex justify-center'>
                                             <Button sx={{ marginTop: '10px', marginBottom: '10px', bgcolor: '#3CC1FF', marginRight: '16px', width: '200px' }} onClick={handleClearSelection} >
@@ -539,95 +603,90 @@ const redirectToKhalti = (response) => {
                                                 Submit
                                             </Button> */}
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-
-
                     <div className="border border-[#c8c8c8] pl-5 mt-5 rounded-lg w-full">
                         {passengerNumber > 0 && (
                             <div className="mt-5">
-                                <form onSubmit={userdata}>
+                                <form >
                                     <div className='flex'>
                                         <h1 className='font-semibold text-2xl size-8 flex items-center justify-center  rounded-md bg-[#009DF8]'>2</h1>
                                         <h1 className='ml-4 text-[23px] font-semibold'> Passenger Details</h1>
                                     </div>
-
                                     {formData.map((data, index) => (
-
                                         <div key={index} className="mb-5">
                                             <div className='flex mt-2'>
-
                                             </div>
                                             <div className="flex mt-3">
                                                 <div className="mr-5">
-                                                    <label htmlFor={`firstName${index}`} className="block text-[20px] mb-1">First Name:</label>
-                                                    <input
+                                                    {/* <label htmlFor={`firstName${index}`} className="block text-[20px] mb-1">First Name:</label> */}
+                                                    <TextField
                                                         id={`firstName${index}`}
                                                         className='border border-[#927f7f] rounded-md p-2'
                                                         type="text"
                                                         name="firstName"
                                                         value={data.firstName}
                                                         onChange={(e) => handleInputChange(index, e)}
-                                                        placeholder="First Name"
+                                                        label="First Name"
+
                                                         required
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label htmlFor={`lastName${index}`} className="block text-[20px] mb-1">Last Name:</label>
-                                                    <input
+                                                    {/* <label htmlFor={`lastName${index}`} className="block text-[20px] mb-1">Last Name:</label> */}
+                                                    <TextField
                                                         id={`lastName${index}`}
                                                         className='border border-[#927f7f] rounded-md p-2'
                                                         type="text"
                                                         name="lastName"
                                                         value={data.lastName}
                                                         onChange={(e) => handleInputChange(index, e)}
-                                                        placeholder="Last Name"
+                                                        label="Last Name"
                                                         required
                                                     />
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
-                                    {formError && <div className="text-[red]">Please fill all the fields</div>}
+                                    {formErro1 && <div className="text-[red]">Please fill all the fields</div>}
                                     {/* <Button type="submit">Submit</Button> */}
                                 </form>
                             </div>
                         )}
                     </div>
 
-
-
                     <div className="border border-[#C8C8C8] mb-10 pl-5 mt-5 rounded-lg w-full">
-                        <form onSubmit={userdata}>
+                        <form >
                             <div className='flex mt-5'>
                                 <h1 className='font-semibold  text-2xl size-8 flex items-center justify-center  rounded-md bg-[#009DF8]'>3</h1>
                                 <h1 className='ml-4 text-[23px] font-semibold'>Contact</h1>
                             </div>
                             <div className="flex mt-2 mb-5">
                                 <div className="mr-4">
-                                    <label htmlFor="email" className="block text-[20px]">Email</label>
-                                    <input className='border border-[#927f7f] rounded-md  p-2'
+                                    {/* <label htmlFor="email" className="block text-[20px]">Email</label> */}
+                                    <TextField className='border border-[#927f7f] rounded-md  p-2'
                                         type="email"
                                         name="email"
                                         value={userdata1.email}
                                         onChange={handleInputChange1}
-                                        placeholder="naresh@gmail.com"
+                                        label="Email"
+
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="phone" className="block text-[20px]">Phone</label>
-                                    <input className='border border-[#927f7f] rounded-md p-2'
+                                    {/* <label htmlFor="phone" className="block text-[20px]">Phone</label> */}
+                                    <TextField className='border border-[#927f7f] rounded-md p-2'
                                         type="tel"
                                         name="phoneNumber"
                                         value={userdata1.phoneNumber}
                                         onChange={handleInputChange1}
-                                        placeholder="9829111111"
+                                        label="Phone"
+                                        // placeholder="9829111111"
                                         pattern="[0-9]{10}"  // Regular expression for a 10-digit phone number
                                         title="Please enter a valid 10-digit phone number"  // Error message to display if the pattern doesn't match
                                         required
@@ -639,21 +698,11 @@ const redirectToKhalti = (response) => {
                         </form>
                     </div>
 
-
-
-
                 </div>
-
                 <div className='ml-20 mt-5 w-[26%]'>
                     <div className=' '>
-
-
-
-
-
                         <div className="border p-4 rounded-xl border-[#af9c9c] shadow-xl bg-[#ffffff]">
                             <h1 className='text-2xl font-semibold mb-4 bg text-[#5594be]'>Your Booking</h1>
-
                             <div className='border border-[#b0bec5] shadow-sm rounded-md bg-[#F1F1F1] p-2 mb-2'>
                                 <div className='flex items-center'>
                                     <TimelineIcon className='mr-4 text-[gray-600]' sx={{ transform: 'rotate(135deg)', fontSize: '36px' }} />
@@ -672,18 +721,12 @@ const redirectToKhalti = (response) => {
                                 <p className='text-lg'>{passengerNumber === 1 ? '1 adult' : `${passengerNumber} adults`}</p>
                                 <p className='text-lg font-semibold'>Rs. {(price * passengerNumber) - 1.00}</p>
                             </div>
-
                             <hr className='border-[#afa2a2]' />
-
                             <div className='flex justify-between mb-2'>
                                 <p className='text-lg'>Service Fee</p>
                                 <p className='text-lg font-semibold'>Rs. 1.00</p>
                             </div>
-
                             <hr className='border-[#afa2a2]' />
-
-
-
                             {totalVoucher && voucher.trim() !== '' && voucher.trim() !== '0' && (
                                 <div className='flex'>
                                     <div className='flex w-full'>
@@ -694,8 +737,6 @@ const redirectToKhalti = (response) => {
                                     </div>
                                 </div>
                             )}
-
-
                             <div className='flex justify-between '>
                                 <div className='flex items-center'>
                                     <h1 className='text-lg font-bold'>Total</h1>
@@ -734,7 +775,7 @@ const redirectToKhalti = (response) => {
                                 </div>
                                 <div className='flex mt-2 gap-1  '>
                                     <label>
-                                        {/* Checkbox input */}
+                                        {/* Checkbox TextField */}
                                         <input
                                             type="checkbox"
                                             required
@@ -746,84 +787,66 @@ const redirectToKhalti = (response) => {
                                     <p className=''>I declare to have read the Privacy Policy and I agree to the T&C of Booking </p>
 
                                 </div>
+                                {agree && <p className='flex justify-center text-[red]'>Agree the T&C</p>}
 
 
                             </div>
                             <div className='mt-2 '>
 
-                            <div>
-        {/* Payment method selection */}
-        <div className='flex'>
-          <div className=' ml-10 flex border rounded-xl p-1.5 border-[#a8c0d7] shadow-lg bg-[#FAFBFC]'>
-            <label>
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="card"
-                checked={selectedPaymentMethod === 'card'}
-                onChange={handlePaymentMethodChange}
-                className='size-5 mr-2 mt-1'
-              />
-            </label>
-            <img src="/Card/Card.svg" alt="Card"  className='mr-10'/>
-            <label>
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="Khalti"
-                checked={selectedPaymentMethod === 'Khalti'}
-                onChange={handlePaymentMethodChange}
-                className='size-5 mr-2 mt-1'
-              />
-            </label>
-            <img src="/Card/Khalti.svg" style={{ width: '80px' }} alt="Card" />
-          </div>
-        </div>
-  
-        {/* Pay button */}
-        {isPaymentMethodSelected && (
-          <div className='mt-5  flex justify-center '>
-            <Button className=''
-  onClick={handlePayment}
-  sx={{
-    width: '300px',
-    bgcolor: selectedPaymentMethod === 'card' ? '#009DF8' : '#3D1060', // Change color based on the selected payment method
-    '&:hover': {
-      bgcolor: selectedPaymentMethod === 'card' ? '#0077C9' : '#472e82', // Change color on hover based on the selected payment method
-    },
-  }}
->
-  {selectedPaymentMethod === 'card' ? 'Pay with Card' : 'Pay with Khalti'}
-</Button>
+                                <div>
+                                    {/* Payment method selection */}
+                                    <div className='flex'>
+                                        <div className=' ml-10 flex border rounded-xl p-1.5 border-[#a8c0d7] shadow-lg bg-[#FAFBFC]'>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="paymentMethod"
+                                                    value="card"
+                                                    checked={selectedPaymentMethod === 'card'}
+                                                    onChange={handlePaymentMethodChange}
+                                                    className='size-5 mr-2 mt-1'
+                                                />
+                                            </label>
+                                            <img src="/Card/Card.svg" alt="Card" className='mr-10' />
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="paymentMethod"
+                                                    value="Khalti"
+                                                    checked={selectedPaymentMethod === 'Khalti'}
+                                                    onChange={handlePaymentMethodChange}
+                                                    className='size-5 mr-2 mt-1'
+                                                />
+                                            </label>
+                                            <img src="/Card/Khalti.svg" style={{ width: '80px' }} alt="Card" />
+                                        </div>
+                                    </div>
 
-          </div>
-        )}
-      </div>
+                                    {/* Pay button */}
+                                    {isPaymentMethodSelected && (
+                                        <div className='mt-5  flex justify-center '>
+                                            <Button className=''
+                                                onClick={handlePayment}
+                                                sx={{
+                                                    width: '300px',
+                                                    bgcolor: selectedPaymentMethod === 'card' ? '#009DF8' : '#3D1060', // Change color based on the selected payment method
+                                                    '&:hover': {
+                                                        bgcolor: selectedPaymentMethod === 'card' ? '#0077C9' : '#472e82', // Change color on hover based on the selected payment method
+                                                    },
+                                                }}
+                                            >
+                                                {selectedPaymentMethod === 'card' ? 'Pay with Card' : 'Pay with Khalti'}
+                                            </Button>
 
-
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-
-
-
-
-
                         </div>
-
-
-
-
-
-
-
-
                     </div>
-
-
                 </div>
-
                 {/*  */}
             </div>
-
         </>
     );
 };

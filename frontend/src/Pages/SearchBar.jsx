@@ -137,7 +137,7 @@ const SearchBar = () => {
         try {
             const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
             dispatch(setCredentials({ ...res }));
-            navigate('/Booking');
+            navigate('/Location');
 
         } catch (err) {
             toast.error(err?.data?.message || err.error);

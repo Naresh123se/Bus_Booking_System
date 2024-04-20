@@ -49,6 +49,7 @@ const Header = () => {
       <div className='flex items-center space-x-8'>
         <div>Home</div>
         <div>About</div>
+        {/* <Link to=/ */}
         <div>Blog</div>
         <button className='mt-2'>
           <SearchIcon />

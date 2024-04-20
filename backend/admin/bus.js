@@ -10,8 +10,7 @@ const Buses = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Selected seats array is empty11");
     }
-
-  try {
+    try {
     // console.log('Selected Seats:', selectedSeats);
     const bus = await Bus.create({
       name1,
