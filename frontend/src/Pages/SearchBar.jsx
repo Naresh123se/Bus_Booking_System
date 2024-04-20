@@ -69,6 +69,7 @@ const SearchBar = () => {
 
 
 
+
     const [arrowDirection, setArrowDirection] = useState('right');
 
 
@@ -95,9 +96,9 @@ const SearchBar = () => {
         script.onload = initAutocomplete;
         document.head.appendChild(script);
     };
-
+    let searchData1;
     const initAutocomplete = () => {
-        const fromAutocomplete= new window.google.maps.places.Autocomplete(
+        const fromAutocomplete = new window.google.maps.places.Autocomplete(
             document.getElementById('fromLocation')
         );
         const toAutocomplete = new window.google.maps.places.Autocomplete(
@@ -130,14 +131,14 @@ const SearchBar = () => {
 
     };
 
-
-
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
             dispatch(setCredentials({ ...res }));
             navigate('/Location');
+            console.log(res)
+            setSearch1(res)
 
         } catch (err) {
             toast.error(err?.data?.message || err.error);
@@ -147,55 +148,51 @@ const SearchBar = () => {
 
 
     const [selectedDate, setSelectedDate] = useState(dayjs());
-
-    const [value, setValue] = useState(new Date().toLocaleDateString('en-US'));
-
-   
-
-
-
-    const [value1, setValue1] = useState('');
+    const localDate = new Date();
+  const formattedDate = localDate.toISOString().split('T')[0];
+     console.log(formattedDate)
+     const [value, setValue] = useState(formattedDate);
+     console.log(value)
 
 
 
+    const [value1, setValue1] = useState(formattedDate);
+    console.log(value1)
 
+    // const handleChange1 = date => {
+    //     setSelectedDate(date);
+    //     // Format the date as needed
+    //     const formattedDate = date ? formatDate(date) : '';
+    //     setValue(formattedDate);
+    // };
+    // const handleChange11 = date => {
+    //     setSelectedDate(date);
+    //     // Format the date as needed
+    //     const formattedDate = date ? formatDate(date) : '';
+    //     setValue1(formattedDate);
+    // };
 
-    const handleChange1 = date => {
-        setSelectedDate(date);
-        // Format the date as needed
-        const formattedDate = date ? formatDate(date) : '';
-        setValue(formattedDate);
-    };
-    const handleChange11 = date => {
-        setSelectedDate(date);
-        // Format the date as needed
-        const formattedDate = date ? formatDate(date) : '';
-        setValue1(formattedDate);
-    };
-
-    const formatDate = date => {
-        // Example: MM/dd/yyyy format
-        const formattedDate = `${(date.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
-        return formattedDate;
-    };
+    // const formatDate = date => {
+    //     // Example: MM/dd/yyyy format
+    //     const formattedDate = `${(date.getMonth() + 1)
+    //         .toString()
+    //         .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+    //     return formattedDate;
+    // };
     // local Storage
     useEffect(() => {
         const storedData = localStorage.getItem('search');
         if (storedData) {
             const parsedData = JSON.parse(storedData);
-            //   setSelectedValue(parsedData.selectedValue);
             setFromLocation(parsedData.fromLocation);
             setToLocation(parsedData.toLocation);
-
             setValue(parsedData.value);
-            //   setValue1(parsedData.value1 ? new Date(parsedData.value1) : null);
             setValue1(parsedData.value1);
             setCount(parsedData.count);
             setBike(parsedData.bike);
         }
     }, []);
+
 
 
     // Empty dependency arr
@@ -295,51 +292,34 @@ const SearchBar = () => {
                     <div className=" flex  ml-5 mt-2" >
 
 
-                        <div className="datepicker-container ml-5 mt-2">
+                        <div className="ml-5 mt-2">
 
-                            <DatePicker
-
+                            <TextField
+                                sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
+                                type="date"
+                                name="calender"
                                 label="Departure"
                                 value={value}
-                                minDate={today}
-
-                                onChange={handleChange1}
-                                className="border border-1"
-                                startAdornment={<CalendarTodayIcon />}
-                                customInput={
-                                    <TextField
-                                        sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                                        label="Departure"
-                                        className="border border-1"
-                                        InputProps={{
-                                            endAdornment: <CalendarTodayIcon />,
-                                        }}
-                                    />
-                                }
-                            />
+                                onChange={(e) => setValue(e.target.value)}
+                                required
+                                className=" border border-[#e6e3e3]   rounded-md"
+                                inputProps={{ min: formattedDate }} />
 
                         </div>
 
                         <div className="datepicker-container ml-5 mt-2 ">
                             {selectedValue === "b" && (
-
-                                <DatePicker
+                                <TextField
+                                    sx={{ width: '5cm' }}
+                                    type="date"
+                                    name="calender"
+                                    label="Return"
                                     value={value1}
-                                    minDate={today}
-                                    onChange={handleChange11}
-                                    className="border border-1"
-                                    startAdornment={<CalendarTodayIcon />}
-                                    customInput={
-                                        <TextField
-                                            sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                                            label="Return"
-                                            className="border border-1"
-                                            InputProps={{
-                                                endAdornment: <CalendarTodayIcon />,
-                                            }}
-                                        />
-                                    }
-                                />
+                                    onChange={(e) => setValue1(e.target.value)}
+                                    required
+                                    className=" border border-[#e6e3e3]   rounded-md"
+                                    inputProps={{ min: formattedDate }} />
+
                             )}
                         </div>
 
@@ -366,7 +346,7 @@ const SearchBar = () => {
                                         ),
                                     }}
                                 /></MenuButton>
-                            <Menu className='bg-[#424a73] p-2 rounded-md'>
+                            <Menu className='bg-[#bac0df] p-2 rounded-md'>
                                 <MenuItem onClick={''}>
                                     <div>
                                         Passengers

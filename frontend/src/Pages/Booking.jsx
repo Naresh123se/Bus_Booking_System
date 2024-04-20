@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-
+import Mobile from '../Directions/Mobile.jsx'
 
 // import BusSeatSelection from './BusSeatSelection.jsx'
 import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
@@ -39,12 +39,12 @@ import BusPhoto from '../Booking/BusPhoto.jsx'
 
 
 const Booking = () => {
-  
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
   const [getSchedule] = useGetScheduleMutation();
   const [data, setData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const [showData, setShowData] = useState(false);
   const [Getseat] = useGetseatMutation();
   const toggleVisibility = () => {
@@ -56,7 +56,7 @@ const Booking = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-    
+
   }, []);
 
   useEffect(() => {
@@ -74,63 +74,63 @@ const Booking = () => {
     }, 1000); // Update every second
 
     return () => clearInterval(interval); // Cleanup interval on unmount
-   
+
   }, []);
 
   const [seseatsArray, setSeseatsArray] = useState([]);
   const [Filter, setSfilter] = useState([]);
   const fetchSeats = async () => {
     try {
-        const response = await Getseat();
-        const seatData = response.data.data; // Assuming this contains the array of seat objects
-console.log(response)
-        // Extract seseats arrays from each seat object and concatenate them into a single array
-        const seseats = seatData.reduce((accumulator, seat) => {
-            return accumulator.concat(seat.seseats);
-        }, []);
+      const response = await Getseat();
+      const seatData = response.data.data; // Assuming this contains the array of seat objects
+      console.log(response)
+      // Extract seseats arrays from each seat object and concatenate them into a single array
+      const seseats = seatData.reduce((accumulator, seat) => {
+        return accumulator.concat(seat.seseats);
+      }, []);
 
-        const seatId = localStorage.getItem('scheduleId');
-        const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
+      const seatId = localStorage.getItem('scheduleId');
+      const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
 
-        console.log(filteredSeats);
+      console.log(filteredSeats);
 
-        setSfilter(seatData)
-        // Extract selected seats from filteredSeats
-        const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
-            return accumulator.concat(seat.seseats);
-        }, []);
+      setSfilter(seatData)
+      // Extract selected seats from filteredSeats
+      const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
+        return accumulator.concat(seat.seseats);
+      }, []);
 
-        // Update seseatsArray state with the selected seats
-        setSeseatsArray(selectedSeats);
+      // Update seseatsArray state with the selected seats
+      setSeseatsArray(selectedSeats);
 
-        console.log(selectedSeats); // Output: Selected seats
+      console.log(selectedSeats); // Output: Selected seats
     } catch (error) {
-        console.error('Error fetching seat data:', error);
-        setError(error.message);
+      console.error('Error fetching seat data:', error);
+      setError(error.message);
     }
-};
+  };
 
-// console.log(seseatsArray)
-// console.log(Filter)
-
-
+  // console.log(seseatsArray)
+  // console.log(Filter)
 
 
-function getScheduleSeatCounts(Filter) {
-  const scheduleSeatCounts = {};
-  for (const entry of Filter) {
-    const scheduleId = entry.schedule;
-    const seatCount = entry.seseats.length;
-    if (scheduleSeatCounts[scheduleId]) {
-      scheduleSeatCounts[scheduleId] += seatCount;
-    } else {
-      scheduleSeatCounts[scheduleId] = seatCount;
+
+
+  function getScheduleSeatCounts(Filter) {
+    const scheduleSeatCounts = {};
+    for (const entry of Filter) {
+      const scheduleId = entry.schedule;
+      const seatCount = entry.seseats.length;
+      if (scheduleSeatCounts[scheduleId]) {
+        scheduleSeatCounts[scheduleId] += seatCount;
+      } else {
+        scheduleSeatCounts[scheduleId] = seatCount;
+      }
     }
+    return scheduleSeatCounts;
   }
-  return scheduleSeatCounts;
-}
-const scheduleSeatCounts = getScheduleSeatCounts(Filter);
-// console.log('Schedule Seat Counts:', scheduleSeatCounts);
+  const scheduleSeatCounts = getScheduleSeatCounts(Filter);
+  // console.log('Schedule Seat Counts:', scheduleSeatCounts);
 
 
 
@@ -142,18 +142,18 @@ const scheduleSeatCounts = getScheduleSeatCounts(Filter);
   time2.setTime(time2.getTime() + (1 * 60 * 60 * 1000));
   const two = time2.toLocaleTimeString(undefined, time);
 
-  const options = { weekday: 'long', month: 'long', day: 'numeric' };
-  const formattedCurrentDate = currentDate.toLocaleDateString(undefined, options);
+  // const options = { weekday: 'long', month: 'long', day: 'numeric' };
+  // const formattedCurrentDate = currentDate.toLocaleDateString(undefined, options);
 
-  // Calculate yesterday's date
-  const yesterday = new Date(currentDate);
-  yesterday.setDate(yesterday.getDate() + 1);
-  const formattedYesterday = yesterday.toLocaleDateString(undefined, options);
+  // // Calculate yesterday's date
+  // const yesterday = new Date(currentDate);
+  // yesterday.setDate(yesterday.getDate() + 1);
+  // const formattedYesterday = yesterday.toLocaleDateString(undefined, options);
 
-  // Calculate tomorrow's date
-  const tomorrow = new Date(currentDate);
-  tomorrow.setDate(tomorrow.getDate() + 2);
-  const formattedTomorrow = tomorrow.toLocaleDateString(undefined, options);
+  // // Calculate tomorrow's date
+  // const tomorrow = new Date(currentDate);
+  // tomorrow.setDate(tomorrow.getDate() + 2);
+  // const formattedTomorrow = tomorrow.toLocaleDateString(undefined, options);
 
 
 
@@ -291,48 +291,46 @@ const scheduleSeatCounts = getScheduleSeatCounts(Filter);
     }
   };
 
-  const [startTime, setStartTime] = useState('');
-  const book = (id, startTime, price,endTime,capacity ) => {
-    localStorage.setItem("scheduleId", id);
-    localStorage.setItem("price", price);
-    localStorage.setItem("startTime", startTime);
-    localStorage.setItem("endTime", endTime);
-    localStorage.setItem("capacity", capacity);
-    
-    navigate('/seat');
-  }
+  const submitData = async (e) => {
+    console.log("first")
 
- 
+    try {
+      console.log("first")
+      const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
+      dispatch(setCredentials({ ...res }));
+
+
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.log("first")
+
+    }
+    console.log("first")
+  };
+
+  // const [startTime, setStartTime] = useState('');
+  // const book = (id, startTime, price,endTime,capacity ) => {
+  //   localStorage.setItem("scheduleId", id);
+  //   localStorage.setItem("price", price);
+  //   localStorage.setItem("startTime", startTime);
+  //   localStorage.setItem("endTime", endTime);
+  //   localStorage.setItem("capacity", capacity);
+
+  //   // navigate('/seat');
+  // }
+
+
 
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
-  const [value, setValue] = useState(new Date().toLocaleDateString('en-US'));
-
-
-
-
-
+  const localDate = new Date();
+  const formattedDate = localDate.toISOString().split('T')[0];
+  const [value, setValue] = useState(formattedDate);
+  const [value11, setValue11] = useState(formattedDate);
+  console.log(value)
   const [value1, setValue1] = useState('');
-
-
-
-
-
-  const handleChange1 = date => {
-    setSelectedDate(date);
-    // Format the date as needed
-    const formattedDate = date ? formatDate(date) : '';
-    setValue(formattedDate);
-  };
-  const handleChange11 = date => {
-    setSelectedDate(date);
-    // Format the date as needed
-    const formattedDate = date ? formatDate(date) : '';
-    setValue1(formattedDate);
-  };
-
-  const formatDate = date => {
+ const formatDate = date => {
     // Example: MM/dd/yyyy format
     const formattedDate = `${(date.getMonth() + 1)
       .toString()
@@ -356,42 +354,38 @@ const scheduleSeatCounts = getScheduleSeatCounts(Filter);
     }
   }, []);
 
-  const [filteredData, setFilteredData] = useState([]);
+  const [placeFilter, setPlaceFilter] = useState([]);
+  const [dateFilter, setDateFilter] = useState([]);
 
-useEffect(() => {
-  const fetchSchedules = async () => {
-    try {
-      if (!fromLocation) return; // Add a check for empty fromLocation to avoid unnecessary API calls
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      try {
+        if (!fromLocation) return; // Add a check for empty fromLocation to avoid unnecessary API calls
+        const result = await getSchedule();
+        console.log(result);
+        const startLocation = fromLocation.replace(', Nepal', '').replace('44600', '').trim();
+        const placeFilter = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startLocation.toLowerCase());
+        const dateFilter = placeFilter.filter(item => item.calender === value);
 
-      const result = await getSchedule();
-      console.log(result);
-      const startLocation = fromLocation.replace(', Nepal', '').replace('44600', '').trim();
-console.log(startLocation);
+      setData(dateFilter);
+      setLoading(false);
 
-      const filteredData = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startLocation.toLowerCase());
-console.log(filteredData)
+     } catch (error) {
+        console.error('Failed to fetch schedules:', error);
+      }
+    };
 
-setData(filteredData);
-
-     
-       // Use setFilteredData to update the state
-
-    } catch (error) {
-      console.error('Failed to fetch schedules:', error);
-    }
-  };
-
-  fetchSchedules();
-}, [fromLocation]);
-
-
- 
+    submitData();
+    fetchSchedules();
+  }, [fromLocation, value]);
 
 
 
 
- 
-const [isVisible, setIsVisible] = useState(false);
+
+
+
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <>
       <div className='m-10   '>
@@ -488,53 +482,43 @@ const [isVisible, setIsVisible] = useState(false);
               <div className=" flex  ml-5 mt-2" >
 
 
-                <div className="datepicker-container ml-5 mt-2">
+                <div className="ml-5 mt-2">
 
-                  <DatePicker
 
+
+
+                  <TextField
+                    sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
+                    type="date"
+                    name="calender"
                     label="Departure"
                     value={value}
-                    minDate={today}
-
-                    onChange={handleChange1}
-                    className="border border-1"
-                    startAdornment={<CalendarTodayIcon />}
-                    customInput={
-                      <TextField
-                        sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                        label="Departure"
-                        className="border border-1"
-                        InputProps={{
-                          endAdornment: <CalendarTodayIcon />,
-                        }}
-                      />
-                    }
-                  />
-
+                    onChange={(e) => setValue(e.target.value)}
+                    required
+                    className=" border border-[#e6e3e3]   rounded-md"
+                    inputProps={{ min: formattedDate }} />
                 </div>
 
                 <div className="datepicker-container ml-5 mt-2 ">
                   {selectedValue === "b" && (
+                    <TextField
+                      sx={{ width: '5cm' }}
+                      type="date"
+                      name="calender"
+                      label="Return"
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
+                      required
+                      className=" border border-[#e6e3e3]   rounded-md"
+                      inputProps={{ min: formattedDate }} />
 
-                    <DatePicker
-                      value={value1}
-                      minDate={today}
-                      onChange={handleChange11}
-                      className="border border-1"
-                      startAdornment={<CalendarTodayIcon />}
-                      customInput={
-                        <TextField
-                          sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                          label="Return"
-                          className="border border-1"
-                          InputProps={{
-                            endAdornment: <CalendarTodayIcon />,
-                          }}
-                        />
-                      }
-                    />
+
                   )}
                 </div>
+
+              </div>
+
+              <div>
 
               </div>
               <div className='mt-4 ml-7'>
@@ -564,9 +548,9 @@ const [isVisible, setIsVisible] = useState(false);
                       <div className='ml-3'>
                         Passengers
 
-                        <button className="btn ml-5" onClick={decrement}><RemoveCircleIcon sx={{color:'#009DF8'}} /></button>
+                        <button className="btn ml-5" onClick={decrement}><RemoveCircleIcon sx={{ color: '#009DF8' }} /></button>
                         <span id="count" className='text-xl rounded-md '>{count}</span>
-                        <button className="btn" onClick={increment}><AddCircleIcon sx={{color:'#009DF8'}} /></button>
+                        <button className="btn" onClick={increment}><AddCircleIcon sx={{ color: '#009DF8' }} /></button>
 
 
                       </div>
@@ -576,9 +560,9 @@ const [isVisible, setIsVisible] = useState(false);
                       <div className='flex gap-10 ml-3 ' >
                         Bikes
                         <div className='mb-2 ml-5'>
-                          <button className="btn" onClick={sub}><RemoveCircleIcon sx={{color:'#009DF8'}} /></button>
+                          <button className="btn" onClick={sub}><RemoveCircleIcon sx={{ color: '#009DF8' }} /></button>
                           <span id="count" className='text-xl rounded-md'>{bike}</span>
-                          <button className="btn" onClick={add}><AddCircleIcon sx={{color:'#009DF8'}} /></button>
+                          <button className="btn" onClick={add}><AddCircleIcon sx={{ color: '#009DF8' }} /></button>
                         </div>
 
                       </div>
@@ -588,7 +572,7 @@ const [isVisible, setIsVisible] = useState(false);
                 </Dropdown>
               </div>
 
-              <div className='ml-2 pt-6  '>
+              <div className='ml-10 pt-6  '>
                 <Button1 onClick={submitHandler}>Search</Button1>
               </div>
 
@@ -601,9 +585,9 @@ const [isVisible, setIsVisible] = useState(false);
       </div>
 
       <body className='bg-[#F7F7F7]  '>
-       
-     
-<div className='overflow-y-scroll  h-[58vh] p-5 '>
+
+{console.log(data)}
+        <div className='overflow-y-scroll  h-[58vh] p-5 '>
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
@@ -618,82 +602,97 @@ const [isVisible, setIsVisible] = useState(false);
               <div className='ml-10 w-[59.6%] mb-3  flex justify-between'>
                 <div className='mr-60 text-lg'>{item.startLocation}</div>
                 <div className='mr-60 text-lg'>{item.endLocation}</div>
-                
-             
-                
-                
-              
+
+
+
+
+
                 <div></div>
                 {/* <div> {item.bus.capacity}</div> */}
                 <div> {item.bus.name1}</div> {/* Display total seats */}
                 {/* <div>Total Seats: {scheduleSeatCounts[item._id]}</div> Display total seats */}
 
                 <div>
- {item.bus.capacity - scheduleSeatCounts[item._id]}
-</div>
+                  {item.bus.capacity - scheduleSeatCounts[item._id]}
+                </div>
 
               </div>
               <span className='ml-10  border-[#b5b1b1] border rounded-lg  '>
-                <span className='   '><DirectionsBusIcon sx={{color:'#757575'}}/></span>
-                <span className='   '><PowerIcon sx={{color:'#757575'}}/> </span>
+                <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
+                <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
                 <span className='   '></span>
-                <span className='  '><PhotoCameraFrontIcon sx={{color:'#757575'}}/></span>
-              
+                <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
+
               </span>
-              <span className='  mb-1 ml-20  '> <Groups2Icon sx={{color:'#475362'}} /> Seats available </span>
-              
+              <span className='  mb-1 ml-20  '> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
+
               <div className='ml-[50%]'>
-    <div className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id,item.startTime, item.price, item.endTime, item.bus.capacity)}>
-  <strong>Continue</strong>
-</div>
-
-
-
-
-
+                <div className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity)}>
+                  <strong>Continue</strong>
+                </div>
 
 
               </div>
 
 
-          
-   
-   
-      
-              <div className=' ml-[30%]'> <BusPhoto/></div>
-          
-    
-      
-              
-              
+
+
+
+
+              <div className=' ml-[30%]'> <BusPhoto /></div>
+
+
+
+
+
               {/* DOWN */}
 
 
-             
-<div className='  '>
-<div className=''>
-  <ul>
-   
-   
-    <li></li>
-    <li></li>
-  </ul>
-</div>           
 
-</div>
+              <div className='  '>
+                <div className=''>
+                  <ul>
 
 
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </div>
+
+              </div>
 
 
-                
-            
 
-              
 
-            
+
+
+
+
+
+
 
             </div>
           ))}
+          
+          
+          <div>
+            {loading ? (
+                // Show loader while waiting for data
+                <Mobile />
+            ) : (
+                // Show data or no data message based on availability
+                <div>
+                    {data.length>0 ? (
+                                    <>
+                    </>
+                    ) : (
+        <div className='w-16  ml-20' > <img src="Seat.svg" alt="logo" /></div>
+                        
+                                        )}
+                </div>
+            )}
+          {  console.log(data)}
+        </div>
 
 
 

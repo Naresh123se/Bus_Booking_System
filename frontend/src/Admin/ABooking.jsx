@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
 import { useGetbusMutation } from '../slices/bus.js';
 
+
 const ABooking = () => {
   const [data, setData] = useState([]);
   const [buses, setBuses] = useState([]);
@@ -25,16 +26,22 @@ const ABooking = () => {
 
   const [editSchedule] = useEditScheduleMutation(); // Hook for editing schedule
   const [deleteSchedule1] = useDeleteScheduleMutation(); // Hook for deleting schedule
+  const localDate = new Date();
+  const formattedDate = localDate.toISOString().split('T')[0];
 
+// console.log(`Current local date: ${formattedDate}`);
+
+  
   const [busId, setBusId] = useState('');
   const [bus20, setBus20] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [calender, setCalender] = useState(formattedDate);
   const [startLocation, setStartLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
   const navigate = useNavigate();
-
+// console.log(calender)
   
   // Inside ABooking component
 
@@ -100,7 +107,7 @@ const ABooking = () => {
     event.preventDefault();
     try {
  
-      await add({ busId, startTime, endTime, startLocation, endLocation, price }).unwrap();
+      await add({ busId, startTime, endTime, calender, startLocation, endLocation, price }).unwrap();
       toast.success('Data added successfully');
       fetchSchedules();
     } catch (err) {
@@ -306,7 +313,7 @@ const ABooking = () => {
             {showAddPanel && (
               <div className="bg-white p-4 mb-4 ml-5  ">
                 <h1 className="text-md font-semibold mb-2">Add New Schedules </h1>
-                <form onSubmit={handleAddSubmit} className='flex gap-10'>
+                <form onSubmit={handleAddSubmit} className='flex gap-6'>
                   <select type="text" className=" border rounded-lg" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
 
 
@@ -316,11 +323,12 @@ const ABooking = () => {
                       <option key={bus._id} value={bus._id}>{bus.name1}</option>
                     ))}
                   </select>
-                  <input type="time" name="startTime" placeholder=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
-                  <input type="time" name="endTime" placeholder="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <input type="text" name="startLocation" placeholder="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <input type="text" name="endLocation" placeholder="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <input type="number" name="price" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}} type="time" name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
+                  <TextField sx={{ width: '16ch'}}type="time" name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}}type="date" name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
+                  <TextField sx={{ width: '20ch'}} type="text" name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '20ch'}} type="text" name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '20ch'}}type="number" name="price" label="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
                   <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</Button>
                 </form>
               </div>
@@ -352,6 +360,7 @@ const ABooking = () => {
                         <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.bus.name1   }</td>
                         <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime   }</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
+                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.calender}</td>
                         <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>
                         <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endLocation}</td>
                         <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
@@ -378,6 +387,7 @@ const ABooking = () => {
           <form className='flex flex-col gap-4 mt-2 '>
             <TextField label="Start Time" type='time' name="startTime" value={editData.startTime} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="End Time" type='time' name="endTime" value={editData.endTime} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="Date" type='date' name="calender" value={editData.calender} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Start Location" name="startLocation" value={editData.startLocation} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="End Location" name="endLocation" value={editData.endLocation} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Price" name="price" type="price" value={editData.price} onChange={handleEditInputChange} className='mb-3' />

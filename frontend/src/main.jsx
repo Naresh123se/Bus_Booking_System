@@ -26,7 +26,7 @@ import Des from './Booking/Destinations.jsx';
 
 
 import PickDirection from './Directions/PickDirection.jsx';
-import Loc from './Directions/Location.jsx';
+
 import Mobile from './Directions/Mobile.jsx';
 
 
@@ -80,7 +80,7 @@ const router = createBrowserRouter(
 
 
 
-      <Route path='/L' element={<Loc/>} />
+    
       <Route path='/M' element={<Mobile/>} />
 
 

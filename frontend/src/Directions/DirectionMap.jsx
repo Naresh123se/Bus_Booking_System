@@ -10,10 +10,9 @@ import Button from '@mui/joy/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import dayjs from 'dayjs';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
-import DatePicker from 'react-datepicker';
+
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { useSearchMutation } from '../slices/booking';
@@ -42,8 +41,8 @@ const DirectionMap = () => {
 
   useEffect(() => {
     loadGoogleMapsScript();
-    
-  
+
+
   }, []);
 
 
@@ -222,22 +221,11 @@ const DirectionMap = () => {
     }
   };
 
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [value, setValue] = useState(new Date().toLocaleDateString('en-US'));
-  const [value1, setValue1] = useState('');
+  const localDate = new Date();
+  const formattedDate = localDate.toISOString().split('T')[0];
+  const [value, setValue] = useState(formattedDate);
+  const [value1, setValue1] = useState(formattedDate);
 
-  const handleChange1 = date => {
-    setSelectedDate(date);
-    // Format the date as needed
-    const formattedDate = date ? formatDate(date) : '';
-    setValue(formattedDate);
-  };
-  const handleChange11 = date => {
-    setSelectedDate(date);
-    // Format the date as needed
-    const formattedDate = date ? formatDate(date) : '';
-    setValue1(formattedDate);
-  };
 
   const formatDate = date => {
     // Example: MM/dd/yyyy format
@@ -263,7 +251,7 @@ const DirectionMap = () => {
     }
   }, []);
 
- const updateDurationUI = (duration, distance) => {
+  const updateDurationUI = (duration, distance) => {
     document.getElementById('duration').textContent = 'Estimated Duration: ' + duration;
     document.getElementById('distance').textContent = 'Distance: ' + distance;
   };
@@ -433,51 +421,37 @@ const DirectionMap = () => {
           <div className=" flex  ml-5 mt-2" >
 
 
-            <div className="datepicker-container ml-5 mt-2">
+            <div className="ml-5 mt-2">
 
-              <DatePicker
 
+
+
+              <TextField
+                sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
+                type="date"
+                name="calender"
                 label="Departure"
                 value={value}
-                minDate={today}
-
-                onChange={handleChange1}
-                className="border border-1"
-                startAdornment={<CalendarTodayIcon />}
-                customInput={
-                  <TextField
-                    sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                    label="Departure"
-                    className="border border-1"
-                    InputProps={{
-                      endAdornment: <CalendarTodayIcon />,
-                    }}
-                  />
-                }
-              />
-
+                onChange={(e) => setValue(e.target.value)}
+                required
+                className=" border border-[#e6e3e3]   rounded-md"
+                inputProps={{ min: formattedDate }} />
             </div>
 
             <div className="datepicker-container ml-5 mt-2 ">
               {selectedValue === "b" && (
+                <TextField
+                  sx={{ width: '5cm' }}
+                  type="date"
+                  name="calender"
+                  label="Return"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  required
+                  className=" border border-[#e6e3e3]   rounded-md"
+                  inputProps={{ min: formattedDate }} />
 
-                <DatePicker
-                  value={value1}
-                  minDate={today}
-                  onChange={handleChange11}
-                  className="border border-1"
-                  startAdornment={<CalendarTodayIcon />}
-                  customInput={
-                    <TextField
-                      sx={{ width: selectedValue === "b" ? ' 5cm' : '10.58cm' }}
-                      label="Return"
-                      className="border border-1"
-                      InputProps={{
-                        endAdornment: <CalendarTodayIcon />,
-                      }}
-                    />
-                  }
-                />
+
               )}
             </div>
 
@@ -552,7 +526,7 @@ const DirectionMap = () => {
 
       <div className="container">
 
-      
+
 
         <div className='flex'>
           <div id="map" className='mt-5 ml-20' style={{ height: '460px', width: '90.5%' }}></div>

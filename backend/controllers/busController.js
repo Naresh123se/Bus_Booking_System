@@ -1,14 +1,13 @@
-// // Import required packages
-
 import asyncHandler from "express-async-handler";
-// import direction from './routes/direction.js';
 
 const bookingdata = asyncHandler(async (req, res) => {
   // Extract parameters from the request body or query parameters
   const { fromLocation, toLocation, value, value1, bike, count } = req.body;
-  if (!fromLocation || !toLocation || !value) {
-    res.status(400);
-    throw new Error("Locations are required");
+  console.log(fromLocation, toLocation);
+
+  // Validate parameters
+  if (!fromLocation || !toLocation || !value || isNaN(Date.parse(value))) {
+    return res.status(400).json({ error: "Locations or date are invalid" });
   }
 
   try {
@@ -20,7 +19,11 @@ const bookingdata = asyncHandler(async (req, res) => {
     console.log("bike:", bike);
     console.log("count:", count);
 
-    res.json({
+    // Send back the result to the client
+    res.status(200).json({
+      success: true,
+      message: "Verification successful",
+      verificationStatus: "success",
       fromLocation: fromLocation,
       toLocation: toLocation,
       value: value,
@@ -29,14 +32,6 @@ const bookingdata = asyncHandler(async (req, res) => {
       count: count,
     });
 
-    // Send back the result to the client
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Verification successful",
-        verificationStatus: "success",
-      });
   } catch (error) {
     // If there's an error, send an error response
     console.error("Error in user controller:", error);

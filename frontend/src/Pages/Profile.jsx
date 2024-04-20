@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { useUpdateUserMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import Loader from '../Directions/Loader';
-
+import TextField from '@mui/material/TextField';
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -62,12 +62,14 @@ const Profile = () => {
             <Form onSubmit={submitHandler} className="max-w-md mx-auto ml-10 mt-4">
                 {(userInfo || user) && (
                     <>
-                        <Form.Group controlId='name' className='mb-4'>
-                            <Form.Label><PersonIcon sx={{ fontSize: 21 }} /> Name</Form.Label>
-                            <Form.Control
+                        <Form.Group controlId='name' className='mb-4  '>
+                            <Form.Label><PersonIcon sx={{ fontSize: 21, width:'22px',marginBottom:'10px' }} /> Name</Form.Label>
+                            
+                            <TextField
                                 type='name'
-                                placeholder='Enter name'
+                                // placeholder='Enter name'
                                 value={name}
+                                label="Name"
                                 onChange={(e) => setName(e.target.value)}
                                 className={`border border-[#a99090] px-3 py-2 rounded-md flex ${user
                                     ? 'cursor-not-allowed bg-white'
@@ -80,9 +82,10 @@ const Profile = () => {
 
                         <Form.Group controlId='email' className='mb-4'>
                             <Form.Label><AlternateEmailIcon sx={{ fontSize: 21 }} /> Email Address</Form.Label>
-                            <Form.Control
+                            <TextField
                                 type='email'
-                                placeholder='Enter email'
+                                // placeholder='Enter email'
+                                label="Email"
                                 value={email}
                                 readOnly // Making the input non-editable
                                 className='border border-[#a99090] px-3 py-2 rounded-md flex cursor-not-allowed bg-white'
@@ -95,7 +98,7 @@ const Profile = () => {
                     <>
                         <Form.Group controlId='password' className='mb-4'>
                             <Form.Label><LockIcon sx={{ fontSize: 21 }} /> Password</Form.Label>
-                            <Form.Control
+                            <TextField
                                 type='password'
                                 placeholder='Enter password'
                                 value={password}
@@ -105,7 +108,7 @@ const Profile = () => {
                         </Form.Group>
                         <Form.Group controlId='confirmPassword' className='mb-4'>
                             <Form.Label><LockIcon sx={{ fontSize: 21 }} /> Confirm Password</Form.Label>
-                            <Form.Control
+                            <TextField 
                                 type='password'
                                 placeholder='Confirm password'
                                 value={confirmPassword}

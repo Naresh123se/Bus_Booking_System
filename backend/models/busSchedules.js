@@ -17,6 +17,10 @@ const busSchedules = new mongoose.Schema(
       type: String,
       required: true,
     },
+    calender: {
+      type: String,
+      required: true,
+    },
     startLocation: {
       type: String,
       required: true,
