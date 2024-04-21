@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Mobile from '../Directions/Mobile.jsx'
+import AllFilter from '../Booking/AllFilter.jsx'
 
 // import BusSeatSelection from './BusSeatSelection.jsx'
 import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
@@ -308,16 +309,16 @@ const Booking = () => {
     console.log("first")
   };
 
-  // const [startTime, setStartTime] = useState('');
-  // const book = (id, startTime, price,endTime,capacity ) => {
-  //   localStorage.setItem("scheduleId", id);
-  //   localStorage.setItem("price", price);
-  //   localStorage.setItem("startTime", startTime);
-  //   localStorage.setItem("endTime", endTime);
-  //   localStorage.setItem("capacity", capacity);
+  const [startTime, setStartTime] = useState('');
+  const book = (id, startTime, price,endTime,capacity ) => {
+    localStorage.setItem("scheduleId", id);
+    localStorage.setItem("price", price);
+    localStorage.setItem("startTime", startTime);
+    localStorage.setItem("endTime", endTime);
+    localStorage.setItem("capacity", capacity);
 
-  //   // navigate('/seat');
-  // }
+    navigate('/seat');
+  }
 
 
 
@@ -586,8 +587,37 @@ const Booking = () => {
 
       <body className='bg-[#F7F7F7]  '>
 
-{console.log(data)}
+
         <div className='overflow-y-scroll  h-[58vh] p-5 '>
+        <div>
+            {loading ? (
+                // Show loader while waiting for data
+                <Mobile />
+            ) : (
+                // Show data or no data message based on availability
+                <div>
+                    {data.length>0 ? (
+                                    <>
+          <AllFilter/>
+                                    
+                    </>
+                    ) : (
+                  
+                      <div className='grid  justify-center mt-10'>
+                        <div className='ml-5' > <img src="Seat.svg" alt="logo" /></div>
+         <div className=''> 
+         <p className='font-bold text-[20px] '>Oops! No buses found.</p> 
+         <p className='ml-5'>Oops! No buses found.</p>
+        
+          </div> 
+                      </div>
+                      
+                        )}
+                </div>
+            )}
+          {/* {  console.log(data)} */}
+        </div>
+        
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
@@ -602,10 +632,6 @@ const Booking = () => {
               <div className='ml-10 w-[59.6%] mb-3  flex justify-between'>
                 <div className='mr-60 text-lg'>{item.startLocation}</div>
                 <div className='mr-60 text-lg'>{item.endLocation}</div>
-
-
-
-
 
                 <div></div>
                 {/* <div> {item.bus.capacity}</div> */}
@@ -627,9 +653,9 @@ const Booking = () => {
               <span className='  mb-1 ml-20  '> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
 
               <div className='ml-[50%]'>
-                <div className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity)}>
+                <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity)}>
                   <strong>Continue</strong>
-                </div>
+                </button>
 
 
               </div>
@@ -650,14 +676,7 @@ const Booking = () => {
 
 
               <div className='  '>
-                <div className=''>
-                  <ul>
-
-
-                    <li></li>
-                    <li></li>
-                  </ul>
-                </div>
+                
 
               </div>
 
@@ -675,24 +694,7 @@ const Booking = () => {
           ))}
           
           
-          <div>
-            {loading ? (
-                // Show loader while waiting for data
-                <Mobile />
-            ) : (
-                // Show data or no data message based on availability
-                <div>
-                    {data.length>0 ? (
-                                    <>
-                    </>
-                    ) : (
-        <div className='w-16  ml-20' > <img src="Seat.svg" alt="logo" /></div>
-                        
-                                        )}
-                </div>
-            )}
-          {  console.log(data)}
-        </div>
+         
 
 
 
