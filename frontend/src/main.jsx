@@ -30,7 +30,9 @@ import PickDirection from './Directions/PickDirection.jsx';
 import Mobile from './Directions/Mobile.jsx';
 
 
+
 import Payment from './Booking/Payment.jsx';
+import Cancel from './Booking/Cancel.jsx';
 import Confirmation from './Booking/PaymentCon.jsx';
 import Not from './Pages/Notification.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
@@ -71,6 +73,7 @@ const router = createBrowserRouter(
       <Route path='/PickD' element={<PickDirection/>} />
       <Route path='/payment' element={<Payment/>} />
       <Route path='/confirmation' element={<Confirmation/>} />
+      <Route path='/Cancel' element={<Cancel/>} />
       <Route path='/Ipayment' element={<Int_Payment />} />
 
       <Route path='/Ticket' element={<Ticket/>} />

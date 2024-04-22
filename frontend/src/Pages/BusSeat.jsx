@@ -20,6 +20,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PayNow from '../Booking/PayNow.jsx';
 import { useInitiatePaymentMutation } from '../slices/khalti.js';
 import { useNavigate } from 'react-router-dom';
+import TicketGenerator from '../Directions/Mobile.jsx';
 
 const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
     <button
@@ -364,10 +365,14 @@ const BusSeatSelection = () => {
         // Perform payment based on the selectedPaymentMethod
         if (selectedPaymentMethod === 'card') {
             console.log("first")
-            Navigate('/Ipayment')
+            localStorage.setItem('Pay_but', 'card');
+            handleFormSubmit1();
+        
+            
+          
             // Pass the event parameter to handleClick
         } else if (selectedPaymentMethod === 'Khalti') {
-            // handleClick(e);
+            localStorage.setItem('Pay_but', 'khalti');
             handleFormSubmit1();
         } else {
             // No payment method selected
@@ -455,6 +460,10 @@ const BusSeatSelection = () => {
     // const encryptedPrice = CryptoJS.AES.encrypt(JSON.stringify(totalPrice), 'BUS2023').toString();
     // localStorage.setItem('finalPrice', encryptedPrice);
 
+
+    //ticket number
+    const [ticketNumber] = useState(`MB${Math.floor(Math.random() * 1000000)}`);
+    console.log(ticketNumber)
     //COUPON
     const submitVoucher = (event) => {
         setTotalVoucher(true);
@@ -511,6 +520,7 @@ const BusSeatSelection = () => {
         }
     
 
+     
         setIsSubmitting(true);
     
         const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -528,18 +538,37 @@ const BusSeatSelection = () => {
             userId: userId,
             seat: seseats,
             customer: formData,
-            contact: userdata1
+            contact: userdata1,
+            ticketNum:ticketNumber,
+            price: totalPrice,
+            count:count,
+
         };
     
         const dataString = JSON.stringify(busData);
         localStorage.setItem('allData', dataString);
-
-        handleClick(e);
+       
+        const paymentMethod = localStorage.getItem('Pay_but');
+        console.log(paymentMethod); // Log the value retrieved from localStorage
+    
+        // Conditionally render different components or perform different actions based on the stored value
+        if (paymentMethod === 'card') {
+          console.log('CARD');
+          Navigate('/Ipayment');
+          // Render or perform actions for card payment
+        } else if (paymentMethod === 'khalti') {
+          console.log('KHALTI');
+          handleClick(e);
+          // Render or perform actions for KHALTI payment
+        }
+      
+    
         setIsSubmitting(false);
     };
 
-    console.log(isChecked)
+
     
+       
    
 
 

@@ -9,7 +9,7 @@ const PaymentCon = () => {
   
   const [confirm] = useConfirmationMutation();
   const navigate = useNavigate();
-  const [data, setData] = useState({});
+  const [data, setData] = useState( );
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const pidx = urlParams.get('pidx');
@@ -30,6 +30,12 @@ const PaymentCon = () => {
     fetchData();
     
   }, []);
+  
+
+
+
+
+console.log(data)
 
   const value = localStorage.getItem('allData');
   const data11 = JSON.parse(value)
@@ -44,12 +50,7 @@ console.log("first")
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
-
   };
-
-
-
-
 
   const paymentAlert = () => {
     Swal.fire({
@@ -71,15 +72,19 @@ console.log("first")
   // If the "OK" button is clicked, redirect to the home page
   if (result.isConfirmed) {
     // console.log("first")
-    // navigate('/') // Redirect to the home page
+    navigate('/home11') // Redirect to the home page
   }
 });
 };
 
-console.log(data.status)
-if (data.status) {
+// console.log(data.status)
+if (data.status === "Completed") {
+   {console.log("first")}
+  //  submitHandler();
   paymentAlert();
+
 } else {
+  navigate('/')
   // Do nothing or handle another case
 }
 

@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { useConfirmationMutation } from '../slices/khalti.js';
+import { toast } from 'react-toastify'
+import { useSelseatMutation} from '../slices/seat.js';
+import { useTicketMutation} from '../slices/ticket.js';
 
 function Completion() {
   const [messageBody, setMessageBody] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('');
   const navigate = useNavigate();
-
+  const [data, setData] = useState( );
   useEffect(() => {
     // Load Stripe promise
     const stripePromise = loadStripe('pk_test_51OuFwxRwfoVrnzomyIvjrX4FCfEYw7nR9zwl2ktkAdpuuoeTKCIhCEGRr22ls5hbi3FoMG0jR7yK3FA7ZvT7MoTX00EwcOa9pa');
@@ -26,13 +30,45 @@ function Completion() {
 
       setPaymentStatus(paymentIntent.status);
     });
+    // fetchData();
   }, []);
 
+  
+
   useEffect(() => {
-    if (paymentStatus === 'succeeded') {
+    const fetchData = async () => {
+      try {
+        const response = await confirm({ pidx }).unwrap();
+        setData(response.status);
+        console.log(response)
+        console.log(response);
+      } catch (error) {
+        console.error('Failed to fetch schedules:', error);
+      }
+    };
+
+    fetchData();
+  },[]);
+ 
+
+  useEffect(() => {
+    if (paymentStatus === 'succeeded' || data === "Completed") 
+     {
+      submitHandler1();
+      submitHandler();
       paymentAlert(); // Call paymentAlert function if payment status is succeeded
     }
-  }, [paymentStatus]);
+  }, [paymentStatus, data]);
+
+//khalti
+const [confirm] = useConfirmationMutation();
+  
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const pidx = urlParams.get('pidx');
+  const [Selseat] = useSelseatMutation();
+  const [TicketData] = useTicketMutation();
 
   const paymentAlert = () => {
     Swal.fire({
@@ -49,14 +85,63 @@ function Completion() {
       `
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate('/') // Redirect to the home page
+        navigate('/ticket') // Redirect to the home page
       }
     });
   };
 
+
+  
+
+
+
+ const value = localStorage.getItem('allData');
+ const data11 = JSON.parse(value)
+console.log(data11)
+ const submitHandler = async (e) => {
+   console.log("first")
+
+   try {
+    await Selseat (data11).unwrap();
+console.log("first")
+     // navigate('/login');
+   } catch (err) {
+     toast.error(err?.data?.message || err.error);
+   }
+ };
+
+ const submitHandler1 = async (e) => {
+   console.log("first")
+   
+   try {
+    await TicketData(data11).unwrap();
+    console.log("first")
+     // navigate('/login');
+   } catch (err) {
+     toast.error(err?.data?.message || err.error);
+   }
+ };
+
+
+
+
+ const Ticket = async (e) => {
+   console.log("first")
+ 
+   try {
+    await Selseat (data11).unwrap();
+console.log("first")
+     // navigate('/login');
+   } catch (err) {
+     toast.error(err?.data?.message || err.error);
+   }
+ };
+
+
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Thank you!</h1>
+      <button onClick={submitHandler}>ok</button>
     </>
   );
 }

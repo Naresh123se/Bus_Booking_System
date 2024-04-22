@@ -13,6 +13,7 @@ import passenger from './routes/passenger.js';
 import seat from './routes/seat.js';
 import addDes from './routes/destinations.js';
 import khalti from './routes/khalti.js';
+import ticket from './routes/ticket.js';
 import {app} from "./google.js";
 import './email.js';
 import { v2 as cloudinary } from 'cloudinary';
@@ -43,6 +44,7 @@ app.use('/api',passenger);
 app.use('/api',seat);
 app.use('/api',addDes);
 app.use('/api',stripe);
+app.use('/api',ticket);
 
 
  cloudinary.config({ 

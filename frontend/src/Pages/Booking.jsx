@@ -40,6 +40,7 @@ import BusPhoto from '../Booking/BusPhoto.jsx'
 
 
 const Booking = () => {
+  
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -381,11 +382,6 @@ const Booking = () => {
   }, [fromLocation, value]);
 
 
-
-
-
-
-
   const [isVisible, setIsVisible] = useState(false);
   return (
     <>
@@ -621,37 +617,63 @@ const Booking = () => {
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
-              <div className='flex  mr-10 ml-10 justify-between'>
+              <div className='flex  mr-10 ml-10 justify-between p-1'>
+                
+                <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div> 
+              
                 <div className='font-semibold text-xl'>{item.startTime}</div>
                 <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
                 <p>{(item.startTime)}</p>
                 <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
-                <div className='mr-80 font-semibold text-xl'>{item.endTime}</div>
+                <div className='mr-40 font-semibold text-xl'>{item.endTime}</div>
                 <div className='font-semibold text-xl'>{item.price}</div>
               </div>
-              <div className='ml-10 w-[59.6%] mb-3  flex justify-between'>
-                <div className='mr-60 text-lg'>{item.startLocation}</div>
-                <div className='mr-60 text-lg'>{item.endLocation}</div>
-
-                <div></div>
-                {/* <div> {item.bus.capacity}</div> */}
-                <div> {item.bus.name1}</div> {/* Display total seats */}
-                {/* <div>Total Seats: {scheduleSeatCounts[item._id]}</div> Display total seats */}
-
+              <div className='ml-10 mb-3  flex  mt-3'>
                 <div>
-                  {item.bus.capacity - scheduleSeatCounts[item._id]}
-                </div>
-
-              </div>
-              <span className='ml-10  border-[#b5b1b1] border rounded-lg  '>
+                <span className='  border-[#b5b1b1] border rounded-lg  '>
                 <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
                 <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
                 <span className='   '></span>
                 <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
-
               </span>
-              <span className='  mb-1 ml-20  '> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
+                </div>
+                <div className='ml-28 text-lg'>{item.startLocation}</div>
+                <div className='ml-[46vh] text-lg'>{item.endLocation}</div>
 
+                
+                {/* <div> {item.bus.capacity}</div> */}
+                {/* Display bus name */}
+
+                <div className='ml-10'>
+                <span className=' border rounded-md border-[#909090] p-0.5  '>
+              <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
+               {/* seat available */}
+             <span className='font-semibold'>
+  
+
+      
+      {scheduleSeatCounts[item._id] === undefined ? 'FULL' : item.bus.capacity - scheduleSeatCounts[item._id]
+      }
+</span>
+
+
+
+
+
+
+                </span>
+                </div>
+             
+                {/* <div>Total Seats: {scheduleSeatCounts[item._id]}</div> Display total seats */}
+
+
+
+              </div>
+             
+              <div>
+              
+              </div>
+              
               <div className='ml-[50%]'>
                 <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity)}>
                   <strong>Continue</strong>
@@ -660,8 +682,9 @@ const Booking = () => {
 
               </div>
 
+             
 
-
+              
 
 
 

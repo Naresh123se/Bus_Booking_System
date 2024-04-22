@@ -5,7 +5,7 @@ const khalti = asyncHandler(async (req, res) => {
   const {amount,customerName, customerEmail,customerPhone} = req.body;
   console.log(amount,customerName, customerEmail,customerPhone)
   const requestData = {
-    return_url: "http://localhost:4000/confirmation",
+    return_url: "http://localhost:4000/completion",
     website_url: "http://localhost:4000/payment",
     amount: amount*100,
     purchase_order_id: "Order01",
