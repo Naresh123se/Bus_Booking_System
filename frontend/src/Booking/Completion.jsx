@@ -99,12 +99,10 @@ const [confirm] = useConfirmationMutation();
  const data11 = JSON.parse(value)
 console.log(data11)
  const submitHandler = async (e) => {
-   console.log("first")
+   
 
    try {
     await Selseat (data11).unwrap();
-console.log("first")
-     // navigate('/login');
    } catch (err) {
      toast.error(err?.data?.message || err.error);
    }
@@ -114,9 +112,9 @@ console.log("first")
    console.log("first")
    
    try {
-    await TicketData(data11).unwrap();
-    console.log("first")
-     // navigate('/login');
+    const response = await TicketData(data11).unwrap(); 
+    localStorage.setItem('ticketDataResponse', JSON.stringify(response.ticket.ticketNum));
+     console.log(response.ticket.ticketNum)
    } catch (err) {
      toast.error(err?.data?.message || err.error);
    }

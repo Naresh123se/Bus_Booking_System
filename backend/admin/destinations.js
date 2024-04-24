@@ -12,7 +12,7 @@ const addDes = asyncHandler(async (req, res, next) => {
   
     
     const {place, selectedImages } = req.body;
-// console.log(place, selectedImages);
+console.log(place, selectedImages);
    
 
     // checking if the images are in from of arrary or string

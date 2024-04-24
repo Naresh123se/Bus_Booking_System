@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef,  } from 'react';
 import JoditEditor from 'jodit-react';
 const PickDirection = () => {
   const editor = useRef(null);

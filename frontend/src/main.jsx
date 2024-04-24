@@ -46,6 +46,7 @@ import ABooking from './Admin/ABooking.jsx';
 import User from './Admin/User.jsx';
 import ABus from './Admin/Bus.jsx';
 import ADes from './Admin/Destinations.jsx';
+import ABlog from './Admin/Blog.jsx';
 
 
 
@@ -98,6 +99,7 @@ const router = createBrowserRouter(
        <Route path='admin/Passenger' element={<User />} />
        <Route path='admin/Bus' element={<ABus />} />
        <Route path='admin/Des' element={<ADes />} />
+       <Route path='admin/blog' element={<ABlog />} />
 
       </Route>  
       

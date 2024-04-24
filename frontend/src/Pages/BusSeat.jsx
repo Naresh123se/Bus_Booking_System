@@ -331,6 +331,7 @@ const BusSeatSelection = () => {
 
     // TOTAL PRICE
 
+    console.log(totalPrice)
     const encryptedPrice = CryptoJS.AES.encrypt(JSON.stringify(totalPrice), 'BUS2024').toString();
     localStorage.setItem('finalPrice', encryptedPrice);
 
@@ -483,11 +484,16 @@ const BusSeatSelection = () => {
             toast.error('Invalid coupon code.');
         }
         const discountAmountValue = discount;
+    
+        console.log(discountAmountValue)
         setDiscountAmount(discountAmountValue);
         const discountedValue = (totalPrice - discount);
         setDiscountedPrice(discountedValue);
         console.log(discountedPrice)
+        
     };
+
+    console.log(discountAmount)
     const handleFormSubmit1 = async (e) => {
         if (seseats.length === 0) {
             toast.error('Please select seats');
@@ -540,7 +546,11 @@ const BusSeatSelection = () => {
             customer: formData,
             contact: userdata1,
             ticketNum:ticketNumber,
-            price: totalPrice,
+            finalprice:{
+                totalPrice: discountedPrice,
+                price: totalPrice,
+                discount:discountAmount,
+            },
             count:count,
 
         };

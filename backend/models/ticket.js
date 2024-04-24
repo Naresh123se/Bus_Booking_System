@@ -4,56 +4,70 @@ const ticketSchema = new mongoose.Schema({
   SchId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Schedule",
-    required: true
+    required: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true
+    required: true,
   },
   seat: {
     type: [Number],
-    required: true
+    required: true,
   },
-  customer: [{
-    firstName: {
-      type: String,
-      required: true
+  customer: [
+    {
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
+      fullName: {
+        type: String,
+        required: true,
+      },
     },
-    lastName: {
-      type: String,
-      required: true
-    },
-    fullName: {
-      type: String,
-      required: true
-    }
-  }],
+  ],
   contact: {
     email: {
       type: String,
-      required: true
+      required: true,
     },
     phoneNumber: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   ticketNum: {
     type: String,
-    required: true
+    required: true,
   },
-  price: {
-    type: Number,
-    required: true
+
+  finalprice: {
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    discount: {
+      type: Number,
+      required: true,
+    },
   },
+
   count: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 // Create a Ticket model using the ticketSchema
-const Ticket = mongoose.model('Ticket', ticketSchema);
+const Ticket = mongoose.model("Ticket", ticketSchema);
 
 export default Ticket;

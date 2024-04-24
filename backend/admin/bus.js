@@ -71,7 +71,7 @@ const deleteBus = asyncHandler(async (req, res) => {
 });
 
 
-
+//edit
 
 const updateBus= asyncHandler(async (req, res) => {
   try {

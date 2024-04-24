@@ -14,18 +14,15 @@ import seat from './routes/seat.js';
 import addDes from './routes/destinations.js';
 import khalti from './routes/khalti.js';
 import ticket from './routes/ticket.js';
+import blog from './routes/blog.js';
 import {app} from "./google.js";
 import './email.js';
 import { v2 as cloudinary } from 'cloudinary';
-
-
-
 import stripe from './routes/stripe.js'
 
 
 const port = process.env.PORT || 5000;
-
-
+//DB connection
 connectDB();
 app.use(express.json( {limit: '50mb'} ));
 
@@ -33,7 +30,7 @@ app.use(express.urlencoded({ extended: true}));
 
 app.use(cookieParser());
 
-
+//Routes
 app.use('/api/users', userRoutes);
 app.use('/api/Booking',booking);
 app.use('/api',bus);
@@ -45,15 +42,15 @@ app.use('/api',seat);
 app.use('/api',addDes);
 app.use('/api',stripe);
 app.use('/api',ticket);
+app.use('/api',blog);
 
-
+//Cloud Storage
  cloudinary.config({ 
   cloud_name: 'busbookingsystem', 
   api_key: '318493543119992', 
   api_secret: 'OHU3SnTLUHTCzbRxQvxyvKwTCZY',
   secure: true 
 });
-
 
 
 if (process.env.NODE_ENV === 'production') {
@@ -73,5 +70,5 @@ app.use(notFound);
 app.use(errorHandler);
 
 
-
+//
 app.listen(port, () => console.log(`Server started on port ${port}`));

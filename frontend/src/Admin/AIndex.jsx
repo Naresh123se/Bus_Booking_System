@@ -42,6 +42,9 @@ const AIndex = () => {
   const handleDestinationClick = () => {
     handleClick('Des');
   };
+  const handleBlogClick = () => {
+    handleClick('Blog');
+  };
 
   return (
     <>
@@ -89,6 +92,7 @@ const AIndex = () => {
               Report
             </div>
           </div>
+
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleDestinationClick}>
             <div>
               <FontAwesomeIcon icon={faLocationDot} beatFade />
@@ -97,6 +101,16 @@ const AIndex = () => {
             Destination
             </div>
           </div>
+
+          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleBlogClick}>
+            <div>
+              <FontAwesomeIcon icon={faLocationDot} beatFade />
+            </div>
+            <div>
+           Blog
+            </div>
+          </div>
+
         </div>
       </div>
     </>
