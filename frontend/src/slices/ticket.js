@@ -20,11 +20,20 @@ export const ticket = apiSlice.injectEndpoints({
       }),
     }),
    
+    totalTickets: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/totalTickets`,
+        method: 'GET',
+        body: data,
+      }),
+    }),
+   
   }),
 });
 
 export const {
   useTicketMutation,
   useGetTicketMutation,
+  useTotalTicketsMutation,
 
 } = ticket;

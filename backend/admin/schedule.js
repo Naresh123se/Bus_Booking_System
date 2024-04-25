@@ -6,7 +6,7 @@ import  Bus  from "../models/bus.js";
 
 const addSchedule = asyncHandler(async (req, res) => {
   try {
-    const { busId, startTime, endTime, calender, startLocation, endLocation, price } = req.body;
+    const { busId, startTime, endTime, calender, startLocation, endLocation, price, day } = req.body;
     
     const bus = await Bus.findById(busId);
     if (!bus) {
@@ -21,6 +21,7 @@ const addSchedule = asyncHandler(async (req, res) => {
       startLocation,
       endLocation,
       price,
+      day
     });
 
     res.status(201).json({ message: 'Schedule added successfully', data: schedule });
@@ -93,9 +94,26 @@ const getSchedule = asyncHandler(async (req, res) => {
   }
 });
 
+
+// @get totalSchedules
+const totalSchedules = asyncHandler(async (req, res) => {
+  try {
+    // Fetch the count of documents in the User collection
+    const count = await Schedule.countDocuments();
+
+    // Send the count as JSON response
+    res.status(200).json({ count });
+  } catch (error) {
+    // If there's an error, log it and send an error response
+    console.error("Error counting users:", error);
+    res.status(500).json({ message: "Failed to count users", error: error.message });
+  }
+});
+
 export {
   addSchedule,
   getSchedule,
   updateSchedule,
   deleteSchedule,
+  totalSchedules
 };

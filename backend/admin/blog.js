@@ -38,11 +38,11 @@ const addBlog = asyncHandler(async (req, res) => {
       console.log("image upload successful");
       // Creating the Post
       const addDes = await Blog.create({
-        Title: title,
-        Blog: blogText,
-        Author: author,
+     title,
+        blogText,
+        author,
         selectedImages: imagesLinks,
-        Category: category,
+        category,
       });
     }
 
@@ -100,18 +100,22 @@ const deleteBlog = asyncHandler(async (req, res) => {
 const updateBlog = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, category, selectedImages, blogText, author } = req.body;
+    const { title, category, blogText, author } = req.body;
+    console.log(title, category, blogText, author)
 
     const blog = await Blog.findById(id);
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    Blog.Title=title;
-    Blog.Blog = blogText;
-    Blog.Author = author;
-    Blog.selectedImages =  imagesLinks;
-    Blog.Category=category;
 
+console.log("first")
+
+    blog.title = title;
+    blog.blogText = blogText;
+    blog.author = author;
+    blog.category = category;
+    
+  
     await blog.save();
 
     res

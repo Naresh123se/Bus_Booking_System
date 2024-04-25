@@ -1,10 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto'; // Import Chart.js library
+import { useTotalUsersMutation } from '../slices/usersApiSlice'
+import { useTotalBusesMutation } from '../slices/bus'
+import { useTotalSchedulesMutation } from '../slices/busSchedules'
+import { useTotalTicketsMutation } from '../slices/ticket'
+import { useNavigate } from 'react-router-dom';
 
 const DoughnutChart = () => {
   const chartContainerRef = useRef(null);
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
+
+  const navigate = useNavigate();
+   
+    const [user] = useTotalUsersMutation();
+    const [totalUser, setTotalUser] = useState();
+    const [bus] = useTotalBusesMutation();
+    const [totalBuses, setTotalBuses] = useState();
+    const [schedules] = useTotalSchedulesMutation();
+    const [totalSchedules, setTotalSchedules] = useState();
+    const [ticket] = useTotalTicketsMutation();
+    const [totalTickets, setTotalTickets] = useState();
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');

@@ -41,10 +41,19 @@ const ABooking = () => {
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
   const navigate = useNavigate();
-// console.log(calender)
-  
-  // Inside ABooking component
 
+
+   // Get the current date
+   const currentDate = new Date();
+
+   // Get the day of the week (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
+   const dayOfWeek = currentDate.getDay();
+ 
+   // Array of day names
+   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+ 
+   // Get the local day name using the day of the week index
+   const day = daysOfWeek[dayOfWeek];
 
   useEffect(() => {
     fetchData(); 
@@ -102,12 +111,13 @@ const ABooking = () => {
       setShowAddPanel(false);
     };
 
+  
 
   const handleAddSubmit = async (event) => {
     event.preventDefault();
+
     try {
- 
-      await add({ busId, startTime, endTime, calender, startLocation, endLocation, price }).unwrap();
+      await add({ busId, startTime, endTime, calender, startLocation, endLocation, price, day }).unwrap();
       toast.success('Data added successfully');
       fetchSchedules();
     } catch (err) {
@@ -279,19 +289,6 @@ const ABooking = () => {
     setEndTime(`${hours}:${minutes}`);
 
 
-    // const busesfetch = async (e) => {
-    //   try {
-
-    //     const result = await get();
-    //     setData(result.data.data);
-    //     console.log(result)
-
-
-    //   } catch (error) {
-    //     console.error('Failed to fetch schedules:', error);
-    //   }
-    // };
-    // console.log(buses)
 
   }, []);
 
@@ -345,6 +342,7 @@ const ABooking = () => {
                     <th className="w-2/12">End Location</th>
                     <th className="w-2/12">Price</th>
                     <th className="w-1/12">Actions</th>
+                   
                   </tr>
                 </thead>
 

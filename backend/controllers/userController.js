@@ -271,6 +271,22 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+// @get totalUsers
+const totalUsers = asyncHandler(async (req, res) => {
+  try {
+    // Fetch the count of documents in the User collection
+    const count = await User.countDocuments();
+
+    // Send the count as JSON response
+    res.status(200).json({ count });
+  } catch (error) {
+    // If there's an error, log it and send an error response
+    console.error("Error counting users:", error);
+    res.status(500).json({ message: "Failed to count users", error: error.message });
+  }
+});
+
 export {
   authUser,
   registerUser,
@@ -280,4 +296,5 @@ export {
   verify,
   getUser,
   status,
+  totalUsers
 };

@@ -80,6 +80,7 @@ const AIndex = () => {
             <div>
               <FontAwesomeIcon icon={faBusSimple} beatFade />
             </div>
+            
             <div>
             Schedule
             </div>

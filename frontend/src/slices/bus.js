@@ -1,12 +1,12 @@
 import { apiSlice } from './apiSlice';
-const SCHEDULES_URL = '/api';
+const BUSES_URL = '/api';
 
 
 export const bus = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addbus: builder.mutation({
       query: (data) => ({
-        url: `${SCHEDULES_URL}/addbus`,
+        url: `${BUSES_URL}/addbus`,
         method: 'POST',
         body: data,
       }),
@@ -14,14 +14,21 @@ export const bus = apiSlice.injectEndpoints({
 
     getbus: builder.mutation({
       query: () => ({
-        url: `${SCHEDULES_URL}/getbus`, // Remove body field for GET request
+        url: `${BUSES_URL}/getbus`, // Remove body field for GET request
+        method: 'GET',
+      }),
+    }),
+
+    totalBuses: builder.mutation({
+      query: () => ({
+        url: `${BUSES_URL}/totalBuses`, // Remove body field for GET request
         method: 'GET',
       }),
     }),
 
     editbus: builder.mutation({
       query: ({ id, data }) => ({
-        url: `${SCHEDULES_URL}/editbus/${id}`,
+        url: `${BUSES_URL}/editbus/${id}`,
         method: 'PUT',
         body: data, // Include data in the request body
       }),
@@ -29,7 +36,7 @@ export const bus = apiSlice.injectEndpoints({
     
     deletebus: builder.mutation({
       query: (id) => ({
-        url: `${SCHEDULES_URL}/delete/${id}`,
+        url: `${BUSES_URL}/delete/${id}`,
         method: 'DELETE',
       }),
     }),
@@ -42,5 +49,6 @@ export const {
   useGetbusMutation,
   useEditbusMutation,
   useDeletebusMutation,
+  useTotalBusesMutation,
 } = bus;
 

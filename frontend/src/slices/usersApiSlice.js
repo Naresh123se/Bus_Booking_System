@@ -41,6 +41,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
           method: 'GET',
         }),
       }),
+
+      totalUsers: builder.mutation({
+        query: () => ({
+          url: `${USERS_URL}/totalUsers`, // Remove body field for GET request
+          method: 'GET',
+        }),
+      }),
   }),
 });
 
@@ -50,5 +57,6 @@ export const {
   useRegisterMutation,
   useUpdateUserMutation,
   useGetUserMutation,
+  useTotalUsersMutation,
 
 } = userApiSlice;

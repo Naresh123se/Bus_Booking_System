@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 // Define the Bus schema
 const blogSchema = new mongoose.Schema({
-  Title: {
+  title: {
     type: String,
     required: true,
   },
-  Category: {
+  category: {
     type: String,
     required: true,
   },
@@ -15,11 +15,11 @@ const blogSchema = new mongoose.Schema({
     url: { type: String, required: true }
   }],
   
-  Blog: {
+  blogText: {
     type: String,
     required: true,
   },
-  Author: {
+  author: {
     type: String,
     required: true,
   }

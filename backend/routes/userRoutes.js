@@ -8,6 +8,7 @@ import {
   verify,
   getUser,
   status,
+  totalUsers,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -19,6 +20,7 @@ router.post("/logout", logoutUser);
 router.post("/status", status);
 router.get("/verify", verify);
 router.get("/user", getUser);
+router.get("/totalUsers", totalUsers);
 router
   .route("/profile")
   .get(protect, getUserProfile)

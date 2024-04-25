@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useGetBlogMutation, useEditBlogMutation, useDeleteBlogMutation, useAddBlogMutation } from '../slices/blog.js';
-
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import JoditEditor from 'jodit-react';
 
 const Blog = () => {
@@ -16,8 +16,10 @@ const Blog = () => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [selectedImages, setSelectedImages] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
     const [blogText, setBlogText] = useState('');
     const [author, setAuthor] = useState('');
+
     const editor = useRef(null);
 
 
@@ -26,10 +28,14 @@ const Blog = () => {
     const [showAddPanel, setShowAddPanel] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
-    const [addBlog] = useAddBlogMutation(); // Hook for deleting schedule
-    const [getBlog] = useGetBlogMutation(); // Hook for deleting schedule
-    const [deleteBlog] = useDeleteBlogMutation(); // Hook for deleting schedule
-    
+    // Hook
+    const [addBlog] = useAddBlogMutation();
+    const [getBlog] = useGetBlogMutation();
+    const [deleteBlog] = useDeleteBlogMutation();
+    const [editBlog] = useEditBlogMutation();
+
+
+
 
     useEffect(() => {
         fetchData(); // Fetch data when the component mounts
@@ -39,19 +45,29 @@ const Blog = () => {
         try {
             const result = await getBlog();
             const newData = result.data.data;
+
             console.log("Original data:", newData); // Log the original data
             // Create a copy of the newData array and then reverse it
             const reversedData = [...newData].reverse();
             console.log("Reversed data:", reversedData); // Log the reversed data
             // Set the reversed data in the state
             setData(reversedData);
+
+
         } catch (error) {
             console.error('Failed to fetch schedules:', error);
         }
     };
-    //Image change Handler
+
+    const truncateText = (text, words) => {
+        const wordArray = text.split(' ');
+        const truncatedText = wordArray.slice(0, words).join(' ');
+        return truncatedText + (wordArray.length > words ? '...' : ''); // Add ellipsis if text is truncated
+    };
+
 
     const handleImageChange = (e) => {
+        11
         const files = Array.from(e.target.files);
 
         setSelectedImages([]);
@@ -68,7 +84,7 @@ const Blog = () => {
         });
     };
 
-//submit @add
+    //submit @add
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData();
@@ -84,6 +100,8 @@ const Blog = () => {
             if (response.data.success) {
                 console.log("first")
                 toast.success('Blog added Successfully');
+                setShowAddPanel(false);
+                fetchData();
                 // Reset form fields or state after successful submission
                 // setPlace('');
                 setSelectedImages([]);
@@ -97,7 +115,7 @@ const Blog = () => {
         }
     };
 
-//delete 
+    //delete 
     const deleteData = async (id) => {
         try {
             console.log("ID:", id); // Check the value of id
@@ -122,7 +140,6 @@ const Blog = () => {
         }));
     };
 
-    // console.log(editData);
 
     const handleEdit = (index) => {
         setEditIndex(index);
@@ -131,12 +148,24 @@ const Blog = () => {
         setOpenEditDialog(true);
     };
 
+
+    const handleUpdate = (newContent) => {
+        // Perform the update operation here, such as saving to the database
+        console.log('Updated content:', newContent);
+        // You can also update the state if needed
+        setEditData((prevData) => ({
+            ...prevData,
+            blogText: newContent,
+        }));
+    };
+
     const handleEditSubmit = async () => {
         try {
             console.log('editData:', editData); // Log editData to check its value
-            const response = await editbus({ id: editData._id, data: editData });
+            const response = await editBlog({ id: editData._id, data: editData });
 
-         
+            console.log('Response:', response);
+            console.log(editData);
             if (!response || !response.data || !response.data.data) {
                 throw new Error('Invalid response format');
             }
@@ -174,7 +203,7 @@ const Blog = () => {
 
             // Loop through each selected item and delete it
             await Promise.all(selectedItems.map(async (id) => {
-                const response = await deleteSchedule(id);
+                const response = await deleteBlog(id);
                 if (response.error) {
                     throw new Error(response.error.message || 'Failed to delete schedule');
                 }
@@ -202,6 +231,8 @@ const Blog = () => {
 
     const navigate = useNavigate();
 
+
+
     return (
         <>
             <div className='flex   overflow-hidden w-full'>
@@ -211,17 +242,20 @@ const Blog = () => {
 
                 <div className='  w-full'>
                     <div style={{}}>
-                        <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
-                            New Destination
-                            <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
+                        <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 flex justify-between'>
+                          Blog  
+                          <div className='mr-40'>
+                          <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
                             <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
+                          </div>
+                           
                         </div>
-                       {showAddPanel && (
+                        {showAddPanel && (
                             <div className="bg-white ml-10">
-                               <div className='flex justify-between'>
+                                <div className='flex justify-between'>
 
                                     <h1 className='text-lg'>Add Blog</h1>
-                                    <button className=' justify-end mr-5  border mt-1' onClick={() => setShowAddPanel(false)}>Close</button>
+                                   <button className='mr-5' onClick={() => setShowAddPanel(false)}><CancelOutlinedIcon sx={{color:'red'}}/></button> 
                                 </div>
 
                                 <form onSubmit={handleSubmit} className="flex flex-col ">
@@ -285,7 +319,6 @@ const Blog = () => {
                                                 onChange={handleImageChange}
                                             />
 
-
                                             <br />
                                             <div className="w-full flex items-center flex-wrap">
                                                 {selectedImages.map((i, index) => (
@@ -345,22 +378,35 @@ const Blog = () => {
                                                 <td className=" flex w-28 ml-12 items-center">
                                                     <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                                                 </td>
-                                                <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.place}</td>
+
                                                 {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.selectedImages.url}</td> */}
 
-                                                <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.Title}</td>
-                                                <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.Category}</td>
-                                                <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.Author}</td>
+                                                <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.title}</td>
+                                                <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.category}</td>
+                                                <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.author}</td>
 
                                                 {item.selectedImages.map((image, index) => (
-                                                    <React.Fragment key={index}>
-                                                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}></td>
-                                                        <td className="w-36">
-                                                            <img src={image.url} alt="Image" />
-                                                        </td>
-                                                    </React.Fragment>
-                                                ))}
-                                                <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.Blog}</td>
+  <React.Fragment key={index}>
+    <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}></td>
+    <td className="w-36">
+      <img src={image.url} style={{ height: '50px' }} alt="Image" />
+    </td>
+  </React.Fragment>
+))}
+
+                                            
+                                                    <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>
+                                                        {typeof item.blogText === 'string' ? (
+                                                            <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText, 6)}</div>` }} />
+                                                        ) : (
+                                                            item.blogText
+                                                        )}
+                                                    </td>
+                                              
+
+
+
+
 
                                                 <td className="flex gap-2  items-center">
                                                     <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
@@ -379,23 +425,29 @@ const Blog = () => {
                 </div>
             </div>
 
-{/* edit */}
-<Dialog className='' open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
-        <DialogTitle className='text-center '>Edit Schedule</DialogTitle>
-        <DialogContent >
-          <form className='flex flex-col gap-4 mt-2 '>
-            <TextField label="Title" type='text' name="title" value={editData.Title} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="Category" type='text' name="category" value={editData.Category} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="Author" type='text' name="author" value={editData.Author} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="Image" name="startLocation" value={editData.startLocation} onChange={handleEditInputChange} className='mb-3' />
-            <TextField label="Dec" name="endLocation" value={editData.endLocation} onChange={handleEditInputChange} className='mb-3' />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
-          <Button onClick={handleEditSubmit}>Save</Button>
-        </DialogActions>
-      </Dialog>
+            {/* edit */}
+            <Dialog className='' open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+                <DialogTitle className='text-center '>Edit Schedule</DialogTitle>
+                <DialogContent >
+                    <form className='flex flex-col gap-4 mt-2 '>
+                        <TextField label="Title" type='text' name="title" value={editData.title} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Category" type='text' name="category" value={editData.category} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Author" type='text' name="author" value={editData.author} onChange={handleEditInputChange} className='mb-3' />
+                        <JoditEditor
+                            ref={editor}
+                            value={editData.blogText}
+                            tabIndex={1} // tabIndex of textarea
+                            onBlur={handleUpdate}// preferred to use only this option to update the content for performance reasons
+                        // onChange={handleEditInputChange}
+
+                        />
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+                    <Button onClick={handleEditSubmit}>Save</Button>
+                </DialogActions>
+            </Dialog>
 
         </>
     );

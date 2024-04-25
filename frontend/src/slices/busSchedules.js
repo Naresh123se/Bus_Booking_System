@@ -19,6 +19,13 @@ export const busSchedules = apiSlice.injectEndpoints({
       }),
     }),
 
+    totalSchedules: builder.mutation({
+      query: () => ({
+        url: `${SCHEDULES_URL}/totalSchedules`, // Remove body field for GET request
+        method: 'GET',
+      }),
+    }),
+
     editSchedule: builder.mutation({
       query: ({ id, data }) => ({
         url: `${SCHEDULES_URL}/edit/${id}`,
@@ -42,5 +49,6 @@ export const {
   useGetScheduleMutation,
   useEditScheduleMutation,
   useDeleteScheduleMutation,
+  useTotalSchedulesMutation,
 } = busSchedules;
 

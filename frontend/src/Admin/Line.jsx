@@ -1,18 +1,76 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
+import { useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
 
 const LineChart = () => {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
+const [schedule] =useGetScheduleMutation();
+const [sunday, setSunday] = useState ()
+const [monday, setMonday] = useState ()
+const [tuesday, setTuesday] = useState ()
+const [wednesday, setWednesday] = useState ()
+const [thursday, setThursday] = useState ()
+const [friday, setFriday] = useState ()
+const [saturday, setSaturday] = useState ()
+
+useEffect(() => {
+  sch();
+
+}, []);
+
+
+const sch = async () =>{
+  try {
+    const result = await schedule();
+    const allData = result.data.data;
+const sundayData = allData.filter(item => item.day === 'Sunday');
+setSunday(sundayData.length)
+const mondayData = allData.filter(item => item.day === 'Monday');
+setMonday(mondayData.length)
+const tuesdayData = allData.filter(item => item.day === 'Tuesday');
+setTuesday(tuesdayData.length)
+const wednesdayData = allData.filter(item => item.day === 'Wednesday');
+setWednesday(wednesdayData.length)
+const thursdayData = allData.filter(item => item.day === 'Thursday');
+setThursday(thursdayData.length)
+const fridayData = allData.filter(item => item.day === 'Friday');
+setFriday(fridayData.length)
+const saturdayData = allData.filter(item => item.day === 'Saturday');
+setSaturday(saturdayData.length)
+    
+  } catch (error) {
+    
+  }
+
+}
+console.log(thursday )
+
+//filter dataSc
+// const sundayData = dataS.filter(item => item.datash === 'Sunday');
+// const mondayData = dataS.filter(item => item.dataSc === 'Monday');
+// const tuesdayData = dataS.filter(item => item.dataSc === 'Tuesday');
+// const wednesdayData = dataS.filter(item => item.dataSc === 'Wednesday');
+// const thursdayData = dataS.filter(item => item.dataSc === 'Thursday');
+// const fridayData = dataS.filter(item => item.dataSc === 'Friday');
+// const saturdayData = dataS.filter(item => item.dataSc === 'Saturday');
+
+
+// console.log(sundayData);
+// console.log(mondayData);
+// console.log(tuesdayData);
+// console.log(wednesdayData);
+// console.log(thursdayData);
+// console.log(fridayData);
+// console.log(saturdayData);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
-    
     const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       datasets: [{
-        label: 'Looping tension',
-        data: [65, 59, 80, 81, 26, 55, 40],
+        label: 'Bus',
+        data: [sunday, monday, tuesday,wednesday, thursday, friday, saturday],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
       }]
@@ -54,7 +112,7 @@ const LineChart = () => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, []);
+  }, [sunday, monday, tuesday,wednesday, thursday, friday, saturday]);
 
   return (
     <div className='ml-2 w-[70vh]'>
