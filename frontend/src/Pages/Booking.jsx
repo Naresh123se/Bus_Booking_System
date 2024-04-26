@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Mobile from '../Directions/Mobile.jsx'
 import AllFilter from '../Booking/AllFilter.jsx'
 
-// import BusSeatSelection from './BusSeatSelection.jsx'
+
 import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
 import { useGetScheduleMutation } from '../slices/busSchedules.js';
 import { faDivide } from '@fortawesome/free-solid-svg-icons';
@@ -19,10 +17,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import dayjs from 'dayjs';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import CallIcon from '@mui/icons-material/Call';
+
 import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
-import DatePicker from 'react-datepicker';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { useSearchMutation } from '../slices/booking';
@@ -36,11 +33,13 @@ import { MenuItem } from '@mui/base/MenuItem';
 import { useNavigate } from 'react-router-dom'
 import PowerIcon from '@mui/icons-material/Power';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import BusPhoto from '../Booking/BusPhoto.jsx'
 
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Booking = () => {
-  
+
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -112,9 +111,6 @@ const Booking = () => {
     }
   };
 
-  // console.log(seseatsArray)
-  // console.log(Filter)
-
 
 
 
@@ -144,18 +140,7 @@ const Booking = () => {
   time2.setTime(time2.getTime() + (1 * 60 * 60 * 1000));
   const two = time2.toLocaleTimeString(undefined, time);
 
-  // const options = { weekday: 'long', month: 'long', day: 'numeric' };
-  // const formattedCurrentDate = currentDate.toLocaleDateString(undefined, options);
 
-  // // Calculate yesterday's date
-  // const yesterday = new Date(currentDate);
-  // yesterday.setDate(yesterday.getDate() + 1);
-  // const formattedYesterday = yesterday.toLocaleDateString(undefined, options);
-
-  // // Calculate tomorrow's date
-  // const tomorrow = new Date(currentDate);
-  // tomorrow.setDate(tomorrow.getDate() + 2);
-  // const formattedTomorrow = tomorrow.toLocaleDateString(undefined, options);
 
 
 
@@ -294,24 +279,23 @@ const Booking = () => {
   };
 
   const submitData = async (e) => {
-    console.log("first")
+
 
     try {
-      console.log("first")
+
       const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
       dispatch(setCredentials({ ...res }));
 
 
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-      console.log("first")
 
     }
-    console.log("first")
+
   };
 
   const [startTime, setStartTime] = useState('');
-  const book = (id, startTime, price,endTime,capacity ) => {
+  const book = (id, startTime, price, endTime, capacity) => {
     localStorage.setItem("scheduleId", id);
     localStorage.setItem("price", price);
     localStorage.setItem("startTime", startTime);
@@ -330,9 +314,9 @@ const Booking = () => {
   const formattedDate = localDate.toISOString().split('T')[0];
   const [value, setValue] = useState(formattedDate);
   const [value11, setValue11] = useState(formattedDate);
-  console.log(value)
+
   const [value1, setValue1] = useState('');
- const formatDate = date => {
+  const formatDate = date => {
     // Example: MM/dd/yyyy format
     const formattedDate = `${(date.getMonth() + 1)
       .toString()
@@ -369,10 +353,10 @@ const Booking = () => {
         const placeFilter = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startLocation.toLowerCase());
         const dateFilter = placeFilter.filter(item => item.calender === value);
 
-      setData(dateFilter);
-      setLoading(false);
+        setData(dateFilter);
+        setLoading(false);
 
-     } catch (error) {
+      } catch (error) {
         console.error('Failed to fetch schedules:', error);
       }
     };
@@ -382,7 +366,43 @@ const Booking = () => {
   }, [fromLocation, value]);
 
 
+  const [openItemId, setOpenItemId] = useState(null);
+
+
+
+  //bus photos
+  const CustomNextArrow = ({ onClick }) => (
+    <button style={{ color: "red", background: '#009DF8' }} className="slick-next custom-next-arrow  rounded  " onClick={onClick}>
+
+    </button>
+  );
+
+  const CustomPrevArrow = ({ onClick }) => (
+    <button style={{ background: '#009DF8' }} className="slick-arrow slick-prev custom-prev-arrow rounded  " onClick={onClick}>
+      Previous
+    </button>
+  );
+
+  const settings = {
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    dots: false,
+    arrows: true,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />
+  };
+
+
+
+
   const [isVisible, setIsVisible] = useState(false);
+  const toggleDiv = (itemId) => {
+    console.log(itemId)
+    console.log("first")
+    setOpenItemId(itemId === openItemId ? null : itemId);
+  };
+
   return (
     <>
       <div className='m-10   '>
@@ -585,42 +605,42 @@ const Booking = () => {
 
 
         <div className='overflow-y-scroll  h-[58vh] p-5 '>
-        <div>
+          <div>
             {loading ? (
-                // Show loader while waiting for data
-                <Mobile />
+              // Show loader while waiting for data
+              <Mobile />
             ) : (
-                // Show data or no data message based on availability
-                <div>
-                    {data.length>0 ? (
-                                    <>
-          <AllFilter/>
-                                    
-                    </>
-                    ) : (
-                  
-                      <div className='grid  justify-center mt-10'>
-                        <div className='ml-5' > <img src="Seat.svg" alt="logo" /></div>
-         <div className=''> 
-         <p className='font-bold text-[20px] '>Oops! No buses found.</p> 
-         <p className='ml-5'>Oops! No buses found.</p>
-        
-          </div> 
-                      </div>
-                      
-                        )}
-                </div>
+              // Show data or no data message based on availability
+              <div>
+                {data.length > 0 ? (
+                  <>
+                    <AllFilter />
+
+                  </>
+                ) : (
+
+                  <div className='grid  justify-center mt-10'>
+                    <div className='ml-5' > <img src="Seat.svg" alt="logo" /></div>
+                    <div className=''>
+                      <p className='font-bold text-[20px] '>Oops! No buses found.</p>
+                      <p className='ml-5'>Oops! No buses found.</p>
+
+                    </div>
+                  </div>
+
+                )}
+              </div>
             )}
-          {/* {  console.log(data)} */}
-        </div>
-        
+            {/* {  console.log(data)} */}
+          </div>
+
           {data.map((item, index) => (
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
               <div className='flex  mr-10 ml-10 justify-between p-1'>
-                
-                <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div> 
-              
+
+                <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div>
+
                 <div className='font-semibold text-xl'>{item.startTime}</div>
                 <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
                 <p>{(item.startTime)}</p>
@@ -630,101 +650,89 @@ const Booking = () => {
               </div>
               <div className='ml-10 mb-3  flex  mt-3'>
                 <div>
-                <span className='  border-[#b5b1b1] border rounded-lg  '>
-                <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
-                <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
-                <span className='   '></span>
-                <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
-              </span>
+                  <span className='  border-[#b5b1b1] border rounded-lg  '>
+                    <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
+                    <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
+                    <span className='   '></span>
+                    <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
+                  </span>
                 </div>
                 <div className='ml-28 text-lg'>{item.startLocation}</div>
                 <div className='ml-[46vh] text-lg'>{item.endLocation}</div>
 
-                
+
                 {/* <div> {item.bus.capacity}</div> */}
                 {/* Display bus name */}
 
                 <div className='ml-10'>
-                <span className=' border rounded-md border-[#909090] p-0.5  '>
-              <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
-               {/* seat available */}
-             <span className='font-semibold'>
-  
-
-      
-      {scheduleSeatCounts[item._id] === undefined ? 'FULL' : item.bus.capacity - scheduleSeatCounts[item._id]
-      }
-</span>
+                  <span className=' border rounded-md border-[#909090] p-0.5  '>
+                    <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
+                    {/* seat available */}
+                    <span className='font-semibold'>
 
 
 
-
-
-
-                </span>
+                      {scheduleSeatCounts[item._id] === undefined ? 'FULL' : item.bus.capacity - scheduleSeatCounts[item._id]
+                      }
+                    </span>
+                  </span>
                 </div>
-             
-                {/* <div>Total Seats: {scheduleSeatCounts[item._id]}</div> Display total seats */}
-
-
-
               </div>
-             
               <div>
-              
               </div>
-              
+
               <div className='ml-[50%]'>
                 <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity)}>
                   <strong>Continue</strong>
                 </button>
-
-
               </div>
 
-             
+              {/* bus photos */}
+              <div>
+                <button className='cursor-pointer shadow hover:text-[#009DF8]  ml-40 ' onClick={() => toggleDiv(item._id)}>
+                  BusPhotos
+                </button>
 
-              
+
+                {openItemId === item._id && (
+                  <div>
+                    <div className=''>
+                      <div className=' w-[80vh] px-7 bg mt-5  '>
+
+                        {/* <h2 className="text-xl font-semibold mb-4 ml-16">Trending Offers for Discount Coupons</h2> */}
+                        <Slider {...settings} className="mr-44">
+                          {data.map((item1) => (
+                            item.bus.selectedImages.map((image, index) => (
+                              <div key={index} className='flex h-60 p p-1 bg-[#185EA5] rounded-md'>
+                                <div className="w-full" style={{ fontSize: '1.2rem', color: '#555' }}>
+                                  <img src={image.url} alt="Image" style={{ color: '#555', height: '31vh', width: '100%', }} className='object-cover object-center' />
+                                </div>
+                              </div>
+                            ))
+                          ))}
+                        </Slider>
+
+
+                      </div>
+                    </div>
 
 
 
-              <div className=' ml-[30%]'> <BusPhoto /></div>
+
+                  </div>
+                )}
+              </div>
 
 
 
 
 
               {/* DOWN */}
-
-
-
               <div className='  '>
-                
-
               </div>
-
-
-
-
-
-
-
-
-
-
 
             </div>
           ))}
-          
-          
-         
-
-
-
-
-
-
-
 
         </div>
 

@@ -7,8 +7,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@m
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
-import { useAddbusMutation } from '../slices/bus.js';
-import { useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
+import { useAddbusMutation, useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
 import { MenuItem } from '@mui/material';
 
 const Bus = () => {
@@ -32,14 +31,8 @@ const Bus = () => {
   const [number, setNumber] = useState('');
   const [alphabet, setAlphabet] = useState('');
   const [capacity, setCapacity] = useState('');
-  // const [seat, setSeat] = useState('');
+  const [selectedImages, setSelectedImages] = useState([]);
 
-  // const addData = (newData) => {
-  //   setData([newData, ...data]);
-  //   setShowAddPanel(false);
-  // };
-
-  // Inside ABooking component
 
 
   useEffect(() => {
@@ -68,10 +61,34 @@ const Bus = () => {
   };
 
 
+  const handleImageChange = (e) => {
+        
+    const files = Array.from(e.target.files);
+
+    setSelectedImages([]);
+
+    files.forEach((file) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setSelectedImages((old) => [...old, reader.result]);
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+};
+
+
 
   const handleAddSubmit = async (event) => {
     event.preventDefault();
-    const { name1, capacity, region1, lot, number, alphabet } = event.target.elements;
+    const data = new FormData();
+    selectedImages.forEach((image, index) => {
+        data.append(`selectedImages[${index}]`, image);
+    });
+    // d
+    const { name1, capacity, region1, lot, number, alphabet } = event.target.elements;  
 
   
     try {
@@ -81,11 +98,22 @@ const Bus = () => {
         region1: region1.value,
         lot: lot.value,
         number: number.value,
-        alphabet: alphabet.value
+        alphabet: alphabet.value,
+        selectedImages
       }).unwrap();
+      console.log(response)
       
+      if (response.success) {
+        console.log("first")
+        toast.success('Bus added Successfully');
+        setShowAddPanel(false);
+        fetchData();
+        // Reset form fields or state after successful submission
+        // setPlace('');
+        setSelectedImages([]);
+    } 
       // Show success message
-      toast.success('Data added successfully');
+     
       
       // Assuming fetchData is a function to refetch data after adding a bus
       fetchData();
@@ -119,12 +147,6 @@ const Bus = () => {
 
 
 
-
-
-
-
-
-
   const handleEditInputChange = (event) => {
     const { name, value } = event.target;
     setEditData(prevData => ({
@@ -141,6 +163,7 @@ const Bus = () => {
     setEditData(data[index]);
     setOpenEditDialog(true);
   };
+
 
 
   const handleEditSubmit = async () => {
@@ -230,6 +253,7 @@ const Bus = () => {
           <div style={{}}>
             <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
               Booking Schedules
+              
               <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
               <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
             </div>
@@ -237,12 +261,47 @@ const Bus = () => {
             {showAddPanel && (
               <div className="bg-white ml-10  ">
                 <h1 className="text-md font-semibold">Add New Buses</h1>
+                <div className='flex justify-between'>
+                  <div></div>
+                <h1 className='ml-24 font-semibold flex justify-center  text-[#4a81da]'>Images </h1>
                 <h1 className='font-semibold flex justify-center mr-80 text-[#4a81da]'> Bus Number</h1>
+                </div>
+               
+
                 <form onSubmit={handleAddSubmit} className="flex gap-10">
 
-                  <input type="text" className=" border rounded-lg " name="name1" placeholder="BusName" required value={name1} onChange={(e) => setName1(e.target.value)} />
-                  <input type="number" className="form-control border rounded-lg " name="capacity" min="0" placeholder="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
+                  <TextField type="text" className=" border rounded-lg " name="name1" label="BusName" required value={name1} onChange={(e) => setName1(e.target.value)} />
+                  <TextField type="number" className="form-control border rounded-lg " name="capacity" min="0" label="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
+                  <div className=" ">
+                                            <label className="pb-2  w-40 block">
+                                            </label>
 
+                                            <input
+                                                className='w-52'
+                                                type="file"
+                                                name="photos"
+                                                id="upload"
+                                                multiple
+                                                onChange={handleImageChange}
+                                            />
+
+                                            <br />
+                                            <div className="w-full flex items-center flex-wrap">
+                                                {selectedImages.map((i, index) => (
+                                                    <img
+                                                        src={i}
+                                                        key={index}
+                                                        alt=""
+                                                        className="h-[120px] w-[120px] object-cover m-2"
+                                                    />
+                                                ))}
+                                            </div>
+
+
+                                        </div>
+                                        <div>
+
+                                      
                   <div className="flex gap-5 border-[#4a81da] border  rounded  xl p-1">
 
                     <div className="">
@@ -293,7 +352,7 @@ const Bus = () => {
                       </div>
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
-                      <input type="number" className="form-control border rounded-lg" name="lot" min="0" placeholder="Lot" required value={lot} onChange={(e) => setLot(e.target.value)} />
+                      <input type="number" className="form-control w-24 border rounded-lg" name="lot" min="0" placeholder="Lot" required value={lot} onChange={(e) => setLot(e.target.value)} />
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
                       <select className="form-control border rounded-lg" name="alphabet" required value={alphabet} onChange={(e) => setAlphabet(e.target.value)}>
@@ -372,14 +431,16 @@ const Bus = () => {
                       </select>
                     </div>
                     <div className="col-lg-3 col-md-3 col-sm-12">
-                      <input type="number" className="form-control border rounded-lg " name="number" min="0" placeholder="Number" required value={number} onChange={(e) => setNumber(e.target.value)} />
+                      <input type="number" className="form-control border rounded-lg w-24 " name="number" min="0" placeholder="Number" required value={number} onChange={(e) => setNumber(e.target.value)} />
                     </div>
+                  </div>
                   </div>
                   {/* <input type="number" className="form-control border rounded-lg " name="seat" min="0" placeholder="seat Number" required value={seat} onChange={(e) => setSeat(e.target.value)} /> */}
 
+<div>
+<Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</Button>
+</div>
 
-
-                  <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</Button>
                 </form>
               </div>
             )}

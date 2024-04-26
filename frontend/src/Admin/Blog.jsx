@@ -67,7 +67,7 @@ const Blog = () => {
 
 
     const handleImageChange = (e) => {
-        11
+        
         const files = Array.from(e.target.files);
 
         setSelectedImages([]);

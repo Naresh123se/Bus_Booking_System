@@ -1,16 +1,48 @@
 import asyncHandler from "express-async-handler";
 import Bus from "../models/bus.js";
+import cloudinary from "cloudinary";
+
 
 const Buses = asyncHandler(async (req, res) => {
   // Extract parameters from the request body or query parameters
-  const { name1 , region1, lot, number, alphabet, capacity } = req.body;
-  console.log(name1 , region1, lot, number, alphabet, capacity )
+  const { name1 , region1, lot, number, alphabet, capacity,selectedImages } = req.body;
+  console.log(name1 , region1, lot, number, alphabet, capacity, selectedImages )
 
     if (!capacity || capacity.length === 0) {
       res.status(400);
-      throw new Error("Selected seats array is empty11");
+      throw new Error("EMPTY");
     }
     try {
+
+    if (selectedImages) {
+      // Converting the image to the array if only one image is provided
+      let images = [];
+      console.log("I am here");
+      if (typeof req.body.selectedImages === "string") {
+        images.push(req.body.selectedImages);
+      } else {
+        images = req.body.selectedImages;
+      }
+
+      // Now uploading the images to the cloudinary
+      const imagesLinks = [];
+      for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+          folder: "buses",
+          crop: "pad",
+          quality: "auto:best",
+          fetch_format: "auto",
+        });
+
+        // updating
+        imagesLinks.push({
+          public_id: result.public_id,
+          url: result.secure_url,
+        });
+      }
+      console.log("image upload successful");
+      // Creating the Post
+   
     // console.log('Selected Seats:', selectedSeats);
     const bus = await Bus.create({
       name1,
@@ -19,7 +51,10 @@ const Buses = asyncHandler(async (req, res) => {
       number,
       alphabet,
       capacity,
+      selectedImages: imagesLinks,
+
     });
+  }
 
     // Send back the result to the client
     return res

@@ -14,7 +14,7 @@ export const blog = apiSlice.injectEndpoints({
 
     getBlog: builder.mutation({
       query: () => ({
-        url: `${BLOG_URL}/getBlog`, // Remove body field for GET request
+        url: `${BLOG_URL}/getBlog`, 
         method: 'GET',
       }),
     }),
@@ -23,7 +23,7 @@ export const blog = apiSlice.injectEndpoints({
       query: ({ id, data }) => ({
         url: `${BLOG_URL}/editBlog/${id}`,
         method: 'PUT',
-        body: data, // Include data in the request body
+        body: data, 
       }),
     }),
     

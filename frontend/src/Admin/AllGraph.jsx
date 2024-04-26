@@ -1,23 +1,23 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import { useGetbusMutation } from '../slices/bus.js';
+
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
-import { ScatterChart } from '@mui/x-charts/ScatterChart';
+
 import { PieChart } from '@mui/x-charts/PieChart';
 
 const barChartsParams = {
   series: [
-    { data: [3, 4, 1, 6, 5], label: 'A' },
-    { data: [4, 3, 1, 5, 8], label: 'B' },
-    { data: [4, 2, 5, 4, 1], label: 'C' },
+    { data: [3], label: 'A' },
+    { data: [4], label: 'B' },
+
   ],
   height: 400,
 };
@@ -31,41 +31,7 @@ const lineChartsParams = {
   height: 400,
 };
 
-const scatterChartsParams = {
-  series: [
-    {
-      data: [
-        { x: 6.5e-2, y: -1.3, id: 0 },
-        { x: -2.1, y: -7.0e-1, id: 1 },
-        { x: -7.6e-1, y: -6.7e-1, id: 2 },
-        { x: -1.5e-2, y: -2.0e-1, id: 3 },
-        { x: -1.4, y: -9.9e-1, id: 4 },
-        { x: -1.1, y: -1.5, id: 5 },
-        { x: -7.0e-1, y: -2.7e-1, id: 6 },
-        { x: -5.1e-1, y: -8.8e-1, id: 7 },
-        { x: -4.0e-3, y: -1.4, id: 8 },
-        { x: -1.3, y: -2.2, id: 9 },
-      ],
-      label: 'A',
-    },
-    {
-      data: [
-        { x: 1.8, y: -1.7e-2, id: 0 },
-        { x: 7.1e-1, y: 2.6e-1, id: 1 },
-        { x: -1.2, y: 9.8e-1, id: 2 },
-        { x: 2.0, y: -2.0e-1, id: 3 },
-        { x: 9.4e-1, y: -2.7e-1, id: 4 },
-        { x: -4.8e-1, y: -1.6e-1, id: 5 },
-        { x: -1.5, y: 1.1, id: 6 },
-        { x: 1.3, y: 3.4e-1, id: 7 },
-        { x: -4.2e-1, y: 1.0e-1, id: 8 },
-        { x: 5.4e-2, y: 4.0e-1, id: 9 },
-      ],
-      label: 'B',
-    },
-  ],
-  height: 400,
-};
+
 
 const pieChartsParams = {
   series: [
@@ -98,6 +64,34 @@ export default function ElementHighlights() {
     }
   };
 
+
+  const [getbus] = useGetbusMutation();
+const [data, setData] = useState([]);
+useEffect(() => {
+  fetchData(); // Fetch data when the component mounts
+}, []);
+
+const fetchData = async () => {
+  try {
+    const result = await getbus();
+    const newData = result.data.data;
+    
+
+    console.log("Original data:", newData); // Log the original data
+
+
+
+    const sundayData =newData.filter(item => item.name1 === 'Rocket Air Bus');
+      console.log(sundayData)
+    setSunday(sundayData.length) 
+
+    
+  } catch (error) {
+    console.error('Failed to fetch schedules:', error);
+  }
+};
+
+
   return (
     <Stack
       direction={{ xs: 'column', xl: 'row' }}
@@ -112,7 +106,7 @@ export default function ElementHighlights() {
           aria-label="chart type"
           fullWidth
         >
-          {['bar', 'line', 'scatter', 'pie'].map((type) => (
+          {['bar', 'line', 'pie'].map((type) => (
             <ToggleButton key={type} value={type} aria-label="left aligned">
               {type}
             </ToggleButton>
@@ -145,18 +139,7 @@ export default function ElementHighlights() {
           />
         )}
 
-        {chartType === 'scatter' && (
-          <ScatterChart
-            {...scatterChartsParams}
-            series={scatterChartsParams.series.map((series) => ({
-              ...series,
-              highlightScope: {
-                highlighted,
-                faded,
-              },
-            }))}
-          />
-        )}
+       
 
         {chartType === 'pie' && (
           <PieChart

@@ -3,8 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css'; // Import slick theme CSS
 
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Destinations from './Destinations';
+
 
 const BusPhoto = () => {
   const trendingOffers = [
@@ -13,7 +12,7 @@ const BusPhoto = () => {
       title: 'Save up to Rs 300 on Hamro Bus. Limited time offer!',
       time: '20 Mar',
       image: 'destinations/pokhara.png',
-      image1: 'destinations/pokhara.png',
+      // image1: 'destinations/pokhara.png',
       bg: 'bg-gradient-to-tr from-[#D37E0B] to-[#F9B961]',
       // image: 'https://via.placeholder.com/800x400/FF0000/FFFFFF?text=Image+1',
       copy: 'BUSOCT3'
@@ -22,6 +21,7 @@ const BusPhoto = () => {
       id: 2,
       title: 'Buy one, get one free on all clothing items. Hurry up!',
       time: '20 Mar',
+      image:'destinations/image.png',
       bg: 'bg-gradient-to-tr from-[#113F93] to-[#386ECE]',
       // image: 'https://via.placeholder.com/800x400/00FF00/FFFFFF?text=Image+2',
       copy: '20172050'
@@ -38,14 +38,7 @@ const BusPhoto = () => {
 
   const [copiedText, setCopiedText] = useState(null);
 
-  const copyText = (text) => {
-    navigator.clipboard.writeText(text);
-    setCopiedText(text);
 
-    setTimeout(() => {
-      setCopiedText(null);
-    }, 1000); // Remove copied message after 1.5 seconds
-  };
 
   const CustomNextArrow = ({ onClick }) => (
     <button style={{ color: "red", background:'#009DF8' }}  className="slick-next custom-next-arrow  rounded  " onClick={onClick}>
@@ -90,11 +83,7 @@ const BusPhoto = () => {
              
                   <img src={offer.image} className="object-cover   object-center "  />
           
-               
               </div>
-                
-                
-         
             </div>
           ))}
         </Slider>
