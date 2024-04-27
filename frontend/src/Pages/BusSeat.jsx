@@ -229,30 +229,6 @@ const BusSeatSelection = () => {
         localStorage.removeItem('seseats');
     };
 
-    // const userdata = async (event) => {
-    //     event.preventDefault();
-    //     try {
-    //         localStorage.setItem('formData', JSON.stringify(formData));
-
-    //         toast.success('Seats booked successfully!');
-    //     } catch (err) {
-    //         console.log(err);
-    //         toast.error(err?.data?.message || err.error);
-    //     }
-    // };
-    // const mainUserData = async (event) => {
-    //     event.preventDefault();
-    //     try {
-    //         localStorage.setItem('formData', JSON.stringify(formData));
-
-    //         toast.success('Seats booked successfully!');
-    //     } catch (err) {
-    //         console.log(err);
-    //         toast.error(err?.data?.message || err.error);
-    //     }
-    // };
-
-
     const handleFormSubmit = async () => {
         try {
             if (formData.length !== seseats.length) {
@@ -281,16 +257,12 @@ const BusSeatSelection = () => {
             setIsSubmitting(false);
         }
     };
-
-
     useEffect(() => {
         const storedSeats = JSON.parse(localStorage.getItem('seseats'));
         if (storedSeats) {
             setSeseats(storedSeats);
         }
     }, []);
-
-
 
     useEffect(() => {
         localStorage.setItem('seseats', JSON.stringify(seseats));
@@ -344,7 +316,6 @@ const BusSeatSelection = () => {
     // // Decrypt the totalPrice when retrieving it
     // const decrypted = CryptoJS.AES.decrypt(encryptedPrice, 'BUS2023');
     // const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
-
 
 
 
@@ -425,7 +396,7 @@ const BusSeatSelection = () => {
         price11 = parseFloat(priceFromStorage);
         // console.log(price)
     } else {
-        // Handle the case where price is not available in local storage
+        
         console.error('Price not found in local storage');
     }
     // Check if userFromStorage is not null and not undefined
@@ -471,14 +442,14 @@ const BusSeatSelection = () => {
         event.preventDefault();
         console.log(voucher)
         let discount = 0;
-        if (voucher === 'COUPON123') {
-            discount = 50;
+        if (voucher === 'BUS300') {
+            discount = 300;
 
-        } else if (voucher === 'COUPON12') {
-            discount = 40;
+        } else if (voucher === 'BUSOCT3') {
+            discount = 300;
         }
-        else if (voucher === 'COUPON1') {
-            discount = 40;
+        else if (voucher === 'SUPERHIT') {
+            discount = 250;
         }
         else {
             toast.error('Invalid coupon code.');

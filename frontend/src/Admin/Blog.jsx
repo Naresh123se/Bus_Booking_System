@@ -67,7 +67,7 @@ const Blog = () => {
 
 
     const handleImageChange = (e) => {
-        
+
         const files = Array.from(e.target.files);
 
         setSelectedImages([]);
@@ -243,19 +243,19 @@ const Blog = () => {
                 <div className='  w-full'>
                     <div style={{}}>
                         <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 flex justify-between'>
-                          Blog  
-                          <div className='mr-40'>
-                          <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
-                            <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
-                          </div>
-                           
+                            Blog
+                            <div className='mr-40'>
+                                <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
+                                <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
+                            </div>
+
                         </div>
                         {showAddPanel && (
                             <div className="bg-white ml-10">
                                 <div className='flex justify-between'>
 
                                     <h1 className='text-lg'>Add Blog</h1>
-                                   <button className='mr-5' onClick={() => setShowAddPanel(false)}><CancelOutlinedIcon sx={{color:'red'}}/></button> 
+                                    <button className='mr-5' onClick={() => setShowAddPanel(false)}><CancelOutlinedIcon sx={{ color: 'red' }} /></button>
                                 </div>
 
                                 <form onSubmit={handleSubmit} className="flex flex-col ">
@@ -386,27 +386,22 @@ const Blog = () => {
                                                 <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.author}</td>
 
                                                 {item.selectedImages.map((image, index) => (
-  <React.Fragment key={index}>
-    <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}></td>
-    <td className="w-36">
-      <img src={image.url} style={{ height: '50px' }} alt="Image" />
-    </td>
-  </React.Fragment>
-))}
-
-                                            
-                                                    <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>
-                                                        {typeof item.blogText === 'string' ? (
-                                                            <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText, 6)}</div>` }} />
-                                                        ) : (
-                                                            item.blogText
-                                                        )}
-                                                    </td>
-                                              
+                                                    <React.Fragment key={index}>
+                                                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}></td>
+                                                        <td className="w-36">
+                                                            <img src={image.url} style={{ height: '50px' }} alt="Image" />
+                                                        </td>
+                                                    </React.Fragment>
+                                                ))}
 
 
-
-
+                                                <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>
+                                                    {typeof item.blogText === 'string' ? (
+                                                        <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText, 6)}</div>` }} />
+                                                    ) : (
+                                                        item.blogText
+                                                    )}
+                                                </td>
 
                                                 <td className="flex gap-2  items-center">
                                                     <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>

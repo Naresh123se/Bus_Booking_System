@@ -3,9 +3,12 @@ import AIndex from './AIndex';
 import { useNavigate } from 'react-router-dom';
 import Chart from 'chart.js/auto'; // Import Chart.js library
 import AllGraphs from './AllGraph';
-import Pie from './Pie';
+
 import Line from './Line';
 import PeopleIcon from '@mui/icons-material/People';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import { useTotalUsersMutation } from '../slices/usersApiSlice'
 import { useTotalBusesMutation } from '../slices/bus'
 import { useTotalSchedulesMutation } from '../slices/busSchedules'
@@ -13,13 +16,9 @@ import { useTotalTicketsMutation } from '../slices/ticket'
 
 const Main = () => {
   const navigate = useNavigate();
-   
   const chartContainerRef = useRef(null);
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
-
-
-
 
     const [user] = useTotalUsersMutation();
     const [totalUser, setTotalUser] = useState();
@@ -148,7 +147,7 @@ const Main = () => {
                             </div>
                             <div className='flex'>
                                 <span className=' bg-[#009DF8] size-[120px] text-[white] justify-items-center w-24    grid   items-center rounded-l-md  '>
-                                    <PeopleIcon sx={{ fontSize: '11vh' }} />
+                                    <DirectionsBusIcon sx={{ fontSize: '11vh' }} />
                                 </span>
 
                                 <div className='bg-[#ffbb3d]  pl-2 pt-2 text-xl text-[white]  rounded-r-lg  text-center    w-48 size-[120px]'>
@@ -167,7 +166,7 @@ const Main = () => {
 
                             <div className='flex'>
                                 <span className=' bg-[#009DF8] size-[120px] text-[white] justify-items-center w-24   grid   items-center rounded-l-md  '>
-                                    <PeopleIcon sx={{ fontSize: '11vh' }} />
+                                    <DepartureBoardIcon sx={{ fontSize: '11vh' }} />
                                 </span>
 
                                 <div className='bg-[#0FADAA]  pl-2 pt-2 text-lg text-[white]  rounded-r-lg      w-48 size-[120px]'>
@@ -185,7 +184,7 @@ const Main = () => {
                             </div>
                             <div className='flex'>
                                 <span className=' bg-[#009DF8] size-[120px] text-[white] justify-items-center  w-24   grid   items-center rounded-l-md  '>
-                                    <PeopleIcon sx={{ fontSize: '11vh' }} />
+                                    <ConfirmationNumberIcon sx={{ fontSize: '11vh' }} />
                                 </span>
 
                                 <div className='bg-[#D30DF2]  pl-2 pt-2 text-lg text-[white]  rounded-r-lg      w-48 size-[120px]'>
@@ -193,7 +192,7 @@ const Main = () => {
 
                                         <span>
 
-                                            <h1 className='flex  font-bold '>Users</h1>
+                                            <h1 className='flex  font-bold '>Tickets</h1>
                                             <h1 className=' text-[40px] font-bold mb-2'>{totalTickets} </h1>
                                         </span>
 
@@ -201,15 +200,6 @@ const Main = () => {
 
                                 </div>
                             </div>
-
-
-
-
-
-
-
-
-
 
 
                         </div>
@@ -225,8 +215,6 @@ const Main = () => {
 
                     <div className='flex'>
                         <div>
-
-
                            
                         <div  className=''   ref={chartContainerRef} style={{ width: '350px', height: '400px' }}>
       <canvas ref={chartRef} />

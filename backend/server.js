@@ -15,6 +15,7 @@ import addDes from './routes/destinations.js';
 import khalti from './routes/khalti.js';
 import ticket from './routes/ticket.js';
 import blog from './routes/blog.js';
+import coupons from './routes/coupons.js';
 import {app} from "./google.js";
 import './email.js';
 import { v2 as cloudinary } from 'cloudinary';
@@ -43,6 +44,7 @@ app.use('/api',addDes);
 app.use('/api',stripe);
 app.use('/api',ticket);
 app.use('/api',blog);
+app.use('/api',coupons);
 
 //Cloud Storage
  cloudinary.config({ 

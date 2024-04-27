@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm run preview --prefix frontend -- --host 0.0.0.0",
+    "client": "npm run dev --prefix frontend -- --host 0.0.0.0",
     "dev": "concurrently \"npm run server -- --host 0.0.0.0\" \"npm run client\""
   },
   "author": "Naresh",

@@ -320,8 +320,8 @@ const ABooking = () => {
                       <option key={bus._id} value={bus._id}>{bus.name1}</option>
                     ))}
                   </select>
-                  <TextField sx={{ width: '16ch'}} type="time" name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
-                  <TextField sx={{ width: '16ch'}}type="time" name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}} type="text" name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
+                  <TextField sx={{ width: '16ch'}}type="text" name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <TextField sx={{ width: '16ch'}}type="date" name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
                   <TextField sx={{ width: '20ch'}} type="text" name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <TextField sx={{ width: '20ch'}} type="text" name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />

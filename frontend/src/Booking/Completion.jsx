@@ -49,8 +49,6 @@ function Completion() {
 
     fetchData();
   },[]);
- 
-
   useEffect(() => {
     if (paymentStatus === 'succeeded' || data === "Completed") 
      {
@@ -90,17 +88,11 @@ const [confirm] = useConfirmationMutation();
     });
   };
 
-
-  
-
-
-
  const value = localStorage.getItem('allData');
  const data11 = JSON.parse(value)
 console.log(data11)
  const submitHandler = async (e) => {
    
-
    try {
     await Selseat (data11).unwrap();
    } catch (err) {
@@ -120,9 +112,6 @@ console.log(data11)
    }
  };
 
-
-
-
  const Ticket = async (e) => {
    console.log("first")
  
@@ -134,8 +123,6 @@ console.log("first")
      toast.error(err?.data?.message || err.error);
    }
  };
-
-
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Thank you!</h1>

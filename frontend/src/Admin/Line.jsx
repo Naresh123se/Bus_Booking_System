@@ -46,23 +46,6 @@ setSaturday(saturdayData.length)
 }
 console.log(thursday )
 
-//filter dataSc
-// const sundayData = dataS.filter(item => item.datash === 'Sunday');
-// const mondayData = dataS.filter(item => item.dataSc === 'Monday');
-// const tuesdayData = dataS.filter(item => item.dataSc === 'Tuesday');
-// const wednesdayData = dataS.filter(item => item.dataSc === 'Wednesday');
-// const thursdayData = dataS.filter(item => item.dataSc === 'Thursday');
-// const fridayData = dataS.filter(item => item.dataSc === 'Friday');
-// const saturdayData = dataS.filter(item => item.dataSc === 'Saturday');
-
-
-// console.log(sundayData);
-// console.log(mondayData);
-// console.log(tuesdayData);
-// console.log(wednesdayData);
-// console.log(thursdayData);
-// console.log(fridayData);
-// console.log(saturdayData);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');

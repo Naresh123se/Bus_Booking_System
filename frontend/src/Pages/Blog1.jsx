@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useGetBlogMutation} from '../slices/blog'
 import { useNavigate } from 'react-router-dom';
-const Blog = () => {
+const Destinations = () => {
 
 
   const [blog] = useGetBlogMutation();
@@ -107,6 +107,6 @@ const fetchData = async () => {
   );
 };
 
-export default Blog;
+export default Destinations;
 
 

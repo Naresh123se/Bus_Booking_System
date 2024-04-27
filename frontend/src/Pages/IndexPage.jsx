@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import Offers from '../Booking/Offers.jsx';
 import { useNavigate } from 'react-router-dom';
 import Destinations from '../Booking/Destinations.jsx';
-import Blog from '../Pages/Blog.jsx';
+import Blog from '../Pages/Blogg.jsx';
 import Body1 from './Body1.jsx';
 const IndexPage = () => {
   const navigate = useNavigate();
