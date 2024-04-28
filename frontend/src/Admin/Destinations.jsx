@@ -22,6 +22,7 @@ const Blog = () => {
     const [copy, setCopy] = useState([]);
     const [disPrices, setDisPrices] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [bg, setBg] = useState([]);
    
 
 
@@ -87,7 +88,7 @@ const Blog = () => {
 
         try {
 
-            const response = await addCoupons({ description, time, selectedImages, copy, disPrices });
+            const response = await addCoupons({ description, time, selectedImages, copy, disPrices , bg});
             console.log(response);
             if (response.data.success) {
                 console.log("first")
@@ -283,6 +284,20 @@ const Blog = () => {
                                                 placeholder="copy...."
                                             />
                                         </div>
+                                        <div>
+
+                                            <label className="pb-2">
+                                            Bg-color <span className="text-[#df3030]">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="bg"
+                                                value={bg}
+                                                className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
+                                                onChange={(e) => setBg(e.target.value)}
+                                                placeholder="copy...."
+                                            />
+                                        </div>
 
                                         <div className=" ">
                                             <label className="pb-2  w-40 block">
@@ -365,6 +380,7 @@ Description<span className="text-[#df3030]">*</span>
                                                 <td className="w-56" style={{ fontSize: '1.2rem', color: '#555' }}>{item.description}</td>
                                                 <td className="w-56" style={{ fontSize: '1.2rem', color: '#555' }}>{item.copy}</td>
                                                 <td className="w-20" style={{ fontSize: '1.2rem', color: '#555' }}>{item.disPrices}</td>
+                                                {/* <td className="w-20" style={{ fontSize: '1.2rem', color: '#555' }}>{item.bg}</td> */}
 
                                                 {item.selectedImages.map((image, index) => (
                                                     <React.Fragment key={index}>
@@ -397,9 +413,11 @@ Description<span className="text-[#df3030]">*</span>
                 <DialogTitle className='text-center '>Edit Coupons</DialogTitle>
                 <DialogContent >
                     <form className='flex flex-col gap-4 mt-2 '>
-                        <TextField label="Title" type='text' name="title" value={editData.title} onChange={handleEditInputChange} className='mb-3' />
-                        <TextField label="Category" type='text' name="category" value={editData.category} onChange={handleEditInputChange} className='mb-3' />
-                        <TextField label="Author" type='text' name="author" value={editData.author} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Time" type='text' name="time" value={editData.time} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Description" type='text' name="description" value={editData.description} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Copy" type='text' name="copy" value={editData.copy} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Price" type='text' name="disPrices" value={editData.disPrices} onChange={handleEditInputChange} className='mb-3' />
+                        <TextField label="Bg-Color" type='text' name="bg" value={editData.bg} onChange={handleEditInputChange} className='mb-3' />
                         
                     </form>
                 </DialogContent>

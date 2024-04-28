@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import { useGetTicketMutation } from '../slices/ticket'
 import { useGetbusMutation } from '../slices/bus.js';
+import Button from '@mui/joy/Button';
 const Ticket = () => {
   // Sample data for demonstration
 
@@ -412,21 +413,24 @@ const Ticket = () => {
 
 
                 {/* Generate QR code with formatted passenger data */}
-                <QRCode value={formattedData} />
-                <div className="description">
-                  <h2>Boarding Pass</h2>
-                  <p>Scan the QR code to board</p>
+                <div className='ml-10 '>
+                <QRCode value={formattedData}  />
+
+                </div>
+                <div className="description ml-10">
+                  {/* <h2>Boarding Pass</h2> */}
+                  <p>Scan the QR code </p>
                 </div>
                 <div>
 
                 </div>
                 {/* <button onClick={printContent}>Print Content</button> */}
-                <div>
+                <div cn>
 
-                  <div>
+                  <div className='ml-96'>
                     {/* Your content here */}
 
-                    <button onClick={printContent} style={{ className: 'button' }}>Print Content</button>
+                    <Button onClick={printContent} style={{ className: 'button' }}>Print Content</Button>
 
                     <style>
                       {`

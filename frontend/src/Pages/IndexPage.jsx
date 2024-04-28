@@ -31,7 +31,7 @@ const IndexPage = () => {
       <div className='mt-28'>
           <Offers/>
         </div>
-        <div className=' mt-16 border'>
+        <div className=' mt-16  border-[#ebdfdf] border'>
         <div className='   ml-20   '>
  <Body1/>
            

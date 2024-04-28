@@ -120,6 +120,7 @@ const ABooking = () => {
       await add({ busId, startTime, endTime, calender, startLocation, endLocation, price, day }).unwrap();
       toast.success('Data added successfully');
       fetchSchedules();
+      setShowAddPanel(false);
     } catch (err) {
       console.log(err)
       toast.error(err?.data?.message || err.error);

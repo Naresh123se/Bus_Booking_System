@@ -18,6 +18,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import dayjs from 'dayjs';
 
+import Swal from 'sweetalert2';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -32,6 +33,7 @@ import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { useSearchMutation } from '../slices/booking';
+import { useGetTicketMutation } from '../slices/ticket';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../slices/bSlice';
@@ -49,14 +51,14 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const Booking = () => {
 
-
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
   const [getSchedule] = useGetScheduleMutation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showData, setShowData] = useState(false);
-  const [Getseat] = useGetseatMutation();
+  // const [Getseat] = useGetseatMutation();
+  const [Getseat] = useGetTicketMutation();
   const toggleVisibility = () => {
     setShowData(!showData);
   };
@@ -92,7 +94,7 @@ const Booking = () => {
   const fetchSeats = async () => {
     try {
       const response = await Getseat();
-      const seatData = response.data.data; // Assuming this contains the array of seat objects
+      const seatData = response.data.tickets; // Assuming this contains the array of seat objects
       console.log(response)
       // Extract seseats arrays from each seat object and concatenate them into a single array
       const seseats = seatData.reduce((accumulator, seat) => {
@@ -100,14 +102,14 @@ const Booking = () => {
       }, []);
 
       const seatId = localStorage.getItem('scheduleId');
-      const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
+      const filteredSeats = seatData.filter(seat => seat.SchId._id === seatId);
 
       console.log(filteredSeats);
 
       setSfilter(seatData)
       // Extract selected seats from filteredSeats
       const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
-        return accumulator.concat(seat.seseats);
+        return accumulator.concat(seat.seat);
       }, []);
 
       // Update seseatsArray state with the selected seats
@@ -126,8 +128,10 @@ const Booking = () => {
   function getScheduleSeatCounts(Filter) {
     const scheduleSeatCounts = {};
     for (const entry of Filter) {
-      const scheduleId = entry.schedule;
-      const seatCount = entry.seseats.length;
+      const scheduleId = entry.SchId._id;
+      console.log(scheduleId)
+      const seatCount = entry.seat.length;
+      console.log(seatCount)
       if (scheduleSeatCounts[scheduleId]) {
         scheduleSeatCounts[scheduleId] += seatCount;
       } else {
@@ -137,7 +141,7 @@ const Booking = () => {
     return scheduleSeatCounts;
   }
   const scheduleSeatCounts = getScheduleSeatCounts(Filter);
-  // console.log('Schedule Seat Counts:', scheduleSeatCounts);
+  console.log(scheduleSeatCounts);
 
 
 
@@ -309,9 +313,15 @@ const Booking = () => {
     localStorage.setItem("price", price);
     localStorage.setItem("startTime", startTime);
     localStorage.setItem("endTime", endTime);
+    console.log("first")
     localStorage.setItem("capacity", capacity);
 
-    navigate('/seat');
+    navigate('/seat')
+
+    authenticateUser();
+    return 0
+
+
   }
 
 
@@ -413,11 +423,75 @@ const Booking = () => {
   };
 
   //filter
-  
+
+  // 
+  useEffect(() => {
+    const userLoggedIn = localStorage.getItem('isLoggedIn');
+    if (userLoggedIn === 'true') setIsLoggedIn(true);
+  }, []);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
+    history.push('/next-page');
+  };
 
 
 
-  
+  useEffect(() => {
+    // Function to authenticate user
+    function authenticateUser(email, name) {
+      // Get user data from localStorage
+      const userDataString = localStorage.getItem('userInfo');
+      if (!userDataString) {
+        Swal.fire({
+          position: "top-center",
+          icon: "error",
+          color: "#716add",
+          background: "#00000 url(ll.png)",
+          title: "Login First",
+          showConfirmButton: true,
+          backdrop: `
+        rgba(10,0,123,0.4)
+        left top
+        no-repeat
+      `
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login') // Redirect to the home page
+          }
+        });
+
+
+
+        return false;
+      }
+
+      // Parse user data from localStorage
+      const userData = JSON.parse(userDataString);
+
+      // Check if email and name match
+      if (userData.email === email && userData.name === name) {
+        // Email and name match, return true (authentication successful)
+        return true;
+      } else {
+        // Email and name do not match, return false (authentication failed)
+        return false;
+      }
+    }
+
+    // Example usage
+    const userEmail = "naresh132na@gmail.com";
+    const userName = "Naresh Sejwal1";
+
+    if (authenticateUser(userEmail, userName)) {
+      navigate('/Booking');
+
+    } else {
+      navigate('/Booking');
+    }
+  }, []);
+
+
 
   return (
     <>
@@ -657,7 +731,7 @@ const Booking = () => {
 
             <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
               <div className='flex  mr-10 ml-10 justify-between p-1'>
-
+                {console.log(item._id)}
                 <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div>
 
                 <div className='font-semibold text-xl'>{item.startTime}</div>
@@ -688,7 +762,10 @@ const Booking = () => {
                     <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
                     {/* seat available */}
                     <span className='font-semibold'>
-
+                      {console.log(item.bus.capacity)}
+                      {console.log(scheduleSeatCounts)}
+                      {console.log(item._id)}
+                      {console.log(scheduleSeatCounts[item._id])}
 
 
                       {scheduleSeatCounts[item._id] === undefined ? 'FULL' : item.bus.capacity - scheduleSeatCounts[item._id]

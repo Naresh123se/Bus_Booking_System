@@ -5,8 +5,8 @@ import cloudinary from "cloudinary";
 //add
 const addCoupons = asyncHandler(async (req, res) => {
   try {
-    const { description, time, selectedImages, copy, disPrices } = req.body;
-    console.log(description, time, selectedImages, copy, disPrices);
+    const { description, time, selectedImages, copy, disPrices, bg } = req.body;
+    console.log(bg);
 
     if (selectedImages) {
       let images = [];
@@ -41,6 +41,7 @@ const addCoupons = asyncHandler(async (req, res) => {
         selectedImages: imagesLinks,
         disPrices,
         copy,
+        bg
       });
     }
 

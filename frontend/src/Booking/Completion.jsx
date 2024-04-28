@@ -74,7 +74,7 @@ const [confirm] = useConfirmationMutation();
       icon: "success",
       color: "#716add",
       background: "#00000 url(ll.png)",
-      title: "Your work has been saved",
+      title: "Payment Successfully",
       showConfirmButton: true,
       backdrop: `
         rgba(10,0,123,0.4)
@@ -126,7 +126,7 @@ console.log("first")
   return (
     <>
       <h1 className="text-2xl font-bold mb-4">Thank you!</h1>
-      <button onClick={submitHandler}>ok</button>
+      {/* <button onClick={submitHandler}>ok</button> */}
     </>
   );
 }

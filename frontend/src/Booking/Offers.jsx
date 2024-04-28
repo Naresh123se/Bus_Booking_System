@@ -86,12 +86,19 @@ const TrendingOffers = () => {
             
                 {data.map(offer => (
                     <div key={offer.id} className='flex'>
-                        <div className={`shadow p-4  rounded-2xl bg-gradient-to-tr from-[#2B4669] to-[#4BBE8F] flex w-96 gap-3 `}>
+                    <div className={`shadow p-4  rounded-2xl ${offer.bg} flex w-96 gap-3 `}>
                             <div className='mt-8 '>
-                                <img src={offer.image} className="mr-4" style={{ maxWidth: '100%', maxHeight: '100px' }} />
+                            {offer.selectedImages.map((image, index) => (
+                                                    <React.Fragment key={index}>
+                                                        <td className="" style={{ fontSize: '1.2rem', color: '#555' }}></td>
+                                                        <td className="">
+                                                            <img src={image.url} style={{ height: '' }} alt="Image" />
+                                                        </td>
+                                                    </React.Fragment>
+                                                ))}
                             </div>
                             <div className='flex flex-col'>
-                                <p className='font-semibold w-24 rounded-xl mb-1 bg-[#ebeaea48]   text-[#240f0f] text-center '>MERO BUS</p>
+                            <p className='font-semibold w-24 rounded-xl mb-1 bg-[#ebeaea48]   text-[#240f0f] text-center '>MERO BUS</p>
                                 <h3 className="text-lg font-semibold mb-2">{offer.title}</h3>
                                 <p className="text-[#ffffff] font-semibold ">{offer.description}</p>
                                 <p className="text-[#ffffff] mt-2">Valid till {offer.time}</p>

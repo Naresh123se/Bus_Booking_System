@@ -4,8 +4,10 @@ import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
 import { useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
+import { useGetTicketMutation } from '../slices/ticket.js';
 import CryptoJS from 'crypto-js';
 import TextField from '@mui/material/TextField';
+import Swal from 'sweetalert2';
 
 
 import { loadStripe } from '@stripe/stripe-js';
@@ -59,7 +61,8 @@ const BusSeatSelection = () => {
     const [getbus] = useGetbusMutation();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [Selseat] = useSelseatMutation();
-    const [Getseat] = useGetseatMutation();
+    // const [Getseat] = useGetseatMutation();
+    const [Getseat] = useGetTicketMutation();
     const [showSeat, setShowSeat] = useState(false);
 
     const [formData, setFormData] = useState([]);
@@ -79,7 +82,7 @@ const BusSeatSelection = () => {
     const [seat, setSeat] = useState('');
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
-    const Navigate = useNavigate(); // Initialize useHistory hook
+    const navigate = useNavigate(); // Initialize useHistory hook
     const [khalti, { isLoading, isError, error }] = useInitiatePaymentMutation();
 
 
@@ -151,7 +154,8 @@ const BusSeatSelection = () => {
     const fetchSeats = async () => {
         try {
             const response = await Getseat();
-            const seatData = response.data.data; // Assuming this contains the array of seat objects
+           console.log(response)
+            const seatData = response.data.tickets; // Assuming this contains the array of seat objects
             console.log(seatData)
             // Extract seseats arrays from each seat object and concatenate them into a single array
             const seseats = seatData.reduce((accumulator, seat) => {
@@ -159,13 +163,13 @@ const BusSeatSelection = () => {
             }, []);
 
             const seatId = localStorage.getItem('scheduleId');
-            const filteredSeats = seatData.filter(seat => seat.schedule === seatId);
+            const filteredSeats = seatData.filter(seat => seat.SchId._id === seatId);
 
             console.log(filteredSeats);
 
             // Extract selected seats from filteredSeats
             const selectedSeats = filteredSeats.reduce((accumulator, seat) => {
-                return accumulator.concat(seat.seseats);
+                return accumulator.concat(seat.seat);
             }, []);
 
             // Update seseatsArray state with the selected seats
@@ -295,11 +299,38 @@ const BusSeatSelection = () => {
 
     const userInfoString = localStorage.getItem("userInfo");
 
-    const userInfo = JSON.parse(userInfoString);
-    const user = userInfo.name;
-    const customerEmail = userInfo.email;
+    let user = "";
+    let customerEmail = "";
+    let customerPhone = "";
+    
+    if (userInfoString) {
+      const userInfo = JSON.parse(userInfoString);
+      user = userInfo.name || "";
+      customerEmail = userInfo.email || "";
+      customerPhone = "982911"; // Set default phone number
+    } else {
 
-    const customerPhone = '982911';
+
+        Swal.fire({
+            position: "top-center",
+            icon: "error",
+            color: "#716add",
+            background: "#00000 url(ll.png)",
+            title: "Please Login First",
+            showConfirmButton: true,
+            backdrop: `
+              rgba(10,0,123,0.4)
+              left top
+              no-repeat
+            `
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/') // Redirect to the home page
+            }
+          });
+     
+    }
+    
 
     // TOTAL PRICE
 
@@ -535,7 +566,7 @@ const BusSeatSelection = () => {
         // Conditionally render different components or perform different actions based on the stored value
         if (paymentMethod === 'card') {
           console.log('CARD');
-          Navigate('/Ipayment');
+          navigate('/Ipayment');
           // Render or perform actions for card payment
         } else if (paymentMethod === 'khalti') {
           console.log('KHALTI');
