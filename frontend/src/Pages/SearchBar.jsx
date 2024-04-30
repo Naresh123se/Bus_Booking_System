@@ -149,10 +149,10 @@ const SearchBar = () => {
 
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const localDate = new Date();
-  const formattedDate = localDate.toISOString().split('T')[0];
-     console.log(formattedDate)
-     const [value, setValue] = useState(formattedDate);
-     console.log(value)
+    const formattedDate = localDate.toISOString().split('T')[0];
+    console.log(formattedDate)
+    const [value, setValue] = useState(formattedDate);
+    console.log(value)
 
 
 
@@ -199,50 +199,62 @@ const SearchBar = () => {
 
     //remove local storage
     return (
-        <div>
+        <div className=''>
             {/*radio button */}
-            <div className='  shadow-lg ml-24  mt-4   pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
-                <div>
-                    <Radio
+            <div className='shadow-lg  sm:ml-5 sm:w-full    mt-4 sm:mt-10  md:ml-3 xl:ml-3  max-lg:ml-10     ml-24 pr-5 pl-5 sm:px-12   pb-5  pt-5  bg-[#ffffff] shadow-[#b7acac] rounded-xl  grid '>
+                <div className=' flex  sm:grid sm:w-full  '>
+                    <div className='flex items-center '>
+                        <Radio
 
-                        checked={selectedValue === 'a'}
-                        onChange={handleChange}
-                        value="a"
-                        name="radio-buttons"
-                        inputProps={{ 'aria-label': 'A' }}
-                        sx={{
-                            '& .MuiSvgIcon-root': {
-                                fontSize: 28,
-                            },
-                        }}
-                    />
-                    One Way
-                    <Radio
-                        checked={selectedValue === 'b'}
-                        onChange={handleChange}
-                        value="b"
-                        name="radio-buttons"
-                        inputProps={{ 'aria-label': 'B' }}
-                        sx={{
-                            '& .MuiSvgIcon-root': {
-                                fontSize: 28,
-                            },
-                        }}
-                    />
+                            checked={selectedValue === 'a'}
+                            onChange={handleChange}
+                            value="a"
+                            name="radio-buttons"
+                            inputProps={{ 'aria-label': 'A' }}
+                            sx={{
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: 28,
+                                },
+                            }}
+                        />
+                       <p className='sm:text-[14px]'> One Way</p> 
+                    </div>
+                    <div className='flex items-center '>
+                        <Radio
+                            checked={selectedValue === 'b'}
+                            onChange={handleChange}
+                            value="b"
+                            name="radio-buttons"
+                            inputProps={{ 'aria-label': 'B' }}
+                            sx={{
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: 28,
+                                },
+                            }}
+                        />
 
-                    Round Trip
+                        <p className='sm:text-[14px]'>Round Trip</p>
+                    </div>
+
                 </div>
 
 
                 {/* location */}
 
+<div>
+    
+</div>
+                <div className=' flex sm:grid ml-2 ' >
+                    <div className='flex sm:grid md:grid xl:grid'>
 
-                <div className='flex ml-2' >
-                    <div className='mt-4'>
+                    
+                    <div className='flex  sm:grid md:flex xl:flex '>
+                    <div className='mt-4 sm:mt-1'>
                         <TextField
                             label="FROM"
                             id="fromLocation"
                             sx={{ width: '5cm' }}
+                          
                             placeholder='Enter From Location'
                             value={fromLocation}
                             onChange={(e) => setFromLocation(e.target.value)}
@@ -253,12 +265,13 @@ const SearchBar = () => {
                     </div>
 
                     {/* switch button */}
-                    <div className='mt-6'>
+                    <div className='mt-6 sm:mt-0 sm:ml-36 '>
                         <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
                             <CompareArrowsRoundedIcon
-                                className='border w-30 h-30 border-sky-500 rounded-full'
+                                className='border w-30 h-30 border-sky-500 rounded-full hover:text-[#2d6280]'
                                 sx={{
                                     color: '#2196F3',
+                                
                                     borderRadius: '50%',
                                     transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
                                     transition: 'transform 0.3s ease',
@@ -269,7 +282,7 @@ const SearchBar = () => {
                     </div>
 
                     {/* next location */}
-                    <div className='mt-4'>
+                    <div className='mt-4 sm:mt-0'>
                         <TextField
 
                             label="TO"
@@ -285,29 +298,33 @@ const SearchBar = () => {
                         />
 
                     </div>
+                    </div>
+
+                    <div className='flex  md:grid xl:grid'>
                     {/* Departure */}
-
-
                     {/* calender */}
-                    <div className=" flex  ml-5 mt-2" >
+                    <div className=" flex sm:grid ml-5 mt-2 sm:ml-0 md:ml-0 xl:ml-0" >
 
-
-                        <div className="ml-5 mt-2">
+  
+   
+                        <div className="ml-5 mt-2 sm:ml-0 md:ml-0 xl:ml-0 ">
 
                             <TextField
-                                sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
+                                // sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm'  }}
+                                className={`w-full sm:w-[5cm] md:w-[5cm] lg:w-auto  xl:w-[5cm] ${selectedValue === "b" ? 'w-[5cm]' : 'w-[10.5cm] md:w-auto'}`}
                                 type="date"
                                 name="calender"
                                 label="Departure"
                                 value={value}
                                 onChange={(e) => setValue(e.target.value)}
                                 required
-                                className=" border border-[#e6e3e3]   rounded-md"
+                                
+                                // className=" border border-[#e6e3e3]   rounded-md"
                                 inputProps={{ min: formattedDate }} />
 
                         </div>
-
-                        <div className="datepicker-container ml-5 mt-2 ">
+                        {/*Return  */}
+                        <div className="datepicker-container ml-5 sm:ml-0 mt-2 ">
                             {selectedValue === "b" && (
                                 <TextField
                                     sx={{ width: '5cm' }}
@@ -322,9 +339,10 @@ const SearchBar = () => {
 
                             )}
                         </div>
-
+                       
                     </div>
-                    <div className='mt-4 ml-7'>
+                    {/* passenger */}
+                    <div className='mt-4 ml-7 sm:ml-0 md:ml-0 xl:ml-0'>
 
 
                         <Dropdown className='mt-4 ml-7 '>
@@ -374,14 +392,15 @@ const SearchBar = () => {
                             </Menu>
                         </Dropdown>
                     </div>
-
+                    </div>
+                    </div>
                     <div className='ml-2 pt-6  '>
                         <Button onClick={submitHandler}>Search</Button>
                     </div>
-
+                    
                 </div>
 
-
+              
             </div>
 
         </div>

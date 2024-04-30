@@ -40,20 +40,18 @@ const Header = () => {
   };
 
   return (
-    <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50 ' >
-      <Link to='/' className='flex items-center gap-1 '>
-        <div className='w-16  ml-20' > <img src="/3.svg" alt="logo" /></div>
+    <div className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50    ' >
+      <Link to='/' className='flex items-center gap-1  '>
+        <div className='w-16  ml-20 sm:ml-3 sm:w-11' > <img src="/3.svg" alt="logo" /></div>
 
       </Link>
 
-      <div className='flex items-center space-x-8'>
-        <div>Home</div>
-        <div>About</div>
-        {/* <Link to=/ */}
+      <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px]  '>
         <div>Blog</div>
-        <button className='mt-2'>
-          <SearchIcon />
-        </button>
+        <div>Ticket</div>
+        {/* <Link to=/ */}
+       
+       
       </div>
      
       <div>
@@ -90,8 +88,8 @@ const Header = () => {
           
           <Dropdown>
             {/* MenuButton styling */}
-            <MenuButton className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 mr-20 hover:bg-hover'>
-              <AccountCircleIcon size='' />
+            <MenuButton className='flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-0 sm:pl-0   sm:text-[12px] sm:mr-2 mr-20    hover:bg-hover'>
+              <AccountCircleIcon   className='' />
               {userInfo.name}
             </MenuButton>
 
@@ -123,13 +121,13 @@ const Header = () => {
               </Navbar>
             </div>
           ) : userInfo ? (
-            <Navbar className='pb-3'>
+            <Navbar className='pb-3 sm:pb-1'>
                
             </Navbar>
           ) : (
-            <Link to='/login' className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 mr-20 hover:bg-hover'>
+            <Link to='/login' className='flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-1 sm:pl-0 pr-1   sm:text-[12px] sm:mr-2 mr-20    hover:bg-hover'>
               <MenuIcon />
-              <Avatar alt="Naresh" src="Naresh.jpg"  sx={{ width: 25, height: 25 }}  />
+              <Avatar alt="Naresh" src=""  sx={{ width: 25, height: 25 }}  />
               
             </Link>
           )}
@@ -137,7 +135,9 @@ const Header = () => {
       </div>
 
 
-    </header>
+    </div>
+
+    
 
   )
 };
