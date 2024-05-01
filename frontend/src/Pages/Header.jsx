@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import Avatar from '@mui/material/Avatar';
-import { CssVarsProvider } from '@mui/joy/styles';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 import { Dropdown } from '@mui/base/Dropdown';
@@ -24,7 +25,16 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  const getTicket = () => {
+    // Handle navigation here
+    navigate('/home'); // Navigate to '/home'
+};
+  const cancelTicket = () => {
+    // Handle navigation here
+    navigate('/home'); // Navigate to '/home'
+};
 
 
 
@@ -43,17 +53,59 @@ const Header = () => {
     <div className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50    ' >
       <Link to='/' className='flex items-center gap-1  '>
         <div className='w-16  ml-20 sm:ml-3 sm:w-11' > <img src="/3.svg" alt="logo" /></div>
-
       </Link>
 
-      <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px]  '>
-        <div>Blog</div>
-        <div>Ticket</div>
-        {/* <Link to=/ */}
-       
-       
+      <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px] font-medium  '>
+        <div >Blog</div>
+        <div
+            className="relative inline-block"
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
+        >
+            <button
+                type="button"
+                className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative "
+            >
+                Ticket
+                {/* Drop-down and up arrow icons */}
+                {isDropdownOpen ? (
+                    <KeyboardArrowUpIcon />
+                ) : (
+                    <KeyboardArrowDownIcon />
+                )}
+            </button>
+            {isDropdownOpen && (
+                <div className="absolute right-0  ml-96 sm:px-0 bg-[white]  z-50">
+
+                    <div className="rounded-sm shadow-lg ring-1  overflow-hidden">
+                        <div className="relative grid gap-1 bg-white  sm:gap-8 sm:p-8">
+                            <a
+                                onClick={getTicket}
+                                className="hover:bg-[#e3d9d9] flex  pr-4 cursor-pointer"
+                            >
+                                <div className="ml-4">
+                                    <p className="text-base font-medium text-gray-900">
+                                        Buy
+                                    </p>
+                                </div>
+                            </a>
+                            <a
+                                onClick={cancelTicket} 
+                                className="hover:bg-[#e3d9d9] flex pr-4  cursor-pointer"
+                            >
+                                <div className="ml-4">
+                                    <p className="text-base font-medium text-gray-900">
+                                        Sell
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
       </div>
-     
+
       <div>
 
         {user && (
@@ -85,11 +137,11 @@ const Header = () => {
         )}
 
         {userInfo && !user && (
-          
+
           <Dropdown>
             {/* MenuButton styling */}
             <MenuButton className='flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-0 sm:pl-0   sm:text-[12px] sm:mr-2 mr-20    hover:bg-hover'>
-              <AccountCircleIcon   className='' />
+              <AccountCircleIcon className='' />
               {userInfo.name}
             </MenuButton>
 
@@ -117,18 +169,18 @@ const Header = () => {
           {user ? (
             <div className='hidden'>
               <Navbar>
-               
+
               </Navbar>
             </div>
           ) : userInfo ? (
             <Navbar className='pb-3 sm:pb-1'>
-               
+
             </Navbar>
           ) : (
             <Link to='/login' className='flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-1 sm:pl-0 pr-1   sm:text-[12px] sm:mr-2 mr-20    hover:bg-hover'>
               <MenuIcon />
-              <Avatar alt="Naresh" src=""  sx={{ width: 25, height: 25 }}  />
-              
+              <Avatar alt="Naresh" src="" sx={{ width: 25, height: 25 }} />
+
             </Link>
           )}
         </div>
@@ -137,7 +189,7 @@ const Header = () => {
 
     </div>
 
-    
+
 
   )
 };

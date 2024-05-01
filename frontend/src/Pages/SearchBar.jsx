@@ -311,7 +311,7 @@ const SearchBar = () => {
 
                             <TextField
                                 // sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm'  }}
-                                className={`w-full sm:w-[5cm] md:w-[5cm] lg:w-auto  xl:w-[5cm] ${selectedValue === "b" ? 'w-[5cm]' : 'w-[10.5cm] md:w-auto'}`}
+                                className={`w-[full] sm:w-[5cm] md:w-[5cm] lg:w-[5cm]  xl:w-[5cm] ${selectedValue === "b" ? 'w-[5cm]' : 'w-[10.5cm] md:w-[10.5cm] xl:w-[10.5cm]'}`}
                                 type="date"
                                 name="calender"
                                 label="Departure"

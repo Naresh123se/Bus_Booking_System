@@ -8,17 +8,12 @@ import { useDispatch } from 'react-redux';
 import { setCredentials } from './slices/authSlice';
 import Header1 from './Admin/Header1';
 
-
 const App = () => {
-
-
-
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   useEffect(() => {
     const getUser = async () => {
       try {
-    
         const response = await fetch("http://localhost:5000/auth/login/success", {
           method: "GET",
           credentials: "include",
@@ -28,10 +23,10 @@ const App = () => {
             "Access-Control-Allow-Credentials": true,
           },
         });
-  
+
         if (response.status === 200) {
           const resObject = await response.json();
-          dispatch(setCredentials({ data:{...resObject.user} }));
+          dispatch(setCredentials({ data: { ...resObject.user } }));
           localStorage.setItem("user", JSON.stringify(resObject.user));
         } else {
           throw new Error("Authentication has failed!");
@@ -40,36 +35,22 @@ const App = () => {
         console.error(err);
       }
     };
-  
+
     getUser();
   }, []);
 
-
-
-    const [isAdmin, setIsAdmin] = useState(false); // Assuming isAdmin state
-  
-    useEffect(() => {
-      // Check if the user is logged in from localStorage
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-      // Update isAdmin state based on the login status
-      setIsAdmin(isLoggedIn);
-      // console.log(setIsAdmin)
-    }, []);
-
-
-  
-  
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsAdmin(isLoggedIn);
+  }, []);
 
   return (
-    <> 
-    {isAdmin ? <Header1 /> : <Header />}
-    <ToastContainer />
-    <Outlet />
-
-
-   
-
-  </>
+    <>
+      {isAdmin ? <Header1 /> : <Header />}
+      <ToastContainer />
+      <Outlet />
+    </>
   );
 };
 

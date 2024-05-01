@@ -85,13 +85,13 @@ const TrendingOffers = () => {
     const isMobile = useMediaQuery({ maxWidth: 768 });
     const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1024 });
     return (
-        <div className="ml-20 sm:ml-10 mr-20 sm:mr-10 pt-3 sm:pt-2 pb-5 shadow-lg mt-4 sm:mt-1 pr-5 sm:pr-2 border border-[#423f3f17] z-50 bg-[#FFF] shadow-[#b7acac] rounded-xl  md:ml-32  sm:w-[48vh] lg:w-[120vh]  md:w-[90vh] xl:w-[90vh] ">
+        <div className="ml-[80px]  pl-1.5 sm:ml-10 mr-20 sm:mr-10 pt-3 sm:pt-2 pb-5 shadow-lg mt-4 sm:mt-1 pr-5 sm:pr-2 border border-[#423f3f17]  bg-[#FFF] shadow-[#b7acac] rounded-xl  md:ml-32  sm:w-[48vh] lg:w-[120vh]  md:w-[90vh] xl:w-[90vh] ">
             <h2 className="text-xl sm:text-[14px] font-semibold mb-4 sm:mb-1 sm:mt-30 ml-16 sm:ml-2 sm:w-full">Trending Offers for Discount Coupons</h2>
             {isMobile ? (
                 <Slider {...MobileSettings} className="w-full ml-9 sm:ml-1 sm:pl-1 pl-5">
                     {data.map(offer => (
                         <div key={offer.id} className=''>
-                            <div className={`shadow p-4  rounded-2xl ${offer.bg} flex w-96 gap-3 `}>
+                            <div className={`shadow p-4  rounded-2xl ${offer.bg} flex w-96  `}>
                                 <div className='mt-8 sm:mt-16'>
                                     {offer.selectedImages.map((image, index) => (
                                         <React.Fragment key={index}>

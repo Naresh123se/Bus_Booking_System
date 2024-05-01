@@ -1,61 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+const HoverDropdownMenu = () => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-const Footer = () => {
     return (
-        <footer className="bg-blue-500">
-            <div className="container mx-auto py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div className="col-span-1 md:col-span-2">
-                        <div className="text-white">
-                            <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
-                            <p>Don’t miss any updates of our new templates and extensions.!</p>
-                            <form action="#" className="mt-4">
-                                <input type="text" name="email" className="px-4 py-2 w-full rounded-lg border border-gray-300" placeholder="Email" />
-                                <button type="submit" className="mt-2 px-4 py-2 bg-white text-blue-500 rounded-lg hover:bg-blue-100">Subscribe</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">Download</h3>
-                        <ul className="text-white">
-                            <li><a href="#">Company</a></li>
-                            <li><a href="#">Android App</a></li>
-                            <li><a href="#">iOS App</a></li>
-                            <li><a href="#">Desktop</a></li>
-                            <li><a href="#">Projects</a></li>
-                            <li><a href="#">My Tasks</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">Help</h3>
-                        <ul className="text-white">
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Term & Conditions</a></li>
-                            <li><a href="#">Reporting</a></li>
-                            <li><a href="#">Documentation</a></li>
-                            <li><a href="#">Support Policy</a></li>
-                            <li><a href="#">Privacy</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">Team Solutions</h3>
-                        <div className="text-white">
-                            <a href="#" className="mr-4"><i className="fab fa-facebook"></i></a>
-                            <a href="#" className="mr-4"><i className="fab fa-twitter"></i></a>
-                            <a href="#" className="mr-4"><i className="fab fa-linkedin"></i></a>
-                            <a href="#"><i className="fab fa-pinterest"></i></a>
+        <div
+            className="relative inline-block"
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
+        >
+            <button
+                type="button"
+                className="inline-flex justify-center w-full text-sm font-medium text-white bg-gray-700 rounded-md group-hover:bg-red-500 relative"
+            >
+                Menu
+                {/* Drop-down and up arrow icons */}
+                {isDropdownOpen ? (
+                    <KeyboardArrowUpIcon />
+                ) : (
+                    <KeyboardArrowDownIcon />
+                )}
+            </button>
+            {isDropdownOpen && (
+                <div className="absolute right-0 transform  ml-96 sm:px-0">
+
+                    <div className="rounded-md shadow-lg ring-1  overflow-hidden">
+                        <div className="relative grid gap-2 bg-white  sm:gap-8 sm:p-8">
+                            <a
+                                href="/home"
+                                className="hover:bg-[#e3d9d9] flex rounded-md pr-4"
+                            >
+                                <div className="ml-4">
+                                    <p className="text-base font-medium text-gray-900">
+                                        Buy
+                                    </p>
+                                </div>
+                            </a>
+                            <a
+                                href="/gate"
+                                className="hover:bg-[#e3d9d9] flex rounded-md pr-4"
+                            >
+                                <div className="ml-4">
+                                    <p className="text-base font-medium text-gray-900">
+                                        Sell
+                                    </p>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="bg-blue-700 py-4">
-                <div className="container mx-auto text-white">
-                    <p className="text-center">&copy; cakecounter Inc.. 2019 All rights reserved.</p>
-                    <p className="text-center">Made with <i className="icon_heart"></i> in <a href="http://cakecounter.com" target="_blank">CakeCounter</a></p>
-                </div>
-            </div>
-        </footer>
+            )}
+        </div>
     );
 };
 
-export default Footer;
+export default HoverDropdownMenu;
