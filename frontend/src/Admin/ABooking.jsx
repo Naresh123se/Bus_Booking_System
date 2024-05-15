@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import AIndex from './AIndex.jsx'
-import { jsx, css } from '@emotion/react'; // Import jsx and css from Emotion
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useAddMutation, useGetScheduleMutation, useEditScheduleMutation, useDeleteScheduleMutation } from '../slices/busSchedules.js';
 import { useGetbusMutation } from '../slices/bus.js';
-
+import Loader from '../Directions/Loader';
 
 const ABooking = () => {
   const [data, setData] = useState([]);
-  const [buses, setBuses] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState({});
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  const [add] = useAddMutation();
+  const [add, {isLoading}] = useAddMutation();
   const [get] = useGetScheduleMutation();
   const [getbus] = useGetbusMutation();
 
@@ -29,9 +26,6 @@ const ABooking = () => {
   const localDate = new Date();
   const formattedDate = localDate.toISOString().split('T')[0];
 
-// console.log(`Current local date: ${formattedDate}`);
-
-  
   const [busId, setBusId] = useState('');
   const [bus20, setBus20] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -40,7 +34,7 @@ const ABooking = () => {
   const [startLocation, setStartLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
-  const navigate = useNavigate();
+
 
 
    // Get the current date
@@ -82,8 +76,6 @@ const ABooking = () => {
     }
   };
 
-  
-
     const fetchSchedules = async (e) => {
       try {
 
@@ -95,24 +87,13 @@ const ABooking = () => {
 
         const reversedSchedules = [...newSchedules].reverse();
         setData(reversedSchedules);
-        // console.log(data)
-  
-        // console.log(result)
+
 
 
       } catch (error) {
         console.error('Failed to fetch schedules:', error);
       }
     };
-
-
-    const addData = (newData) => {
-      setData([newData, ...data]);
-      setShowAddPanel(false);
-    };
-
-  
-
   const handleAddSubmit = async (event) => {
     event.preventDefault();
 
@@ -126,27 +107,6 @@ const ABooking = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
-
-
-  // const deleteData = async (id) => {
-  //   try {
-  //     console.log("ID11:", id); // Check the value of id
-  //     const response = await deleteSchedule(id); // Assuming deleteSchedule accepts ID as a parameter
-
-  //     if (response.error) {
-  //       throw new Error(response.error.message || 'Failed to delete schedule');
-  //     }
-  //     setData(data.filter(item => item._id !== id));
-  //     toast.success('Schedule deleted successfully');
-  //   } catch (error) {
-  //     console.error('Failed to delete schedule:', error);
-  //     toast.error(error.message || 'Failed to delete schedule');
-  //   }
-  // };
-
-
-
-
 
   const handleEditInputChange = (event) => {
     const { name, value } = event.target;
@@ -200,39 +160,6 @@ const ABooking = () => {
       setSelectedItems(selectedItems.filter(item => item !== id));
     }
   };
-
-
-  // const handleDeleteSelected = async () => {
-  //   try {
-  //     if (selectedItems.length === 0) {
-  //       throw new Error('Please select at least one item to delete.');
-  //     }
-  
-  //     // Loop through each selected item and delete it
-  //     await Promise.all(selectedItems.map(async (id) => {
-  //       const response = await deleteSchedule(id);
-  //       if (response.error) {
-  //         throw new Error(response.error.message || 'Failed to delete schedule');
-  //       }
-  //     }));
-  
-  //     // Remove deleted items from the data array
-  //     const updatedData = data.filter(item => !selectedItems.includes(item._id));
-  //     setData(updatedData);
-  
-  //     // Clear selected items
-  //     setSelectedItems([]);
-  
-  //     // Clear checkboxes
-  //     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  //     checkboxes.forEach(checkbox => checkbox.checked = false);
-  
-  //     toast.success('Selected schedules deleted successfully');
-  //   } catch (error) {
-  //     console.error('Failed to delete schedules:', error);
-  //     toast.error(error.message || 'Failed to delete schedules');
-  //   }
-  // };
   
   const deleteData = async (id) => {
     try {
@@ -327,8 +254,13 @@ const ABooking = () => {
                   <TextField sx={{ width: '20ch'}} type="text" name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <TextField sx={{ width: '20ch'}} type="text" name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <TextField sx={{ width: '20ch'}}type="number" name="price" label="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
+                  <div>
                   <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</Button>
+                  {isLoading && <Loader />}
+                  </div>
+                  
                 </form>
+              
               </div>
             )}
 

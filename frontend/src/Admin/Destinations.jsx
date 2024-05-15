@@ -12,7 +12,7 @@ import { useAddCouponsMutation,
     useEditCouponsMutation,
     useDeleteCouponsMutation, } from '../slices/coupons.js';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-
+import Loader from '../Directions/Loader';
 
 const Blog = () => {
     const [data, setData] = useState([]);
@@ -23,16 +23,13 @@ const Blog = () => {
     const [disPrices, setDisPrices] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
     const [bg, setBg] = useState([]);
-   
-
-
     const [editIndex, setEditIndex] = useState(null);
     const [editData, setEditData] = useState({});
     const [showAddPanel, setShowAddPanel] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     // Hook
-    const [addCoupons] = useAddCouponsMutation();
+    const [addCoupons,  {isLoading}] = useAddCouponsMutation();
     const [getCoupons] = useGetCouponsMutation();
     const [deleteCoupons] = useDeleteCouponsMutation();
     const [editCoupons] = useEditCouponsMutation();
@@ -281,7 +278,7 @@ const Blog = () => {
                                                 value={copy}
                                                 className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
                                                 onChange={(e) => setCopy(e.target.value)}
-                                                placeholder="copy...."
+                                                placeholder="bus20...."
                                             />
                                         </div>
                                         <div>
@@ -295,7 +292,7 @@ const Blog = () => {
                                                 value={bg}
                                                 className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
                                                 onChange={(e) => setBg(e.target.value)}
-                                                placeholder="copy...."
+                                                placeholder="red...."
                                             />
                                         </div>
 
@@ -331,7 +328,7 @@ const Blog = () => {
                                         <div>
 
 <label className="pb-2">
-Description<span className="text-[#df3030]">*</span>
+Price(Off)<span className="text-[#df3030]">*</span>
 </label>
 <input
     type="number"
@@ -339,11 +336,12 @@ Description<span className="text-[#df3030]">*</span>
     value={disPrices}
     className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
     onChange={(e) => setDisPrices(e.target.value)}
-    placeholder="Prices...."
+    placeholder="20% off"
 />
 </div>
                                         <div className='mt-4'>
                                             <Button className='' onClick={handleSubmit}>Upload</Button>
+                                            {isLoading && <Loader />}
                                         </div>
                                     </div>
                                 </form>

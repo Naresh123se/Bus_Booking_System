@@ -9,7 +9,7 @@ import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useAddbusMutation, useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
 import { MenuItem } from '@mui/material';
-
+import Loader from '../Directions/Loader';
 const Bus = () => {
   const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -18,7 +18,7 @@ const Bus = () => {
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  const [addbus] = useAddbusMutation();
+  const [addbus, {isLoading}] = useAddbusMutation();
   const [getbus] = useGetbusMutation();
   const [editbus] = useEditbusMutation(); // Hook for editing schedule
   const [deleteSchedule] = useDeletebusMutation(); // Hook for deleting schedule
@@ -124,9 +124,6 @@ const Bus = () => {
     }
   };
   
-
-
-
   const deleteData = async (id) => {
     try {
       console.log("ID:", id); // Check the value of id
@@ -142,10 +139,6 @@ const Bus = () => {
       toast.error(error.message || 'Failed to delete schedule');
     }
   };
-
-
-
-
 
   const handleEditInputChange = (event) => {
     const { name, value } = event.target;
@@ -438,8 +431,10 @@ const Bus = () => {
                   {/* <input type="number" className="form-control border rounded-lg " name="seat" min="0" placeholder="seat Number" required value={seat} onChange={(e) => setSeat(e.target.value)} /> */}
 
 <div>
-<Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</Button>
+<Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add </Button>
+{isLoading && <Loader />}
 </div>
+
 
                 </form>
               </div>

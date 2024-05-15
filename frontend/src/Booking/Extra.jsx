@@ -1,58 +1,73 @@
-import React, { useState } from 'react';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-const HoverDropdownMenu = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
+import MuiInput from '@mui/material/Input';
 
-    return (
-        <div
-            className="relative inline-block"
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
-        >
-            <button
-                type="button"
-                className="inline-flex justify-center w-full text-sm font-medium text-white bg-gray-700 rounded-md group-hover:bg-red-500 relative"
-            >
-                Menu
-                {/* Drop-down and up arrow icons */}
-                {isDropdownOpen ? (
-                    <KeyboardArrowUpIcon />
-                ) : (
-                    <KeyboardArrowDownIcon />
-                )}
-            </button>
-            {isDropdownOpen && (
-                <div className="absolute right-0 transform  ml-96 sm:px-0">
+const Input = styled(MuiInput)`
+  width: 60px;
+`;
 
-                    <div className="rounded-md shadow-lg ring-1  overflow-hidden">
-                        <div className="relative grid gap-2 bg-white  sm:gap-8 sm:p-8">
-                            <a
-                                href="/home"
-                                className="hover:bg-[#e3d9d9] flex rounded-md pr-4"
-                            >
-                                <div className="ml-4">
-                                    <p className="text-base font-medium text-gray-900">
-                                        Buy
-                                    </p>
-                                </div>
-                            </a>
-                            <a
-                                href="/gate"
-                                className="hover:bg-[#e3d9d9] flex rounded-md pr-4"
-                            >
-                                <div className="ml-4">
-                                    <p className="text-base font-medium text-gray-900">
-                                        Sell
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-};
+export default function InputSlider() {
+  const [time22, setTime22] = React.useState(0); // Initial value set to 0 (5:00 AM)
 
-export default HoverDropdownMenu;
+  const handleSliderChange = (event, newValue) => {
+    setTime22(newValue);
+  };
+
+  const handleInputChange = (event) => {
+    setTime22(event.target.value === '' ? 0 : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (time22 < 0) {
+      setTime22(0);
+    } else if (time22 > 47) { // Maximum value changed to 47 (23:30)
+      setTime22(47);
+    }
+  };
+
+  // Convert the value to time format (00:00 to 23:30)
+  const valueToTime = (value) => {
+    const hours = Math.floor(value / 2); // Hours
+    const minutes = value % 2 === 0 ? '00' : '30'; // Every half-hour interval
+    return `${String(hours).padStart(2, '0')}:${minutes}`; // Pad single-digit hours with leading zero
+  };
+
+  return (
+    <Box sx={{ width: 250 }}>
+      <Typography id="input-slider" gutterBottom>
+        Time
+      </Typography>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs>
+          <Slider
+            value={typeof time22 === 'number' ? time22 : 0}
+            onChange={handleSliderChange}
+            aria-labelledby="input-slider"
+            step={1} // Step set to 1
+            min={1} // Minimum value set to 0
+            max={47} // Maximum value set to 47
+          />
+        </Grid>
+        <Grid item>
+          <Input
+            value={valueToTime(time22)}
+            size="small"
+            onChange={handleInputChange}
+            onBlur={handleBlur}
+            inputProps={{
+              step: 1,
+              min: 0,
+              max: 47,
+              type: 'text',
+              'aria-labelledby': 'input-slider',
+            }}
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

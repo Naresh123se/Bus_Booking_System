@@ -1,20 +1,10 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 import SearchBar from './SearchBar';
 import Offers from '../Booking/Offers.jsx';
 import { useNavigate } from 'react-router-dom';
-import Destinations from '../Booking/Destinations.jsx';
 import Blog from '../Pages/Blogg.jsx';
-import Body1 from './Body1.jsx';
 const IndexPage = () => {
   const navigate = useNavigate();
-  const click11 = () => {
-    navigate('/location');
-  };
-  const Booking = () => {
-    navigate('/Booking');
-  };
 
   return (
     <>

@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useGetBlogMutation, useEditBlogMutation, useDeleteBlogMutation, useAddBlogMutation } from '../slices/blog.js';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import JoditEditor from 'jodit-react';
-
+import Loader from '../Directions/Loader';
 const Blog = () => {
     const [data, setData] = useState([]);
     const [title, setTitle] = useState('');
@@ -29,10 +29,10 @@ const Blog = () => {
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     // Hook
-    const [addBlog] = useAddBlogMutation();
+    const [addBlog, { isLoading }] = useAddBlogMutation();
     const [getBlog] = useGetBlogMutation();
-    const [deleteBlog] = useDeleteBlogMutation();
-    const [editBlog] = useEditBlogMutation();
+    const [deleteBlog, { isLoading1 }] = useDeleteBlogMutation();
+    const [editBlog, { isLoading2 }] = useEditBlogMutation();
 
 
 
@@ -253,101 +253,102 @@ const Blog = () => {
                         {showAddPanel && (
                             <div className="bg-white ml-10">
                                 <div className='flex justify-between'>
-
                                     <h1 className='text-lg'>Add Blog</h1>
                                     <button className='mr-5' onClick={() => setShowAddPanel(false)}><CancelOutlinedIcon sx={{ color: 'red' }} /></button>
                                 </div>
 
-                                <form onSubmit={handleSubmit} className="flex flex-col ">
+                                <form onSubmit={handleSubmit} className="flex  gap-5 mt-1">
 
-                                    <div className='flex gap-5 mt-1'>
-
-                                        <div>
-
-                                            <label className="pb-2">
-                                                Title <span className="text-[#df3030]">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="place"
-                                                value={title}
-                                                className="mt-1 w-40  block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
-                                                onChange={(e) => setTitle(e.target.value)}
-                                                placeholder="Pokhara...."
-                                            />
-                                        </div>
-                                        <div>
-
-                                            <label className="pb-2">
-                                                Category <span className="text-[#df3030]">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="place"
-                                                value={category}
-                                                className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
-                                                onChange={(e) => setCategory(e.target.value)}
-                                                placeholder="Category...."
-                                            />
-                                        </div>
-                                        <div>
-
-                                            <label className="pb-2">
-                                                Category <span className="text-[#df3030]">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="place"
-                                                value={author}
-                                                className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
-                                                onChange={(e) => setAuthor(e.target.value)}
-                                                placeholder="Author...."
-                                            />
-                                        </div>
-
-                                        <div className=" ">
-                                            <label className="pb-2  w-40 block">
-                                                Images <span className="text-[#df3030]">*</span>
-                                            </label>
-
-                                            <input
-                                                className='w-52'
-                                                type="file"
-                                                name="photos"
-                                                id="upload"
-                                                multiple
-                                                onChange={handleImageChange}
-                                            />
-
-                                            <br />
-                                            <div className="w-full flex items-center flex-wrap">
-                                                {selectedImages.map((i, index) => (
-                                                    <img
-                                                        src={i}
-                                                        key={index}
-                                                        alt=""
-                                                        className="h-[120px] w-[120px] object-cover m-2"
-                                                    />
-                                                ))}
-                                            </div>
-
-
-                                        </div>
-
-                                        <div className='w-96'>
-                                            <JoditEditor
-                                                ref={editor}
-                                                value={blogText}
-                                                tabIndex={1} // tabIndex of textarea
-                                                onBlur={newContent => setBlogText(newContent)} // preferred to use only this option to update the content for performance reasons
-                                                onChange={(e) => setBlogText(e.target.value)}
-
-                                            />
-                                        </div>
-                                        <div className='mt-4'>
-                                            <Button className='' onClick={handleSubmit}>Upload</Button>
-                                        </div>
+                                    <div>
+                                        <label className="pb-2">
+                                            Title <span className="text-[#df3030]">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="place"
+                                            required
+                                            value={title}
+                                            className="mt-1 w-40  block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
+                                            onChange={(e) => setTitle(e.target.value)}
+                                            placeholder="Pokhara...."
+                                        />
                                     </div>
+                                    <div>
+
+                                        <label className="pb-2">
+                                            Category <span className="text-[#df3030]">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="place"
+                                            required
+                                            value={category}
+                                            className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
+                                            onChange={(e) => setCategory(e.target.value)}
+                                            placeholder="Category...."
+                                        />
+                                    </div>
+                                    <div>
+
+                                        <label className="pb-2">
+                                            Category <span className="text-[#df3030]">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="place"
+                                            required
+                                            value={author}
+                                            className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
+                                            onChange={(e) => setAuthor(e.target.value)}
+                                            placeholder="Author...."
+                                        />
+                                    </div>
+
+                                    <div className=" ">
+                                        <label className="pb-2  w-40 block">
+                                            Images <span className="text-[#df3030]">*</span>
+                                        </label>
+
+                                        <input
+                                            className='w-52'
+                                            type="file"
+                                            required
+                                            name="photos"
+                                            id="upload"
+                                            multiple
+                                            onChange={handleImageChange}
+                                        />
+
+                                        <br />
+                                        <div className="w-full flex items-center flex-wrap">
+                                            {selectedImages.map((i, index) => (
+                                                <img
+                                                    src={i}
+                                                    key={index}
+                                                    alt=""
+                                                    className="h-[120px] w-[120px] object-cover m-2"
+                                                />
+                                            ))}
+                                        </div>
+
+
+                                    </div>
+
+                                    <div className='w-96'>
+                                        <JoditEditor
+                                            ref={editor}
+                                            value={blogText}
+                                            tabIndex={1} // tabIndex of textarea
+                                            onBlur={newContent => setBlogText(newContent)} // preferred to use only this option to update the content for performance reasons
+                                            onChange={(e) => setBlogText(e.target.value)}
+
+                                        />
+                                    </div>
+                                    <div className='mt-4'>
+                                        <Button className='' onClick={handleSubmit}>Upload</Button>
+                                        {isLoading && <Loader />}
+                                    </div>
+
                                 </form>
                                 {console.log(blogText)}
 
@@ -439,7 +440,9 @@ const Blog = () => {
                     </form>
                 </DialogContent>
                 <DialogActions>
+                    {isLoading1 && <Loader />}
                     <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+
                     <Button onClick={handleEditSubmit}>Save</Button>
                 </DialogActions>
             </Dialog>

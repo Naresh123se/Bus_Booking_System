@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import { useGetTicketMutation } from '../slices/ticket'
 import { useGetbusMutation } from '../slices/bus.js';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/joy/Button';
+
 const Ticket = () => {
   // Sample data for demonstration
-
+  const [ticket, setTicket] = useState()
+  const [mobile, setMobile] = useState()
   const [getbus] = useGetbusMutation();
   const [tickets, setTickets] = useState([]);
   const [tick, setTick] = useState([]);
@@ -20,10 +23,7 @@ const Ticket = () => {
   const userName = userData.displayName || userData.name;
   const email = userData.email || userData.email;
   const id = userData._id || userData._id;
-  console.log(email)
-  console.log(userName);
-  console.log(id);
-
+ 
   console.log('User name:', userName);
   // Check if the value exists
   if (storedValue !== null) {
@@ -45,7 +45,7 @@ const Ticket = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
+  console.log(mobile)
 
   useEffect(() => {
     const storedResponse = localStorage.getItem('ticketDataResponse');
@@ -61,10 +61,19 @@ const Ticket = () => {
         console.log(tickets[0].ticketNum)
         setTickets(tickets)
         console.log(responseWithoutQuotes)
+        console.log(ticket)
+        const tickets1 = ticket
+        const mobile1 = mobile
+// console.log(tickets[0].contact.phoneNumber)
+        console.log(tickets1)
+        console.log(mobile1)
 
         // Filter the tickets based on userId
-        const filteredTickets = tickets.filter(ticket => ticket.ticketNum === responseWithoutQuotes);
-        console.log(filteredTickets)
+        const filteredTickets = tickets.filter(ticket => {
+            return ticket.ticketNum === tickets1 && ticket.contact.phoneNumber === mobile1;
+        });
+        console.log(filteredTickets);
+        
 
         console.log(filteredTickets[0].ticketNum)
         console.log(filteredTickets[0].finalprice.totalPrice)
@@ -85,7 +94,7 @@ const Ticket = () => {
     // Call the function to fetch and filter tickets when the component mounts or when the id changes
     fetchAndFilterTickets();
     fetchData();
-  }, []); // Include id as a dependency to re-run the effect when it changes
+  }, [ticket, mobile]); // Include id as a dependency to re-run the effect when it changes
 
 
   //buses
@@ -143,6 +152,49 @@ const Ticket = () => {
   return (
     <>
 
+<div>
+<div className='ml-60 mt-3 '>
+                <div className=''>
+                    <h1 className='font-semibold text-[20px]'>Search Ticket</h1>
+                </div>
+                <div className='flex  gap-2 mt-1'>
+                   <div>
+
+                  
+                    <h2 className='pb-3'>Ticket Number</h2>
+                    <TextField
+                        label="Ticket Number..."
+                        name="textInput"
+                        placeholder='Your ticket number'
+                        size='small'
+                        required={true}
+
+                        value={ticket}
+                        onChange={(e) => setTicket(e.target.value)}
+                    />
+ </div>
+ <div>
+                    <h2 className='pb-3'>Mobile Number</h2>
+                    <TextField
+                        label="Mobile Number..."
+                        name="textInput"
+                        placeholder='Your mobile number'
+                        size='small'
+                        required={true}
+                        value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
+                    />
+                    </div>
+               
+                <div className='mt-9 '>
+                    <Button>Search</Button>
+                </div>
+                </div>
+
+            </div>
+
+
+</div>
 
       <div id="contentToPrint">
         {/* <main  className="ticket-system"> */}
@@ -256,10 +308,7 @@ const Ticket = () => {
 
                 {final.map(ticket => (
                   <div key={ticket._id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-                    {/* <h3>Ticket ID: {ticket._id}</h3>
-          <p>User ID: {ticket.userId}</p>
-          <p>Schedule ID: {ticket.SchId._id}</p> */}
-
+                    
 
                     <div className='  border border-[#cbcbcb] '>
 

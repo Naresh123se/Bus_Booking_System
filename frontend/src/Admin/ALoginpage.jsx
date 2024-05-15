@@ -12,7 +12,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Typography from '@mui/joy/Typography';
 import FormLabel from '@mui/joy/FormLabel';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-
+import Loader from '../Directions/Loader';
 import ReCAPTCHA from 'react-google-recaptcha';
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +30,18 @@ const LoginPage = () => {
       setPassword(value);
     }
   };
+
+  const handleClick = () => {
+    // Set isLoading to true to start the loader animation
+    setIsLoading(true);
+
+    // Simulate an asynchronous operation (e.g., fetching data)
+    setTimeout(() => {
+      // After the operation is complete, set isLoading to false to stop the loader animation
+      setIsLoading(false);
+    }, 2000); // Adjust the timeout as per your requirement
+  };
+
 
   const handleRecaptchaChange = (value) => {
 
@@ -78,8 +91,6 @@ const LoginPage = () => {
           borderRadius: 'sm',
           boxShadow: 'md',
           backgroundColor: 'silver',
-         
-         
         }}
         variant="outlined"
       >
@@ -132,10 +143,11 @@ const LoginPage = () => {
           
         />
         </div>
-       
         <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor: "#009DF8" }} onClick={handleLogin}>
           Log in
+       
         </Button>
+        {isLoading && <Loader />} 
       </Sheet>
     </CssVarsProvider>
     </div>

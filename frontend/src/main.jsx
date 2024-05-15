@@ -38,6 +38,8 @@ import Not from './Pages/Notification.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
 import Completion from './Booking/Completion.jsx';
 import EXT from './Booking/Extra.jsx'
+import PrintTicket from './Directions/PrintTicket.jsx';
+import CancelTicket from './Directions/CancelTicket.jsx';
 // *************
 
 import Main from './Admin/Main.jsx';
@@ -81,6 +83,10 @@ const router = createBrowserRouter(
       <Route path='/Des' element={<Des/>} />
       <Route path='/Not' element={<Not/>} />
       <Route path='/completion' element={<Completion/>} />
+
+      <Route path='/print-ticket' element={<PrintTicket/>} />
+      <Route path='/cancel-ticket' element={<CancelTicket/>} />
+
 
 
 

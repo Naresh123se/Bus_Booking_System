@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Navbar, Nav, NavDropdown, Modal, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -12,7 +11,8 @@ import { logout } from '../slices/authSlice';
 import Avatar from '@mui/material/Avatar';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import PrintIcon from '@mui/icons-material/Print';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import { Dropdown } from '@mui/base/Dropdown';
 import { MenuButton } from '@mui/base/MenuButton';
@@ -29,11 +29,11 @@ const Header = () => {
   
   const getTicket = () => {
     // Handle navigation here
-    navigate('/home'); // Navigate to '/home'
+    navigate('/print-ticket'); // Navigate to '/home'
 };
   const cancelTicket = () => {
     // Handle navigation here
-    navigate('/home'); // Navigate to '/home'
+    navigate('/cancel-Ticket'); // Navigate to '/home'
 };
 
 
@@ -64,7 +64,7 @@ const Header = () => {
         >
             <button
                 type="button"
-                className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative "
+                className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative  "
             >
                 Ticket
                 {/* Drop-down and up arrow icons */}
@@ -75,17 +75,19 @@ const Header = () => {
                 )}
             </button>
             {isDropdownOpen && (
-                <div className="absolute right-0  ml-96 sm:px-0 bg-[white]  z-50">
-
-                    <div className="rounded-sm shadow-lg ring-1  overflow-hidden">
-                        <div className="relative grid gap-1 bg-white  sm:gap-8 sm:p-8">
+                <div className="absolute   sm:px-0 bg-[white]  z-50 ">
+                    <div className="rounded-sm shadow-lg ring-1  overflow-hidden w-full ">
+                        <div className="relative grid gap-1 bg-white  sm:gap-8 sm:p-8 w-full ">
                             <a
                                 onClick={getTicket}
-                                className="hover:bg-[#e3d9d9] flex  pr-4 cursor-pointer"
+                                className="hover:bg-[#e3d9d9] flex  pr-4 cursor-pointer "
                             >
-                                <div className="ml-4">
+                                <div className="ml-4 flex w-full">
+                                <div className="flex  items-center mr-2 w-full ">
+                                <PrintIcon/>
+    </div>
                                     <p className="text-base font-medium text-gray-900">
-                                        Buy
+                                     Print Ticket
                                     </p>
                                 </div>
                             </a>
@@ -93,9 +95,13 @@ const Header = () => {
                                 onClick={cancelTicket} 
                                 className="hover:bg-[#e3d9d9] flex pr-4  cursor-pointer"
                             >
-                                <div className="ml-4">
+                                <div className="ml-4 flex" >
+                                  
+                                <div className="flex  items-center mr-2 ">
+      <CancelIcon />
+    </div>
                                     <p className="text-base font-medium text-gray-900">
-                                        Sell
+                                   Cancel Ticket
                                     </p>
                                 </div>
                             </a>

@@ -159,27 +159,7 @@ const SearchBar = () => {
     const [value1, setValue1] = useState(formattedDate);
     console.log(value1)
 
-    // const handleChange1 = date => {
-    //     setSelectedDate(date);
-    //     // Format the date as needed
-    //     const formattedDate = date ? formatDate(date) : '';
-    //     setValue(formattedDate);
-    // };
-    // const handleChange11 = date => {
-    //     setSelectedDate(date);
-    //     // Format the date as needed
-    //     const formattedDate = date ? formatDate(date) : '';
-    //     setValue1(formattedDate);
-    // };
-
-    // const formatDate = date => {
-    //     // Example: MM/dd/yyyy format
-    //     const formattedDate = `${(date.getMonth() + 1)
-    //         .toString()
-    //         .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
-    //     return formattedDate;
-    // };
-    // local Storage
+  
     useEffect(() => {
         const storedData = localStorage.getItem('search');
         if (storedData) {
@@ -193,11 +173,6 @@ const SearchBar = () => {
         }
     }, []);
 
-
-
-    // Empty dependency arr
-
-    //remove local storage
     return (
         <div className=''>
             {/*radio button */}

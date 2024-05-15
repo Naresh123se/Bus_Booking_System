@@ -46,61 +46,41 @@ const AIndex = () => {
     handleClick('Blog');
   };
 
-  const heartbeatStyle = `
-    @keyframes heartbeat {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(0.8);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .heartbeat {
-      animation: heartbeat 1.5s infinite;
-    }
-  `;
+ 
 
   return (
     <>
       <div className='w-44 bg-[#414E66] text-[#dfdbdb] h-[671px] cursor-pointer overflow-hidden '>
         <div>
-          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === '' ? 'bg-[#4f5e7a]' : ''}`} onClick={Dashboard}>
+          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === '' ? 'bg-[#4f5e7a]' : ''}`} onClick={Dashboard}>
             <div>
-              <FontAwesomeIcon icon={faGauge} beatFade />
+              <FontAwesomeIcon icon={faGauge}  />
             </div>
-            <div>
+            <div cl>
               Dashboard
             </div>
           </div>
 
-          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === 'Passenger' ? 'bg-[#4f5e7a]' : ''}`} onClick={Passenger}>
+          <div className={`flex gap-4 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === 'Passenger' ? 'bg-[#4f5e7a]' : ''}`} onClick={Passenger}>
             <div>
-              <FontAwesomeIcon icon={faUsers} beatFade />
+              <FontAwesomeIcon icon={faUsers}  />
             </div>
             <div>
               Passengers
             </div>
           </div>
 
-          <div className={`flex gap-3 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Bus' ? 'bg-[#4f5e7a]' : ''}`} onClick={Bus}>
+          <div className={`flex gap-6 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Bus' ? 'bg-[#4f5e7a]' : ''}`} onClick={Bus}>
             <div>
-              {/* <FontAwesomeIcon icon={faTicket} beatFade /> */}
-              <FontAwesomeIcon icon={faBusSimple} beatFade />
-
+              <FontAwesomeIcon icon={faBusSimple} />
             </div>
             <div>
               Bus
             </div>
           </div>
           <div className={`flex gap-2 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-3  ${activeNavItem === 'Schedule' ? 'bg-[#4f5e7a]' : ''}`} onClick={Schedule}>
-    
-            
           <div style={{ animation: 'heartbeat 1.5s infinite' }}>
-      <style>{heartbeatStyle}</style>
+      
     <DepartureBoardIcon sx={{fontSize: 26}} />
     </div>
             
@@ -110,7 +90,7 @@ const AIndex = () => {
           </div>
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Report' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleReportClick}>
             <div>
-              <FontAwesomeIcon icon={faFileLines} beatFade />
+              <FontAwesomeIcon icon={faFileLines}  />
             </div>
             <div>
               Report
@@ -119,16 +99,16 @@ const AIndex = () => {
 
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleDestinationClick}>
             <div>
-              <FontAwesomeIcon icon={faLocationDot} beatFade />
+               <FontAwesomeIcon icon={faTicket} />
             </div>
             <div>
-            Destination
+            Coupons
             </div>
           </div>
 
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleBlogClick}>
             <div>
-              <FontAwesomeIcon icon={faLocationDot} beatFade />
+              <FontAwesomeIcon icon={faLocationDot}/>
             </div>
             <div>
            Blog

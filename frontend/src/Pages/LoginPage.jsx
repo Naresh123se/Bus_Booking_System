@@ -46,7 +46,6 @@ const LoginPage = () => {
 
   return (
     <>
-    
     <CssVarsProvider>
       < DarkModeToggle />
       <div className='size-32 mx-[45%] pt-1 '>

@@ -350,7 +350,7 @@ const BusSeatSelection = () => {
 
 
 
-    const handleClick = async (e) => {
+    const  handleClick = async (e) => {
         if (e) {
             e.preventDefault();
         }

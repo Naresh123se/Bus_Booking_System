@@ -20,7 +20,6 @@ const PaymentComponent = () => {
       Navigate('/googlepay');
     } else {
       // No payment method selected
-     
       toast.error('Please select a payment method'); // Display error toast
 
     }
