@@ -63,7 +63,7 @@ const BusSeatSelection = () => {
     const [Selseat] = useSelseatMutation();
     // const [Getseat] = useGetseatMutation();
     const [Getseat] = useGetTicketMutation();
-    const [showSeat, setShowSeat] = useState(false);
+    // const [showSeat, setShowSeat] = useState(false);
 
     const [formData, setFormData] = useState([]);
     const [contact, setContact] = useState([]);
@@ -71,7 +71,7 @@ const BusSeatSelection = () => {
     const [formErro1, setFormError1] = useState(false);
     const [agree, setAgree] = useState(false);
     const [passengerNumber, setPassengerNumber] = useState(null);
-    const [seats, setSeats] = useState([]);
+    // const [seats, setSeats] = useState([]);
     const [error1, setError1] = useState(null);
     const [price, setPrice] = useState(null);
     const [fromLocation, setFromLocation] = useState('');
@@ -80,10 +80,12 @@ const BusSeatSelection = () => {
     const [toendTime, setToendTime] = useState('');
     const [final, setFinal] = useState('');
     const [seat, setSeat] = useState('');
+    const [busN, setBusN] = useState('');
+    const [busName, setBusName] = useState('');
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const navigate = useNavigate(); // Initialize useHistory hook
-    const [khalti, { isLoading, isError, error }] = useInitiatePaymentMutation();
+    const [khalti] = useInitiatePaymentMutation();
 
 
 
@@ -133,6 +135,8 @@ const BusSeatSelection = () => {
         setToendTime(endTime);
         const capacity = localStorage.getItem('capacity');
         setSeat(capacity);
+        console.log(capacity)
+       
 
         const priceFromLocalStorage = localStorage.getItem('price');
         if (priceFromLocalStorage) {
@@ -142,7 +146,7 @@ const BusSeatSelection = () => {
         // console.log(storedPassengerNumber)
         if (storedPassengerNumber) {
             setPassengerNumber(storedPassengerNumber);
-            console.log(passengerNumber);
+            // console.log(passengerNumber);
         }
 
         // console.log(sceid);
@@ -533,6 +537,8 @@ const BusSeatSelection = () => {
     
         const user = JSON.parse(localStorage.getItem('userInfo'));
         const ScId = localStorage.getItem('scheduleId');
+        const BusName = localStorage.getItem('BusName1');
+        const BusNumber = localStorage.getItem('BusNumber1');
         const userId = user?._id;
     
         if (!userId) {
@@ -554,6 +560,8 @@ const BusSeatSelection = () => {
                 discount:discountAmount,
             },
             count:count,
+            BusNumber:BusNumber,
+            BusName:BusName,
 
         };
     

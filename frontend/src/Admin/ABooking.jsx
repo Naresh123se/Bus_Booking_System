@@ -99,7 +99,7 @@ const ABooking = () => {
 
     try {
       await add({ busId, startTime, endTime, calender, startLocation, endLocation, price, day }).unwrap();
-      toast.success('Data added successfully');
+      toast.success('Schedules added successfully');
       fetchSchedules();
       setShowAddPanel(false);
     } catch (err) {
@@ -230,7 +230,7 @@ const ABooking = () => {
         <div className='  w-full'>
           <div style={{}}>
             <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
-              Booking Schedules
+              Schedules
               <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
               <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
             </div>
@@ -267,15 +267,16 @@ const ABooking = () => {
             <div>
               <table className="min-w-full">
                 <thead className="">
-                  <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
-                    <th className="w-1/12">Select</th>
-                    <th className="w-1/12">Start Time</th>
-                    <th className="w-2/12">End Time</th>
-                    <th className="w-2/12">Start Location</th>
-                    <th className="w-2/12">End Location</th>
-                    <th className="w-2/12">Price</th>
-                    <th className="w-1/12">Actions</th>
-                   
+                  <tr className="flex  shadow-lg  mt-1 mb-1 pl-5 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden gap-[100px] ">
+                    <th className="ml-2">Select</th>
+                    <th className="">Bus</th>
+                    <th className="w-12">StartTime</th>
+                    <th className="">EndTime</th>
+                    <th className="">Date</th>
+                    <th className="w-20">StartLocation</th>
+                    <th className="w-20">EndLocation</th>
+                    <th className="">Price</th>
+                    <th className="">Actions</th>
                   </tr>
                 </thead>
 
@@ -283,18 +284,18 @@ const ABooking = () => {
                   <div className='h-[78.5vh]  overflow-y-auto  w-full'>
 
                     {data.map((item, index) => (
-                      <tr key={item.id} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} className='flex'>
+                      <tr key={item.id} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} className='flex'>
                         <td className="w-28 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
                         <td className="w" style={{ fontSize: '1.2rem', color: '#333' }}>{item.selectedBus}</td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.bus.name1   }</td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime   }</td>
-                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
-                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.calender}</td>
-                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>
-                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endLocation}</td>
-                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#333' }}>{item.bus.name1   }</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime   }</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#555' }}>{item.calender}</td>
+                        <td className="w-48" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>
+                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endLocation}</td>
+                        <td className="w-28" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
                         <td className="flex gap-2">
                           <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
                           <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}><DeleteIcon className='text-white' /></button>

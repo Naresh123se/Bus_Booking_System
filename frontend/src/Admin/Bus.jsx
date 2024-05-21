@@ -245,7 +245,7 @@ const Bus = () => {
         <div className='  w-full'>
           <div style={{}}>
             <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
-              Booking Schedules
+              Buses
               
               <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
               <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
@@ -445,30 +445,31 @@ const Bus = () => {
                 <thead className="">
                   <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
                     <th className="w-1/12">Select</th>
-                    <th className="w-1/12">Bus_Number </th>
-
-                    <th className="w-2/12">End Time</th>
-                    <th className="w-2/12">Start Location</th>
-                    <th className="w-2/12">End Location</th>
-                    <th className="w-2/12">Price</th>
-                    <th className="w-1/12">Actions</th>
+                    <th className="w-[10%]">BusName</th>
+                    <th className="w-[14%]">SeatCapacity</th>
+                    <th className="w-[12%]">Lot</th>
+                    {/* <th className="w-[12%]">Lot</th> */}
+                    <th className="w-[15%]">Number</th>
+                    <th className="w-[11%]">Alphabet</th>
+                    <th className="w-[20%]">Region</th>
+                    <th className="ml-5">Actions</th>
                   </tr>
                 </thead>
 
-                <tbody className='  ' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+                <tbody className=' ' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                   <div className='h-[78.5vh]  overflow-y-auto  w-full'>
 
                     {data.map((item, index) => (
-                      <tr key={item.id} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} className='flex'>
+                      <tr key={item.id} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} className='flex '>
                         <td className="w-28 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
-                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.name1}</td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.region1}</td>
-                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.lot}</td>
-                        <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.number}</td>
-                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.alphabet}</td>
-                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.capacity}</td>
+                        <td className="w-44" style={{ fontSize: '1.2rem', color: '#555' }}>{item.name1}</td>
+                        <td className="w-44" style={{ fontSize: '1.2rem', color: '#333' }}>{item.capacity}</td>
+                        <td className="w-44" style={{ fontSize: '1.2rem', color: '#555' }}>{item.lot}</td>
+                        <td className="w-44" style={{ fontSize: '1.2rem', color: '#555' }}>{item.number}</td>
+                        <td className="w-44" style={{ fontSize: '1.2rem', color: '#555' }}>{item.alphabet}</td>
+                        <td className="w-44" style={{ fontSize: '1.2rem', color: '#555' }}>{item.region1}</td>
 
                         <td className="flex gap-2">
                           <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>

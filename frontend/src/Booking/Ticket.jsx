@@ -269,7 +269,7 @@ const Ticket = () => {
                       </div>
                       <div className='flex px-1 '>
                         <div className='w-full'>
-                          <p className='text-xl font-semibold text-[#009DF8]'>bus yatra</p>
+                          <p className='text-xl font-semibold text-[#009DF8]'>{ticket.BusName}</p>
                           <div className='flex'>
                             <div>
                               <p >Ticket No : </p>
@@ -279,10 +279,14 @@ const Ticket = () => {
                               <p className='text-[#009DF8] ml-1'>{ticket.ticketNum}</p>
                             </div>
                           </div>
+                          <div className='flex'>
+                            <p className='pr-5'>Bus No </p>
 
-                          <p>Bus No :</p>
 
-                        </div>
+                            <div className='text-[#009DF8]' >
+                              : {ticket.BusNumber}
+                            </div>
+                          </div>                   </div>
 
 
 
@@ -403,7 +407,7 @@ const Ticket = () => {
 
                 {/* Generate QR code with formatted passenger data */}
                 <div className='ml-10 '>
-                <QRCode value={formattedData}  />
+                  <QRCode value={formattedData} />
 
                 </div>
                 <div className="description ml-10">

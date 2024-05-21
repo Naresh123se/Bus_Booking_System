@@ -65,6 +65,14 @@ const ticketSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  BusName: {
+    type: String,
+    required: true,
+  },
+  BusNumber: {
+    type: Number,
+    required: true,
+  },
 });
 
 // Create a Ticket model using the ticketSchema

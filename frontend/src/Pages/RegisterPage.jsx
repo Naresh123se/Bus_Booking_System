@@ -130,12 +130,12 @@ const RegisterPage = () => {
           </div>
         </FormControl>
 
-        <Button type='Submit' value="Submit" sx={{ mt: 1 /* margin top */ }} onClick={submitHandler} >
+        <Button type='Submit' value="Submit" sx={{ mt: 1 /* margin top */ }} onClick={submitHandler}  >
           Sign up
         </Button>
         {isLoading && <Loader />}
         <Typography
-          endDecorator={<Link to={'/login'} className='underline text-blue-500'>Log in</Link>}
+          endDecorator={<Link to={'/login'} className='underline text-blue-500 '>Log in</Link>}
           fontSize="sm"
           sx={{ alignSelf: 'center' }}
         >

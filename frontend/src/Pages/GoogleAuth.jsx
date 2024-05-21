@@ -12,8 +12,6 @@ const GoogleAuth = () => {
   <img src="google.png" alt="google"  className='size-4 ml-5 '/> 
       <button onClick={handleGoogleAuthClick}>
         Login with Google</button>
-           
-  
     </div>
   );
 };

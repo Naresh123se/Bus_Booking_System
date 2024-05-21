@@ -47,8 +47,6 @@ const fetchData = async () => {
               {/* <img className="w-full h-72 object-cover object-center" src={card.imageUrl} alt="Destinations" /> */}
 
 
-
-
               <div className="inline-block overflow-hidden ">
                 {/*  */}
                 <div className="group relative">
@@ -57,8 +55,8 @@ const fetchData = async () => {
   <React.Fragment key={index}>
     <td className="" style={{ fontSize: '1.2rem', color: '#555' }}></td>
     <td className="">
-      <img src={image.url}     alt="Image"
-       className="w-full  object-cover object-center transform rotate-15 scale-1.4 transition-transform duration-300 ease-in-out"
+      <img src={image.url}  alt="Image"
+       className="w-96  object-cover transform rotate-15 scale-1.4 transition-transform duration-300 ease-in-out h-60 "
        style={{ transformOrigin: 'center center', transition: 'transform 0.9s ease-in-out' }}
        onMouseLeave={(e) => (e.target.style.transform = 'rotate(0) scale(1)')}
        onMouseEnter={(e) => (e.target.style.transform = 'rotate(15deg) scale(1.4)')}
@@ -69,9 +67,7 @@ const fetchData = async () => {
 ))}
                   
                  
-                  {/* <span className="absolute bg-[red] mr- bottom-0 w-32 rounded-ry-lg  text-center text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {card.title}
-          </span> */}
+              
 
                   <span className="  absolute  bottom-0 m rounded-ry-lg  text-center text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity   w-40 bg-[#b6cbca] pl-2  rounded-tr-[100px] shadow-lg shadow-[#9aa7cb] text-[#0f0f0f] title-font text-lg font-medium text-gray-900 -mb-14">{card.title}</span>
 
@@ -81,19 +77,17 @@ const fetchData = async () => {
               <div className="p-6 ">
                 <h2 className="text-lg font-medium text-gray-900 mb-3">{card.title}</h2>
                 <p className="text-base leading-relaxed mb-3">{card.description}</p>
-                <div className="flex items-center  justify-between">
-                  {/* <a href="" className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 hover:text-[#009DF8]">Learn More
-                    <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14"></path>
-                      <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                  </a> */}
-                  <button onClick={() => blogDiv(card._id)}>
+                <div className="flex items-center  justify-between ">
+                  
+            
+                  <button onClick={() => blogDiv(card._id)} className='bg-[#40b5e8] p-2 rounded-md hover:bg-bg1'>
                     Learn More
-                  </button>
+                  </button> 
+                 
+                  
                   
                   <div className=''>
-                <div className="text-base leading-relaxed ">{card.author}</div>
+                <div className="text-base leading-relaxed border border-[#c1bcbc] rounded-md p-0.5 ">{card.author}</div>
                
                   </div>
                 </div>

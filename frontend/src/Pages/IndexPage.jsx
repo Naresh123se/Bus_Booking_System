@@ -3,6 +3,7 @@ import SearchBar from './SearchBar';
 import Offers from '../Booking/Offers.jsx';
 import { useNavigate } from 'react-router-dom';
 import Blog from '../Pages/Blogg.jsx';
+import Body1 from './Body1.jsx';
 const IndexPage = () => {
   const navigate = useNavigate();
 
@@ -23,7 +24,7 @@ const IndexPage = () => {
         </div>
         <div className=' mt-16  border-[#ebdfdf] border'>
         <div className='   ml-20   '>
- {/* <Body1/> */}
+ <Body1/>
            
       </div>
         </div>

@@ -4,10 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import { useMediaQuery } from 'react-responsive';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
-    useAddCouponsMutation,
     useGetCouponsMutation,
-    useEditCouponsMutation,
-    useDeleteCouponsMutation,
 } from '../slices/coupons.js';
 
 const TrendingOffers = () => {
@@ -63,14 +60,23 @@ const TrendingOffers = () => {
             console.log("Original data:", newData); // Log the original data
             // Create a copy of the newData array and then reverse it
             const reversedData = [...newData].reverse();
-            console.log("Reversed data:", reversedData); // Log the reversed data
+            // console.log("Reversed data:", reversedData); // Log the reversed data
             // Set the reversed data in the state
             setData(reversedData);
+
 
         } catch (error) {
             console.error('Failed to fetch Coupons:', error);
         }
     };
+
+    // const offers = [
+    //     { id: 1, bg: 'bg-gradient-to-tr from-[#2B4669] to-[#4BBE8F]' },
+    //     { id: 2, bg: 'bg-gradient-to-tr from-[#D37E0B] to-[#F9B961]' },
+    //     { id: 3, bg: 'bg-gradient-to-tr from-[#113F93] to-[#386ECE]' }
+    //   ];
+
+
 
     const settings = {
         infinite: true,
@@ -81,6 +87,9 @@ const TrendingOffers = () => {
         dots: false, // Hide the dots navigation
         arrows: false // Hide the next and previous arrows
     };
+
+    console.log(data);
+    // console.log(data[0].bg) 
 
     const isMobile = useMediaQuery({ maxWidth: 768 });
     const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1024 });
@@ -146,10 +155,13 @@ const TrendingOffers = () => {
                     ))}
                 </Slider>
             ) : (
+
                 <Slider {...DesktopSettings} className="w-[180vh] sm:w-full md:w-full ml-9 sm:ml-1 sm:pl-1 pl-5">
                     {data.map(offer => (
                         <div key={offer.id} className=''>
-                            <div className={`shadow p-4  rounded-2xl ${offer.bg} flex w-96 gap-3 `}>
+                            <div className={`shadow p-4 rounded-2xl ${offer.bg} flex w-96 gap-3`}>
+
+
                                 <div className='mt-8 '>
                                     {offer.selectedImages.map((image, index) => (
                                         <React.Fragment key={index}>
@@ -187,7 +199,3 @@ const TrendingOffers = () => {
 };
 
 export default TrendingOffers;
-
-
-
-

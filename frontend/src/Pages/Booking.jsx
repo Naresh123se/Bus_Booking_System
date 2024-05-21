@@ -308,13 +308,15 @@ const Booking = () => {
   };
 
   const [startTime, setStartTime] = useState('');
-  const book = (id, startTime, price, endTime, capacity) => {
+  const book = (id, startTime, price, endTime, capacity, name1,number) => {
     localStorage.setItem("scheduleId", id);
     localStorage.setItem("price", price);
     localStorage.setItem("startTime", startTime);
     localStorage.setItem("endTime", endTime);
-    console.log("first")
+   
     localStorage.setItem("capacity", capacity);
+    localStorage.setItem("BusName1", name1);
+    localStorage.setItem("BusNumber1", number);
 
     navigate('/seat')
 
@@ -707,8 +709,6 @@ const Booking = () => {
                     <AllFilter />
 
 
-
-
                   </>
                 ) : (
 
@@ -778,7 +778,7 @@ const Booking = () => {
               </div>
 
               <div className='ml-[50%]'>
-                <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity)}>
+                <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity,item.bus.name1,item.bus.number )}>
                   <strong>Continue</strong>
                 </button>
               </div>
@@ -797,7 +797,7 @@ const Booking = () => {
 
                         {/* <h2 className="text-xl font-semibold mb-4 ml-16">Trending Offers for Discount Coupons</h2> */}
                         <Slider {...settings} className="mr-44">
-                          {data.map((item1) => (
+                          {data.map((item) => (
                             item.bus.selectedImages.map((image, index) => (
                               <div key={index} className='flex h-60 p p-1 bg-[#185EA5] rounded-md'>
                                 <div className="w-full" style={{ fontSize: '1.2rem', color: '#555' }}>

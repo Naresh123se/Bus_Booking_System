@@ -291,7 +291,7 @@ const Blog = () => {
                                     <div>
 
                                         <label className="pb-2">
-                                            Category <span className="text-[#df3030]">*</span>
+                                            Author <span className="text-[#df3030]">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -361,12 +361,12 @@ const Blog = () => {
                                 <thead className="">
                                     <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
                                         <th className="w-1/12">Select</th>
-                                        <th className="w-1/12">Image </th>
-
-                                        <th className="w-2/12">Title</th>
-                                        <th className="w-2/12">Place</th>
+                                        <th className="w-1/12">Title </th>
+                                        <th className="w-2/12">Category</th>
                                         <th className="w-2/12">Author</th>
-                                        <th className="w-2/12">Des</th>
+                                        <th className="w-[10%]">Images</th>
+                                        <th className="w-[20%]">Des</th>
+                                        <th className="ml-40">Action</th>
 
                                     </tr>
                                 </thead>
@@ -382,13 +382,13 @@ const Blog = () => {
 
                                                 {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.selectedImages.url}</td> */}
 
-                                                <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.title}</td>
+                                                <td className="w-[12%]" style={{ fontSize: '1.2rem', color: '#555' }}>{item.title}</td>
                                                 <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.category}</td>
-                                                <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}>{item.author}</td>
+                                                <td className="w-40" style={{ fontSize: '1.2rem', color: '#555' }}>{item.author}</td>
 
                                                 {item.selectedImages.map((image, index) => (
                                                     <React.Fragment key={index}>
-                                                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}></td>
+                                                        <td className="" style={{ fontSize: '1.2rem', color: '#555' }}></td>
                                                         <td className="w-36">
                                                             <img src={image.url} style={{ height: '50px' }} alt="Image" />
                                                         </td>
@@ -396,7 +396,7 @@ const Blog = () => {
                                                 ))}
 
 
-                                                <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>
+                                                <td className="w-36 ml-20" style={{ fontSize: '1.2rem', color: '#555' }}>
                                                     {typeof item.blogText === 'string' ? (
                                                         <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText, 6)}</div>` }} />
                                                     ) : (
@@ -404,7 +404,7 @@ const Blog = () => {
                                                     )}
                                                 </td>
 
-                                                <td className="flex gap-2  items-center">
+                                                <td className="flex gap-2 ml-[10%] items-center">
                                                     <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
                                                     <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}><DeleteIcon className='text-white' /></button>
                                                 </td>

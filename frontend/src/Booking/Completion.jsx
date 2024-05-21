@@ -107,7 +107,7 @@ console.log(data11)
     const response = await TicketData(data11).unwrap(); 
     localStorage.setItem('ticketDataResponse', JSON.stringify(response.ticket.ticketNum));
      console.log(response.ticket.ticketNum)
-   } catch (err) {
+   } catch (err) { 
      toast.error(err?.data?.message || err.error);
    }
  };

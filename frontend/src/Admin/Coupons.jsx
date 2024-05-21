@@ -7,14 +7,16 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@m
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
-import { useAddCouponsMutation,
+import {
+    useAddCouponsMutation,
     useGetCouponsMutation,
     useEditCouponsMutation,
-    useDeleteCouponsMutation, } from '../slices/coupons.js';
+    useDeleteCouponsMutation,
+} from '../slices/coupons.js';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import Loader from '../Directions/Loader';
+import Loader from '../Directions/Loader.jsx';
 
-const Blog = () => {
+const Coupons = () => {
     const [data, setData] = useState([]);
     const [description, setDescription] = useState('');
     const [time, setTime] = useState('');
@@ -29,7 +31,7 @@ const Blog = () => {
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     // Hook
-    const [addCoupons,  {isLoading}] = useAddCouponsMutation();
+    const [addCoupons, { isLoading }] = useAddCouponsMutation();
     const [getCoupons] = useGetCouponsMutation();
     const [deleteCoupons] = useDeleteCouponsMutation();
     const [editCoupons] = useEditCouponsMutation();
@@ -85,7 +87,7 @@ const Blog = () => {
 
         try {
 
-            const response = await addCoupons({ description, time, selectedImages, copy, disPrices , bg});
+            const response = await addCoupons({ description, time, selectedImages, copy, disPrices, bg });
             console.log(response);
             if (response.data.success) {
                 console.log("first")
@@ -256,7 +258,7 @@ const Blog = () => {
                                         <div>
 
                                             <label className="pb-2">
-                                            Description<span className="text-[#df3030]">*</span>
+                                                Description<span className="text-[#df3030]">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -270,7 +272,7 @@ const Blog = () => {
                                         <div>
 
                                             <label className="pb-2">
-                                            Copy <span className="text-[#df3030]">*</span>
+                                                Copy <span className="text-[#df3030]">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -284,7 +286,7 @@ const Blog = () => {
                                         <div>
 
                                             <label className="pb-2">
-                                            Bg-color <span className="text-[#df3030]">*</span>
+                                                Bg-color <span className="text-[#df3030]">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -327,18 +329,18 @@ const Blog = () => {
 
                                         <div>
 
-<label className="pb-2">
-Price(Off)<span className="text-[#df3030]">*</span>
-</label>
-<input
-    type="number"
-    name="disPrices"
-    value={disPrices}
-    className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
-    onChange={(e) => setDisPrices(e.target.value)}
-    placeholder="20% off"
-/>
-</div>
+                                            <label className="pb-2">
+                                                Price(Off)<span className="text-[#df3030]">*</span>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                name="disPrices"
+                                                value={disPrices}
+                                                className="mt-1 w-40 block  px-3 h-[35px] border border-[#adabab] rounded-md focus:outline-none focus:ring-[red] focus:border-[#009DF8] "
+                                                onChange={(e) => setDisPrices(e.target.value)}
+                                                placeholder="20% off"
+                                            />
+                                        </div>
                                         <div className='mt-4'>
                                             <Button className='' onClick={handleSubmit}>Upload</Button>
                                             {isLoading && <Loader />}
@@ -354,11 +356,12 @@ Price(Off)<span className="text-[#df3030]">*</span>
                                 <thead className="">
                                     <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
                                         <th className="w-1/12">Select</th>
-                                        <th className="w-1/12">Time </th>
+                                        <th className="w-1/12 ml-5">Time </th>
                                         <th className="w-2/12">Des</th>
-                                        <th className="w-2/12">copy</th>
+                                        <th className="w-[14%]">Copy</th>
                                         <th className="w-2/12">Price</th>
-                                        <th className="w-2/12">Image</th>
+                                        <th className="w-2/12">Image11</th>
+                                        <th className="w- ml-28">Action</th>
 
                                     </tr>
                                 </thead>
@@ -388,8 +391,8 @@ Price(Off)<span className="text-[#df3030]">*</span>
                                                         </td>
                                                     </React.Fragment>
                                                 ))}
-                                               
-                                                <td className="flex gap-2  items-center">
+
+                                                <td className="flex gap-2 ml-20 items-center">
                                                     <button style={{ backgroundColor: '#009DF8', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => handleEdit(index)}><EditIcon className='text-white ml-2' /></button>
                                                     <button style={{ backgroundColor: '#ff6666', border: 'none', borderRadius: '4px', padding: '8px', cursor: 'pointer' }} onClick={() => deleteData(item._id)}><DeleteIcon className='text-white' /></button>
                                                 </td>
@@ -416,7 +419,7 @@ Price(Off)<span className="text-[#df3030]">*</span>
                         <TextField label="Copy" type='text' name="copy" value={editData.copy} onChange={handleEditInputChange} className='mb-3' />
                         <TextField label="Price" type='text' name="disPrices" value={editData.disPrices} onChange={handleEditInputChange} className='mb-3' />
                         <TextField label="Bg-Color" type='text' name="bg" value={editData.bg} onChange={handleEditInputChange} className='mb-3' />
-                        
+
                     </form>
                 </DialogContent>
                 <DialogActions>
@@ -429,4 +432,4 @@ Price(Off)<span className="text-[#df3030]">*</span>
     );
 };
 
-export default Blog;      
+export default Coupons;      

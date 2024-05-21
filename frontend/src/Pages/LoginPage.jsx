@@ -119,7 +119,7 @@ const LoginPage = () => {
 
 
         <Typography
-          endDecorator={<Link to={'/register'} className='underline text-blue-500'>Sign up</Link>}
+          endDecorator={<Link to={'/register'} className='underline text-blue-500 hover:text-[#009DF8]'>Sign up</Link>}
           fontSize="sm"
           sx={{ alignSelf: 'center' }}
         >

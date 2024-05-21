@@ -16,9 +16,6 @@ const PayNow = () => {
     };
 
 // 
-
-
-
     const redirectToKhalti = (response) => {
       if (response && response.payment_url) {
         window.location = response.payment_url;
