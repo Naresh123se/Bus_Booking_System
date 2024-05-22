@@ -4,7 +4,6 @@ import AIndex from './AIndex.jsx'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useAddbusMutation, useGetbusMutation, useEditbusMutation, useDeletebusMutation } from '../slices/bus.js';
@@ -17,14 +16,10 @@ const Bus = () => {
   const [editData, setEditData] = useState({});
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
-
   const [addbus, {isLoading}] = useAddbusMutation();
   const [getbus] = useGetbusMutation();
   const [editbus] = useEditbusMutation(); // Hook for editing schedule
   const [deleteSchedule] = useDeletebusMutation(); // Hook for deleting schedule
-
-
-
   const [name1, setName1] = useState('');
   const [region1, setRegion1] = useState('');
   const [lot, setLot] = useState('');
@@ -32,8 +27,6 @@ const Bus = () => {
   const [alphabet, setAlphabet] = useState('');
   const [capacity, setCapacity] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
-
-
 
   useEffect(() => {
     fetchData(); // Fetch data when the component mounts
@@ -44,7 +37,6 @@ const Bus = () => {
       const result = await getbus();
       const newData = result.data.data;
       
-
       console.log("Original data:", newData); // Log the original data
 
       // Create a copy of the newData array and then reverse it
@@ -148,16 +140,12 @@ const Bus = () => {
     }));
   };
 
-  // console.log(editData);
-
   const handleEdit = (index) => {
     setEditIndex(index);
     console.log(editIndex);
     setEditData(data[index]);
     setOpenEditDialog(true);
   };
-
-
 
   const handleEditSubmit = async () => {
     try {
@@ -185,7 +173,6 @@ const Bus = () => {
     }
   };
 
-
   const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
       setSelectedItems([...selectedItems, id]);
@@ -194,14 +181,12 @@ const Bus = () => {
     }
   };
 
-
   const handleDeleteSelected = async () => {
     try {
       if (selectedItems.length === 0) {
         throw new Error('Please select at least one item to delete.');
       }
 
-      // Loop through each selected item and delete it
       await Promise.all(selectedItems.map(async (id) => {
         const response = await deleteSchedule(id);
         if (response.error) {
@@ -226,15 +211,6 @@ const Bus = () => {
     }
   };
 
-
-
-
-  const navigate = useNavigate();
-
-
-
-
-
   return (
     <>
       <div className='flex   overflow-hidden w-full'>
@@ -246,7 +222,6 @@ const Bus = () => {
           <div style={{}}>
             <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
               Buses
-              
               <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
               <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
             </div>
@@ -277,7 +252,6 @@ const Bus = () => {
                                                 multiple
                                                 onChange={handleImageChange}
                                             />
-
                                             <br />
                                             <div className="w-full flex items-center flex-wrap">
                                                 {selectedImages.map((i, index) => (
@@ -289,57 +263,32 @@ const Bus = () => {
                                                     />
                                                 ))}
                                             </div>
-
-
                                         </div>
-                                        <div>
-
-                                      
+                                        <div>  
                   <div className="flex gap-5 border-[#4a81da] border  rounded  xl p-1">
-
                     <div className="">
-
                       <div className="row">
                         <select type="text" className=" border rounded-lg" name="region1" required value={region1} onChange={(e) => setRegion1(e.target.value)}>
                           <option value="" selected="selected">-- Region --</option>
                           <option value="लुम्बिनी प्रदेश">लुम्बिनी प्रदेश</option>
-
                           <option value="कर्णाली प्रदेश">कर्णाली प्रदेश</option>
-
                           <option value="बागमती प्रदेश">बागमती प्रदेश</option>
-
                           <option value="गण्डकी प्रदेश">गण्डकी प्रदेश</option>
-
                           <option value="मधेश प्रदेश">मधेश प्रदेश</option>
-
                           <option value="प्रदेश ३">प्रदेश ३</option>
-
                           <option value="प्रदेश ६">प्रदेश ६</option>
-
                           <option value="प्रदेश २">प्रदेश २</option>
-
                           <option value="सुप.प्र">सुप.प्र</option>
-
                           <option value="बा">बा</option>
-
                           <option value="लु">लु</option>
-
                           <option value="रा">रा</option>
-
                           <option value="भे">भे</option>
-
                           <option value="ना">ना</option>
-
                           <option value="से">से</option>
-
                           <option value="मा">मा</option>
-
                           <option value="ग">ग</option>
-
                           <option value="ध">ध</option>
-
                           <option value="स">स</option>
-
                           <option value="ज">ज</option>
                         </select>
                       </div>
@@ -351,75 +300,41 @@ const Bus = () => {
                       <select className="form-control border rounded-lg" name="alphabet" required value={alphabet} onChange={(e) => setAlphabet(e.target.value)}>
                         <option value="" selected="selected">-- Alphabet --</option>
                         <option value="क">क</option>
-
                         <option value="ख">ख</option>
-
                         <option value="ग">ग</option>
-
                         <option value="घ">घ</option>
-
                         <option value="ङ">ङ</option>
-
                         <option value="च">च</option>
-
                         <option value="छ">छ</option>
-
                         <option value="ज">ज</option>
-
                         <option value="झ">झ</option>
-
                         <option value="ञ">ञ</option>
-
                         <option value="ट">ट</option>
-
                         <option value="ठ">ठ</option>
-
                         <option value="ड">ड</option>
-
                         <option value="ढ">ढ</option>
-
                         <option value="ण">ण</option>
 
                         <option value="त">त</option>
-
                         <option value="थ">थ</option>
-
                         <option value="द">द</option>
-
                         <option value="ध">ध</option>
-
                         <option value="न">न</option>
-
                         <option value="प">प</option>
-
                         <option value="फ">फ</option>
-
                         <option value="ब">ब</option>
-
                         <option value="भ">भ</option>
-
                         <option value="म">म</option>
-
                         <option value="य">य</option>
-
                         <option value="र">र</option>
-
                         <option value="ल">ल</option>
-
                         <option value="व">व</option>
-
                         <option value="श">श</option>
-
                         <option value="ष">ष</option>
-
                         <option value="स">स</option>
-
                         <option value="ह">ह</option>
-
                         <option value="क्ष">क्ष</option>
-
                         <option value="त्र">त्र</option>
-
                         <option value="ज्ञ">ज्ञ</option>
                       </select>
                     </div>
@@ -434,12 +349,9 @@ const Bus = () => {
 <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add </Button>
 {isLoading && <Loader />}
 </div>
-
-
                 </form>
               </div>
             )}
-
             <div>
               <table className="min-w-full   ">
                 <thead className="">
@@ -448,7 +360,6 @@ const Bus = () => {
                     <th className="w-[10%]">BusName</th>
                     <th className="w-[14%]">SeatCapacity</th>
                     <th className="w-[12%]">Lot</th>
-                    {/* <th className="w-[12%]">Lot</th> */}
                     <th className="w-[15%]">Number</th>
                     <th className="w-[11%]">Alphabet</th>
                     <th className="w-[20%]">Region</th>

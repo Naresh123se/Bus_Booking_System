@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Mobile from '../Directions/Mobile.jsx'
+import Skeleton from '../Directions/Skeleton.jsx'
 import AllFilter from '../Booking/AllFilter.jsx'
 
 
-import { useSelseatMutation, useGetseatMutation } from '../slices/seat';
+
 import { useGetScheduleMutation } from '../slices/busSchedules.js';
-import { faDivide } from '@fortawesome/free-solid-svg-icons';
+
 import Groups2Icon from '@mui/icons-material/Groups2';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -19,12 +19,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import dayjs from 'dayjs';
 
 import Swal from 'sweetalert2';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 
-import MuiInput from '@mui/material/Input';
 
 
 
@@ -56,12 +51,10 @@ const Booking = () => {
   const [getSchedule] = useGetScheduleMutation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showData, setShowData] = useState(false);
-  // const [Getseat] = useGetseatMutation();
+  const [selectedCountry, setSelectedCountry] = useState('in'); // Default to India
+
   const [Getseat] = useGetTicketMutation();
-  const toggleVisibility = () => {
-    setShowData(!showData);
-  };
+ 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDate(new Date());
@@ -146,12 +139,12 @@ const Booking = () => {
 
 
   // time
-  const time = { hour: 'numeric', hour12: false }
-  const Time = currentTime.toLocaleTimeString(undefined, time);
+
+
 
   const time2 = new Date(currentTime);
   time2.setTime(time2.getTime() + (1 * 60 * 60 * 1000));
-  const two = time2.toLocaleTimeString(undefined, time);
+
 
 
 
@@ -166,11 +159,7 @@ const Booking = () => {
   }, []);
 
 
-  const [showData1, setShowData1] = useState(false);
 
-  const toggleVisibility1 = () => {
-    setShowData(!showData);
-  };
 
 
   const dispatch = useDispatch();
@@ -207,7 +196,7 @@ const Booking = () => {
 
   const [selectedValue, setSelectedValue] = React.useState('a');
 
-  const today = new Date();
+
 
 
   const [fromLocation, setFromLocation] = useState('');
@@ -220,7 +209,7 @@ const Booking = () => {
 
   useEffect(() => {
     loadGoogleMapsScript();
-  }, []);
+  }, [selectedCountry]);
 
   const switchLocations = () => {
     const tempLocation = fromLocation;
@@ -231,7 +220,6 @@ const Booking = () => {
   const switchArrowDirection = () => {
     setArrowDirection(arrowDirection === 'right' ? 'left' : 'right');
   };
-
 
   const loadGoogleMapsScript = () => {
     const script = document.createElement('script');
@@ -244,26 +232,28 @@ const Booking = () => {
 
   const initAutocomplete = () => {
     const fromAutocomplete = new window.google.maps.places.Autocomplete(
-      document.getElementById('fromLocation')
+        document.getElementById('fromLocation'),
+        { componentRestrictions: { country: selectedCountry } }
     );
     const toAutocomplete = new window.google.maps.places.Autocomplete(
-      document.getElementById('toLocation')
+        document.getElementById('toLocation'),
+        { componentRestrictions: { country: selectedCountry } }
     );
 
     fromAutocomplete.addListener('place_changed', () => {
-      const place = fromAutocomplete.getPlace();
-      setFromLocation(place.formatted_address);
+        const place = fromAutocomplete.getPlace();
+        setFromLocation(place.formatted_address);
     });
 
     toAutocomplete.addListener('place_changed', () => {
-      const place = toAutocomplete.getPlace();
-      setToLocation(place.formatted_address);
+        const place = toAutocomplete.getPlace();
+        setToLocation(place.formatted_address);
     });
 
     // Handle Enter key press for searching places
     document.getElementById('fromLocation').addEventListener('keydown', handleEnterKeyPress);
     document.getElementById('toLocation').addEventListener('keydown', handleEnterKeyPress);
-  };
+};
 
   const handleEnterKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -271,11 +261,16 @@ const Booking = () => {
       event.target.blur(); // Remove focus from the text field
     }
   };
+
+  
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+};
+
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
 
   };
-
 
 
   const submitHandler = async (e) => {
@@ -361,8 +356,6 @@ const Booking = () => {
     }
   }, []);
 
-  const [placeFilter, setPlaceFilter] = useState([]);
-  const [dateFilter, setDateFilter] = useState([]);
 
   useEffect(() => {
     const fetchSchedules = async () => {
@@ -501,36 +494,39 @@ const Booking = () => {
         <div>
           {/*radio button */}
           <div className='  shadow-lg ml-24  mt-4   pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
-            <div>
-              <Radio
+          <div className='flex sm:grid sm:w-full'>
+                    <div className='flex items-center'>
+                        <Radio
+                            checked={selectedValue === 'a'}
+                            onChange={handleChange}
+                            value="a"
+                            name="radio-buttons"
+                            inputProps={{ 'aria-label': 'A' }}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                        />
+                        <p className='sm:text-[14px]'>One Way</p>
+                    </div>
+                    <div className='flex items-center'>
+                        <Radio
+                            checked={selectedValue === 'b'}
+                            onChange={handleChange}
+                            value="b"
+                            name="radio-buttons"
+                            inputProps={{ 'aria-label': 'B' }}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                        />
+                        <p className='sm:text-[14px]'>Round Trip</p>
+                    </div>
 
-                checked={selectedValue === 'a'}
-                onChange={handleChange}
-                value="a"
-                name="radio-buttons"
-                inputProps={{ 'aria-label': 'A' }}
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 28,
-                  },
-                }}
-              />
-              One Way
-              <Radio
-                checked={selectedValue === 'b'}
-                onChange={handleChange}
-                value="b"
-                name="radio-buttons"
-                inputProps={{ 'aria-label': 'B' }}
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 28,
-                  },
-                }}
-              />
-
-              Round Trip
-            </div>
+                     {/* Country Selection */}
+                <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
+                    <label htmlFor="country">Select Country: </label>
+                    <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                        <option value="in">India</option>
+                        <option value="np">Nepal</option>
+                    </select>
+                </div>
+                </div>
 
 
             {/* location */}
@@ -700,7 +696,7 @@ const Booking = () => {
           <div>
             {loading ? (
               // Show loader while waiting for data
-              <Mobile />
+              <Skeleton />
             ) : (
               // Show data or no data message based on availability
               <div>

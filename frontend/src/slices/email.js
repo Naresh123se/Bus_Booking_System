@@ -26,6 +26,6 @@ export const email = apiSlice.injectEndpoints({
 export const {
 //   useInitiatePaymentMutation,
   useCancelMailMutation,
-  useCancelMutation,
-//   useConfirmationMutation,
+  useCancelMutation
+
 } = email;

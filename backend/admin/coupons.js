@@ -74,8 +74,8 @@ const deleteCoupons = asyncHandler(async (req, res) => {
     const { id } = req.params;
     // Log the received ID to inspect its format
     console.log("ID:", id);
-    const blog = await Coupons.findById(id);
-    if (!blog) {
+    const coupons = await Coupons.findById(id);
+    if (!coupons) {
       return res.status(404).json({ message: "Coupons not found" });
     }
     await Coupons.deleteOne();

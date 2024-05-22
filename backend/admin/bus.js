@@ -23,7 +23,6 @@ const Buses = asyncHandler(async (req, res) => {
       } else {
         images = req.body.selectedImages;
       }
-
       // Now uploading the images to the cloudinary
       const imagesLinks = [];
       for (let i = 0; i < images.length; i++) {
@@ -42,8 +41,6 @@ const Buses = asyncHandler(async (req, res) => {
       }
       console.log("image upload successful");
       // Creating the Post
-   
-    // console.log('Selected Seats:', selectedSeats);
     const bus = await Bus.create({
       name1,
       region1,
@@ -52,7 +49,6 @@ const Buses = asyncHandler(async (req, res) => {
       alphabet,
       capacity,
       selectedImages: imagesLinks,
-
     });
   }
 
@@ -81,11 +77,10 @@ const busget = asyncHandler(async (req, res) => {
 });
 
 
-// dell
+// del
 const deleteBus = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-
     // Log the received ID to inspect its format
     console.log("ID:", id);
 
@@ -97,7 +92,6 @@ const deleteBus = asyncHandler(async (req, res) => {
 
     // Delete the schedule object
     await schedule.deleteOne();
-
     res.status(200).json({ message: 'Schedule deleted successfully' });
   } catch (error) {
     console.error("Error deleting schedule:", error);
@@ -107,12 +101,10 @@ const deleteBus = asyncHandler(async (req, res) => {
 
 
 //edit
-
 const updateBus= asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const { name1 ,capacity,  region1, lot, number, alphabet } = req.body;
-    
     const bus = await Bus.findById(id);
     if (!bus) {
       return res.status(404).json({ message: 'Schedule not found' });
@@ -123,9 +115,7 @@ const updateBus= asyncHandler(async (req, res) => {
     bus.number = number;
     bus.alphabet = alphabet;
     bus.capacity = capacity;
-   
     await bus.save();
-
     res.status(200).json({ message: 'Schedule updated successfully', data: bus });
   } catch (error) {
     console.error("Error updating bus:", error);
@@ -139,7 +129,6 @@ const totalBuses = asyncHandler(async (req, res) => {
   try {
     // Fetch the count of documents in the User collection
     const count = await Bus.countDocuments();
-
     // Send the count as JSON response
     res.status(200).json({ count });
   } catch (error) {
@@ -148,7 +137,5 @@ const totalBuses = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Failed to count users", error: error.message });
   }
 });
-
-
 
 export { Buses, busget, updateBus, deleteBus, totalBuses };

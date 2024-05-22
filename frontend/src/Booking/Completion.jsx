@@ -83,7 +83,7 @@ const [confirm] = useConfirmationMutation();
       `
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate('/ticket') // Redirect to the home page
+        navigate('/ticket') 
       }
     });
   };

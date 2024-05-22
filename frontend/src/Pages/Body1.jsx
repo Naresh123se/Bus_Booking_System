@@ -21,8 +21,6 @@ const Body1 = () => {
     </div>
    
    </div>
-
-
   )
 }
 

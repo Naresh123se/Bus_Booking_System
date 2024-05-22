@@ -27,6 +27,8 @@ export const ticket = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+  
    
   }),
 });
@@ -35,5 +37,6 @@ export const {
   useTicketMutation,
   useGetTicketMutation,
   useTotalTicketsMutation,
+
 
 } = ticket;

@@ -1,11 +1,9 @@
 import * as React from 'react';
 import SearchBar from './SearchBar';
 import Offers from '../Booking/Offers.jsx';
-import { useNavigate } from 'react-router-dom';
 import Blog from '../Pages/Blogg.jsx';
 import Body1 from './Body1.jsx';
 const IndexPage = () => {
-  const navigate = useNavigate();
 
   return (
     <>

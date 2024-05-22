@@ -398,7 +398,7 @@ const Blog = () => {
 
                                                 <td className="w-36 ml-20" style={{ fontSize: '1.2rem', color: '#555' }}>
                                                     {typeof item.blogText === 'string' ? (
-                                                        <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText, 6)}</div>` }} />
+                                                        <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText,5)}</div>` }} />
                                                     ) : (
                                                         item.blogText
                                                     )}

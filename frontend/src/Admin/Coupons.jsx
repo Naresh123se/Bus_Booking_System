@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import AIndex from './AIndex.jsx'
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import {
@@ -29,7 +27,6 @@ const Coupons = () => {
     const [editData, setEditData] = useState({});
     const [showAddPanel, setShowAddPanel] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-
     // Hook
     const [addCoupons, { isLoading }] = useAddCouponsMutation();
     const [getCoupons] = useGetCouponsMutation();
@@ -37,7 +34,7 @@ const Coupons = () => {
     const [editCoupons] = useEditCouponsMutation();
 
     useEffect(() => {
-        fetchData(); // Fetch data when the component mounts
+        fetchData(); 
     }, []);
 
     const fetchData = async () => {
@@ -56,17 +53,11 @@ const Coupons = () => {
         }
     };
 
-
-
     const handleImageChange = (e) => {
-
         const files = Array.from(e.target.files);
-
         setSelectedImages([]);
-
         files.forEach((file) => {
             const reader = new FileReader();
-
             reader.onload = () => {
                 if (reader.readyState === 2) {
                     setSelectedImages((old) => [...old, reader.result]);
@@ -83,10 +74,8 @@ const Coupons = () => {
         selectedImages.forEach((image, index) => {
             data.append(`selectedImages[${index}]`, image);
         });
-        // data.append('place', place);
 
         try {
-
             const response = await addCoupons({ description, time, selectedImages, copy, disPrices, bg });
             console.log(response);
             if (response.data.success) {
@@ -102,7 +91,6 @@ const Coupons = () => {
                 toast.error('Failed to add Coupons' || error.message);
             }
         } catch (error) {
-
             toast.error(error.message || 'An error occurred while adding the Coupons');
         }
     };
@@ -211,15 +199,13 @@ const Coupons = () => {
             toast.error(error.message || 'Failed to delete Coupons');
         }
     };
-    const navigate = useNavigate();
     return (
         <>
             <div className='flex   overflow-hidden w-full'>
                 <div>
                     <AIndex />
                 </div>
-
-                <div className='  w-full'>
+                <div className='w-full'>
                     <div style={{}}>
                         <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 flex justify-between'>
                             Coupons
@@ -227,22 +213,17 @@ const Coupons = () => {
                                 <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button>
                                 <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button>
                             </div>
-
                         </div>
                         {showAddPanel && (
                             <div className="bg-white ml-10">
                                 <div className='flex justify-between'>
-
                                     <h1 className='text-lg'>Add Coupons</h1>
                                     <button className='mr-5' onClick={() => setShowAddPanel(false)}><CancelOutlinedIcon sx={{ color: 'red' }} /></button>
                                 </div>
 
                                 <form onSubmit={handleSubmit} className="flex flex-col ">
-
                                     <div className='flex gap-5 mt-1'>
-
                                         <div>
-
                                             <label className="pb-2">
                                                 Time <span className="text-[#df3030]">*</span>
                                             </label>
@@ -256,7 +237,6 @@ const Coupons = () => {
                                             />
                                         </div>
                                         <div>
-
                                             <label className="pb-2">
                                                 Description<span className="text-[#df3030]">*</span>
                                             </label>
@@ -270,7 +250,6 @@ const Coupons = () => {
                                             />
                                         </div>
                                         <div>
-
                                             <label className="pb-2">
                                                 Copy <span className="text-[#df3030]">*</span>
                                             </label>
@@ -284,7 +263,6 @@ const Coupons = () => {
                                             />
                                         </div>
                                         <div>
-
                                             <label className="pb-2">
                                                 Bg-color <span className="text-[#df3030]">*</span>
                                             </label>
@@ -297,12 +275,10 @@ const Coupons = () => {
                                                 placeholder="red...."
                                             />
                                         </div>
-
-                                        <div className=" ">
+                                        <div>
                                             <label className="pb-2  w-40 block">
                                                 Images <span className="text-[#df3030]">*</span>
                                             </label>
-
                                             <input
                                                 className='w-52'
                                                 type="file"
@@ -311,7 +287,6 @@ const Coupons = () => {
                                                 multiple
                                                 onChange={handleImageChange}
                                             />
-
                                             <br />
                                             <div className="w-full flex items-center flex-wrap">
                                                 {selectedImages.map((i, index) => (
@@ -323,12 +298,8 @@ const Coupons = () => {
                                                     />
                                                 ))}
                                             </div>
-
-
                                         </div>
-
                                         <div>
-
                                             <label className="pb-2">
                                                 Price(Off)<span className="text-[#df3030]">*</span>
                                             </label>
@@ -350,7 +321,6 @@ const Coupons = () => {
 
                             </div>
                         )}
-
                         <div>
                             <table className="min-w-full   ">
                                 <thead className="">
@@ -362,10 +332,8 @@ const Coupons = () => {
                                         <th className="w-2/12">Price</th>
                                         <th className="w-2/12">Image11</th>
                                         <th className="w- ml-28">Action</th>
-
                                     </tr>
                                 </thead>
-
                                 <tbody className='  ' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                                     <div className='h-[78.5vh]  overflow-y-auto  w-full'>
 
@@ -374,9 +342,6 @@ const Coupons = () => {
                                                 <td className=" flex w-28 ml-12 items-center">
                                                     <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                                                 </td>
-
-                                                {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.selectedImages.url}</td> */}
-
                                                 <td className="w-40" style={{ fontSize: '1.2rem', color: '#555' }}>{item.time}</td>
                                                 <td className="w-56" style={{ fontSize: '1.2rem', color: '#555' }}>{item.description}</td>
                                                 <td className="w-56" style={{ fontSize: '1.2rem', color: '#555' }}>{item.copy}</td>
@@ -419,7 +384,6 @@ const Coupons = () => {
                         <TextField label="Copy" type='text' name="copy" value={editData.copy} onChange={handleEditInputChange} className='mb-3' />
                         <TextField label="Price" type='text' name="disPrices" value={editData.disPrices} onChange={handleEditInputChange} className='mb-3' />
                         <TextField label="Bg-Color" type='text' name="bg" value={editData.bg} onChange={handleEditInputChange} className='mb-3' />
-
                     </form>
                 </DialogContent>
                 <DialogActions>
@@ -427,7 +391,6 @@ const Coupons = () => {
                     <Button onClick={handleEditSubmit}>Save</Button>
                 </DialogActions>
             </Dialog>
-
         </>
     );
 };

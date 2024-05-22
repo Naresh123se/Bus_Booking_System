@@ -2,190 +2,199 @@ import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2';
 import QRCode from 'qrcode.react';
-import { useGetTicketMutation } from '../slices/ticket'
-import { useCancelMailMutation } from '../slices/email'
+import { useGetTicketMutation } from '../slices/ticket';
+import { useCancelMailMutation, useCancelMutation} from '../slices/email';
 import Button from '@mui/joy/Button';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
+import Loader from '../Directions/Loader';
+
 const CancelTicket = () => {
-    const [date, setDate] = useState()
-    const [ticket1, setTicket1] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [tickets, setTickets] = useState([]);
-    const [tick, setTick] = useState([]);
-    const [final, setFinal] = useState([]);
-    const [p, setP] = useState([]);
-    const [cal, setCal] = useState([]);
-    const [bus, setBus] = useState([]);
-    const [se, setSe] = useState([]);
-    const [busId, setBusId] = useState([]);
-    const [getTicket] = useGetTicketMutation();
-    const [isOpen, setIsOpen] = useState(false);
-    const [noRecord, setNoRecord] = useState(false);
-    const [emailCancel] = useCancelMailMutation();
+  const [date, setDate] = useState();
+  const [ticket1, setTicket1] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [tickets, setTickets] = useState([]);
+  const [tick, setTick] = useState([]);
+  const [final, setFinal] = useState([]);
+  const [p, setP] = useState([]);
+  const [cal, setCal] = useState([]);
+  const [bus, setBus] = useState([]);
+  const [se, setSe] = useState([]);
+  const [busId, setBusId] = useState([]);
+  const [getTicket] = useGetTicketMutation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [noRecord, setNoRecord] = useState(false);
+  const [emailCancel, {isLoading}] = useCancelMailMutation();
+  const [cancelTicket] = useCancelMutation();
+  const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
+  const userData = JSON.parse(storedValue);
+  const userName = userData.displayName || userData.name;
+  const email = userData.email || userData.email;
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchLocalData = () => {
+      const today = new Date();
+      today.setDate(today.getDate() + 1);
+      const localData = today.toISOString().split('T')[0];
+      setDate(localData);
+    };
+    fetchLocalData();
+  }, []);
 
-    const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
-    const userData = JSON.parse(storedValue);
-    const userName = userData.displayName || userData.name;
-    const email = userData.email || userData.email;
-    const id = userData._id || userData._id;
+  const fetchAndFilterTickets = async (event) => {
+    event.preventDefault();
+    setIsOpen(false);
+    setNoRecord(false);
+    try {
+      const response = await getTicket();
+      console.log(response);
+      const tickets = response.data.tickets;
+      setTickets(tickets);
+      const filteredTickets = tickets.filter(ticket => {
+        return ticket.ticketNum === ticket1 && ticket.contact.phoneNumber === mobile && ticket.SchId.calender === date;
+      });
+      setBusId(filteredTickets);
+      if (filteredTickets.length > 0) {
+        const ticket = filteredTickets[0];
+        setTick(ticket.ticketNum);
+        setSe(ticket.seat);
+        setP(ticket.finalprice.totalPrice);
+        setCal(ticket.SchId.calender);
+        setBus(ticket.BusNumber);
+        setFinal(filteredTickets);
+        setIsOpen(true);
+      } else {
+        setNoRecord(true);
+      }
+    } catch (error) {
+      console.error('Error fetching or filtering tickets:', error);
+    }
+  };
+
+  const passengerData = {
+    name: userName,
+    email: email,
+    Ticket: tick,
+    Seat: se,
+    Price: p,
+    Date: cal,
+    BusNumber: bus,
+  };
+
+  const formattedData = Object.entries(passengerData)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('\n');
+
+  const CancelNow = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Cancel it!"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        // await deleteTicket(id);
+        await emailCancel({ email, cal, se, p, tick, userName, bus }).unwrap();
+        Swal.fire({
+          title: "Canceled!",
+          text: "Your Ticket has been canceled.",
+          icon: "success"
+        }).then(() => { // Corrected arrow function syntax
+          navigate('/');
+        });
+      } catch (error) {
+        console.error(error);
+        // Uncomment this line to display an error message
+        // toast.error(error?.response?.data?.message || "An error occurred while canceling the ticket.");
+      }
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      // Handle cancel action if needed
+    }
+    
+  };
+
+  const deleteTicket = async (id) => {
+    try {
+      console.log("Deleting ticket with ID:", id);
+      const response = await cancelTicket(id);
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to delete Ticket');
+      }
+      // Update local state to remove the deleted ticket
+      setTickets(prevTickets => prevTickets.filter(item => item._id !== id));
+      // toast.success('Ticket deleted successfully');
+    } catch (error) {
+      console.error('Failed to delete Ticket:', error);
+      toast.error(error.message || 'Failed to delete Ticket');
+    }
+  };
   
-    console.log('User name:', userName);
   
 
-    useEffect(() => {
-        const fetchLocalData = () => {
-            // Assuming 'localData' is the data you want to fetch
-            const today = new Date();
-            today.setDate(today.getDate() + 1);
-            const localData = today.toISOString().split('T')[0];
-
-            setDate(localData)
-        };
-        fetchLocalData()
-    }, []);
-
-
-   
-
-    const fetchAndFilterTickets = async (event) => {
-        event.preventDefault();
-        setIsOpen(false);
-        setNoRecord(false);
-        try {
-          const response = await getTicket();
-          console.log(response);
-          const tickets = response.data.tickets;
-          setTickets(tickets);
-   
-    
-          console.log(ticket1)
-          const filteredTickets = tickets.filter(ticket => {
-            return ticket.ticketNum === ticket1 && ticket.contact.phoneNumber === mobile && ticket.SchId.calender ===date;
-          });
-    
-          // console.log(filteredTickets[0].SchId._id)
-          setBusId(filteredTickets);
-          console.log(busId)
-    
-          if (filteredTickets.length > 0) {
-            const ticket = filteredTickets[0];
-            setTick(ticket.ticketNum);
-            setSe(ticket.seat);
-            setP(ticket.finalprice.totalPrice);
-            setCal(ticket.SchId.calender);
-            setBus(ticket.BusNumber);
-            setFinal(filteredTickets);
-            setIsOpen(true);
-          } else {
-            setNoRecord(true);
-          }
-        } catch (error) {
-          console.error('Error fetching or filtering tickets:', error);
-        }
-      };
-      const passengerData = {
-        name: userName,
-        email: email,
-        Ticket: tick,
-        Seat: se,
-        Price: p,
-        Date: cal,
-        BusNumber: bus,
-      };
-      
-      const formattedData = Object.entries(passengerData)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n');
-  
-      
-      
-        
-        const CancelNow = async () => {
-          const result = await Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Cancel it!"
-          });
-      
-          if (result.isConfirmed) {
-            try {
-              await emailCancel({ email,cal,se,p,tick,userName,bus}).unwrap();
-              
-            } catch (error) {
-              console.error(error);
-              toast.error(error?.response?.data?.message || "An error occurred while canceling the ticket.");
-            }
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            // Handle cancel action
-            console.log('Cancellation canceled');
-          }
-        };
-      
-      
-    
-    return (
-        <>
-            <div className='ml-60 mt-3 '>
-                <div className=''>
-                    <h1 className='font-semibold text-[20px]'>Search Ticket</h1>
-                </div>
-                <h3 className='text-[#9e7171] '>Note: Please be advised that tickets for today's trip date cannot be canceled</h3>
-                <div className=' w-full gap-5 mt-1 flex '>
-                <form onSubmit={fetchAndFilterTickets} className='flex gap-2 mt-1'>
-                    <div>
-                        <h2>Ticket Number</h2>
-                        <TextField
-                            label="Ticket Number..."
-                            name="textInput"
-                            type='text'
-                            placeholder='Your ticket number'
-                            size='small'
-                            required={true}
-                            value={ticket1}
-                            onChange={(e) => setTicket1(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <h2>Mobile Number</h2>
-                        <TextField
-                            label="Mobile Number..."
-                            name="textInput"
-                            type='number'
-                            placeholder='Your mobile number'
-                            size='small'
-                            required={true}
-                            value={mobile}
-                            onChange={(e) => setMobile(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <h2>Trip Date</h2>
-                        <TextField type="date"
-                            size='small'
-                            required={true}
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            // inputProps={{ min: date1 }}
-                        />
-                    </div>
-                    <div className='mt-7 '>
-                    <Button type='submit' > Search</Button>
-                    </div>
-                    </form>
-                </div>
+  return (
+    <>
+      <div className='ml-60 mt-3 '>
+        <div className=''>
+          <h1 className='font-semibold text-[20px]'>Search Ticket</h1>
+          {isLoading && <Loader />}
+        </div>
+        <h3 className='text-[#9e7171] '>Note: Please be advised that tickets for today's
+        trip date cannot be canceled</h3>
+        <div className='w-full gap-5 mt-1 flex '>
+          <form onSubmit={fetchAndFilterTickets} className='flex gap-2 mt-1'>
+            <div>
+              <h2>Ticket Number</h2>
+              <TextField
+                label="Ticket Number..."
+                name="textInput"
+                type='text'
+                placeholder='Your ticket number'
+                size='small'
+                required={true}
+                value={ticket1}
+                onChange={(e) => setTicket1(e.target.value)}
+              />
             </div>
-
-
-            {noRecord &&
-        <div className='grid  justify-center mt-40'>
-          <div className='ml-5' > <img src="Seat.svg" alt="logo" /></div>
-          <div className=''>
-            <p className='font-bold text-[20px] '>Oops! No Ticket found.</p>
+            <div>
+              <h2>Mobile Number</h2>
+              <TextField
+                label="Mobile Number..."
+                name="textInput"
+                type='number'
+                placeholder='Your mobile number'
+                size='small'
+                required={true}
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+              />
+            </div>
+            <div>
+              <h2>Trip Date</h2>
+              <TextField
+                type="date"
+                size='small'
+                required={true}
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+            <div className='mt-7 '>
+              <Button type='submit'>Search</Button>
+            </div>
+          </form>
+        </div>
+      </div>
+      {noRecord &&
+        <div className='grid justify-center mt-40'>
+          <div className='ml-5'><img src="Seat.svg" alt="logo" /></div>
+          <div>
+            <p className='font-bold text-[20px]'>Oops! No Ticket found.</p>
             <p className='ml-5'>Oops! No Ticket found.</p>
-
           </div>
         </div>
       }
@@ -201,11 +210,9 @@ const CancelTicket = () => {
                   visibility: visible;
                 }
               }
-
               .ticket-system {
-                max-width:full;
+                max-width: full;
               }
-
               .ticket-system .receipts {
                 width: 100%;
                 display: flex;
@@ -226,7 +233,6 @@ const CancelTicket = () => {
                 border-radius: 10px 10px 20px 20px;
                 box-shadow: 1px 3px 8px 3px rgba(0, 0, 0, 0.2);
               }
-
               .receipts .receipt.qr-code::before {
                 content: '';
                 background: linear-gradient(to right, #fff 50%, #3f32e5 50%);
@@ -240,7 +246,6 @@ const CancelTicket = () => {
                 position: absolute;
                 margin: auto;
               }
-
               @keyframes print {
                 0% {
                   transform: translateY(-510px)
@@ -259,7 +264,7 @@ const CancelTicket = () => {
           </style>
 
           <main className="ticket-system">
-            <div className="flex items-center flex-col mb-14 ml-2 ">
+            <div className="flex items-center flex-col mb-14 ml-2">
               <>
                 <h1 className="text-[#307094] font-medium">{passengerData.name} Your Ticket Here..</h1>
                 <div className="w-[90%] h-3 border-2 border-[#cfc6c6] rounded-lg shadow-md bg-[#009DF8]"></div>
@@ -274,7 +279,7 @@ const CancelTicket = () => {
                         <div className='absolute opacity-20 grid items-center justify-items-end w-[60%]'>
                           <img src="3.svg" alt="logo" className='size-96' />
                         </div>
-                        <div className='flex px-1 '>
+                        <div className='flex px-1'>
                           <div className='w-full'>
                             <p className='text-xl font-semibold text-[#009DF8]'>{ticket.BusName}</p>
                             <div className='flex'>
@@ -286,22 +291,20 @@ const CancelTicket = () => {
                               </div>
                             </div>
                             <div className='flex'>
-                              <p className='pr-5'>Bus No </p>
-
-
-                              <div className='text-[#009DF8]' >
+                              <p className='pr-5'>Bus No</p>
+                              <div className='text-[#009DF8]'>
                                 : {ticket.BusNumber}
                               </div>
                             </div>
-                            <div> <p>{ticket.SchId.bus.name1}</p></div>
+                            <div><p>{ticket.SchId.bus.name1}</p></div>
                           </div>
                           <div>
-                            <div className='grid justify-items-end mb-1 '>
+                            <div className='grid justify-items-end mb-1'>
                               <img src="3n.svg" alt="" className='size-16' />
                               <a href="mailto:merobus3@gmail.com" className='text-[#009DF8] underline'>merobus3@gmail.com</a>
                             </div>
-                            <div className='flex '>
-                              <div className='w-full '>
+                            <div className='flex'>
+                              <div className='w-full'>
                                 <div>Journey Date:</div>
                                 <div>Departure Time:</div>
                               </div>
@@ -364,9 +367,23 @@ const CancelTicket = () => {
                           </div>
                         </div>
                       </div>
+                      <div className='ml-96'>
+                        <Button onClick={() => CancelNow(ticket._id)} style={{ className: 'button' }}>Cancel Ticket</Button>
+
+                        <style>
+                          {`
+                            @media print {
+                              button {
+                                display: none;
+                              }
+                            }
+                          `}
+                        </style>
+                      </div>
                     </div>
                   ))}
                 </div>
+
                 <div className="receipt qr-code h-28 min-h-0 relative rounded-br-lg rounded-bl-lg rounded-tl-lg rounded-tr-lg flex items-center">
                   <div className='ml-10'>
                     <QRCode value={formattedData} />
@@ -374,25 +391,14 @@ const CancelTicket = () => {
                   <div className="description ml-10">
                     <p>Scan the QR code</p>
                   </div>
-                  <div className='ml-96'>
-                    <Button onClick={CancelNow} style={{ className: 'button' }}>Cancel Ticket</Button>
-                    <style>
-                      {`
-                        @media print {
-                          button {
-                            display: none;
-                          }
-                        }
-                      `}
-                    </style>
-                  </div>
                 </div>
               </div>
             </div>
           </main>
         </div>
       )}
-        </>
-    )
-}
-export default CancelTicket
+    </>
+  );
+};
+
+export default CancelTicket;

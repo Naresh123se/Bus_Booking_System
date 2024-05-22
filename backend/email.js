@@ -4,7 +4,7 @@ import express from "express";
 import otherToken from "./utils/generateVerificationToken.js";
 
 dotenv.config();
-const app = express();
+const app = express(); 
 
 const EMAIL_USERNAME = process.env.EMAIL_USERNAME;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
@@ -65,8 +65,7 @@ const sendVerificationEmail = async (email, otherToken) => {
 
       `,
     };
-    
-
+  
     await transporter.sendMail(mailOptions);
     return true; // Return true if email is sent successfully
   } catch (error) {

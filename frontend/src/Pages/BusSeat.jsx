@@ -22,7 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PayNow from '../Booking/PayNow.jsx';
 import { useInitiatePaymentMutation } from '../slices/khalti.js';
 import { useNavigate } from 'react-router-dom';
-import TicketGenerator from '../Directions/Mobile.jsx';
+
 
 const Seat = ({ seatNumber, isBooked, selected, onSelect }) => (
     <button

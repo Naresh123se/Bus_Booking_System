@@ -1,23 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import {useGetBlogMutation} from '../slices/blog'
 import { useNavigate } from 'react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Blog = () => {
 
 
   const [blog] = useGetBlogMutation();
-const [data11, setData11] = useState([ ]);
+  const [data11, setData11] = useState([]);
+  const [data12, setData12] = useState([]);
+
 const navigate = useNavigate();
 
   useEffect(() => {
     fetchData(); // Fetch data when the component mounts
 }, []);
 
+const [id, setId] = useState(null);
 
-const blogDiv = (itemId) => {
-  console.log(itemId)
-  console.log("first")
-  navigate(`/blog?Id=${itemId}`)
-  setOpenItemId(itemId === openItemId ? null : itemId);
+  useEffect(() => {
+    // Get the URL from the address bar
+   
+  }, []); // Run this effect only once, on component mount
+
+
+
+  const truncateText = (text, words) => {
+    const wordArray = text.split(' ');
+    const truncatedText = wordArray.slice(0, words).join(' ');
+    return truncatedText + (wordArray.length > words ? '...' : ''); // Add ellipsis if text is truncated
 };
 
 const fetchData = async () => {
@@ -28,82 +38,116 @@ const fetchData = async () => {
         console.log("Original data:", newData); // Log the original data
         // Create a copy of the newData array and then reverse it
         const reversedData = [...newData].reverse();
-        console.log("Reversed data:", reversedData); // Log the reversed data
-        // Set the reversed data in the state
-        setData11(reversedData);
+        console.log("Reversed data:", reversedData);
+        
+        // Get the URL from the address bar
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Get the value of the "Id" parameter
+        const idFromUrl = urlParams.get('Id');
+        console.log("ID from URL:", idFromUrl);
+        
+        // Find the item in reversedData with the matching ID
+        const filtered = reversedData.filter(item => item._id === idFromUrl);
 
-
+        setData11(filtered);
+        setData12(reversedData);
+        
+        // Log the filtered item for debugging
+        console.log("Filtered item:", filtered);
+        
+        // Assuming setData11 sets the filtered item in some state variable
+      
+        
     } catch (error) {
         console.error('Failed to fetch schedules:', error);
     }
 };
 
   return (
-    <section className="text-gray-600 body-font bg-[#f5f5f5]">
-      <div className=" ml-20 pt-10 pb-10 mt-20 ">
-        <div className="flex flex-wrap  bg-red">
-          {data11.map((card, index) => (
-            <div key={index} className="w-[22%] h-full flex-shrink-0 bg-white shadow-lg rounded-lg overflow-hidden mr-8 ">
-              {/* <img className="w-full h-72 object-cover object-center" src={card.imageUrl} alt="Destinations" /> */}
 
+    <>
+      {data11.map((card, index) => (
 
+        <div key={index} className=" ">
+          
+          <h2 className="text-lg font-medium text-gray-900 ml-44 mb-3 mt-2">{card.title}</h2>
+          <div className="text-base leading-relaxed ml-40 "><AccountCircleIcon sx={{color:'#C5C5C5', fontSize:"40px"}}/> {card.author}</div>
+          <hr className='text-[#d7d2d2]' />
+          <div className='flex gap-16'>
+          <div >
+            <div className=' mt-5 ml-20 h-[460px]   pt-5 pb-5  bg-[#868282]  bg-opacity-15 w-[95%] pl-40 pr-40 rounded-md  '>
+            
+          {card.selectedImages.map((image, imageIndex) => (
+            <img
+              key={imageIndex}
+              src={image.url}
+              alt="Image"
+              sx={{ border:'1px', borderRadius: '25px' }}
+              style={{}}
+              className=" w-full h-full  rounded-3xl object-fill   "
+            />
+          ))}
+          </div>
+          <div className="text-base w-[1030px] ml-[7.5%] mt-3 ">
+          {typeof card.blogText === 'string' ? (
+                                                        <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(card.blogText)}</div>` }} />
+                                                    ) : (
+                                                      card.blogText
+                                                    )}
+          </div>
+        
+         </div>
+          
+          <div className='mt-3 rounded-lg border-[#dad6d6]  bg-[#F1E8DE] w-[20%] h-96 '>
+           <div className=' '>
+          
+            <h1 className=' mb-3 m-2 p-1 text-xl font-semibold '>Recent Posts</h1>
 
-
-              <div className="inline-block overflow-hidden ">
-                {/*  */}
-                <div className="group relative">
+           
+<div className="">
+        <div className=" ">
+          {data12.map((card, index) => (
+            <div key={index} > 
+              <div className=" flex  border-[#d1c2c2] border bg-[#f9eded] m-2">
+                <div className="w-32 p-1 ">
 
                 {card.selectedImages.map((image, index) => (
   <React.Fragment key={index}>
     <td className="" style={{ fontSize: '1.2rem', color: '#555' }}></td>
-    <td className="">
-      <img src={image.url}     alt="Image"
-       className="w-full  object-cover object-center transform rotate-15 scale-1.4 transition-transform duration-300 ease-in-out"
-       style={{ transformOrigin: 'center center', transition: 'transform 0.9s ease-in-out' }}
-       onMouseLeave={(e) => (e.target.style.transform = 'rotate(0) scale(1)')}
-       onMouseEnter={(e) => (e.target.style.transform = 'rotate(15deg) scale(1.4)')}
-      
-      />
+    <td className=" ">
+      <img src={image.url}  alt="Blog Image"
+       className="  object-fill object-center rounded ml-2"
+        />
     </td>
   </React.Fragment>
 ))}
-                  
-                 
-                  {/* <span className="absolute bg-[red] mr- bottom-0 w-32 rounded-ry-lg  text-center text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {card.title}
-          </span> */}
-
-                  <span className="  absolute  bottom-0 m rounded-ry-lg  text-center text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity   w-40 bg-[#b6cbca] pl-2  rounded-tr-[100px] shadow-lg shadow-[#9aa7cb] text-[#0f0f0f] title-font text-lg font-medium text-gray-900 -mb-14">{card.title}</span>
+    
 
                 </div>
-              </div>
+<div className='mt-2'>
+<h2 className=" ml-3 text-lg font-medium ">{card.title}</h2>
+<div className="text-base ml-3">{card.author}</div>
 
-              <div className="p-6 ">
-                <h2 className="text-lg font-medium text-gray-900 mb-3">{card.title}</h2>
-                <p className="text-base leading-relaxed mb-3">{card.description}</p>
-                <div className="flex items-center  justify-between">
-                  {/* <a href="" className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 hover:text-[#009DF8]">Learn More
-                    <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14"></path>
-                      <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                  </a> */}
-                  <button onClick={() => blogDiv(card._id)}>
-                    Learn More
-                  </button>
-                  
-                  <div className=''>
-                <div className="text-base leading-relaxed ">{card.author}</div>
-               
-                  </div>
-                </div>
+</div>
               </div>
+              
             </div>
           ))}
         </div>
       </div>
-     
-    </section>
+
+
+
+
+
+           </div>
+          </div>
+        </div>
+        </div>
+      ))}
+    </>
+    
   );
 };
 

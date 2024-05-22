@@ -3,10 +3,12 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './Pages/Header';
+import Footer from './Pages/Footer';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './slices/authSlice';
 import Header1 from './Admin/Header1';
+import Footer1 from './Admin/AFooter';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -48,8 +50,12 @@ const App = () => {
   return (
     <>
       {isAdmin ? <Header1 /> : <Header />}
+      
       <ToastContainer />
       <Outlet />
+      {isAdmin ? <Footer1 /> : <Footer />}
+  
+  
     </>
   );
 };

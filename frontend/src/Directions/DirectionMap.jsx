@@ -35,16 +35,24 @@ const DirectionMap = () => {
   const [map, setMap] = useState(null);
   const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
-  const [destAutocomplete, setDestAutocomplete] = useState(null);
-  const [sourceAutocomplete, setSourceAutocomplete] = useState(null);
   const [busMarkers, setBusMarkers] = useState([]);
-
+  const [selectedCountry, setSelectedCountry] = useState('in'); // Default to India
+  const [fromLocation, setFromLocation] = useState('');
+  const [toLocation, setToLocation] = useState('');
   useEffect(() => {
     loadGoogleMapsScript();
+  }, [selectedCountry]);
 
 
-  }, []);
+  const switchLocations = () => {
+    const tempLocation = fromLocation;
+    setFromLocation(toLocation);
+    setToLocation(tempLocation);
+  };
 
+  const switchArrowDirection = () => {
+    setArrowDirection(arrowDirection === 'right' ? 'left' : 'right');
+  };
 
   const loadGoogleMapsScript = () => {
     const script = document.createElement('script');
@@ -63,18 +71,60 @@ const DirectionMap = () => {
     setMap(mapInstance);
     setDirectionsService(new window.google.maps.DirectionsService());
     setDirectionsRenderer(new window.google.maps.DirectionsRenderer({ map: mapInstance }));
-    const setDestAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('toLocation'));
-    const setSourceAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('fromLocation'));
 
-    setDestAutocomplete.addListener('place_changed', () => {
-      const place = setDestAutocomplete.getPlace();
-      setToLocation(place.formatted_address);
-    });
+    const fromAutocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById('fromLocation'),
+      { componentRestrictions: { country: selectedCountry } }
+  );
+  const toAutocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById('toLocation'),
+      { componentRestrictions: { country: selectedCountry } }
+  );
 
-    setSourceAutocomplete.addListener('place_changed', () => {
-      const place = setSourceAutocomplete.getPlace();
+  fromAutocomplete.addListener('place_changed', () => {
+      const place = fromAutocomplete.getPlace();
       setFromLocation(place.formatted_address);
-    });
+  });
+
+  toAutocomplete.addListener('place_changed', () => {
+      const place = toAutocomplete.getPlace();
+      setToLocation(place.formatted_address);
+  });
+
+
+
+
+
+
+
+
+    // const setDestAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('toLocation'));
+
+  
+
+    // const setSourceAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('fromLocation'));
+
+    // toAutocomplete.addListener('place_changed', () => {
+    //   const place = toAutocomplete.getPlace();
+    //   setToLocation(place.formatted_address);
+    // });
+
+    // setSourceAutocomplete.addListener('place_changed', () => {
+    //   const place = setSourceAutocomplete.getPlace();
+    //   setFromLocation(place.formatted_address);
+    // });
+
+//
+// const fromAutocomplete = new window.google.maps.places.Autocomplete(
+//   document.getElementById('fromLocation'),
+//   { componentRestrictions: { country: selectedCountry } }
+// );
+// const toAutocomplete = new window.google.maps.places.Autocomplete(
+//   document.getElementById('toLocation'),
+//   { componentRestrictions: { country: selectedCountry } }
+// );
+
+
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -175,35 +225,13 @@ const DirectionMap = () => {
 
   const [selectedValue, setSelectedValue] = React.useState('a');
 
-  const today = new Date();
 
+   const [arrowDirection, setArrowDirection] = useState('right');
 
-  const [fromLocation, setFromLocation] = useState('');
-  const [toLocation, setToLocation] = useState('');
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+};
 
-  const [arrowDirection, setArrowDirection] = useState('right');
-
-  useEffect(() => {
-    loadGoogleMapsScript();
-  }, []);
-
-  const switchLocations = () => {
-    const tempLocation = fromLocation;
-    setFromLocation(toLocation);
-    setToLocation(tempLocation);
-  };
-
-  const switchArrowDirection = () => {
-    setArrowDirection(arrowDirection === 'right' ? 'left' : 'right');
-  };
-
-
-  const handleEnterKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent form submission
-      event.target.blur(); // Remove focus from the text field
-    }
-  };
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
 
@@ -332,37 +360,39 @@ const DirectionMap = () => {
       {/* <h1 className="text-center">Direction</h1> */}
 
       <div className='  shadow-lg ml-20 pl-5   mt-4  mr-16 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl  '>
-        <div>
-          <Radio
+      <div className='flex sm:grid sm:w-full'>
+                    <div className='flex items-center'>
+                        <Radio
+                            checked={selectedValue === 'a'}
+                            onChange={handleChange}
+                            value="a"
+                            name="radio-buttons"
+                            inputProps={{ 'aria-label': 'A' }}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                        />
+                        <p className='sm:text-[14px]'>One Way</p>
+                    </div>
+                    <div className='flex items-center'>
+                        <Radio
+                            checked={selectedValue === 'b'}
+                            onChange={handleChange}
+                            value="b"
+                            name="radio-buttons"
+                            inputProps={{ 'aria-label': 'B' }}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                        />
+                        <p className='sm:text-[14px]'>Round Trip</p>
+                    </div>
 
-            checked={selectedValue === 'a'}
-            onChange={handleChange}
-            value="a"
-            id=''
-            name="radio-buttons"
-            inputProps={{ 'aria-label': 'A' }}
-            sx={{
-              '& .MuiSvgIcon-root': {
-                fontSize: 28,
-              },
-            }}
-          />
-          One Way
-          <Radio
-            checked={selectedValue === 'b'}
-            onChange={handleChange}
-            value="b"
-            name="radio-buttons"
-            inputProps={{ 'aria-label': 'B' }}
-            sx={{
-              '& .MuiSvgIcon-root': {
-                fontSize: 28,
-              },
-            }}
-          />
-
-          Round Trip
-        </div>
+                     {/* Country Selection */}
+                <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
+                    <label htmlFor="country">Select Country: </label>
+                    <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                        <option value="in">India</option>
+                        <option value="np">Nepal</option>
+                    </select>
+                </div>
+                </div>
 
 
         {/* location */}

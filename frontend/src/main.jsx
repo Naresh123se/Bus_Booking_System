@@ -17,6 +17,8 @@ import Location from './Directions/DirectionMap.jsx';
 import Verify from './Pages/Verify.jsx';
 import Profile from './Pages/Profile.jsx';
 import Blog from './Pages/Blog.jsx';
+import BlogList from './Pages/BlogList.jsx'; 
+import Footer from './Pages/Footer.jsx'; 
 
 import Bus from './Way/Bus.jsx';
 import BusSeat from './Pages/BusSeat.jsx';
@@ -27,14 +29,11 @@ import Ticket from './Booking/Ticket.jsx';
 
 import PickDirection from './Directions/PickDirection.jsx';
 
-import Mobile from './Directions/Mobile.jsx';
 
 
 
 import Payment from './Booking/Payment.jsx';
 import Cancel from './Booking/Cancel.jsx';
-// import Confirmation from './Booking/PaymentCon.jsx';
-import Not from './Pages/Notification.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
 import Completion from './Booking/Completion.jsx';
 import EXT from './Booking/Extra.jsx'
@@ -66,28 +65,28 @@ const router = createBrowserRouter(
       <Route path='/Profile' element={<Profile/>} />
       <Route path='/Bus' element={<Bus/>}/>
       <Route path='/seat' element={<BusSeat/>} />
+      <Route path='/Footer' element={<Footer/>} />
       
       <Route path='/Extra' element={<EXT/>} />
 
       <Route path='/Seat1' element={<Seat/>} />
       <Route path='/Booking' element={<Booking/>} />
       <Route path='/blog' element={<Blog/>} />
+      <Route path='/BlogList' element={<BlogList/>} />
    
       <Route path='/PickD' element={<PickDirection/>} />
       <Route path='/payment' element={<Payment/>} />
-      {/* <Route path='/confirmation' element={<Confirmation/>} /> */}
       <Route path='/Cancel' element={<Cancel/>} />
       <Route path='/Ipayment' element={<Int_Payment />} />
 
       <Route path='/Ticket' element={<Ticket/>} />
       <Route path='/Coupon' element={<Coupons/>} />
-      <Route path='/Not' element={<Not/>} />
+
       <Route path='/completion' element={<Completion/>} />
 
       <Route path='/print-ticket' element={<PrintTicket/>} />
       <Route path='/cancel-ticket' element={<CancelTicket/>} />
     
-      <Route path='/M' element={<Mobile/>} />
 
        <Route path='/admin' element={<Main />} />
        <Route path='admin/Loginpage' element={<ALoginPage />} />

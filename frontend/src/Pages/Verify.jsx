@@ -49,10 +49,7 @@ const Verify = () => {
   }, [userId, isRequesting]);
 
   return (
-    <div>
-     
-      
-    </div>
+    <></>
   );
 };
 

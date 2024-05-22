@@ -35,6 +35,11 @@ const Header = () => {
     // Handle navigation here
     navigate('/cancel-Ticket'); // Navigate to '/home'
 };
+  const blogGo = () => {
+    // Handle navigation here
+    navigate('/BlogList'); // Navigate to '/home'
+};
+
 
 
 
@@ -56,7 +61,7 @@ const Header = () => {
       </Link>
 
       <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px] font-medium  '>
-        <div >Blog</div>
+        <div className=' cursor-pointer   hover:bg-[#60c5ff] p-1 rounded-md' onClick={blogGo}>Blog</div>
         <div
             className="relative inline-block"
             onMouseEnter={() => setIsDropdownOpen(true)}
