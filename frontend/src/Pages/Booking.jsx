@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from '../Directions/Skeleton.jsx'
+
 import AllFilter from '../Booking/AllFilter.jsx'
+import Extra from '../Booking/Extra.jsx'
 
 
 
@@ -44,6 +46,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+
+
 const Booking = () => {
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -54,7 +58,19 @@ const Booking = () => {
   const [selectedCountry, setSelectedCountry] = useState('in'); // Default to India
 
   const [Getseat] = useGetTicketMutation();
- 
+  const [selectedTimes, setSelectedTimes] = useState([]);
+  const [selectedBusTypes, setSelectedBusTypes] = useState([]);
+
+  const timeSlots = [
+    { label: '1:00 - 6:00', value: '1-6' },
+    { label: '6:00 - 12:00', value: '6-12' },
+    { label: '12:00 - 18:00', value: '12-18' },
+    { label: '18:00 - 24:00', value: '18-24' },
+  ];
+  const busTypes = ['Delax', 'Super', 'Rapti', 'Baba'];
+
+
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentDate(new Date());
@@ -134,7 +150,7 @@ const Booking = () => {
     return scheduleSeatCounts;
   }
   const scheduleSeatCounts = getScheduleSeatCounts(Filter);
-  console.log(scheduleSeatCounts);
+  // console.log(scheduleSeatCounts);
 
 
 
@@ -232,28 +248,28 @@ const Booking = () => {
 
   const initAutocomplete = () => {
     const fromAutocomplete = new window.google.maps.places.Autocomplete(
-        document.getElementById('fromLocation'),
-        { componentRestrictions: { country: selectedCountry } }
+      document.getElementById('fromLocation'),
+      { componentRestrictions: { country: selectedCountry } }
     );
     const toAutocomplete = new window.google.maps.places.Autocomplete(
-        document.getElementById('toLocation'),
-        { componentRestrictions: { country: selectedCountry } }
+      document.getElementById('toLocation'),
+      { componentRestrictions: { country: selectedCountry } }
     );
 
     fromAutocomplete.addListener('place_changed', () => {
-        const place = fromAutocomplete.getPlace();
-        setFromLocation(place.formatted_address);
+      const place = fromAutocomplete.getPlace();
+      setFromLocation(place.formatted_address);
     });
 
     toAutocomplete.addListener('place_changed', () => {
-        const place = toAutocomplete.getPlace();
-        setToLocation(place.formatted_address);
+      const place = toAutocomplete.getPlace();
+      setToLocation(place.formatted_address);
     });
 
     // Handle Enter key press for searching places
     document.getElementById('fromLocation').addEventListener('keydown', handleEnterKeyPress);
     document.getElementById('toLocation').addEventListener('keydown', handleEnterKeyPress);
-};
+  };
 
   const handleEnterKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -262,10 +278,10 @@ const Booking = () => {
     }
   };
 
-  
+
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
-};
+  };
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -302,13 +318,13 @@ const Booking = () => {
 
   };
 
-  const [startTime, setStartTime] = useState('');
-  const book = (id, startTime, price, endTime, capacity, name1,number) => {
+
+  const book = (id, startTime, price, endTime, capacity, name1, number) => {
     localStorage.setItem("scheduleId", id);
     localStorage.setItem("price", price);
     localStorage.setItem("startTime", startTime);
     localStorage.setItem("endTime", endTime);
-   
+
     localStorage.setItem("capacity", capacity);
     localStorage.setItem("BusName1", name1);
     localStorage.setItem("BusNumber1", number);
@@ -409,8 +425,6 @@ const Booking = () => {
 
 
 
-
-  const [isVisible, setIsVisible] = useState(false);
   const toggleDiv = (itemId) => {
     console.log(itemId)
     console.log("first")
@@ -488,45 +502,78 @@ const Booking = () => {
 
 
 
+
+  const handleTimeChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedTimes((prev) =>
+      checked ? [...prev, value] : prev.filter((t) => t !== value)
+    );
+  };
+
+  const handleBusTypeChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedBusTypes((prev) =>
+      checked ? [...prev, value] : prev.filter((bt) => bt !== value)
+    );
+  }
+
+  const applyFilters = () => {
+    return data.filter((bus) => {
+      const busTime = parseInt(bus.startTime.split(':')[0]);
+      const isTimeMatch =
+        selectedTimes.length === 0 ||
+        selectedTimes.some((time) => {
+          const [start, end] = time.split('-').map(Number);
+          return busTime >= start && busTime < end;
+        });
+      const isTypeMatch =
+        selectedBusTypes.length === 0 || selectedBusTypes.includes(bus.bus.name1);
+      return isTimeMatch && isTypeMatch;
+    });
+  };
+
+  const filteredBuses = applyFilters();
+
+
   return (
     <>
       <div className='m-10   '>
         <div>
           {/*radio button */}
           <div className='  shadow-lg ml-24  mt-4   pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
-          <div className='flex sm:grid sm:w-full'>
-                    <div className='flex items-center'>
-                        <Radio
-                            checked={selectedValue === 'a'}
-                            onChange={handleChange}
-                            value="a"
-                            name="radio-buttons"
-                            inputProps={{ 'aria-label': 'A' }}
-                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-                        />
-                        <p className='sm:text-[14px]'>One Way</p>
-                    </div>
-                    <div className='flex items-center'>
-                        <Radio
-                            checked={selectedValue === 'b'}
-                            onChange={handleChange}
-                            value="b"
-                            name="radio-buttons"
-                            inputProps={{ 'aria-label': 'B' }}
-                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-                        />
-                        <p className='sm:text-[14px]'>Round Trip</p>
-                    </div>
+            <div className='flex sm:grid sm:w-full'>
+              <div className='flex items-center'>
+                <Radio
+                  checked={selectedValue === 'a'}
+                  onChange={handleChange}
+                  value="a"
+                  name="radio-buttons"
+                  inputProps={{ 'aria-label': 'A' }}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                />
+                <p className='sm:text-[14px]'>One Way</p>
+              </div>
+              <div className='flex items-center'>
+                <Radio
+                  checked={selectedValue === 'b'}
+                  onChange={handleChange}
+                  value="b"
+                  name="radio-buttons"
+                  inputProps={{ 'aria-label': 'B' }}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                />
+                <p className='sm:text-[14px]'>Round Trip</p>
+              </div>
 
-                     {/* Country Selection */}
-                <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
-                    <label htmlFor="country">Select Country: </label>
-                    <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-                        <option value="in">India</option>
-                        <option value="np">Nepal</option>
-                    </select>
-                </div>
-                </div>
+              {/* Country Selection */}
+              <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
+                <label htmlFor="country">Select Country: </label>
+                <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                  <option value="in">India</option>
+                  <option value="np">Nepal</option>
+                </select>
+              </div>
+            </div>
 
 
             {/* location */}
@@ -692,42 +739,50 @@ const Booking = () => {
       <body className='bg-[#F7F7F7]  '>
 
 
-        <div className='overflow-y-scroll  h-[58vh] p-5 '>
-          <div>
-            {loading ? (
-              // Show loader while waiting for data
-              <Skeleton />
-            ) : (
-              // Show data or no data message based on availability
-              <div>
-                {data.length > 0 ? (
-                  <>
-                    <AllFilter />
-
-
-                  </>
-                ) : (
-
-                  <div className='grid  justify-center mt-10'>
-                    <div className='ml-5' > <img src="Seat.svg" alt="logo" /></div>
-                    <div className=''>
-                      <p className='font-bold text-[20px] '>Oops! No buses found.</p>
-                      <p className='ml-5'>Oops! No buses found.</p>
-
-                    </div>
-                  </div>
-
-                )}
+        <div className="flex overflow-y-scroll h-[58vh] p-5">
+          <div className=" p-6 ml-10">
+            <h3 className="text-sm font-bold mb-2">DEPARTURE TIME</h3>
+            {timeSlots.map((slot) => (
+              <div key={slot.value}>
+                <input
+                  type="checkbox"
+                  id={slot.value}
+                  value={slot.value}
+                  onChange={handleTimeChange}
+                  className="mr-2"
+                />
+                <label htmlFor={slot.value}>{slot.label}</label>
               </div>
-            )}
-            {/* {  console.log(data)} */}
+            ))}
+
+            <h3 className="text-sm font-bold mb-2 mt-6">BUS NAME</h3>
+            {busTypes.map((type) => (
+              <div key={type}>
+                <input
+                  type="checkbox"
+                  id={type}
+                  value={type}
+                  onChange={handleBusTypeChange}
+                  className="mr-2"
+                />
+                <label htmlFor={type}>{type}</label>
+              </div>
+            ))}
           </div>
 
-          {data.map((item, index) => (
-
-            <div key={index} className='ml-64 mr-[248px] pb-5 border-[1px] border-[#C8C8C8] shadow-[#b7acac] rounded-md mb-4'>
-              <div className='flex  mr-10 ml-10 justify-between p-1'>
-                {console.log(item._id)}
+          <div className="w-[84%] ml-5 overflow-y-scroll">
+            {loading ? (
+              <Skeleton />
+            ) : (
+              <div>
+                {filteredBuses.length > 0 ? (
+                  filteredBuses.map((item, index) => (
+                    <div
+                      key={index}
+                      className="mx-10 pb-5 border border-[#C8C8C8] shadow rounded-md mb-4"
+                    >
+                        <div className='flex  mr-10 ml-10 justify-between p-1'>
+                {/* {console.log(item._id)} */}
                 <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div>
 
                 <div className='font-semibold text-xl'>{item.startTime}</div>
@@ -737,8 +792,11 @@ const Booking = () => {
                 <div className='mr-40 font-semibold text-xl'>{item.endTime}</div>
                 <div className='font-semibold text-xl'>{item.price}</div>
               </div>
-              <div className='ml-10 mb-3  flex  mt-3'>
-                <div>
+
+
+
+<div className='ml-10 mb-3  flex  mt-3'>
+                      <div>
                   <span className='  border-[#b5b1b1] border rounded-lg  '>
                     <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
                     <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
@@ -749,11 +807,7 @@ const Booking = () => {
                 <div className='ml-28 text-lg'>{item.startLocation}</div>
                 <div className='ml-[46vh] text-lg'>{item.endLocation}</div>
 
-
-                {/* <div> {item.bus.capacity}</div> */}
-                {/* Display bus name */}
-
-                <div className='ml-10'>
+                        <div className='ml-10'>
                   <span className=' border rounded-md border-[#909090] p-0.5  '>
                     <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
                     {/* seat available */}
@@ -769,63 +823,63 @@ const Booking = () => {
                     </span>
                   </span>
                 </div>
-              </div>
-              <div>
-              </div>
-
-              <div className='ml-[50%]'>
+                      </div>
+{/* button */}
+                      <div className='ml-[50%]'>
                 <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity,item.bus.name1,item.bus.number )}>
                   <strong>Continue</strong>
                 </button>
               </div>
+                        {/* bus photos */}
+            
+                        <div>
+  <button
+    className='cursor-pointer shadow hover:text-[#009DF8] ml-40'
+    onClick={() => toggleDiv(item._id)}
+  >
+    BusPhotos
+  </button>
+  {openItemId === item._id && (
+    <div className='ml-72'>
+      <div className='w-[80vh] px-7 bg mt-5 '>
+      <Slider {...settings} className="mr-44">
+  {
+    item.bus.selectedImages.map((image, index) => (
+      <div key={index} className='flex h-60 p-1 bg-[#e7e7e8] rounded-md'>
+        <div className="w-full" style={{ fontSize: '1.2rem', color: '#555' }}>
+          <img
+            src={image.url}
+            alt="Bus"
+            style={{ color: '#555', height: '31.5vh', width: '100%' }}
+            className='object-contain'
+          />
+        </div>
+      </div>
+    ))
+  }
+</Slider>
 
-              {/* bus photos */}
-              <div>
-                <button className='cursor-pointer shadow hover:text-[#009DF8]  ml-40 ' onClick={() => toggleDiv(item._id)}>
-                  BusPhotos
-                </button>
+      </div>
+    </div>
+  )}
+</div>
 
-
-                {openItemId === item._id && (
-                  <div>
-                    <div className=''>
-                      <div className=' w-[80vh] px-7 bg mt-5  '>
-
-                        {/* <h2 className="text-xl font-semibold mb-4 ml-16">Trending Offers for Discount Coupons</h2> */}
-                        <Slider {...settings} className="mr-44">
-                          {data.map((item) => (
-                            item.bus.selectedImages.map((image, index) => (
-                              <div key={index} className='flex h-60 p p-1 bg-[#185EA5] rounded-md'>
-                                <div className="w-full" style={{ fontSize: '1.2rem', color: '#555' }}>
-                                  <img src={image.url} alt="Image" style={{ color: '#555', height: '31vh', width: '100%', }} className='object-cover object-center' />
-                                </div>
-                              </div>
-                            ))
-                          ))}
-                        </Slider>
-
-
-                      </div>
                     </div>
-
-
-
-
+                  ))
+                ) : (
+                  <div className="grid justify-center mt-10">
+                    <div className="ml-5">
+                      <img src="Seat.svg" alt="logo" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-2xl">Oops! No buses found.</p>
+                      <p className="ml-5">Oops! No buses found.</p>
+                    </div>
                   </div>
                 )}
               </div>
-
-
-
-
-
-              {/* DOWN */}
-              <div className='  '>
-              </div>
-
-            </div>
-          ))}
-
+            )}
+          </div>
         </div>
 
 

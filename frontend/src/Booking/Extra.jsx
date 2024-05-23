@@ -1,73 +1,104 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Slider from '@mui/material/Slider';
-import MuiInput from '@mui/material/Input';
+import React, { useState } from 'react';
 
-const Input = styled(MuiInput)`
-  width: 60px;
-`;
+const buses = [
+  { id: 1, time: '3:00', type: 'AC' },
+  { id: 2, time: '7:00', type: 'Non-AC' },
+  { id: 3, time: '13:00', type: 'Sleeper' },
+  { id: 4, time: '19:00', type: 'Seater' },
+  // Add more bus data as needed
+];
 
-export default function InputSlider() {
-  const [time22, setTime22] = React.useState(0); // Initial value set to 0 (5:00 AM)
+const BusFilter = () => {
+  const [selectedTimes, setSelectedTimes] = useState([]);
+  const [selectedBusTypes, setSelectedBusTypes] = useState([]);
 
-  const handleSliderChange = (event, newValue) => {
-    setTime22(newValue);
+  const timeSlots = [
+    { label: '1:00 - 6:00', value: '1-6' },
+    { label: '6:00 - 12:00', value: '6-12' },
+    { label: '12:00 - 18:00', value: '12-18' },
+    { label: '18:00 - 24:00', value: '18-24' },
+  ];
+
+  const busTypes = ['AC', 'Non-AC', 'Sleeper', 'Seater'];
+
+  const handleTimeChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedTimes((prev) =>
+      checked ? [...prev, value] : prev.filter((t) => t !== value)
+    );
   };
 
-  const handleInputChange = (event) => {
-    setTime22(event.target.value === '' ? 0 : Number(event.target.value));
+  const handleBusTypeChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedBusTypes((prev) =>
+      checked ? [...prev, value] : prev.filter((bt) => bt !== value)
+    );
   };
 
-  const handleBlur = () => {
-    if (time22 < 0) {
-      setTime22(0);
-    } else if (time22 > 47) { // Maximum value changed to 47 (23:30)
-      setTime22(47);
-    }
+  const applyFilters = () => {
+    return buses.filter((bus) => {
+      const busTime = parseInt(bus.time.split(':')[0]);
+      const isTimeMatch =
+        selectedTimes.length === 0 ||
+        selectedTimes.some((time) => {
+          const [start, end] = time.split('-').map(Number);
+          return busTime >= start && busTime < end;
+        });
+      const isTypeMatch =
+        selectedBusTypes.length === 0 || selectedBusTypes.includes(bus.type);
+      return isTimeMatch && isTypeMatch;
+    });
   };
 
-  // Convert the value to time format (00:00 to 23:30)
-  const valueToTime = (value) => {
-    const hours = Math.floor(value / 2); // Hours
-    const minutes = value % 2 === 0 ? '00' : '30'; // Every half-hour interval
-    return `${String(hours).padStart(2, '0')}:${minutes}`; // Pad single-digit hours with leading zero
-  };
+  const filteredBuses = applyFilters();
 
   return (
-    <Box sx={{ width: 250 }}>
-      <Typography id="input-slider" gutterBottom>
-        Time
-      </Typography>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs>
-          <Slider
-            value={typeof time22 === 'number' ? time22 : 0}
-            onChange={handleSliderChange}
-            aria-labelledby="input-slider"
-            step={1} // Step set to 1
-            min={1} // Minimum value set to 0
-            max={47} // Maximum value set to 47
-          />
-        </Grid>
-        <Grid item>
-          <Input
-            value={valueToTime(time22)}
-            size="small"
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            inputProps={{
-              step: 1,
-              min: 0,
-              max: 47,
-              type: 'text',
-              'aria-labelledby': 'input-slider',
-            }}
-          />
-        </Grid>
-      </Grid>
-    </Box>
+    <div className="p-6">
+      <div className="mb-6">
+        <h3 className="text-lg font-bold mb-2">Time Slots</h3>
+        {timeSlots.map((slot) => (
+          <div key={slot.value}>
+            <input
+              type="checkbox"
+              id={slot.value}
+              value={slot.value}
+              onChange={handleTimeChange}
+              className="mr-2"
+            />
+            <label htmlFor={slot.value}>{slot.label}</label>
+          </div>
+        ))}
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-bold mb-2">Bus Type</h3>
+        {busTypes.map((type) => (
+          <div key={type}>
+            <input
+              type="checkbox"
+              id={type}
+              value={type}
+              onChange={handleBusTypeChange}
+              className="mr-2"
+            />
+            <label htmlFor={type}>{type}</label>
+          </div>
+        ))}
+      </div>
+
+      <div id="busResults" className="mt-6">
+        {filteredBuses.length > 0 ? (
+          filteredBuses.map((bus) => (
+            <p key={bus.id}>
+              Bus ID: {bus.id}, Time: {bus.time}, Type: {bus.type}
+            </p>
+          ))
+        ) : (
+          <p>No buses match the selected filters.</p>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default BusFilter;

@@ -151,9 +151,6 @@ const Bus = () => {
     try {
       console.log('editData:', editData); // Log editData to check its value
       const response = await editbus({ id: editData._id, data: editData });
-
-      // console.log('Response:', response);
-      // console.log(editData);
       if (!response || !response.data || !response.data.data) {
         throw new Error('Invalid response format');
       }
@@ -227,8 +224,8 @@ const Bus = () => {
             </div>
 
             {showAddPanel && (
-              <div className="bg-white ml-10  ">
-                <h1 className="text-md font-semibold">Add New Buses</h1>
+              <div className="bg-white ml-10 p-1  ">
+                <h1 className="text-md font-semibold ">Add New Buses</h1>
                 <div className='flex justify-between'>
                   <div></div>
                 <h1 className='ml-24 font-semibold flex justify-center  text-[#4a81da]'>Images </h1>
@@ -236,11 +233,11 @@ const Bus = () => {
                 </div>
                
 
-                <form onSubmit={handleAddSubmit} className="flex gap-10">
+                <form onSubmit={handleAddSubmit} className="flex gap-9">
 
-                  <TextField type="text" className=" border rounded-lg " name="name1" label="BusName" required value={name1} onChange={(e) => setName1(e.target.value)} />
-                  <TextField type="number" className="form-control border rounded-lg " name="capacity" min="0" label="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
-                  <div className=" ">
+                  <TextField type="text"  sx={{ width: '20ch'}}className=" border rounded-lg " size='small' name="name1" label="BusName" required value={name1} onChange={(e) => setName1(e.target.value)} />
+                  <TextField type="number" sx={{ width: '20ch'}} className="form-control border rounded-lg " size='small' name="capacity" min="0" label="Capacity" required value={capacity} onChange={(e) => setCapacity(e.target.value)} />
+                  <div className=" "> 
                                             <label className="pb-2  w-40 block">
                                             </label>
 

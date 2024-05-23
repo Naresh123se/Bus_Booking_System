@@ -71,7 +71,7 @@ const fetchData = async () => {
 
         <div key={index} className=" ">
           
-          <h2 className="text-lg font-medium text-gray-900 ml-44 mb-3 mt-2">{card.title}</h2>
+          <h2 className="text-lg font-medium text-gray-900 ml- ml-48 mb-3 mt-2">{card.title}</h2>
           <div className="text-base leading-relaxed ml-40 "><AccountCircleIcon sx={{color:'#C5C5C5', fontSize:"40px"}}/> {card.author}</div>
           <hr className='text-[#d7d2d2]' />
           <div className='flex gap-16'>

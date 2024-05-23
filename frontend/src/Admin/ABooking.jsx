@@ -32,6 +32,7 @@ const ABooking = () => {
   const [endTime, setEndTime] = useState('');
   const [calender, setCalender] = useState(formattedDate);
   const [startLocation, setStartLocation] = useState('');
+  const [stopLocation, setStopLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
 
@@ -236,24 +237,25 @@ const ABooking = () => {
             </div>
 
             {showAddPanel && (
-              <div className="bg-white p-4 mb-4 ml-5  ">
-                <h1 className="text-md font-semibold mb-2">Add New Schedules </h1>
-                <form onSubmit={handleAddSubmit} className='flex gap-6'>
-                  <select type="text" className=" border rounded-lg" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
-
-
+              <div className="bg-white p-1 mb-4 ml-5  ">
+                <h1 className="text-md font-semibold mb-3">Add New Schedules </h1>
+                <form onSubmit={handleAddSubmit} className='flex gap-5'>
+                  <select type="text" className=" border border-[#bcb7b7]  rounded-md" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
+                    size='small'
+                         
                     {/* <select name="bus" defaultValue=""> */}
                     <option value="" disabled>Select a bus</option>
                     {bus20.map(bus => (
                       <option key={bus._id} value={bus._id}>{bus.name1}</option>
                     ))}
                   </select>
-                  <TextField sx={{ width: '16ch'}} type="text" name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
-                  <TextField sx={{ width: '16ch'}}type="text" name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '16ch'}}type="date" name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
-                  <TextField sx={{ width: '20ch'}} type="text" name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '20ch'}} type="text" name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '20ch'}}type="number" name="price" label="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
+                  <TextField sx={{ width: '16ch'}}type="text" size='small' name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}}type="date" size='small' name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
+                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="stopLocation" label="Stop Location" value={stopLocation} onChange={(e) => setStopLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch'}}type="number" size='small' name="price" label="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
                   <div>
                   <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</Button>
                   {isLoading && <Loader />}

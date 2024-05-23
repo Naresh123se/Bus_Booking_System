@@ -12,6 +12,8 @@ const Ticket = () => {
   const [tickets, setTickets] = useState([]);
   const [tick, setTick] = useState([]);
   const [final, setFinal] = useState([]);
+  const [userName, setUserName] = useState([]);
+  const [email, setEmail] = useState([]);
   const [p, setP] = useState([]);
   const [cal, setCal] = useState([]);
   const [se, setSe] = useState([]);
@@ -22,11 +24,10 @@ const Ticket = () => {
 
   const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
   const userData = JSON.parse(storedValue);
-  const userName = userData.displayName || userData.name;
-  const email = userData.email || userData.email;
-  const id = userData._id || userData._id;
+  // const userName = userData.displayName || userData.name;
+ 
 
-  console.log('User name:', userName);
+  
 
   // const storedResponse = localStorage.getItem('ticketDataResponse');
   // console.log(storedResponse);
@@ -57,6 +58,8 @@ const Ticket = () => {
         setSe(ticket.seat);
         setP(ticket.finalprice.totalPrice);
         setCal(ticket.SchId.calender);
+        setUserName(ticket.userId.name);
+        setEmail(ticket.userId.email);
         setFinal(filteredTickets);
         setIsOpen(true);
       } else {
@@ -66,10 +69,6 @@ const Ticket = () => {
       console.error('Error fetching or filtering tickets:', error);
     }
   };
-
-  
-
-  
 
   const passengerData = {
     name: userName,
@@ -327,11 +326,13 @@ const Ticket = () => {
                     <p>Scan the QR code</p>
                   </div>
                   <div className='ml-96'>
-                    <Button onClick={printContent} style={{ className: 'button' }}>Print Content</Button>
+                    <div className='button'>
+                    <Button onClick={printContent} >Print Content</Button>
+                    </div>
                     <style>
                       {`
                         @media print {
-                          button {
+                          .button {
                             display: none;
                           }
                         }

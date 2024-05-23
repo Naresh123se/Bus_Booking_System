@@ -14,7 +14,7 @@ const createTicket = async (req, res) => {
   // Controller function to retrieve all tickets
   const getAllTickets = asyncHandler(async (req, res) => {
   try {
-    const tickets = await Ticket.find({}).populate('SchId');
+    const tickets = await Ticket.find({}).populate('SchId').populate('userId');
     res.setHeader('Cache-Control', 'no-store');
     res.status(200).json({ success: true, tickets });
   } catch (error) {

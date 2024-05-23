@@ -1,22 +1,56 @@
-import React from 'react';
-
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/joy/Button';
 function Footer() {
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
   return (
-   
-    <footer class=" body-font">
-      <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap">
-        <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
-          <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-            </svg>
-            <span class="ml-3 text-xl">Bus Booking System</span>
+
+    <footer class=" body-font bg-[#F3F4F6]">
+      <div class=" px-5 py-10  flex">
+        <div class="w-64 ml-14 ">
+          <a class="flex ml-2 mb-2 items-center md:justify-start  ">
+            <img src="logofinal11.png" className='size-16 mr-4 m' alt="logo" />
+            <div class="  text-2xl font-bold flex  ">Bus Booking System</div>
           </a>
-          <p class="mt-2 text-sm text-gray-500">b</p>
+          <p className='flex text-justify mt-1 '>Looking for a seamless and efficient way to book your bus tickets? Merobus booking system offers a user-friendly interface and real-time data to ensure you get the best travel experience. Book your next journey with us today and travel smarter!</p>
         </div>
-        <div class="flex-grow flex  md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
-          <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
+        <div class=" flex gap-32   mt-3 ">
+          <div class=" ml-28 ">
+            <h2 class="text-lg font-semibold mb-1 text-[#009DF8] ">Quick Links</h2>
+            <nav class="list-none mb-10">
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]"    onClick={() => navigate('/')}>Home</a>
+              </li>
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]" onClick={() => navigate('/bloglist')}>Blog</a>
+              </li>
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]" onClick={() => navigate('/print-ticket')}>Print-Ticket</a>
+              </li>
+             
+            </nav>
+          </div>
+          <div class="  ">
+            <h2 class="text-lg font-semibold mb-1 text-[#009DF8] ">Info</h2>
+            <nav class="list-none mb-10">
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]">T&C</a>
+              </li>
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]">Privacy policy</a>
+              </li>
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]">FAQ</a>
+              </li>
+            </nav>
+          </div>
+          <div class=" ">
+            <h2 class="text-lg font-semibold mb-1 text-[#009DF8] ">Contact</h2>
             <nav class="list-none mb-10">
               <li>
                 <a class="cursor-pointer hover:text-[#757575]">First Link</a>
@@ -32,64 +66,71 @@ function Footer() {
               </li>
             </nav>
           </div>
-          <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-            <nav class="list-none mb-10">
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">First Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Second Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Third Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Fourth Link</a>
-              </li>
-            </nav>
+
+
+
+          <div class="  ">
+            <h2 class=" text-lg font-semibold mb-1 text-[#009DF8]   ">  Get in touch</h2>
+            {/* <p class="">Post-ironic portland shabby chic echo park, banjo fashion axe</p> */}
+
+            {/* onSubmit={handleAddSubmit} */}
+            <form className=' grid gap-2'>
+
+              <div className='flex gap-5'>
+                <TextField sx={{
+                  width: '18ch',
+                  borderRadius: '8px', // Adjust the radius as needed
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px', // Ensure the input itself also has rounded corners
+                  },
+                }} type="text" size='small' label=" Name" value={name} onChange={(e) => setName(e.target.value)} required className="  border border-[#e6e3e3]   rounded-2xl  " />
+                <TextField sx={{
+                  width: '18ch',
+                  borderRadius: '8px', // Adjust the radius as needed
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px', // Ensure the input itself also has rounded corners
+                  },
+                }} type="email" size='small' label="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md " />
+
+              </div>
+
+              {/* <TextField sx={{ width: '16ch'}}type="text"  name="calender" label="Date" value={message} onChange={(e) => setMessage(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md"  /> <br /> */}
+              <TextField
+
+                sx={{
+                  width: '38ch',
+                  borderRadius: '8px', // Adjust the radius as needed
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px', // Ensure the input itself also has rounded corners
+                  },
+                }}
+                type="text"
+                size='small'
+                label="Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+                multiline
+                rows={4}  // Adjust the number of rows as needed
+                className="border border-[#e6e3e3] rounded-md"
+              />
+
+              <div className='flex justify-center'>
+                <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  " sx={{width:"35ch"}} >SUBMIT</Button>
+                {/* {isLoading && <Loader />} */}
+              </div>
+
+            </form>
+
           </div>
-          <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-            <nav class="list-none mb-10">
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">First Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Second Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Third Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Fourth Link</a>
-              </li>
-            </nav>
-          </div>
-          <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-            <nav class="list-none mb-10">
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">First Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Second Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Third Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Fourth Link</a>
-              </li>
-            </nav>
-          </div>
+
+
+
         </div>
       </div>
-      <div class="bg-[#F3F4F6]">
-        <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-          <p class="text-gray-500 text-sm text-center sm:text-left">© 2024 Bus Booking System —
-            <a href="https://twitter.com" rel="noopener noreferrer" class="cursor-pointer ml-1" target="_blank">@merobus</a>
-          </p>
+      <div class="bg-[#5b5c5d] text-[white]">
+        <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row  gap-2">
+
           <span class="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
             <a class="text-gray-500">
               <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
@@ -114,10 +155,13 @@ function Footer() {
               </svg>
             </a>
           </span>
+          <p class="text-gray-500 text-sm text-center sm:text-left">© 2024 Bus Booking System —
+            <a href="https://twitter.com" rel="noopener noreferrer" class="cursor-pointer ml-1 hover:text-[#009DF8]" target="_blank">@merobus</a>
+          </p>
         </div>
       </div>
     </footer>
-    
+
   );
 }
 

@@ -17,6 +17,8 @@ const CancelTicket = () => {
   const [tick, setTick] = useState([]);
   const [final, setFinal] = useState([]);
   const [p, setP] = useState([]);
+  const [userName, setUserName] = useState([]);
+  const [email, setEmail] = useState([]);
   const [cal, setCal] = useState([]);
   const [bus, setBus] = useState([]);
   const [se, setSe] = useState([]);
@@ -28,8 +30,7 @@ const CancelTicket = () => {
   const [cancelTicket] = useCancelMutation();
   const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
   const userData = JSON.parse(storedValue);
-  const userName = userData.displayName || userData.name;
-  const email = userData.email || userData.email;
+
   const navigate = useNavigate();
   useEffect(() => {
     const fetchLocalData = () => {
@@ -60,6 +61,8 @@ const CancelTicket = () => {
         setSe(ticket.seat);
         setP(ticket.finalprice.totalPrice);
         setCal(ticket.SchId.calender);
+        setUserName(ticket.userId.name);
+        setEmail(ticket.userId.email);
         setBus(ticket.BusNumber);
         setFinal(filteredTickets);
         setIsOpen(true);

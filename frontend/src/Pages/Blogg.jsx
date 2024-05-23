@@ -76,7 +76,7 @@ const fetchData = async () => {
 
               <div className="p-6 ">
                 <h2 className="text-lg font-medium text-gray-900 mb-3">{card.title}</h2>
-                <p className="text-base leading-relaxed mb-3">{card.description}</p>
+                {/* <p className="text-base  mb-3">{card.description}</p> */}
                 <div className="flex items-center  justify-between ">
                   
             
@@ -87,7 +87,7 @@ const fetchData = async () => {
                   
                   
                   <div className=''>
-                <div className="text-base leading-relaxed border border-[#c1bcbc] rounded-md p-0.5 ">{card.author}</div>
+                <div className="text-sm   border border-[#c1bcbc] rounded-md p-0.5 ">{card.author}</div>
                
                   </div>
                 </div>

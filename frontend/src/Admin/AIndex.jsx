@@ -78,12 +78,12 @@ const AIndex = () => {
               Bus
             </div>
           </div>
-          <div className={`flex gap-2 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-3  ${activeNavItem === 'Schedule' ? 'bg-[#4f5e7a]' : ''}`} onClick={Schedule}>
+          <div className={`flex gap-2 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4  ${activeNavItem === 'Schedule' ? 'bg-[#4f5e7a]' : ''}`} onClick={Schedule}>
           <div style={{ animation: 'heartbeat 1.5s infinite' }}>
       
     <DepartureBoardIcon sx={{fontSize: 23}} />
     </div>
-            <div className=''>
+            <div className='ml-2'>
             Schedule
             </div>
           </div>
