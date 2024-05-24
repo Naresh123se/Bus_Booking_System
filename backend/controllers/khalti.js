@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const khalti = asyncHandler(async (req, res) => {
   const {amount,customerName, customerEmail,customerPhone} = req.body;
@@ -19,7 +21,7 @@ const khalti = asyncHandler(async (req, res) => {
 
   const config = {
     headers: {
-      'Authorization': 'key live_secret_key_68791341fdd94846a146f0457ff7b455',
+      'Authorization':  process.env.KHALTI_KEY,
       'Content-Type': 'application/json'
     }
   };

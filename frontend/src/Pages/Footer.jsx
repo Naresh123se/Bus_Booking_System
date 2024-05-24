@@ -19,7 +19,7 @@ function Footer() {
           </a>
           <p className='flex text-justify mt-1 '>Looking for a seamless and efficient way to book your bus tickets? Merobus booking system offers a user-friendly interface and real-time data to ensure you get the best travel experience. Book your next journey with us today and travel smarter!</p>
         </div>
-        <div class=" flex gap-32   mt-3 ">
+        <div class=" flex gap-28   mt-3 ">
           <div class=" ml-28 ">
             <h2 class="text-lg font-semibold mb-1 text-[#009DF8] ">Quick Links</h2>
             <nav class="list-none mb-10">
@@ -32,6 +32,9 @@ function Footer() {
               <li>
                 <a class="cursor-pointer hover:text-[#757575]" onClick={() => navigate('/print-ticket')}>Print-Ticket</a>
               </li>
+              <li>
+                <a class="cursor-pointer hover:text-[#757575]" onClick={() => navigate('/cancel-Ticket')}>Cancel-Ticket</a>
+              </li>
              
             </nav>
           </div>
@@ -39,13 +42,13 @@ function Footer() {
             <h2 class="text-lg font-semibold mb-1 text-[#009DF8] ">Info</h2>
             <nav class="list-none mb-10">
               <li>
-                <a class="cursor-pointer hover:text-[#757575]">T&C</a>
+                <a class="cursor-pointer hover:text-[#757575]"  onClick={() => navigate('/termCondition')}>T&C</a>
               </li>
               <li>
-                <a class="cursor-pointer hover:text-[#757575]">Privacy policy</a>
+                <a class="cursor-pointer hover:text-[#757575]"  onClick={() => navigate('/policy')}>Privacy policy</a>
               </li>
               <li>
-                <a class="cursor-pointer hover:text-[#757575]">FAQ</a>
+                <a class="cursor-pointer hover:text-[#757575]"  onClick={() => navigate('/faq')}>FAQ</a>
               </li>
             </nav>
           </div>
@@ -53,28 +56,24 @@ function Footer() {
             <h2 class="text-lg font-semibold mb-1 text-[#009DF8] ">Contact</h2>
             <nav class="list-none mb-10">
               <li>
-                <a class="cursor-pointer hover:text-[#757575]">First Link</a>
+              <a href="tel:+977 9829114442" className=" text-[#51519e] ">+977 9829114442</a>
               </li>
               <li>
-                <a class="cursor-pointer hover:text-[#757575]">Second Link</a>
+          
+                <a href="mailto:merobus3@gmail.com" className=" text-[#51519e] ">merobus3@gmail.com</a>
               </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Third Link</a>
-              </li>
-              <li>
-                <a class="cursor-pointer hover:text-[#757575]">Fourth Link</a>
-              </li>
+             
             </nav>
           </div>
 
 
 
           <div class="  ">
-            <h2 class=" text-lg font-semibold mb-1 text-[#009DF8]   ">  Get in touch</h2>
+            <h2 class=" text-lg font-semibold mb-1 text-[#009DF8]">  Get in touch</h2>
             {/* <p class="">Post-ironic portland shabby chic echo park, banjo fashion axe</p> */}
 
             {/* onSubmit={handleAddSubmit} */}
-            <form className=' grid gap-2'>
+            <form className=' grid gap-3 mt-2'>
 
               <div className='flex gap-5'>
                 <TextField sx={{
@@ -94,9 +93,7 @@ function Footer() {
 
               </div>
 
-              {/* <TextField sx={{ width: '16ch'}}type="text"  name="calender" label="Date" value={message} onChange={(e) => setMessage(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md"  /> <br /> */}
               <TextField
-
                 sx={{
                   width: '38ch',
                   borderRadius: '8px', // Adjust the radius as needed

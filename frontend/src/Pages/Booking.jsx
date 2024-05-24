@@ -131,9 +131,6 @@ const Booking = () => {
     }
   };
 
-
-
-
   function getScheduleSeatCounts(Filter) {
     const scheduleSeatCounts = {};
     for (const entry of Filter) {
@@ -150,21 +147,9 @@ const Booking = () => {
     return scheduleSeatCounts;
   }
   const scheduleSeatCounts = getScheduleSeatCounts(Filter);
-  // console.log(scheduleSeatCounts);
-
-
-
-  // time
-
-
 
   const time2 = new Date(currentTime);
   time2.setTime(time2.getTime() + (1 * 60 * 60 * 1000));
-
-
-
-
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -174,15 +159,9 @@ const Booking = () => {
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
-
-
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [search] = useSearchMutation();
-  //hover user number
   const [count, setCount] = useState(1);
 
   const increment = () => {
@@ -194,7 +173,6 @@ const Booking = () => {
       setCount(prevCount => prevCount - 1);
     }
   };
-
 
   //hover user number
   const [bike, setBike] = useState(0);
@@ -211,18 +189,9 @@ const Booking = () => {
   //dropdown menu close open(user number)
 
   const [selectedValue, setSelectedValue] = React.useState('a');
-
-
-
-
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
-
-
-
   const [arrowDirection, setArrowDirection] = useState('right');
-
-
   useEffect(() => {
     loadGoogleMapsScript();
   }, [selectedCountry]);
@@ -278,16 +247,13 @@ const Booking = () => {
     }
   };
 
-
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
   };
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
-
   };
-
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -295,61 +261,39 @@ const Booking = () => {
       const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate('/Booking');
-
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-
     }
   };
 
   const submitData = async (e) => {
-
-
     try {
 
       const res = await search({ fromLocation, toLocation, value, value1, bike, count }).unwrap();
       dispatch(setCredentials({ ...res }));
-
-
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-
     }
-
   };
-
 
   const book = (id, startTime, price, endTime, capacity, name1, number) => {
     localStorage.setItem("scheduleId", id);
     localStorage.setItem("price", price);
     localStorage.setItem("startTime", startTime);
     localStorage.setItem("endTime", endTime);
-
     localStorage.setItem("capacity", capacity);
     localStorage.setItem("BusName1", name1);
     localStorage.setItem("BusNumber1", number);
-
     navigate('/seat')
-
     authenticateUser();
     return 0
-
-
   }
-
-
-
-
-  const [selectedDate, setSelectedDate] = useState(dayjs());
 
   const localDate = new Date();
   const formattedDate = localDate.toISOString().split('T')[0];
   const [value, setValue] = useState(formattedDate);
-  const [value11, setValue11] = useState(formattedDate);
-
   const [value1, setValue1] = useState('');
   const formatDate = date => {
-    // Example: MM/dd/yyyy format
     const formattedDate = `${(date.getMonth() + 1)
       .toString()
       .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
@@ -360,18 +304,14 @@ const Booking = () => {
     const storedData = localStorage.getItem('search');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      //   setSelectedValue(parsedData.selectedValue);
       setFromLocation(parsedData.fromLocation);
       setToLocation(parsedData.toLocation);
-
       setValue(parsedData.value);
-      //   setValue1(parsedData.value1 ? new Date(parsedData.value1) : null);
       setValue1(parsedData.value1);
       setCount(parsedData.count);
       setBike(parsedData.bike);
     }
   }, []);
-
 
   useEffect(() => {
     const fetchSchedules = async () => {
@@ -382,28 +322,20 @@ const Booking = () => {
         const startLocation = fromLocation.replace(', Nepal', '').replace('44600', '').trim();
         const placeFilter = result.data.data.filter(item => (item.startLocation.toLowerCase()) === startLocation.toLowerCase());
         const dateFilter = placeFilter.filter(item => item.calender === value);
-
         setData(dateFilter);
         setLoading(false);
-
       } catch (error) {
         console.error('Failed to fetch schedules:', error);
       }
     };
-
     submitData();
     fetchSchedules();
   }, [fromLocation, value]);
 
-
   const [openItemId, setOpenItemId] = useState(null);
-
-
-
   //bus photos
   const CustomNextArrow = ({ onClick }) => (
     <button style={{ color: "red", background: '#009DF8' }} className="slick-next custom-next-arrow  rounded  " onClick={onClick}>
-
     </button>
   );
 
@@ -423,34 +355,18 @@ const Booking = () => {
     prevArrow: <CustomPrevArrow />
   };
 
-
-
   const toggleDiv = (itemId) => {
     console.log(itemId)
     console.log("first")
     setOpenItemId(itemId === openItemId ? null : itemId);
   };
 
-  //filter
-
-  // 
-  useEffect(() => {
-    const userLoggedIn = localStorage.getItem('isLoggedIn');
-    if (userLoggedIn === 'true') setIsLoggedIn(true);
-  }, []);
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    localStorage.setItem('isLoggedIn', 'true');
-    history.push('/next-page');
-  };
-
-
-
   useEffect(() => {
     // Function to authenticate user
     function authenticateUser(email, name) {
       // Get user data from localStorage
       const userDataString = localStorage.getItem('userInfo');
+      console.log("ok",userDataString)
       if (!userDataString) {
         Swal.fire({
           position: "top-center",
@@ -466,18 +382,13 @@ const Booking = () => {
       `
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate('/login') // Redirect to the home page
+            navigate('/login')
           }
         });
-
-
-
         return false;
       }
-
       // Parse user data from localStorage
       const userData = JSON.parse(userDataString);
-
       // Check if email and name match
       if (userData.email === email && userData.name === name) {
         // Email and name match, return true (authentication successful)
@@ -487,21 +398,7 @@ const Booking = () => {
         return false;
       }
     }
-
-    // Example usage
-    const userEmail = "naresh132na@gmail.com";
-    const userName = "Naresh Sejwal1";
-
-    if (authenticateUser(userEmail, userName)) {
-      navigate('/Booking');
-
-    } else {
-      navigate('/Booking');
-    }
   }, []);
-
-
-
 
   const handleTimeChange = (e) => {
     const { value, checked } = e.target;
@@ -534,211 +431,178 @@ const Booking = () => {
 
   const filteredBuses = applyFilters();
 
-
   return (
     <>
-      <div className='m-10   '>
-        <div>
-          {/*radio button */}
-          <div className='  shadow-lg ml-24  mt-4   pr-5 pl-5 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl   '>
-            <div className='flex sm:grid sm:w-full'>
-              <div className='flex items-center'>
-                <Radio
-                  checked={selectedValue === 'a'}
-                  onChange={handleChange}
-                  value="a"
-                  name="radio-buttons"
-                  inputProps={{ 'aria-label': 'A' }}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-                />
-                <p className='sm:text-[14px]'>One Way</p>
-              </div>
-              <div className='flex items-center'>
-                <Radio
-                  checked={selectedValue === 'b'}
-                  onChange={handleChange}
-                  value="b"
-                  name="radio-buttons"
-                  inputProps={{ 'aria-label': 'B' }}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-                />
-                <p className='sm:text-[14px]'>Round Trip</p>
-              </div>
-
-              {/* Country Selection */}
-              <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
-                <label htmlFor="country">Select Country: </label>
-                <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-                  <option value="in">India</option>
-                  <option value="np">Nepal</option>
-                </select>
-              </div>
+      <form onSubmit={submitHandler}>
+        {/*radio button */}
+        <div className='  shadow-lg ml-20 pl-5   mt-4  mr-16 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl mb-10  '>
+          <div className='flex sm:grid sm:w-full'>
+            <div className='flex items-center'>
+              <Radio
+                checked={selectedValue === 'a'}
+                onChange={handleChange}
+                value="a"
+                name="radio-buttons"
+                inputProps={{ 'aria-label': 'A' }}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+              />
+              <p className='sm:text-[14px]'>One Way</p>
+            </div>
+            <div className='flex items-center'>
+              <Radio
+                checked={selectedValue === 'b'}
+                onChange={handleChange}
+                value="b"
+                name="radio-buttons"
+                inputProps={{ 'aria-label': 'B' }}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+              />
+              <p className='sm:text-[14px]'>Round Trip</p>
             </div>
 
+            {/* Country Selection */}
+            <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
+              <label htmlFor="country">Select Country: </label>
+              <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                <option value="in">India</option>
+                <option value="np">Nepal</option>
+              </select>
+            </div>
+          </div>
 
-            {/* location */}
+          {/* location */}
+          <div className='flex ml-2' >
+            <div className='mt-4'>
+              <TextField
+                label="FROM"
+                id="fromLocation"
+                required
+                sx={{ width: '5cm' }}
+                placeholder='Enter From Location'
+                value={fromLocation}
+                onChange={(e) => setFromLocation(e.target.value)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+                }}
+              />
+            </div>
 
-
-            <div className='flex ml-2' >
-              <div className='mt-4'>
-                <TextField
-                  label="FROM"
-                  id="fromLocation"
-                  sx={{ width: '5cm' }}
-                  placeholder='Enter From Location'
-                  value={fromLocation}
-                  onChange={(e) => setFromLocation(e.target.value)}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+            {/* switch button */}
+            <div className='mt-6'>
+              <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
+                <CompareArrowsRoundedIcon
+                  className='border w-30 h-30 border-sky-500 rounded-full'
+                  sx={{
+                    color: '#2196F3',
+                    borderRadius: '50%',
+                    transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
+                    transition: 'transform 0.3s ease',
+                    fontSize: 35,
                   }}
                 />
-              </div>
+              </button>
+            </div>
 
-              {/* switch button */}
-              <div className='mt-6'>
-                <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
-                  <CompareArrowsRoundedIcon
-                    className='border w-30 h-30 border-sky-500 rounded-full'
-                    sx={{
-                      color: '#2196F3',
-                      borderRadius: '50%',
-                      transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
-                      transition: 'transform 0.3s ease',
-                      fontSize: 35,
-                    }}
-                  />
-                </button>
-              </div>
+            {/* next location */}
+            <div className='mt-4'>
+              <TextField
+                label="TO"
+                required
+                id="toLocation"
+                sx={{ width: '5cm' }}
+                placeholder='EnterTo Location'
+                value={toLocation}
+                onChange={(e) => setToLocation(e.target.value)}
 
-              {/* next location */}
-              <div className='mt-4'>
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+                }}
+              />
+            </div>
+
+            {/* calender */}
+            <div className=" flex  ml-5 mt-2" >
+              <div className="ml-5 mt-2">
                 <TextField
-
-                  label="TO"
-                  id="toLocation"
-                  sx={{ width: '5cm' }}
-                  placeholder='EnterTo Location'
-                  value={toLocation}
-                  onChange={(e) => setToLocation(e.target.value)}
-
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-                  }}
-                />
-
+                  sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
+                  type="date"
+                  name="calender"
+                  label="Departure"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  required
+                  className=" border border-[#e6e3e3]   rounded-md"
+                  inputProps={{ min: formattedDate }} />
               </div>
-              {/* Departure */}
 
-
-              {/* calender */}
-              <div className=" flex  ml-5 mt-2" >
-
-
-                <div className="ml-5 mt-2">
-
-
-
-
+              <div className="datepicker-container ml-5 mt-2 ">
+                {selectedValue === "b" && (
                   <TextField
-                    sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
+                    sx={{ width: '5cm' }}
                     type="date"
                     name="calender"
-                    label="Departure"
+                    label="Return"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     required
                     className=" border border-[#e6e3e3]   rounded-md"
                     inputProps={{ min: formattedDate }} />
-                </div>
-
-                <div className="datepicker-container ml-5 mt-2 ">
-                  {selectedValue === "b" && (
-                    <TextField
-                      sx={{ width: '5cm' }}
-                      type="date"
-                      name="calender"
-                      label="Return"
-                      value={value}
-                      onChange={(e) => setValue(e.target.value)}
-                      required
-                      className=" border border-[#e6e3e3]   rounded-md"
-                      inputProps={{ min: formattedDate }} />
-
-
-                  )}
-                </div>
-
+                )}
               </div>
-
-              <div>
-
-              </div>
-              <div className='mt-4 ml-7'>
-
-
-                <Dropdown className='mt-4 ml-7 '>
-                  <MenuButton>
-                    <TextField
-                      label="Passengers"
-                      id="people"
-                      sx={{ width: '5cm' }}
-                      placeholder='passenger'
-
-                      value={`${count} passenger${count > 1 ? "s" : ""} ${bike} bike${bike > 1 ? "s" : " "}`}
-                      onChange={(e) => setFromLocation(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="center">
-
-                            <KeyboardArrowDownIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    /></MenuButton>
-                  <Menu className='bg-[#70b8e1] w-48 p-1  rounded-md'>
-                    <MenuItem onClick={''}>
-                      <div className='ml-3'>
-                        Passengers
-
-                        <button className="btn ml-5" onClick={decrement}><RemoveCircleIcon sx={{ color: '#009DF8' }} /></button>
-                        <span id="count" className='text-xl rounded-md '>{count}</span>
-                        <button className="btn" onClick={increment}><AddCircleIcon sx={{ color: '#009DF8' }} /></button>
-
-
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={''}>
-
-                      <div className='flex gap-10 ml-3 ' >
-                        Bikes
-                        <div className='mb-2 ml-5'>
-                          <button className="btn" onClick={sub}><RemoveCircleIcon sx={{ color: '#009DF8' }} /></button>
-                          <span id="count" className='text-xl rounded-md'>{bike}</span>
-                          <button className="btn" onClick={add}><AddCircleIcon sx={{ color: '#009DF8' }} /></button>
-                        </div>
-
-                      </div>
-
-                    </MenuItem>
-                  </Menu>
-                </Dropdown>
-              </div>
-
-              <div className='ml-10 pt-6  '>
-                <Button1 onClick={submitHandler}>Search</Button1>
-              </div>
-
             </div>
 
+            <div>
+            </div>
+            <div className='mt-4 ml-7'>
+              <Dropdown className='mt-4 ml-7 '>
+                <MenuButton>
+                  <TextField
+                    label="Passengers"
+                    id="people"
+                    sx={{ width: '5cm' }}
+                    placeholder='passenger'
 
+                    value={`${count} passenger${count > 1 ? "s" : ""} ${bike} bike${bike > 1 ? "s" : " "}`}
+                    onChange={(e) => setFromLocation(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="center">
+                          <KeyboardArrowDownIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  /></MenuButton>
+                <Menu className='bg-[#70b8e1] w-48 p-1  rounded-md'>
+                  <MenuItem onClick={''}>
+                    <div className='ml-3'>
+                      Passengers
+
+                      <button className="btn ml-5" onClick={decrement}><RemoveCircleIcon sx={{ color: '#009DF8' }} /></button>
+                      <span id="count" className='text-xl rounded-md '>{count}</span>
+                      <button className="btn" onClick={increment}><AddCircleIcon sx={{ color: '#009DF8' }} /></button>
+                    </div>
+                  </MenuItem>
+                  <MenuItem onClick={''}>
+                    <div className='flex gap-10 ml-3 ' >
+                      Bikes
+                      <div className='mb-2 ml-5'>
+                        <button className="btn" onClick={sub}><RemoveCircleIcon sx={{ color: '#009DF8' }} /></button>
+                        <span id="count" className='text-xl rounded-md'>{bike}</span>
+                        <button className="btn" onClick={add}><AddCircleIcon sx={{ color: '#009DF8' }} /></button>
+                      </div>
+                    </div>
+                  </MenuItem>
+                </Menu>
+              </Dropdown>
+            </div>
+
+            <div className='ml-10 pt-6  '>
+              <Button1 type='submit'>Search</Button1>
+            </div>
           </div>
-
         </div>
-      </div>
-
+      </form>
       <body className='bg-[#F7F7F7]  '>
-
-
         <div className="flex overflow-y-scroll h-[58vh] p-5">
           <div className=" p-6 ml-10">
             <h3 className="text-sm font-bold mb-2">DEPARTURE TIME</h3>
@@ -781,88 +645,77 @@ const Booking = () => {
                       key={index}
                       className="mx-10 pb-5 border border-[#C8C8C8] shadow rounded-md mb-4"
                     >
-                        <div className='flex  mr-10 ml-10 justify-between p-1'>
-                {/* {console.log(item._id)} */}
-                <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div>
+                      <div className='flex  mr-10 ml-10 justify-between p-1'>
+                        <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div>
+                        <div className='font-semibold text-xl'>{item.startTime}</div>
+                        <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
+                        <p>{(item.startTime)}</p>
+                        <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
+                        <div className='mr-40 font-semibold text-xl'>{item.endTime}</div>
+                        <div className='font-semibold text-xl'>{item.price}</div>
+                      </div>
 
-                <div className='font-semibold text-xl'>{item.startTime}</div>
-                <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
-                <p>{(item.startTime)}</p>
-                <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
-                <div className='mr-40 font-semibold text-xl'>{item.endTime}</div>
-                <div className='font-semibold text-xl'>{item.price}</div>
-              </div>
-
-
-
-<div className='ml-10 mb-3  flex  mt-3'>
-                      <div>
-                  <span className='  border-[#b5b1b1] border rounded-lg  '>
-                    <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
-                    <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
-                    <span className='   '></span>
-                    <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
-                  </span>
-                </div>
-                <div className='ml-28 text-lg'>{item.startLocation}</div>
-                <div className='ml-[46vh] text-lg'>{item.endLocation}</div>
+                      <div className='ml-10 mb-3  flex  mt-3'>
+                        <div>
+                          <span className='  border-[#b5b1b1] border rounded-lg  '>
+                            <span className='   '><DirectionsBusIcon sx={{ color: '#757575' }} /></span>
+                            <span className='   '><PowerIcon sx={{ color: '#757575' }} /> </span>
+                            <span className='   '></span>
+                            <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
+                          </span>
+                        </div>
+                        <div className='ml-28 text-lg'>{item.startLocation}</div>
+                        <div className='ml-[46vh] text-lg'>{item.endLocation}</div>
 
                         <div className='ml-10'>
-                  <span className=' border rounded-md border-[#909090] p-0.5  '>
-                    <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
-                    {/* seat available */}
-                    <span className='font-semibold'>
-                      {console.log(item.bus.capacity)}
-                      {console.log(scheduleSeatCounts)}
-                      {console.log(item._id)}
-                      {console.log(scheduleSeatCounts[item._id])}
-
-
-                      {scheduleSeatCounts[item._id] === undefined ? 'FULL' : item.bus.capacity - scheduleSeatCounts[item._id]
-                      }
-                    </span>
-                  </span>
-                </div>
+                          <span className=' border rounded-md border-[#909090] p-0.5  '>
+                            <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
+                            {/* seat available */}
+                            <span className='font-semibold'>
+                              {scheduleSeatCounts[item._id] === undefined ? 'FULL' : item.bus.capacity - scheduleSeatCounts[item._id]
+                              }
+                            </span>
+                          </span>
+                        </div>
                       </div>
-{/* button */}
                       <div className='ml-[50%]'>
-                <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity,item.bus.name1,item.bus.number )}>
-                  <strong>Continue</strong>
-                </button>
-              </div>
-                        {/* bus photos */}
-            
-                        <div>
-  <button
-    className='cursor-pointer shadow hover:text-[#009DF8] ml-40'
-    onClick={() => toggleDiv(item._id)}
-  >
-    BusPhotos
-  </button>
-  {openItemId === item._id && (
-    <div className='ml-72'>
-      <div className='w-[80vh] px-7 bg mt-5 '>
-      <Slider {...settings} className="mr-44">
-  {
-    item.bus.selectedImages.map((image, index) => (
-      <div key={index} className='flex h-60 p-1 bg-[#e7e7e8] rounded-md'>
-        <div className="w-full" style={{ fontSize: '1.2rem', color: '#555' }}>
-          <img
-            src={image.url}
-            alt="Bus"
-            style={{ color: '#555', height: '31.5vh', width: '100%' }}
-            className='object-contain'
-          />
-        </div>
-      </div>
-    ))
-  }
-</Slider>
+                        <button className='ml-[77%] bg-[#41b5f7] p-1.5 text-[white] rounded-md mr-6 pl-3 hover:bg-[#185EA5]' variant="contained" onClick={() => book(item._id, item.startTime, item.price, item.endTime, item.bus.capacity, item.bus.name1, item.bus.number)}>
+                          <strong>Continue</strong>
+                        </button>
+                      </div>
+                      {/* bus photos */}
 
-      </div>
-    </div>
-  )}
-</div>
+                      <div>
+                        <button
+                          className='cursor-pointer shadow hover:text-[#009DF8] ml-40'
+                          onClick={() => toggleDiv(item._id)}
+                        >
+                          BusPhotos
+                        </button>
+                        {openItemId === item._id && (
+                          <div className='ml-72'>
+                            <div className='w-[80vh] px-7 bg mt-5 '>
+                              <Slider {...settings} className="mr-44">
+                                {
+                                  item.bus.selectedImages.map((image, index) => (
+                                    <div key={index} className='flex h-60 p-1 bg-[#e7e7e8] rounded-md'>
+                                      <div className="w-full" style={{ fontSize: '1.2rem', color: '#555' }}>
+                                        <img
+                                          src={image.url}
+                                          alt="Bus"
+                                          style={{ color: '#555', height: '31.5vh', width: '100%' }}
+                                          className='object-contain'
+                                        />
+                                      </div>
+                                    </div>
+                                  ))
+                                }
+                              </Slider>
+
+                            </div>
+                          </div>
+                        )}
+                      </div>
 
                     </div>
                   ))
@@ -881,9 +734,6 @@ const Booking = () => {
             )}
           </div>
         </div>
-
-
-
       </body>
     </>
   )

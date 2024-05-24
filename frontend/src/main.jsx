@@ -20,10 +20,10 @@ import Blog from './Pages/Blog.jsx';
 import BlogList from './Pages/BlogList.jsx'; 
 import Footer from './Pages/Footer.jsx'; 
 
-import Bus from './Way/Bus.jsx';
 import BusSeat from './Pages/BusSeat.jsx';
 import Seat from './Booking/Seat.jsx';
 import Ticket from './Booking/Ticket.jsx';
+
 
 
 
@@ -39,6 +39,9 @@ import Completion from './Booking/Completion.jsx';
 import EXT from './Booking/Extra.jsx'
 import PrintTicket from './Directions/PrintTicket.jsx';
 import CancelTicket from './Directions/CancelTicket.jsx';
+import FAQ from './Directions/FAQ.jsx';
+import TermsCondition from './Directions/TermsCondition.jsx';
+import Policy from './Directions/Policy.jsx';
 // *************
 
 import Main from './Admin/Main.jsx';
@@ -63,7 +66,6 @@ const router = createBrowserRouter(
       <Route path='/search' element={<Booking/>} />
       <Route path='/Verify' element={<Verify/>} />
       <Route path='/Profile' element={<Profile/>} />
-      <Route path='/Bus' element={<Bus/>}/>
       <Route path='/seat' element={<BusSeat/>} />
       <Route path='/Footer' element={<Footer/>} />
       
@@ -86,6 +88,12 @@ const router = createBrowserRouter(
 
       <Route path='/print-ticket' element={<PrintTicket/>} />
       <Route path='/cancel-ticket' element={<CancelTicket/>} />
+
+      <Route path='/faq' element={<FAQ/>} />
+      <Route path='/termCondition' element={<TermsCondition/>} />
+      <Route path='/policy' element={<Policy/>} />
+
+
     
 
        <Route path='/admin' element={<Main />} />

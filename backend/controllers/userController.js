@@ -39,6 +39,8 @@ const authUser = asyncHandler(async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        status: user.active,
+
       });
     } else {
       res.status(401);
@@ -120,8 +122,6 @@ const registerUser = asyncHandler(async (req, res) => {
   } else {
     res.status(500);
     throw new Error("An error occurred while sending verification email");
-
-    // Handle case where email sending fails
   }
 });
 
@@ -176,7 +176,6 @@ const verify = asyncHandler(async (req, res) => {
   }
 });
 
-
 //status
 const status = asyncHandler(async (req, res) => {
   const {id, value} = req.body;
@@ -200,7 +199,6 @@ const status = asyncHandler(async (req, res) => {
     });
   }
 });
-
 
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/logout

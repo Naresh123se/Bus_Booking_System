@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
-
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import CompareArrowsRoundedIcon from '@mui/icons-material/CompareArrowsRounded';
@@ -10,11 +8,7 @@ import Button from '@mui/joy/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-
-
-
 import 'react-datepicker/dist/react-datepicker.css';
-
 import { useSearchMutation } from '../slices/booking';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
@@ -25,13 +19,7 @@ import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 import { useNavigate } from 'react-router-dom'
 
-
-
-
-
 const DirectionMap = () => {
-
-
   const [map, setMap] = useState(null);
   const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
@@ -42,7 +30,6 @@ const DirectionMap = () => {
   useEffect(() => {
     loadGoogleMapsScript();
   }, [selectedCountry]);
-
 
   const switchLocations = () => {
     const tempLocation = fromLocation;
@@ -75,56 +62,21 @@ const DirectionMap = () => {
     const fromAutocomplete = new window.google.maps.places.Autocomplete(
       document.getElementById('fromLocation'),
       { componentRestrictions: { country: selectedCountry } }
-  );
-  const toAutocomplete = new window.google.maps.places.Autocomplete(
+    );
+    const toAutocomplete = new window.google.maps.places.Autocomplete(
       document.getElementById('toLocation'),
       { componentRestrictions: { country: selectedCountry } }
-  );
+    );
 
-  fromAutocomplete.addListener('place_changed', () => {
+    fromAutocomplete.addListener('place_changed', () => {
       const place = fromAutocomplete.getPlace();
       setFromLocation(place.formatted_address);
-  });
+    });
 
-  toAutocomplete.addListener('place_changed', () => {
+    toAutocomplete.addListener('place_changed', () => {
       const place = toAutocomplete.getPlace();
       setToLocation(place.formatted_address);
-  });
-
-
-
-
-
-
-
-
-    // const setDestAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('toLocation'));
-
-  
-
-    // const setSourceAutocomplete = new window.google.maps.places.Autocomplete(document.getElementById('fromLocation'));
-
-    // toAutocomplete.addListener('place_changed', () => {
-    //   const place = toAutocomplete.getPlace();
-    //   setToLocation(place.formatted_address);
-    // });
-
-    // setSourceAutocomplete.addListener('place_changed', () => {
-    //   const place = setSourceAutocomplete.getPlace();
-    //   setFromLocation(place.formatted_address);
-    // });
-
-//
-// const fromAutocomplete = new window.google.maps.places.Autocomplete(
-//   document.getElementById('fromLocation'),
-//   { componentRestrictions: { country: selectedCountry } }
-// );
-// const toAutocomplete = new window.google.maps.places.Autocomplete(
-//   document.getElementById('toLocation'),
-//   { componentRestrictions: { country: selectedCountry } }
-// );
-
-
+    });
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -152,7 +104,7 @@ const DirectionMap = () => {
   const calcRoute = () => {
     const source = document.getElementById('fromLocation').value;
     const dest = document.getElementById('toLocation').value;
-    mapDiv.style.height = '400px';
+    mapDiv.style.height = '460px';
     const placesService = new window.google.maps.places.PlacesService(map);
     placesService.findPlaceFromQuery(
       { query: dest, fields: ['place_id', 'geometry'] },
@@ -193,11 +145,9 @@ const DirectionMap = () => {
   // second
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [search] = useSearchMutation();
   //hover user number
   const [count, setCount] = useState(1);
-
   const increment = () => {
     setCount(prevCount => prevCount + 1);
   };
@@ -207,7 +157,6 @@ const DirectionMap = () => {
       setCount(prevCount => prevCount - 1);
     }
   };
-
 
   //hover user number
   const [bike, setBike] = useState(0);
@@ -224,13 +173,10 @@ const DirectionMap = () => {
   //dropdown menu close open(user number)
 
   const [selectedValue, setSelectedValue] = React.useState('a');
-
-
-   const [arrowDirection, setArrowDirection] = useState('right');
-
+  const [arrowDirection, setArrowDirection] = useState('right');
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
-};
+  };
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -267,12 +213,9 @@ const DirectionMap = () => {
     const storedData = localStorage.getItem('search');
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      //   setSelectedValue(parsedData.selectedValue);
       setFromLocation(parsedData.fromLocation);
       setToLocation(parsedData.toLocation);
-
       setValue(parsedData.value);
-      //   setValue1(parsedData.value1 ? new Date(parsedData.value1) : null);
       setValue1(parsedData.value1);
       setCount(parsedData.count);
       setBike(parsedData.bike);
@@ -356,220 +299,192 @@ const DirectionMap = () => {
     }
   };
   return (
-    <div>
-      {/* <h1 className="text-center">Direction</h1> */}
-
-      <div className='  shadow-lg ml-20 pl-5   mt-4  mr-16 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl  '>
-      <div className='flex sm:grid sm:w-full'>
-                    <div className='flex items-center'>
-                        <Radio
-                            checked={selectedValue === 'a'}
-                            onChange={handleChange}
-                            value="a"
-                            name="radio-buttons"
-                            inputProps={{ 'aria-label': 'A' }}
-                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-                        />
-                        <p className='sm:text-[14px]'>One Way</p>
-                    </div>
-                    <div className='flex items-center'>
-                        <Radio
-                            checked={selectedValue === 'b'}
-                            onChange={handleChange}
-                            value="b"
-                            name="radio-buttons"
-                            inputProps={{ 'aria-label': 'B' }}
-                            sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
-                        />
-                        <p className='sm:text-[14px]'>Round Trip</p>
-                    </div>
-
-                     {/* Country Selection */}
-                <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
-                    <label htmlFor="country">Select Country: </label>
-                    <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-                        <option value="in">India</option>
-                        <option value="np">Nepal</option>
-                    </select>
-                </div>
-                </div>
-
-
-        {/* location */}
-        <div className='flex ml-2' >
-          <div className='mt-4'>
-            <TextField
-              label="FROM"
-              id="fromLocation"
-              sx={{ width: '5cm' }}
-              placeholder='Enter From Location'
-              value={fromLocation}
-              onChange={(e) => setFromLocation(e.target.value)}
-              InputProps={{
-                startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-              }}
-            />
-          </div>
-
-          {/* switch button */}
-          <div className='mt-6'>
-            <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
-              <CompareArrowsRoundedIcon
-                className='border w-30 h-30 border-sky-500 rounded-full'
-                sx={{
-                  color: '#2196F3',
-                  borderRadius: '50%',
-                  transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
-                  transition: 'transform 0.3s ease',
-                  fontSize: 35,
-                }}
+    <>
+      <form onSubmit={submitHandler}>
+        <div className='  shadow-lg ml-20 pl-5   mt-4  mr-16 pb-5  pt-5  bg-[#FFF] shadow-[#b7acac] rounded-xl  '>
+          <div className='flex sm:grid sm:w-full'>
+            <div className='flex items-center'>
+              <Radio
+                checked={selectedValue === 'a'}
+                onChange={handleChange}
+                value="a"
+                name="radio-buttons"
+                inputProps={{ 'aria-label': 'A' }}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
               />
-            </button>
-          </div>
-
-          {/* next location */}
-          <div className='mt-4'>
-            <TextField
-
-              label="TO"
-              id="toLocation"
-              sx={{ width: '5cm' }}
-              placeholder='EnterTo Location'
-              value={toLocation}
-              onChange={(e) => setToLocation(e.target.value)}
-
-              InputProps={{
-                startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-              }}
-            />
-
-          </div>
-          {/* Departure */}
-
-
-          {/* calender */}
-          <div className=" flex  ml-5 mt-2" >
-
-
-            <div className="ml-5 mt-2">
-
-
-
-
-              <TextField
-                sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
-                type="date"
-                name="calender"
-                label="Departure"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                required
-                className=" border border-[#e6e3e3]   rounded-md"
-                inputProps={{ min: formattedDate }} />
+              <p className='sm:text-[14px]'>One Way</p>
+            </div>
+            <div className='flex items-center'>
+              <Radio
+                checked={selectedValue === 'b'}
+                onChange={handleChange}
+                value="b"
+                name="radio-buttons"
+                inputProps={{ 'aria-label': 'B' }}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+              />
+              <p className='sm:text-[14px]'>Round Trip</p>
             </div>
 
-            <div className="datepicker-container ml-5 mt-2 ">
-              {selectedValue === "b" && (
+            {/* Country Selection */}
+            <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
+              <label htmlFor="country">Select Country: </label>
+              <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                <option value="in">India</option>
+                <option value="np">Nepal</option>
+              </select>
+            </div>
+          </div>
+
+          {/* location */}
+          <div className='flex ml-2' >
+            <div className='mt-4'>
+              <TextField
+                label="FROM"
+                id="fromLocation"
+                required
+                sx={{ width: '5cm' }}
+                placeholder='Enter From Location'
+                value={fromLocation}
+                onChange={(e) => setFromLocation(e.target.value)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+                }}
+              />
+            </div>
+
+            {/* switch button */}
+            <div className='mt-6'>
+              <button onClick={() => { switchLocations(); switchArrowDirection(); }}>
+                <CompareArrowsRoundedIcon
+                  className='border w-30 h-30 border-sky-500 rounded-full'
+                  sx={{
+                    color: '#2196F3',
+                    borderRadius: '50%',
+                    transform: `rotate(${arrowDirection === 'right' ? '0deg' : '180deg'})`,
+                    transition: 'transform 0.3s ease',
+                    fontSize: 35,
+                  }}
+                />
+              </button>
+            </div>
+
+            {/* next location */}
+            <div className='mt-4'>
+              <TextField
+
+                label="TO"
+                id="toLocation"
+                required
+                sx={{ width: '5cm' }}
+                placeholder='EnterTo Location'
+                value={toLocation}
+                onChange={(e) => setToLocation(e.target.value)}
+
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+                }}
+              />
+
+            </div>
+            {/* Departure */}
+
+
+            {/* calender */}
+            <div className=" flex  ml-5 mt-2" >
+              <div className="ml-5 mt-2">
                 <TextField
-                  sx={{ width: '5cm' }}
+                  sx={{ width: selectedValue === "b" ? ' 5cm' : '10.5cm' }}
                   type="date"
                   name="calender"
-                  label="Return"
+                  label="Departure"
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   required
                   className=" border border-[#e6e3e3]   rounded-md"
                   inputProps={{ min: formattedDate }} />
+              </div>
 
+              <div className="datepicker-container ml-5 mt-2 ">
+                {selectedValue === "b" && (
+                  <TextField
+                    sx={{ width: '5cm' }}
+                    type="date"
+                    name="calender"
+                    label="Return"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    required
+                    className=" border border-[#e6e3e3]   rounded-md"
+                    inputProps={{ min: formattedDate }} />
+                )}
+              </div>
 
-              )}
             </div>
+            <div className='mt-4 ml-7'>
 
-          </div>
-          <div className='mt-4 ml-7'>
-
-
-            <Dropdown className='mt-4 ml-7 '>
-              <MenuButton>
-                <TextField
-                  label="Passengers"
-                  id="people"
-                  sx={{ width: '5cm' }}
-                  placeholder='passenger'
-
-                  value={`${count} passenger${count > 1 ? "s" : ""} ${bike} bike${bike > 1 ? "s" : " "}`}
-                  onChange={(e) => setFromLocation(e.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="center">
-
-                        <KeyboardArrowDownIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                /></MenuButton>
-              <Menu className='bg-[#424a73] p-2 rounded-md'>
-                <MenuItem onClick={''}>
-                  <div>
-                    Passengers
-
-                    <button className="btn" onClick={decrement}><RemoveCircleIcon /></button>
-                    <span id="count" className='text-xl rounded-md '>{count}</span>
-                    <button className="btn" onClick={increment}><AddCircleIcon /></button>
-
-
-                  </div>
-                </MenuItem>
-                <MenuItem onClick={''}>
-
-                  <div className='flex gap-10 ' >
-                    Bikes
-                    <div className='mb-2'>
-                      <button className="btn" onClick={sub}><RemoveCircleIcon /></button>
-                      <span id="count" className='text-xl rounded-md'>{bike}</span>
-                      <button className="btn" onClick={add}><AddCircleIcon /></button>
+              <Dropdown className='mt-4 ml-7 '>
+                <MenuButton>
+                  <TextField
+                    label="Passengers"
+                    id="people"
+                    sx={{ width: '5cm' }}
+                    placeholder='passenger'
+                    value={`${count} passenger${count > 1 ? "s" : ""} ${bike} bike${bike > 1 ? "s" : " "}`}
+                    onChange={(e) => setFromLocation(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="center">
+                          <KeyboardArrowDownIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  /></MenuButton>
+                <Menu className='bg-[#424a73] p-2 rounded-md'>
+                  <MenuItem onClick={''}>
+                    <div>
+                      Passengers
+                      <button className="btn" onClick={decrement}><RemoveCircleIcon /></button>
+                      <span id="count" className='text-xl rounded-md '>{count}</span>
+                      <button className="btn" onClick={increment}><AddCircleIcon /></button>
                     </div>
-
-                  </div>
-
-                </MenuItem>
-              </Menu>
-            </Dropdown>
+                  </MenuItem>
+                  <MenuItem onClick={''}>
+                    <div className='flex gap-10 ' >
+                      Bikes
+                      <div className='mb-2'>
+                        <button className="btn" onClick={sub}><RemoveCircleIcon /></button>
+                        <span id="count" className='text-xl rounded-md'>{bike}</span>
+                        <button className="btn" onClick={add}><AddCircleIcon /></button>
+                      </div>
+                    </div>
+                  </MenuItem>
+                </Menu>
+              </Dropdown>
+            </div>
+            <div className='ml-4 pt-6  '>
+              <Button style={{ padding: '10px' }} type='submit'>Search</Button>
+            </div>
+            <div className='ml-5 pt-6 '>
+              <Button style={{ backgroundColor: '#0756a6', padding: '10px ' }} onClick={calcRoute}>Direction</Button>
+            </div>
           </div>
-
-          <div className='ml-4 pt-6  '>
-            <Button style={{ padding: '10px' }} onClick={submitHandler}>Search</Button>
-          </div>
-          <div className='ml-5 pt-6 '>
-            <Button style={{ backgroundColor: '#0756a6', padding: '10px ' }} onClick={calcRoute}>Direction</Button>
-          </div>
-
+        </div>
+        <div className='ml-64  mt-[31px] bg-[white]  absolute  z-10 gap-2  p-2 flex '>
+          |<p id="duration" class=""></p> |
+          <p id="distance" class=""></p>
         </div>
 
-
-      </div>
-      <div className='ml-20 rounded-lg mt-5 bg-[#E8EAED] w-80 pl-7  '>
-        <p id="duration" class="text-blue  w-80 font-bold "></p>
-        <p id="distance" class="text-green  w-80  text-xl"></p>
-      </div>
-
-
-      <div className="container">
-
-
-
-        <div className='flex'>
-          <div id="map" className='mt-5 ml-20' style={{ height: '460px', width: '90.5%' }}></div>
-
-
-          <div id="photo-container" className='mt-5' style={{ height: '400px', overflow: 'auto' }}>
-            {/* Content goes here */}
+        <div className="container ">
+          <div className='flex'>
+            <div id="map" className='mt-5 ml-20' style={{ height: '460px', width: '90.5%' }}></div>
+            <div id="photo-container" className='mt-5' style={{ height: '460px', overflow: 'auto' }}>
+              {/* Content goes here */}
+            </div>
           </div>
-
-
         </div>
-      </div>
-    </div>
+      </form>
+    </>
   );
 };
 

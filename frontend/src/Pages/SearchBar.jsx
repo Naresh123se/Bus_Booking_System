@@ -139,12 +139,8 @@ const SearchBar = () => {
 
     const localDate = new Date();
     const formattedDate = localDate.toISOString().split('T')[0];
-    console.log(formattedDate);
     const [value, setValue] = useState(formattedDate);
-    console.log(value);
-
     const [value1, setValue1] = useState(formattedDate);
-    console.log(value1);
 
     useEffect(() => {
         const storedData = localStorage.getItem('search');
@@ -160,7 +156,9 @@ const SearchBar = () => {
     }, []);
 
     return (
-        <div className=''>
+      <>
+
+      <form onSubmit={submitHandler}>
             {/*radio button */}
             <div className='shadow-lg sm:ml-5 sm:w-full mt-4 sm:mt-10 md:ml-3 xl:ml-3 max-lg:ml-10 ml-24 pr-5 pl-5 sm:px-12 pb-5 pt-5 bg-[#ffffff] shadow-[#b7acac] rounded-xl grid'>
                 <div className='flex sm:grid sm:w-full'>
@@ -207,6 +205,7 @@ const SearchBar = () => {
                                     id="fromLocation"
                                     sx={{ width: '5cm' }}
                                     placeholder='Enter From Location'
+                                    required
                                     value={fromLocation}
                                     onChange={(e) => setFromLocation(e.target.value)}
                                     InputProps={{
@@ -238,6 +237,7 @@ const SearchBar = () => {
                                     id="toLocation"
                                     sx={{ width: '5cm' }}
                                     placeholder='Enter To Location'
+                                    required
                                     value={toLocation}
                                     onChange={(e) => setToLocation(e.target.value)}
                                     InputProps={{
@@ -324,11 +324,12 @@ const SearchBar = () => {
                         </div>
                     </div>
                     <div className='ml-2 pt-6'>
-                        <Button onClick={submitHandler}>Search</Button>
+                        <Button  type='submit'>Search</Button>
                     </div>
                 </div>
             </div>
-        </div>
+            </form>
+            </>
     );
 };
 
