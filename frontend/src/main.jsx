@@ -21,18 +21,11 @@ import BlogList from './Pages/BlogList.jsx';
 import Footer from './Pages/Footer.jsx'; 
 
 import BusSeat from './Pages/BusSeat.jsx';
-import Seat from './Booking/Seat.jsx';
+
 import Ticket from './Booking/Ticket.jsx';
-
-
-
 
 import PickDirection from './Directions/PickDirection.jsx';
 
-
-
-
-import Payment from './Booking/Payment.jsx';
 import Cancel from './Booking/Cancel.jsx';
 import Int_Payment from './Booking/Stripe.jsx';
 import Completion from './Booking/Completion.jsx';
@@ -51,6 +44,7 @@ import User from './Admin/User.jsx';
 import Coupons from './Admin/Coupons.jsx';
 import ABus from './Admin/Bus.jsx';
 import ABlog from './Admin/Blog.jsx';
+import AEmail from './Admin/AEmail.jsx';
 
 
 
@@ -68,33 +62,21 @@ const router = createBrowserRouter(
       <Route path='/Profile' element={<Profile/>} />
       <Route path='/seat' element={<BusSeat/>} />
       <Route path='/Footer' element={<Footer/>} />
-      
       <Route path='/Extra' element={<EXT/>} />
-
-      <Route path='/Seat1' element={<Seat/>} />
       <Route path='/Booking' element={<Booking/>} />
       <Route path='/blog' element={<Blog/>} />
       <Route path='/BlogList' element={<BlogList/>} />
-   
       <Route path='/PickD' element={<PickDirection/>} />
-      <Route path='/payment' element={<Payment/>} />
       <Route path='/Cancel' element={<Cancel/>} />
       <Route path='/Ipayment' element={<Int_Payment />} />
-
       <Route path='/Ticket' element={<Ticket/>} />
       <Route path='/Coupon' element={<Coupons/>} />
-
       <Route path='/completion' element={<Completion/>} />
-
       <Route path='/print-ticket' element={<PrintTicket/>} />
       <Route path='/cancel-ticket' element={<CancelTicket/>} />
-
       <Route path='/faq' element={<FAQ/>} />
       <Route path='/termCondition' element={<TermsCondition/>} />
       <Route path='/policy' element={<Policy/>} />
-
-
-    
 
        <Route path='/admin' element={<Main />} />
        <Route path='admin/Loginpage' element={<ALoginPage />} />
@@ -103,6 +85,7 @@ const router = createBrowserRouter(
        <Route path='admin/Bus' element={<ABus />} />
        <Route path='admin/Coupons' element={<Coupons />} />
        <Route path='admin/blog' element={<ABlog />} />
+       <Route path='admin/send-email' element={<AEmail />} />
 
       </Route>  
       

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGauge, faTicket, faBusSimple, faUsers,  faEnvelope, faLocationDot  } from '@fortawesome/free-solid-svg-icons';
+import { faGauge, faTicket, faBusSimple, faUsers,  faEnvelope, faBlog  } from '@fortawesome/free-solid-svg-icons';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 const AIndex = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const AIndex = () => {
   };
 
   const handleReportClick = () => {
-    handleClick('Report');
+    handleClick('send-email');
   };
   const handleDestinationClick = () => {
     handleClick('Coupons');
@@ -87,12 +87,12 @@ const AIndex = () => {
             Schedule
             </div>
           </div>
-          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Report' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleReportClick}>
+          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'send-email' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleReportClick}>
             <div>
             <FontAwesomeIcon icon={faEnvelope} />
             </div>
             <div>
-              Email
+              Send Email
             </div>
           </div>
 
@@ -107,13 +107,12 @@ const AIndex = () => {
 
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleBlogClick}>
             <div>
-              <FontAwesomeIcon icon={faLocationDot}/>
+              <FontAwesomeIcon icon={faBlog}/> 
             </div>
             <div>
            Blog
             </div>
           </div>
-
         </div>
       </div>
     </>

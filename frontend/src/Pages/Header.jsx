@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Navbar } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
@@ -26,23 +25,19 @@ const Header = () => {
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+
   const getTicket = () => {
     // Handle navigation here
     navigate('/print-ticket'); // Navigate to '/home'
-};
+  };
   const cancelTicket = () => {
     // Handle navigation here
     navigate('/cancel-Ticket'); // Navigate to '/home'
-};
+  };
   const blogGo = () => {
     // Handle navigation here
     navigate('/BlogList'); // Navigate to '/home'
-};
-
-
-
-
+  };
   const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
@@ -63,57 +58,57 @@ const Header = () => {
       <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px] font-medium  '>
         <div className=' cursor-pointer   hover:bg-[#60c5ff] p-1 rounded-md' onClick={blogGo}>Blog</div>
         <div
-            className="relative inline-block"
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
+          className="relative inline-block"
+          onMouseEnter={() => setIsDropdownOpen(true)}
+          onMouseLeave={() => setIsDropdownOpen(false)}
         >
-            <button
-                type="button"
-                className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative  "
-            >
-                Ticket
-                {/* Drop-down and up arrow icons */}
-                {isDropdownOpen ? (
-                    <KeyboardArrowUpIcon />
-                ) : (
-                    <KeyboardArrowDownIcon />
-                )}
-            </button>
-            {isDropdownOpen && (
-                <div className="absolute   sm:px-0 bg-[white]  z-50 ">
-                    <div className="rounded-sm shadow-lg ring-1  overflow-hidden w-full ">
-                        <div className="relative grid gap-1 bg-white  sm:gap-8 sm:p-8 w-full ">
-                            <a
-                                onClick={getTicket}
-                                className="hover:bg-[#e3d9d9] flex  pr-4 cursor-pointer "
-                            >
-                                <div className="ml-4 flex w-full">
-                                <div className="flex  items-center mr-2 w-full ">
-                                <PrintIcon/>
-    </div>
-                                    <p className="text-base font-medium text-gray-900">
-                                     Print Ticket
-                                    </p>
-                                </div>
-                            </a>
-                            <a
-                                onClick={cancelTicket} 
-                                className="hover:bg-[#e3d9d9] flex pr-4  cursor-pointer"
-                            >
-                                <div className="ml-4 flex" >
-                                  
-                                <div className="flex  items-center mr-2 ">
-      <CancelIcon />
-    </div>
-                                    <p className="text-base font-medium text-gray-900">
-                                   Cancel Ticket
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+          <button
+            type="button"
+            className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative  "
+          >
+            Ticket
+            {/* Drop-down and up arrow icons */}
+            {isDropdownOpen ? (
+              <KeyboardArrowUpIcon />
+            ) : (
+              <KeyboardArrowDownIcon />
             )}
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute   sm:px-0 bg-[white]  z-50 ">
+              <div className="rounded-sm shadow-lg ring-1  overflow-hidden w-full ">
+                <div className="relative grid gap-1 bg-white  sm:gap-8 sm:p-8 w-full ">
+                  <a
+                    onClick={getTicket}
+                    className="hover:bg-[#e3d9d9] flex  pr-4 cursor-pointer "
+                  >
+                    <div className="ml-4 flex w-full">
+                      <div className="flex  items-center mr-2 w-full ">
+                        <PrintIcon />
+                      </div>
+                      <p className="text-base font-medium text-gray-900">
+                        Print Ticket
+                      </p>
+                    </div>
+                  </a>
+                  <a
+                    onClick={cancelTicket}
+                    className="hover:bg-[#e3d9d9] flex pr-4  cursor-pointer"
+                  >
+                    <div className="ml-4 flex" >
+
+                      <div className="flex  items-center mr-2 ">
+                        <CancelIcon />
+                      </div>
+                      <p className="text-base font-medium text-gray-900">
+                        Cancel Ticket
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

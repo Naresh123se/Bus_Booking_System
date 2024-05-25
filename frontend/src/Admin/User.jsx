@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AIndex from './AIndex.jsx'
 import { useGetUserMutation } from '../slices/usersApiSlice.js';
-
-
-
-
 import { styled } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -132,8 +128,7 @@ const Users = () => {
           <div style={{}}>
             <div className='text-lg font-semibold text-[#fff] bg-[#3583b1] pl-10 pt-2 pb-2 '>
               Users
-              {/* <Button onClick={() => setShowAddPanel(true)} className="  " sx={{ marginLeft: '100vh' }}>Add New</Button> */}
-              {/* <Button onClick={handleDeleteSelected} className="" sx={{ marginLeft: '10px' }}>Delete Selected</Button> */}
+             
             </div>
 
 
@@ -141,12 +136,12 @@ const Users = () => {
             <div>
               <table className="min-w-full   ">
                 <thead className="">
-                  <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
+                  <tr className="flex  gap-14 shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
                     <th className="w-1/12">Select</th>
                     <th className="w-1/12">Name</th>
-                    <th className="w-2/12">email</th>
-                    <th className="w-2/12">Address</th>
-                    <th className="w-2/12">Phone Number</th>
+                    <th className="w-3/12">email</th>
+                    <th className="w-2/12">Login date</th>
+                    {/* <th className="w-2/12">Phone Number</th> */}
                     <th className="w-2/12">Verify</th>
                     {/* <th className="w-1/12">Actions</th> */}
                   </tr>
@@ -162,13 +157,13 @@ const Users = () => {
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                         ...(item.active ? { backgroundColor: '#eff7ff' } : { backgroundColor: '#fdeeee' }), // Apply different background color based on active status
                       }} className='flex'>
-                        <td className="w-28 ml-12">
+                        <td className="w-40 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
-                        <td className="w-40" style={{ fontSize: '1.2rem', color: '#333' }}>{item.name}</td>
-                        <td className="w-80" style={{ fontSize: '1.2rem', color: '#555' }}>{item.email}</td>
+                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#333' }}>{item.name}</td>
+                        <td className="w-96 ml-12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.email}</td>
                         {/* <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.isVerified}</td> */}
-                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#555' }}> {new Date(item.createdAt).toLocaleDateString('en-US')}</td>
+                        <td className="w-[12%]" style={{ fontSize: '1.2rem', color: '#555' }}> {new Date(item.createdAt).toLocaleDateString('en-US')}</td>
                         <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
                         {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.active}</td> */}
 

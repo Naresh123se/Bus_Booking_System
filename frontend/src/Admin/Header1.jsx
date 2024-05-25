@@ -16,7 +16,7 @@ import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 
 const Header1 = () => {
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logoutApiCall] = useLogoutMutation();
@@ -32,49 +32,51 @@ const Header1 = () => {
       console.error(err);
     }
   };
-  
+
 
   return (
     <header className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50 overflow-hidden ' >
       <Link to='/admin' className='flex items-center gap-1 '>
-        <div className='w-16  ml-20' > 
-        <img src="/3.svg" alt="bus11" /></div>
+        <div className='w-16  ml-20' >
+          <img src="/3.svg" alt="bus11" /></div>
 
       </Link>
 
       <div className='flex items-center space-x-8'>
-        
-      
+
+
       </div>
-     
+
       <div>
 
-      
-          <Dropdown>
-            {/* MenuButton styling */}
-            <MenuButton className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-hover mr-20 '>
-              <AccountCircleIcon />
-             Admin
-            </MenuButton>
 
-            {/* Menu styling */}
-            <Menu className='bg-[#f9faff] p-2 rounded-md'>
-              {/* Profile link with hover effect */}
-              <MenuItem className='hover:bg-profileH cursor-pointer  border-b border-gray-300 bg-white'>
-                <Link to='/profile'>Profile</Link>
-              </MenuItem>
+        <Dropdown>
+          {/* MenuButton styling */}
+          <MenuButton className='username flex items-center gap-2 border border-[#5081F5] rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-hover mr-20 '>
 
-              {/* Language settings with hover effect */}
-              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
-                <Link to='/language'>Language settings</Link>
-              </MenuItem>
+            {/* <AccountCircleIcon /> */}
+            <img src="/logofinal11.png" className='size-8 ' alt="logo" />
+            <p className='font-semibold'>ADMIN</p>
+          </MenuButton>
 
-              {/* Log out with hover effect and cursor-pointer */}
-              <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white' onClick={logoutHandler}>
-                Log out
-              </MenuItem>
-            </Menu>
-          </Dropdown>
+          {/* Menu styling */}
+          <Menu className='bg-[#f9faff] p-2  w-28 rounded-md'>
+            {/* Profile link with hover effect */}
+            <MenuItem className='hover:bg-profileH cursor-pointer  border-b border-gray-300 bg-white'>
+              <Link to='/profile'>Profile</Link>
+            </MenuItem>
+
+            {/* Language settings with hover effect */}
+            {/* <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
+              <Link to='/language'>Language settings</Link>
+            </MenuItem> */}
+
+            {/* Log out with hover effect and cursor-pointer */}
+            <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white' onClick={logoutHandler}>
+              Log out
+            </MenuItem>
+          </Menu>
+        </Dropdown>
       </div>
     </header>
   )

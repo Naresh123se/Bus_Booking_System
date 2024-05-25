@@ -2,16 +2,16 @@ import "./passwort.js";
 import express from "express";
 const app = express();
 import cors from "cors";
-import google from './routes/google.js';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
+import google from "./routes/google.js";
+import cookieParser from "cookie-parser";
+import session from "express-session";
 import passport from "passport";
 
 app.use(cookieParser("Naresh"));
 
 app.use(
   session({
-    secret: 'your-secret-key', // Replace with your own secret key
+    secret: "your-secret-key", // Replace with your own secret key
     resave: false,
     saveUninitialized: true,
   })
@@ -30,4 +30,4 @@ app.use(
 
 app.use("/auth", google);
 
-export {app};
+export { app };

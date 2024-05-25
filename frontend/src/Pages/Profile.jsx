@@ -55,19 +55,18 @@ const Profile = () => {
     };
 
     return (
-        <div className=" w-80 pb-7 mx-[40%] border mt-10 border-[#b7acac] rounded-xl">
+        <div className=" w-80 pb-7 mx-[40%] border mt-20 border-[#b7acac] rounded-md ">
             <div>
                 <h2 className="text-2xl font-medium ml-20 mt-4">Update Profile</h2>
             </div>
-            <Form onSubmit={submitHandler} className="max-w-md mx-auto ml-10 mt-4">
+            <Form onSubmit={submitHandler} className="max-w-md  ml-14 mt-4">
                 {(userInfo || user) && (
                     <>
                         <Form.Group controlId='name' className='mb-4  '>
                             <Form.Label><PersonIcon sx={{ fontSize: 21, width:'22px',marginBottom:'10px' }} /> Name</Form.Label>
-                            
-                            <TextField
+                                                        <TextField
                                 type='name'
-                                // placeholder='Enter name'
+                                size='small'
                                 value={name}
                                 label="Name"
                                 onChange={(e) => setName(e.target.value)}
@@ -76,7 +75,7 @@ const Profile = () => {
                                     : '' // Empty string if user is not present
                                     }`}
                                 readOnly={user} // Making the input non-editable if user is present
-                                style={{ pointerEvents: user ? 'none' : 'auto' }} // Disabling pointer events if user is present
+                                style={{ pointerEvents: user ? 'none' : 'auto', marginTop:'6px' }} // Disabling pointer events if user is present
                             />
                         </Form.Group>
 
@@ -84,12 +83,12 @@ const Profile = () => {
                             <Form.Label><AlternateEmailIcon sx={{ fontSize: 21 }} /> Email Address</Form.Label>
                             <TextField
                                 type='email'
-                                // placeholder='Enter email'
+                                size='small'
+                                
                                 label="Email"
                                 value={email}
                                 readOnly // Making the input non-editable
-                                className='border border-[#a99090] px-3 py-2 rounded-md flex cursor-not-allowed bg-white'
-                                style={{ pointerEvents: 'none' }} // Disabling pointer events
+                                style={{ pointerEvents: 'none' , marginTop:'10px'}} // Disabling pointer events
                             />
                         </Form.Group>
                     </>
@@ -97,23 +96,26 @@ const Profile = () => {
                 {userInfo && (
                     <>
                         <Form.Group controlId='password' className='mb-4'>
-                            <Form.Label><LockIcon sx={{ fontSize: 21 }} /> Password</Form.Label>
+                            <Form.Label><LockIcon sx={{ fontSize: 21, Top:'10px' }} /> Password</Form.Label>
                             <TextField
+                            size='small'
                                 type='password'
+                                style={{ marginTop:'5px' }}
                                 placeholder='Enter password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className='border border-[#a99090] px-3 py-2 rounded-md flex'
+                                
                             />
                         </Form.Group>
                         <Form.Group controlId='confirmPassword' className='mb-4'>
                             <Form.Label><LockIcon sx={{ fontSize: 21 }} /> Confirm Password</Form.Label>
                             <TextField 
+                            size='small'
                                 type='password'
                                 placeholder='Confirm password'
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className='border border-[#a99090] px-3 py-2 rounded-md flex'
+                                style={{ marginTop:'5px' }}
                             />
                         </Form.Group>
                     </>
@@ -136,6 +138,7 @@ const Profile = () => {
                     ) : ( // If user doesn't exist
                         <Button className=''
                             type='submit'
+                            sx={{width:"27ch"}}
                             variant="contained"
                         >
                             Update

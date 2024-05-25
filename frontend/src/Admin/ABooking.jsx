@@ -36,8 +36,6 @@ const ABooking = () => {
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
 
-
-
    // Get the current date
    const currentDate = new Date();
 
@@ -60,8 +58,6 @@ const ABooking = () => {
     try {
       const result = await getbus();
       const newData = result.data.data;
-      
-
       console.log("Original data1:", newData); // Log the original data
 
       // Create a copy of the newData array and then reverse it
@@ -71,7 +67,6 @@ const ABooking = () => {
       // Set the reversed data in the state
       setBus20(reversedData);
 
-       
     } catch (error) {
       console.error('Failed to fetch schedules:', error);
     }
@@ -83,8 +78,6 @@ const ABooking = () => {
         const result = await get();
 
         const newSchedules = result.data.data;
-
-// console.log(result)
 
         const reversedSchedules = [...newSchedules].reverse();
         setData(reversedSchedules);
@@ -99,7 +92,7 @@ const ABooking = () => {
     event.preventDefault();
 
     try {
-      await add({ busId, startTime, endTime, calender, startLocation, endLocation, price, day }).unwrap();
+      await add({ busId, startTime, endTime, calender, startLocation, stopLocation,  endLocation, price, day }).unwrap();
       toast.success('Schedules added successfully');
       fetchSchedules();
       setShowAddPanel(false);
@@ -240,15 +233,15 @@ const ABooking = () => {
               <div className="bg-white p-1 mb-4 ml-5  ">
                 <h1 className="text-md font-semibold mb-3">Add New Schedules </h1>
                 <form onSubmit={handleAddSubmit} className='flex gap-5'>
-                  <select type="text" className=" border border-[#bcb7b7]  rounded-md" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
-                    size='small'
-                         
-                    {/* <select name="bus" defaultValue=""> */}
+                  <div >
+                  <select type="text" className=" border border-[#bcb7b7]  rounded-md h-10" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
+                                         {/* <select name="bus" defaultValue=""> */}
                     <option value="" disabled>Select a bus</option>
                     {bus20.map(bus => (
                       <option key={bus._id} value={bus._id}>{bus.name1}</option>
                     ))}
                   </select>
+                  </div>
                   <TextField sx={{ width: '16ch'}} type="text" size='small' name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
                   <TextField sx={{ width: '16ch'}}type="text" size='small' name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
                   <TextField sx={{ width: '16ch'}}type="date" size='small' name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
@@ -323,6 +316,7 @@ const ABooking = () => {
             <TextField label="End Time" type='time' name="endTime" value={editData.endTime} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Date" type='date' name="calender" value={editData.calender} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Start Location" name="startLocation" value={editData.startLocation} onChange={handleEditInputChange} className='mb-3' />
+            <TextField label="Stop Location" name="stopLocation" value={editData.stopLocation} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="End Location" name="endLocation" value={editData.endLocation} onChange={handleEditInputChange} className='mb-3' />
             <TextField label="Price" name="price" type="price" value={editData.price} onChange={handleEditInputChange} className='mb-3' />
           </form>

@@ -42,6 +42,7 @@ const LoginPage = () => {
 
   return (
     <>
+    <div className='pb-28'>
       <CssVarsProvider>
         < DarkModeToggle />
         <div className='size-32 mx-[45%] pt-1 '>
@@ -122,6 +123,7 @@ const LoginPage = () => {
           </div>
         </Sheet>
       </CssVarsProvider>
+      </div>
     </>
   )
 }

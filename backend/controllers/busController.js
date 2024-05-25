@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 
 const bookingdata = asyncHandler(async (req, res) => {
   // Extract parameters from the request body or query parameters
-  const { fromLocation, toLocation, value, value1, bike, count } = req.body;
+  const { fromLocation, toLocation, value, value1, bike, count, } = req.body;
   console.log(fromLocation, toLocation);
 
   // Validate parameters

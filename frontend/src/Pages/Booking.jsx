@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from '../Directions/Skeleton.jsx'
 
-import AllFilter from '../Booking/AllFilter.jsx'
-import Extra from '../Booking/Extra.jsx'
-
-
-
 import { useGetScheduleMutation } from '../slices/busSchedules.js';
-
 import Groups2Icon from '@mui/icons-material/Groups2';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -18,17 +12,8 @@ import Button1 from '@mui/joy/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import dayjs from 'dayjs';
-
-import Swal from 'sweetalert2';
-
-
-
-
 import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
-
 import 'react-datepicker/dist/react-datepicker.css';
-
 import { useSearchMutation } from '../slices/booking';
 import { useGetTicketMutation } from '../slices/ticket';
 import { toast } from 'react-toastify';
@@ -45,8 +30,6 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-
 
 const Booking = () => {
 
@@ -68,8 +51,6 @@ const Booking = () => {
     { label: '18:00 - 24:00', value: '18-24' },
   ];
   const busTypes = ['Delax', 'Super', 'Rapti', 'Baba'];
-
-
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -361,44 +342,8 @@ const Booking = () => {
     setOpenItemId(itemId === openItemId ? null : itemId);
   };
 
-  useEffect(() => {
-    // Function to authenticate user
-    function authenticateUser(email, name) {
-      // Get user data from localStorage
-      const userDataString = localStorage.getItem('userInfo');
-      console.log("ok",userDataString)
-      if (!userDataString) {
-        Swal.fire({
-          position: "top-center",
-          icon: "error",
-          color: "#716add",
-          background: "#00000 url(ll.png)",
-          title: "Login First",
-          showConfirmButton: true,
-          backdrop: `
-        rgba(10,0,123,0.4)
-        left top
-        no-repeat
-      `
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate('/login')
-          }
-        });
-        return false;
-      }
-      // Parse user data from localStorage
-      const userData = JSON.parse(userDataString);
-      // Check if email and name match
-      if (userData.email === email && userData.name === name) {
-        // Email and name match, return true (authentication successful)
-        return true;
-      } else {
-        // Email and name do not match, return false (authentication failed)
-        return false;
-      }
-    }
-  }, []);
+
+
 
   const handleTimeChange = (e) => {
     const { value, checked } = e.target;
@@ -647,12 +592,12 @@ const Booking = () => {
                     >
                       <div className='flex  mr-10 ml-10 justify-between p-1'>
                         <div className='text-xl font-semibold mr-40'> {item.bus.name1}</div>
-                        <div className='font-semibold text-xl'>{item.startTime}</div>
+                        <div className='font-semibold text-xl'>{item.startLocation}</div>
                         <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
-                        <p>{(item.startTime)}</p>
+                        <p>{(item.stopLocation)}</p>
                         <hr className=" flex-1 ml-1 mr-1  mt-3   h-border border-[#b6b3b3]" />
-                        <div className='mr-40 font-semibold text-xl'>{item.endTime}</div>
-                        <div className='font-semibold text-xl'>{item.price}</div>
+                        <div className='mr-40 font-semibold text-xl'>{item.endLocation}</div>
+                        <div className='font-semibold text-xl'>Rs.{item.price}</div>
                       </div>
 
                       <div className='ml-10 mb-3  flex  mt-3'>
@@ -664,10 +609,11 @@ const Booking = () => {
                             <span className='  '><PhotoCameraFrontIcon sx={{ color: '#757575' }} /></span>
                           </span>
                         </div>
-                        <div className='ml-28 text-lg'>{item.startLocation}</div>
-                        <div className='ml-[46vh] text-lg'>{item.endLocation}</div>
+                        <div className='ml-[14%] text-lg font-semibold'>{item.startTime} </div>
+                <hr  className='  ml-3 w-48 mt-4  text-[#a29797]'/>
+                        <div className=' ml-3 text-lg font-semibold'>{item.endTime}</div>
 
-                        <div className='ml-10'>
+                        <div className='ml-44'> 
                           <span className=' border rounded-md border-[#909090] p-0.5  '>
                             <span className=''> <Groups2Icon sx={{ color: '#475362' }} /> Seats available </span>
                             {/* seat available */}

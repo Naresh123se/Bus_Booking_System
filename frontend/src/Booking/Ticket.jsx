@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import { useGetTicketMutation } from '../slices/ticket'
 import { useGetbusMutation } from '../slices/bus.js';
+import { useBookingMailMutation} from '../slices/email';
 import Button from '@mui/joy/Button';
 const Ticket = () => {
   // Sample data for demonstration
@@ -23,16 +24,18 @@ const Ticket = () => {
   console.log(email)
   console.log(userName);
   console.log(id);
+  const [bookingMail] = useBookingMailMutation();
+  const ticket1212 = localStorage.getItem('ticketDataResponse') 
+  
+  const all = localStorage.getItem('allData') 
+  const userData1 = JSON.parse(all);
+  const price1212 =  userData1.finalprice.totalPrice
+  const BusName1212 =  userData1.BusName
+  const bus1212 =  userData1.BusNumber
+  const seatString =  userData1.seat
+  const seat1212 = seatString.join(', ');
 
-  console.log('User name:', userName);
-  // Check if the value exists
-  if (storedValue !== null) {
-    // Value exists, use it
-    console.log('Value from local storage:', storedValue);
-  } else {
-    // Value does not exist in local storage
-    console.log('Value does not exist in local storage');
-  }
+  console.log(seat1212)
 
   const [printingCompleted, setPrintingCompleted] = useState(false);
 
@@ -45,15 +48,12 @@ const Ticket = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
-
   useEffect(() => {
     const storedResponse = localStorage.getItem('ticketDataResponse');
     const responseWithoutQuotes = storedResponse.slice(1, -1);
     console.log(storedResponse)
     const fetchAndFilterTickets = async () => {
       try {
-        // Fetch the tickets
         const response = await getTicket();
         console.log(response)
         const tickets = response.data.tickets;
@@ -73,8 +73,6 @@ const Ticket = () => {
         setSe(filteredTickets[0].seat)
         setP(filteredTickets[0].finalprice.totalPrice)
         setCal(filteredTickets[0].finalprice.totalPrice)
-
-
         // Update the state with the filtered tickets
         setFinal(filteredTickets);
       } catch (error) {
@@ -87,13 +85,36 @@ const Ticket = () => {
     fetchData();
   }, []); // Include id as a dependency to re-run the effect when it changes
 
+  const emailSentFlag = localStorage.getItem('emailSent');
+ 
+useEffect(() => {
 
+  if (!emailSentFlag) {
+    
+    const sendEmail = async () => {
+      
+      try {
+        
+       
+         bookingMail({  email, userName, ticket1212, BusName1212,price1212, bus1212, seat1212 }).unwrap();
+      
+        localStorage.setItem('emailSent', 'true');
+      } catch (error) {
+        console.error('Error sending email:', error);
+      }
+    };
+
+    sendEmail();
+  }
+}, []);
+
+  
   //buses
   const fetchData = async () => {
     try {
       const result = await getbus();
       const newData = result.data.data;
-      console.log(newData)
+      // console.log(newData)
 
       // Set the reversed data in the state
       setBus(newData);
@@ -129,11 +150,6 @@ const Ticket = () => {
     .map(([key, value]) => `${key}: ${value}`)
     .join('\n');
 
-
-
-
-
-
   const printContent = () => {
 
     window.print();
@@ -142,15 +158,10 @@ const Ticket = () => {
 
   return (
     <>
-
-
       <div id="contentToPrint">
         {/* <main  className="ticket-system"> */}
 
-
-
         <style>
-
 
           {`
 

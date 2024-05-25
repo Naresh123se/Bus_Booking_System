@@ -6,7 +6,7 @@ import  Bus  from "../models/bus.js";
 
 const addSchedule = asyncHandler(async (req, res) => {
   try {
-    const { busId, startTime, endTime, calender, startLocation, endLocation, price, day } = req.body;
+    const { busId, startTime, endTime, calender, startLocation, stopLocation, endLocation, price, day } = req.body;
     
     const bus = await Bus.findById(busId);
     if (!bus) {
@@ -19,6 +19,7 @@ const addSchedule = asyncHandler(async (req, res) => {
       endTime,
       calender,
       startLocation,
+      stopLocation,
       endLocation,
       price,
       day

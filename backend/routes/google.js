@@ -1,6 +1,6 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import passport from 'passport';
+import passport from "passport";
 
 const CLIENT_URL = "http://localhost:4000/";
 
@@ -10,8 +10,6 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "successfull",
       user: req.user,
-      
-      
     });
   }
 });
@@ -24,15 +22,13 @@ router.get("/login/failed", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout ((err) => {
+  req.logout((err) => {
     if (err) {
-      return res.status(500).json({ message: 'Error logging out', error: err });
+      return res.status(500).json({ message: "Error logging out", error: err });
     }
-  res.redirect(CLIENT_URL);
+    res.redirect(CLIENT_URL);
+  });
 });
-});
-
-
 
 router.get(
   "/google/callback",
@@ -42,8 +38,9 @@ router.get(
   })
 );
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 export default router;

@@ -25,6 +25,10 @@ const busSchedules = new mongoose.Schema(
       type: String,
       required: true,
     },
+    stopLocation: {
+      type: String,
+      required: true,
+    },
     endLocation: {
       type: String,
       required: true,
@@ -42,7 +46,6 @@ const busSchedules = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 
 // Define the Bus model
 

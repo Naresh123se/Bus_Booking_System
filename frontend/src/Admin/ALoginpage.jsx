@@ -14,6 +14,7 @@ import FormLabel from '@mui/joy/FormLabel';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import Loader from '../Directions/Loader';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (!isVerified) {
-      alert('Please complete the reCAPTCHA verification.');
+      toast.error('Please complete the reCAPTCHA verification.');
       return;
     }
     if (username === 'admin' && password === 'admin123') {
@@ -39,15 +40,15 @@ const LoginPage = () => {
       navigate('/admin');
       window.location.reload();
     } else {
-      alert('Regular user logged in');
+      toast.error( 'Wrong username or password');
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className=" flex flex-col">
       <div className="flex-grow flex flex-col items-center justify-center">
         <div className='pt-10'>
-          <img src="/3.svg" alt="Logo" className="size-32 mx-[45%] mr-10" />
+          <img src="/3.svg" alt="Logo" className="size-32 pt-14" />
         </div>
         <CssVarsProvider>
           <Sheet
@@ -121,9 +122,7 @@ const LoginPage = () => {
           </Sheet>
         </CssVarsProvider>
       </div>
-      <footer className="text-center py-4 bg-silver">
-        <p>Footer Content Here</p>
-      </footer>
+      
     </div>
   );
 };

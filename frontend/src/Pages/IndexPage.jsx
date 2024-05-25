@@ -4,6 +4,7 @@ import Offers from '../Booking/Offers.jsx';
 import Blog from '../Pages/Blogg.jsx';
 import Body1 from './Body1.jsx';
 const IndexPage = () => {
+  localStorage.removeItem('emailSent');
 
   return (
     <>
@@ -14,26 +15,19 @@ const IndexPage = () => {
         <div className='absolute  ml-10 inset-0 mt-80  flex items-center sm:ml-0 sm:w-full lg:mt-96 md:mt-[64vh]  md:ml-20 lg:ml-28 '>
           <SearchBar />
         </div>
-
-      
       </div>
-      <div className='mt-28  sm:mt-[90vh]  lg:mt-96 md:mt-[63vh]  sm:bg-[red] md:bg-bg1 lg:bg-[#63b378] xl:bg-[black] 2xl:bg-[#ebeb4d]'>
-          <Offers/>
-        </div>
-        <div className=' mt-16  border-[#ebdfdf] border'>
-        <div className='   ml-20   '>
- <Body1/>
-           
+      {/* <div className='mt-28  sm:mt-[90vh]  lg:mt-96 md:mt-[63vh]  sm:bg-[red] md:bg-bg1 lg:bg-[#63b378] xl:bg-[black] 2xl:bg-[#ebeb4d]'> */}
+      <div className='mt-28  sm:mt-[90vh]  lg:mt-96 md:mt-[63vh]  ]'>
+        <Offers />
       </div>
-        </div>
-     
+      <div className=' mt-16  border-[#ebdfdf] border'>
+        <div className='   bg-[#F5F5F5]   '>
+          <Body1 />
 
-      <div className='  '>
-      {/* <Destinations/> */}
-     
+        </div>
       </div>
       <div className=''>
-        <Blog/>
+        <Blog />
       </div>
     </>
   );

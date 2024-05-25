@@ -18,6 +18,8 @@ import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs';
+import Swal from 'sweetalert2';
 
 const DirectionMap = () => {
   const [map, setMap] = useState(null);
@@ -30,6 +32,63 @@ const DirectionMap = () => {
   useEffect(() => {
     loadGoogleMapsScript();
   }, [selectedCountry]);
+
+  useEffect(() => {
+    // Read user data from local storage
+    const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
+    const userData = JSON.parse(storedValue);
+
+    // Check if user is logged in
+    if (userData && userData.isLoggedIn) {
+      // User is logged in, no action needed
+      console.log("User is logged in");
+    } else {
+      // User is not logged in, show alert and navigate to login page
+      console.log("User is not logged in");
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        color: "#716add",
+        background: "#00000 url(ll.png)",
+        title: "Login First",
+        showConfirmButton: true,
+        backdrop: `
+          rgba(10,0,123,0.4)
+          left top
+          no-repeat
+        `
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login'); // Navigate to login page
+        }
+      });
+    }
+
+    // Check user status
+    if (userData && !userData.status) {
+      // User status is false, show another message
+      console.log("Contact admin");
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        color: "#716add",
+        background: "#00000 url(ll.png)",
+        title: "Contact Admin",
+        text: "Your status is not active. Please contact admin for assistance.",
+        showConfirmButton: true,
+        backdrop: `
+          rgba(10,0,123,0.4)
+          left top
+          no-repeat
+        `
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/'); // Navigate to login page
+        }
+      });
+    }
+  }, []);
+
 
   const switchLocations = () => {
     const tempLocation = fromLocation;
@@ -130,12 +189,20 @@ const DirectionMap = () => {
                   getPlaceDetails(placeId);
                   displayNearbyBusStop(destLocation);
                 }
+              } else {
+                // If no routes found, show error message
+                console.log("first")
+                toast.error('No bus routes found for the selected locations.');
               }
             } else {
+              toast.error('No bus routes found for the selected locations.');
+
               console.error('Error calculating the route:', status);
             }
           });
         } else {
+          toast.error('No bus routes found for the selected locations.');
+
           console.error('Error fetching place details for destination:', status);
         }
       }

@@ -28,8 +28,8 @@ const CancelTicket = () => {
   const [noRecord, setNoRecord] = useState(false);
   const [emailCancel, {isLoading}] = useCancelMailMutation();
   const [cancelTicket] = useCancelMutation();
-  const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
-  const userData = JSON.parse(storedValue);
+
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -101,7 +101,7 @@ const CancelTicket = () => {
 
     if (result.isConfirmed) {
       try {
-        // await deleteTicket(id);
+        await deleteTicket(id);
         await emailCancel({ email, cal, se, p, tick, userName, bus }).unwrap();
         Swal.fire({
           title: "Canceled!",
@@ -112,8 +112,7 @@ const CancelTicket = () => {
         });
       } catch (error) {
         console.error(error);
-        // Uncomment this line to display an error message
-        // toast.error(error?.response?.data?.message || "An error occurred while canceling the ticket.");
+        
       }
     } else if (result.dismiss === Swal.DismissReason.cancel) {
       // Handle cancel action if needed
@@ -137,8 +136,6 @@ const CancelTicket = () => {
     }
   };
   
-  
-
   return (
     <>
       <div className='ml-60 mt-3 '>
@@ -184,6 +181,7 @@ const CancelTicket = () => {
                 required={true}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                  inputProps={{ min: date }}
               />
             </div>
             <div className='mt-7 '>

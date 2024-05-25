@@ -40,6 +40,7 @@ const authUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         status: user.active,
+        isLoggedIn: true,
 
       });
     } else {

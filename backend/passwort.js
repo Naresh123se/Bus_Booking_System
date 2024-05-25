@@ -5,9 +5,6 @@ dotenv.config();
 
 import Google from "./models/googleAuth.js";
 
-
-
-
 passport.use(
   new OAuth2Strategy(
     {
@@ -26,6 +23,7 @@ passport.use(
             displayName: profile.displayName,
             email: profile.emails[0].value,
             image: profile.photos[0].value,
+            isLoggedIn:true
           });
 
           await user.save();

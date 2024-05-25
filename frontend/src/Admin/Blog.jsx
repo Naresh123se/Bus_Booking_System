@@ -19,10 +19,7 @@ const Blog = () => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [blogText, setBlogText] = useState('');
     const [author, setAuthor] = useState('');
-
     const editor = useRef(null);
-
-
     const [editIndex, setEditIndex] = useState(null);
     const [editData, setEditData] = useState({});
     const [showAddPanel, setShowAddPanel] = useState(false);
@@ -350,8 +347,7 @@ const Blog = () => {
                                     </div>
 
                                 </form>
-                                {console.log(blogText)}
-
+                              
 
                             </div>
                         )}
@@ -398,7 +394,7 @@ const Blog = () => {
 
                                                 <td className="w-36 ml-20" style={{ fontSize: '1.2rem', color: '#555' }}>
                                                     {typeof item.blogText === 'string' ? (
-                                                        <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText,5)}</div>` }} />
+                                                        <div dangerouslySetInnerHTML={{ __html: `<div>${truncateText(item.blogText, 5)}</div>` }} />
                                                     ) : (
                                                         item.blogText
                                                     )}
