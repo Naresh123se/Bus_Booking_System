@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import AIndex from './AIndex.jsx'
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { toast } from 'react-toastify';
 import { useGetBlogMutation, useEditBlogMutation, useDeleteBlogMutation, useAddBlogMutation } from '../slices/blog.js';
@@ -223,13 +221,6 @@ const Blog = () => {
         }
     };
 
-
-
-
-    const navigate = useNavigate();
-
-
-
     return (
         <>
             <div className='flex   overflow-hidden w-full'>
@@ -355,14 +346,14 @@ const Blog = () => {
                         <div>
                             <table className="min-w-full   ">
                                 <thead className="">
-                                    <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
-                                        <th className="w-1/12">Select</th>
-                                        <th className="w-1/12">Title </th>
-                                        <th className="w-2/12">Category</th>
-                                        <th className="w-2/12">Author</th>
-                                        <th className="w-[10%]">Images</th>
-                                        <th className="w-[20%]">Des</th>
-                                        <th className="ml-40">Action</th>
+                                    <tr className="flex   overflow-hidden">
+                                        <th className="w-1/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white ">Select</th>
+                                        <th className="w-1/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Title </th>
+                                        <th className="w-2/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Category</th>
+                                        <th className="w-2/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Author</th>
+                                        <th className="w-[10%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Images</th>
+                                        <th className="w-[20%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Des</th>
+                                        <th className="w-[20%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Action</th>
 
                                     </tr>
                                 </thead>

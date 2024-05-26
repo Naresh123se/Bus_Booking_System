@@ -19,8 +19,8 @@ import Profile from './Pages/Profile.jsx';
 import Blog from './Pages/Blog.jsx';
 import BlogList from './Pages/BlogList.jsx'; 
 import Footer from './Pages/Footer.jsx'; 
-
 import BusSeat from './Pages/BusSeat.jsx';
+import UserTicket from './Pages/UserTicket.jsx';
 
 import Ticket from './Booking/Ticket.jsx';
 
@@ -45,6 +45,7 @@ import Coupons from './Admin/Coupons.jsx';
 import ABus from './Admin/Bus.jsx';
 import ABlog from './Admin/Blog.jsx';
 import AEmail from './Admin/AEmail.jsx';
+import AUsersTicket from './Admin/AUsersTicket.jsx';
 
 
 
@@ -77,6 +78,7 @@ const router = createBrowserRouter(
       <Route path='/faq' element={<FAQ/>} />
       <Route path='/termCondition' element={<TermsCondition/>} />
       <Route path='/policy' element={<Policy/>} />
+      <Route path='/user-ticket' element={<UserTicket/>} />
 
        <Route path='/admin' element={<Main />} />
        <Route path='admin/Loginpage' element={<ALoginPage />} />
@@ -86,6 +88,7 @@ const router = createBrowserRouter(
        <Route path='admin/Coupons' element={<Coupons />} />
        <Route path='admin/blog' element={<ABlog />} />
        <Route path='admin/send-email' element={<AEmail />} />
+       <Route path='admin/usersTicket' element={<AUsersTicket />} />
 
       </Route>  
       

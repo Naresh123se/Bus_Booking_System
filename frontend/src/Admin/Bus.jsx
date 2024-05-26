@@ -352,15 +352,15 @@ const Bus = () => {
             <div>
               <table className="min-w-full   ">
                 <thead className="">
-                  <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
-                    <th className="w-1/12">Select</th>
-                    <th className="w-[10%]">BusName</th>
-                    <th className="w-[14%]">SeatCapacity</th>
-                    <th className="w-[12%]">Lot</th>
-                    <th className="w-[15%]">Number</th>
-                    <th className="w-[11%]">Alphabet</th>
-                    <th className="w-[20%]">Region</th>
-                    <th className="ml-5">Actions</th>
+                  <tr className="flex    overflow-hidden ">
+                    <th className="w-1/12  p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Select</th>
+                    <th className="w-[10%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">BusName</th>
+                    <th className="w-[14%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">SeatCapacity</th>
+                    <th className="w-[12%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Lot</th>
+                    <th className="w-[15%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Number</th>
+                    <th className="w-[11%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Alphabet</th>
+                    <th className="w-[20%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Region</th>
+                    <th className=" pl-20 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Actions</th>
                   </tr>
                 </thead>
 

@@ -21,9 +21,6 @@ const Ticket = () => {
   const userName = userData.displayName || userData.name;
   const email = userData.email || userData.email;
   const id = userData._id || userData._id;
-  console.log(email)
-  console.log(userName);
-  console.log(id);
   const [bookingMail] = useBookingMailMutation();
   const ticket1212 = localStorage.getItem('ticketDataResponse') 
   

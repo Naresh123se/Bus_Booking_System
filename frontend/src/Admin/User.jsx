@@ -42,8 +42,6 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 const Users = () => {
   const [data, setData] = useState([]);
 
-
-
   const [user] = useGetUserMutation();
   const [active1, setActive1] = useState([]);
   useEffect(() => {
@@ -136,17 +134,15 @@ const Users = () => {
             <div>
               <table className="min-w-full   ">
                 <thead className="">
-                  <tr className="flex  gap-14 shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
-                    <th className="w-1/12">Select</th>
-                    <th className="w-1/12">Name</th>
-                    <th className="w-3/12">email</th>
-                    <th className="w-2/12">Login date</th>
-                    {/* <th className="w-2/12">Phone Number</th> */}
-                    <th className="w-2/12">Verify</th>
-                    {/* <th className="w-1/12">Actions</th> */}
+                  <tr className="flex   overflow-hidden">
+                    <th className="w-1/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white" >Select</th>
+                    <th className="w-3/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white" >Name</th>
+                    <th className="w-3/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white" >email</th>
+                   <th className="w-[20%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white" >Login date</th>
+                    <th className="w-[30%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white" >Verify</th>
+                
                   </tr>
                 </thead>
-
 
                 <tbody className='' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                   <div className='h-[78.5vh] overflow-y-auto w-full'>
@@ -160,13 +156,12 @@ const Users = () => {
                         <td className="w-40 ml-12">
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
-                        <td className="w-60" style={{ fontSize: '1.2rem', color: '#333' }}>{item.name}</td>
+                        <td className="w-[11rem]" style={{ fontSize: '1.2rem', color: '#333' }}>{item.name}</td>
                         <td className="w-96 ml-12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.email}</td>
                         {/* <td className="w-2/12" style={{ fontSize: '1.2rem', color: '#555' }}>{item.isVerified}</td> */}
                         <td className="w-[12%]" style={{ fontSize: '1.2rem', color: '#555' }}> {new Date(item.createdAt).toLocaleDateString('en-US')}</td>
                         <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.price}</td>
                         {/* <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.active}</td> */}
-
                         <span onClick={() => deleteData(item._id)}>
 
                           <FormGroup>

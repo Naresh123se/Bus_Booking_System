@@ -62,9 +62,9 @@ const Header1 = () => {
           {/* Menu styling */}
           <Menu className='bg-[#f9faff] p-2  w-28 rounded-md'>
             {/* Profile link with hover effect */}
-            <MenuItem className='hover:bg-profileH cursor-pointer  border-b border-gray-300 bg-white'>
+            {/* <MenuItem className='hover:bg-profileH cursor-pointer  border-b border-gray-300 bg-white'>
               <Link to='/profile'>Profile</Link>
-            </MenuItem>
+            </MenuItem> */}
 
             {/* Language settings with hover effect */}
             {/* <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>

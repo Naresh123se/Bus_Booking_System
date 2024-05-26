@@ -123,7 +123,7 @@ const Header = () => {
             </MenuButton>
 
             {/* Menu styling */}
-            <Menu className='bg-[#f9faff] p-2 rounded-md'>
+            <Menu className='bg-[#f9faff] p-2 rounded-md w-28'>
               {/* Profile link with hover effect */}
               <MenuItem className='hover:bg-profileH cursor-pointer  border-b border-gray-300 bg-white'>
                 <Link to='/profile'>Profile</Link>
@@ -131,7 +131,7 @@ const Header = () => {
 
               {/* Language settings with hover effect */}
               <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
-                <Link to='/language'>Language settings</Link>
+                <Link to='/user-ticket'>Ticket</Link>
               </MenuItem>
 
               {/* Log out with hover effect and cursor-pointer */}
@@ -152,7 +152,7 @@ const Header = () => {
             </MenuButton>
 
             {/* Menu styling */}
-            <Menu className='bg-[#f9faff] p-2 rounded-md'>
+            <Menu className='bg-[#f9faff] p-2 rounded-md   w-28'>
               {/* Profile link with hover effect */}
               <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
                 <Link to='/profile'>Profile</Link>
@@ -160,7 +160,7 @@ const Header = () => {
 
               {/* Language settings with hover effect */}
               <MenuItem className='hover:bg-profileH  cursor-pointer  border-b border-gray-300 bg-white'>
-                <Link to='/language'>Language settings</Link>
+                <Link to='/user-ticket'>Ticket</Link>
               </MenuItem>
 
               {/* Log out with hover effect and cursor-pointer */}

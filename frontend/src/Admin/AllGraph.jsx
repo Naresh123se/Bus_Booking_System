@@ -15,8 +15,8 @@ import { PieChart } from '@mui/x-charts/PieChart';
 
 const barChartsParams = {
   series: [
-    { data: [3], label: 'A' },
-    { data: [4], label: 'B' },
+    { data: [5], label: 'Top Bus' },
+    { data: [3], label: 'Less Bus' },
 
   ],
   height: 400,

@@ -21,18 +21,7 @@ const Ticket = () => {
   const [getTicket] = useGetTicketMutation();
   const [isOpen, setIsOpen] = useState(false);
   const [noRecord, setNoRecord] = useState(false);
-
-  const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
-  const userData = JSON.parse(storedValue);
-  // const userName = userData.displayName || userData.name;
- 
-
   
-
-  // const storedResponse = localStorage.getItem('ticketDataResponse');
-  // console.log(storedResponse);
-
-
   const fetchAndFilterTickets = async (event) => {
     event.preventDefault();
     setIsOpen(false);

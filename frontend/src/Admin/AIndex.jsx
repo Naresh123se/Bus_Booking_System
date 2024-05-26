@@ -45,12 +45,15 @@ const AIndex = () => {
   const handleBlogClick = () => {
     handleClick('Blog');
   };
+  const handleusersTicket = () => {
+    handleClick('usersTicket');
+  };
 
  
 
   return (
     <>
-      <div className='w-44 bg-[#414E66] text-[#dfdbdb] h-[671px] cursor-pointer overflow-hidden '>
+      <div className='w-44 bg-[#414E66] text-[#dfdbdb] h-[671px] cursor-pointer overflow-hidden  '>
         <div>
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === '' ? 'bg-[#4f5e7a]' : ''}`} onClick={Dashboard}>
             <div>
@@ -111,6 +114,15 @@ const AIndex = () => {
             </div>
             <div>
            Blog
+            </div>
+          </div>
+
+          <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleusersTicket}>
+            <div>
+              <FontAwesomeIcon icon={faTicket}/> 
+            </div>
+            <div>
+           Users Ticket 
             </div>
           </div>
         </div>

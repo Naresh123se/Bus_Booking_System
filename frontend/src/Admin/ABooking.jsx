@@ -262,16 +262,16 @@ const ABooking = () => {
             <div>
               <table className="min-w-full">
                 <thead className="">
-                  <tr className="flex  shadow-lg  mt-1 mb-1 pl-5 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden gap-[100px] ">
-                    <th className="ml-2">Select</th>
-                    <th className="">Bus</th>
-                    <th className="w-12">StartTime</th>
-                    <th className="">EndTime</th>
-                    <th className="">Date</th>
-                    <th className="w-20">StartLocation</th>
-                    <th className="w-20">EndLocation</th>
-                    <th className="">Price</th>
-                    <th className="">Actions</th>
+                  <tr className="flex gap-[7%]  bg-[#009DF8]  ">
+                    <th className=" p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">Select</th>
+                    <th className="p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">Bus</th>
+                    <th className="p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white w-12">StartTime</th>
+                    <th className=" p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">EndTime</th>
+                    <th className="p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">Date</th>
+                    <th className="w-20 p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white ">StartLocation</th>
+                    <th className="w-20 p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">EndLocation</th>
+                    <th className="p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">Price</th>
+                    <th className="p-2  border-[#c2ced5] text-center bg-[#009DF8] text-white">Actions</th>
                   </tr>
                 </thead>
 

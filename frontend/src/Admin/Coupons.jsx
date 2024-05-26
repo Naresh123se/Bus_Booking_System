@@ -324,14 +324,14 @@ const Coupons = () => {
                         <div>
                             <table className="min-w-full   ">
                                 <thead className="">
-                                    <tr className="flex  shadow-lg  mt-1 mb-1 pl-2 pt-1 pb-1 bg-[#FFF] shadow-[#b7acac] rounded-md overflow-hidden">
-                                        <th className="w-1/12">Select</th>
-                                        <th className="w-1/12 ml-5">Time </th>
-                                        <th className="w-2/12">Des</th>
-                                        <th className="w-[14%]">Copy</th>
-                                        <th className="w-2/12">Price</th>
-                                        <th className="w-2/12">Image11</th>
-                                        <th className="w- ml-28">Action</th>
+                                    <tr className="flex overflow-hidden">
+                                        <th className="w-1/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Select</th>
+                                        <th className="w-[10%]  p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Time </th>
+                                        <th className="w-2/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Des</th>
+                                        <th className="w-[14%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Copy</th>
+                                        <th className="w-2/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Price</th>
+                                        <th className="w-2/12 p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Image11</th>
+                                        <th className="w-[18%] p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Action </th>
                                     </tr>
                                 </thead>
                                 <tbody className='  ' style={{ backgroundColor: '#ffcccc', padding: '20px', fontFamily: 'Arial, sans-serif', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>

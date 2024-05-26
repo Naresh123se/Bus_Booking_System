@@ -40,7 +40,7 @@ const Extra = () => {
     const selectedUser = data.find(user => user._id === emailID);
     if (selectedUser) {
       setName(selectedUser.name); // Set the name based on the selected user
-      setEmail(selectedUser.email); 
+      setEmail(selectedUser.email);
     } else {
       setName('');
       setEmail('');
@@ -61,9 +61,8 @@ const Extra = () => {
     }
   };
 
-
   const config = useMemo(() => ({
-    height: 400, // Set the height of the editor
+    height: 390, // Set the height of the editor
     readonly: false, // All options from https://xdsoft.net/jodit/doc/
     toolbarSticky: false, // Keeps the toolbar non-sticky if that might cause issues
   }), []);
@@ -138,9 +137,9 @@ const Extra = () => {
                       onChange={newContent => setMessage(newContent)}
                     />
                   </div>
+                  {isLoading && <Loader />}
                   <Button type="submit" sx={{ width: '100%' }}>
                     SEND
-                    {isLoading && <Loader />}
                   </Button>
                 </form>
               </div>
