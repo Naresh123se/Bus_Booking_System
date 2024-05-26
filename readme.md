@@ -32,13 +32,21 @@ It includes the following:
 Rename the `.env.example` file to `.env` and add the following
 
 ```
-NODE_ENV = development
-PORT = 5000
-MONGO_URI = your mongodb uri
-JWT_SECRET = 'abc123'
+NODE_ENV=development
+PORT=5000
+MONGO_URI= your mongo url
+GOOGLE_MAPS_API_KEY= your google map url
+GOOGLE_CLIENT_ID= your google client url
+GOOGLE_CLIENT_SECRET= your google secret url
+EMAIL_USERNAME= your email  url
+EMAIL_PASSWORD= your email password  url
+KHALTI_KEY= your khalTI key
+ReCAPTCHA=  your reCAPTCHA
+STRIPE_SECRET_KEY=   your STRIPE_SECRET_KEY
+STRIPE_PUBLISHABLE_KEY= your STRIPE_PUBLISHABLE_KEY
 ```
 
-Change the JWT_SECRET to what you want
+Change the all this to what you want
 
 ### Install Dependencies (frontend & backend)
 
