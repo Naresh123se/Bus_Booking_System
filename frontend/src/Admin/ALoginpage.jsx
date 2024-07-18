@@ -40,7 +40,7 @@ const LoginPage = () => {
       navigate('/admin');
       window.location.reload();
     } else {
-      toast.error( 'Wrong username or password');
+      toast.error('Wrong username or password');
     }
   };
 
@@ -122,7 +122,7 @@ const LoginPage = () => {
           </Sheet>
         </CssVarsProvider>
       </div>
-      
+
     </div>
   );
 };

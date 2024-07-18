@@ -338,7 +338,7 @@ const Blog = () => {
                                     </div>
 
                                 </form>
-                              
+
 
                             </div>
                         )}

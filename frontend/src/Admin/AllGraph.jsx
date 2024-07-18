@@ -66,30 +66,30 @@ export default function ElementHighlights() {
 
 
   const [getbus] = useGetbusMutation();
-const [data, setData] = useState([]);
-useEffect(() => {
-  fetchData(); // Fetch data when the component mounts
-}, []);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetchData(); // Fetch data when the component mounts
+  }, []);
 
-const fetchData = async () => {
-  try {
-    const result = await getbus();
-    const newData = result.data.data;
-    
-
-    console.log("Original data:", newData); // Log the original data
+  const fetchData = async () => {
+    try {
+      const result = await getbus();
+      const newData = result.data.data;
 
 
+      console.log("Original data:", newData); // Log the original data
 
-    const sundayData =newData.filter(item => item.name1 === 'Rocket Air Bus');
+
+
+      const sundayData = newData.filter(item => item.name1 === 'Rocket Air Bus');
       console.log(sundayData)
-    setSunday(sundayData.length) 
+      setSunday(sundayData.length)
 
-    
-  } catch (error) {
-    console.error('Failed to fetch schedules:', error);
-  }
-};
+
+    } catch (error) {
+      console.error('Failed to fetch schedules:', error);
+    }
+  };
 
 
   return (
@@ -139,7 +139,7 @@ const fetchData = async () => {
           />
         )}
 
-       
+
 
         {chartType === 'pie' && (
           <PieChart

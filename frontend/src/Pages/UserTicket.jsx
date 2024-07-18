@@ -12,8 +12,8 @@ const UserTicket = () => {
 
     const storedValue = localStorage.getItem('user') || localStorage.getItem('userInfo');
     const userData = JSON.parse(storedValue);
-    const userName = userData.displayName || userData.name;
-    const email = userData.email || userData.email;
+    // const userName = userData.displayName || userData.name;
+    // const email = userData.email || userData.email;
     const id = userData._id || userData._id;
 
     useEffect(() => {

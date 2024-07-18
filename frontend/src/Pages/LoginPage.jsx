@@ -33,6 +33,7 @@ const LoginPage = () => {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
+      toast.success("Welcome to MeroBus");
       localStorage.removeItem("user");
       navigate('/');
     } catch (err) {
@@ -42,87 +43,87 @@ const LoginPage = () => {
 
   return (
     <>
-    <div className='pb-28'>
-      <CssVarsProvider>
-        < DarkModeToggle />
-        <div className='size-32 mx-[45%] pt-1 '>
-          <img src="3.1.svg  " alt="logo" />
-        </div>
-        <Sheet
-          sx={{
-            width: 300,
-            mx: 'auto',
-            my: -3,
-            py: 3,
-            px: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            borderRadius: 'sm',
-            boxShadow: 'md',
-          }}
-          variant="outlined"
-        >
-          <div className='grid justify-items-center'>
-            <Typography level="h4" component="h1">
-              <b>Welcome!</b>
-            </Typography>
-            <Typography level="body-sm">Sign in to continue.</Typography>
+      <div className='pb-28'>
+        <CssVarsProvider>
+          < DarkModeToggle />
+          <div className='size-32 mx-[45%] pt-1 '>
+            <img src="3.1.svg  " alt="logo" />
           </div>
-
-          <FormControl>
-            <FormLabel> <AlternateEmailIcon />Email</FormLabel>
-            <Input
-              name="email"
-              type="email"
-              required  // Add required attribute here
-              value={email}
-              placeholder="naresh@email.com"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>
-              <LockIcon /> Password
-            </FormLabel>
-            <div style={{ position: 'relative', width: '100%' }}>
-              <Input
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                sx={{ paddingRight: '40px' }}
-              />
-              <IconButton
-                onClick={() => setShowPassword(!showPassword)}
-                edge="end"
-                style={{ position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)' }}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-              </IconButton>
-            </div>
-          </FormControl>
-
-          <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor: "#009DF8" /*  margin top */ }} onClick={submitHandler} >
-            Log in
-          </Button>
-          {isLoading && <Loader />}
-          <Typography
-            endDecorator={<Link to={'/register'} className='underline text-blue-500 hover:text-[#009DF8]'>Sign up</Link>}
-            fontSize="sm"
-            sx={{ alignSelf: 'center' }}
+          <Sheet
+            sx={{
+              width: 300,
+              mx: 'auto',
+              my: -3,
+              py: 3,
+              px: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              borderRadius: 'sm',
+              boxShadow: 'md',
+            }}
+            variant="outlined"
           >
-            Don&apos;t have an account?
-          </Typography>
+            <div className='grid justify-items-center'>
+              <Typography level="h4" component="h1">
+                <b>Welcome!</b>
+              </Typography>
+              <Typography level="body-sm">Sign in to continue.</Typography>
+            </div>
 
-          <div>
-            <GoogleAuth />
-          </div>
-        </Sheet>
-      </CssVarsProvider>
+            <FormControl>
+              <FormLabel> <AlternateEmailIcon />Email</FormLabel>
+              <Input
+                name="email"
+                type="email"
+                required  // Add required attribute here
+                value={email}
+                placeholder="naresh@email.com"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>
+                <LockIcon /> Password
+              </FormLabel>
+              <div style={{ position: 'relative', width: '100%' }}>
+                <Input
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  sx={{ paddingRight: '40px' }}
+                />
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                  style={{ position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)' }}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </IconButton>
+              </div>
+            </FormControl>
+
+            <Button type='Submit' value="Submit" sx={{ mt: 1, bgcolor: "#009DF8" /*  margin top */ }} onClick={submitHandler} >
+              Log in
+            </Button>
+            {isLoading && <Loader />}
+            <Typography
+              endDecorator={<Link to={'/register'} className='underline text-blue-500 hover:text-[#009DF8]'>Sign up</Link>}
+              fontSize="sm"
+              sx={{ alignSelf: 'center' }}
+            >
+              Don&apos;t have an account?
+            </Typography>
+
+            <div>
+              <GoogleAuth />
+            </div>
+          </Sheet>
+        </CssVarsProvider>
       </div>
     </>
   )

@@ -20,13 +20,14 @@ const IndexPage = () => {
       <div className='mt-28  sm:mt-[90vh]  lg:mt-96 md:mt-[63vh]  ]'>
         <Offers />
       </div>
-      <div className=' mt-16  border-[#ebdfdf] border'>
-        <div className='   bg-[#F5F5F5]   '>
+      <div className=' mt-16    bg-[#439dd1] '>
+        <div className='   '>
           <Body1 />
 
         </div>
       </div>
       <div className=''>
+      
         <Blog />
       </div>
     </>

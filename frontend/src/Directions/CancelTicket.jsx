@@ -29,8 +29,6 @@ const CancelTicket = () => {
   const [emailCancel, {isLoading}] = useCancelMailMutation();
   const [cancelTicket] = useCancelMutation();
 
-
-
   const navigate = useNavigate();
   useEffect(() => {
     const fetchLocalData = () => {

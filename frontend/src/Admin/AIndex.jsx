@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGauge, faTicket, faBusSimple, faUsers,  faEnvelope, faBlog  } from '@fortawesome/free-solid-svg-icons';
+import { faGauge, faTicket, faBusSimple, faUsers, faEnvelope, faBlog } from '@fortawesome/free-solid-svg-icons';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 const AIndex = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const AIndex = () => {
     handleClick('usersTicket');
   };
 
- 
+
 
   return (
     <>
@@ -57,7 +57,7 @@ const AIndex = () => {
         <div>
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === '' ? 'bg-[#4f5e7a]' : ''}`} onClick={Dashboard}>
             <div>
-              <FontAwesomeIcon icon={faGauge}  />
+              <FontAwesomeIcon icon={faGauge} />
             </div>
             <div cl>
               Dashboard
@@ -66,7 +66,7 @@ const AIndex = () => {
 
           <div className={`flex gap-4 text-[18px] hover:bg-[#4f5e7a] pl-4 pt-1 pb-1 ${activeNavItem === 'Passenger' ? 'bg-[#4f5e7a]' : ''}`} onClick={Passenger}>
             <div>
-              <FontAwesomeIcon icon={faUsers}  />
+              <FontAwesomeIcon icon={faUsers} />
             </div>
             <div>
               Passengers
@@ -82,17 +82,17 @@ const AIndex = () => {
             </div>
           </div>
           <div className={`flex gap-2 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4  ${activeNavItem === 'Schedule' ? 'bg-[#4f5e7a]' : ''}`} onClick={Schedule}>
-          <div style={{ animation: 'heartbeat 1.5s infinite' }}>
-      
-    <DepartureBoardIcon sx={{fontSize: 23}} />
-    </div>
+            <div style={{ animation: 'heartbeat 1.5s infinite' }}>
+
+              <DepartureBoardIcon sx={{ fontSize: 23 }} />
+            </div>
             <div className='ml-2'>
-            Schedule
+              Schedule
             </div>
           </div>
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'send-email' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleReportClick}>
             <div>
-            <FontAwesomeIcon icon={faEnvelope} />
+              <FontAwesomeIcon icon={faEnvelope} />
             </div>
             <div>
               Send Email
@@ -101,28 +101,28 @@ const AIndex = () => {
 
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleDestinationClick}>
             <div>
-               <FontAwesomeIcon icon={faTicket} />
+              <FontAwesomeIcon icon={faTicket} />
             </div>
             <div>
-            Coupons
+              Coupons
             </div>
           </div>
 
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleBlogClick}>
             <div>
-              <FontAwesomeIcon icon={faBlog}/> 
+              <FontAwesomeIcon icon={faBlog} />
             </div>
             <div>
-           Blog
+              Blog
             </div>
           </div>
 
           <div className={`flex gap-5 text-[18px] hover:bg-[#4f5e7a] pt-1 pb-1 pl-4 ${activeNavItem === 'Des' ? 'bg-[#4f5e7a]' : ''}`} onClick={handleusersTicket}>
             <div>
-              <FontAwesomeIcon icon={faTicket}/> 
+              <FontAwesomeIcon icon={faTicket} />
             </div>
             <div>
-           Users Ticket 
+              Users Ticket
             </div>
           </div>
         </div>

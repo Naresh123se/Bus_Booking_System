@@ -102,11 +102,11 @@ const UserTicket = () => {
                                     <th className="p-2 border border-[#c2ced5] text-center bg-[#009DF8] text-white">Seat Number</th>
                                 </tr>
                             </thead>
-                            <tbody  className='flex-col '>
-                                {filteredTickets.map((ticket, index) => ( 
+                            <tbody className='flex-col '>
+                                {filteredTickets.map((ticket, index) => (
                                     <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f0f0f0' : 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }} className=''>
-                                        <td className="pl- p-2 text-center">{index + 1}</td> 
-                                        <td  className="text-center ">{ticket.userId.name}</td>
+                                        <td className="pl- p-2 text-center">{index + 1}</td>
+                                        <td className="text-center ">{ticket.userId.name}</td>
                                         <td className="pl-2 text-center ">{ticket.ticketNum}</td>
                                         <td className="pl-2 text-center">{ticket.SchId.calender}</td>
                                         <td className="pl-2 text-center">Rs.{ticket.finalprice.totalPrice}</td>

@@ -1,33 +1,35 @@
 import mongoose from "mongoose";
 
 // Define the Bus schema
-const blogSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  selectedImages: [{
-    public_id: { type:  String, required: true },
-    url: { type: String, required: true }
-  }],
-  
-  blogText: {
-    type: String,
-    required: true,
-  },
-  author: {
-    type: String,
-    required: true,
-  }
-},
-{
-  timestamps: true,
-}
+const blogSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    selectedImages: [
+      {
+        public_id: { type: String, required: true },
+        url: { type: String, required: true },
+      },
+    ],
 
+    blogText: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
 // Define the Schedule schema

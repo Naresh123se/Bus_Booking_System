@@ -17,7 +17,7 @@ const ABooking = () => {
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  const [add, {isLoading}] = useAddMutation();
+  const [add, { isLoading }] = useAddMutation();
   const [get] = useGetScheduleMutation();
   const [getbus] = useGetbusMutation();
 
@@ -36,20 +36,20 @@ const ABooking = () => {
   const [endLocation, setEndLocation] = useState('');
   const [price, setPrice] = useState('');
 
-   // Get the current date
-   const currentDate = new Date();
+  // Get the current date
+  const currentDate = new Date();
 
-   // Get the day of the week (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
-   const dayOfWeek = currentDate.getDay();
- 
-   // Array of day names
-   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
- 
-   // Get the local day name using the day of the week index
-   const day = daysOfWeek[dayOfWeek];
+  // Get the day of the week (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
+  const dayOfWeek = currentDate.getDay();
+
+  // Array of day names
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  // Get the local day name using the day of the week index
+  const day = daysOfWeek[dayOfWeek];
 
   useEffect(() => {
-    fetchData(); 
+    fetchData();
     fetchSchedules();
     // Fetch data when the component mounts
   }, []);
@@ -72,27 +72,27 @@ const ABooking = () => {
     }
   };
 
-    const fetchSchedules = async (e) => {
-      try {
+  const fetchSchedules = async (e) => {
+    try {
 
-        const result = await get();
+      const result = await get();
 
-        const newSchedules = result.data.data;
+      const newSchedules = result.data.data;
 
-        const reversedSchedules = [...newSchedules].reverse();
-        setData(reversedSchedules);
+      const reversedSchedules = [...newSchedules].reverse();
+      setData(reversedSchedules);
 
 
 
-      } catch (error) {
-        console.error('Failed to fetch schedules:', error);
-      }
-    };
+    } catch (error) {
+      console.error('Failed to fetch schedules:', error);
+    }
+  };
   const handleAddSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      await add({ busId, startTime, endTime, calender, startLocation, stopLocation,  endLocation, price, day }).unwrap();
+      await add({ busId, startTime, endTime, calender, startLocation, stopLocation, endLocation, price, day }).unwrap();
       toast.success('Schedules added successfully');
       fetchSchedules();
       setShowAddPanel(false);
@@ -154,7 +154,7 @@ const ABooking = () => {
       setSelectedItems(selectedItems.filter(item => item !== id));
     }
   };
-  
+
   const deleteData = async (id) => {
     try {
       console.log("ID:", id); // Check the value of id
@@ -234,28 +234,28 @@ const ABooking = () => {
                 <h1 className="text-md font-semibold mb-3">Add New Schedules </h1>
                 <form onSubmit={handleAddSubmit} className='flex gap-5'>
                   <div >
-                  <select type="text" className=" border border-[#bcb7b7]  rounded-md h-10" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
-                                         {/* <select name="bus" defaultValue=""> */}
-                    <option value="" disabled>Select a bus</option>
-                    {bus20.map(bus => (
-                      <option key={bus._id} value={bus._id}>{bus.name1}</option>
-                    ))}
-                  </select>
+                    <select type="text" className=" border border-[#bcb7b7]  rounded-md h-10" name="busId" required value={busId} onChange={(e) => setBusId(e.target.value)}>
+                      {/* <select name="bus" defaultValue=""> */}
+                      <option value="" disabled>Select a bus</option>
+                      {bus20.map(bus => (
+                        <option key={bus._id} value={bus._id}>{bus.name1}</option>
+                      ))}
+                    </select>
                   </div>
-                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
-                  <TextField sx={{ width: '16ch'}}type="text" size='small' name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '16ch'}}type="date" size='small' name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
-                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="stopLocation" label="Stop Location" value={stopLocation} onChange={(e) => setStopLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '16ch'}} type="text" size='small' name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
-                  <TextField sx={{ width: '16ch'}}type="number" size='small' name="price" label="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch' }} type="text" size='small' name="startTime" label=" Start Time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required className="  border border-[#e6e3e3]   rounded-md  " />
+                  <TextField sx={{ width: '16ch' }} type="text" size='small' name="endTime" label="End Time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch' }} type="date" size='small' name="calender" label="Date" value={calender} onChange={(e) => setCalender(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" inputProps={{ min: formattedDate }} />
+                  <TextField sx={{ width: '16ch' }} type="text" size='small' name="startLocation" label="Start Location" value={startLocation} onChange={(e) => setStartLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch' }} type="text" size='small' name="stopLocation" label="Stop Location" value={stopLocation} onChange={(e) => setStopLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch' }} type="text" size='small' name="endLocation" label="End Location" value={endLocation} onChange={(e) => setEndLocation(e.target.value)} required className=" border border-[#e6e3e3]   rounded-md" />
+                  <TextField sx={{ width: '16ch' }} type="number" size='small' name="price" label="Price" value={price} onChange={(e) => setPrice(e.target.value)} required className=" input-field border border-[#e6e3e3]   rounded-md" />
                   <div>
-                  <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</Button>
-                  {isLoading && <Loader />}
+                    <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Add</Button>
+                    {isLoading && <Loader />}
                   </div>
-                  
+
                 </form>
-              
+
               </div>
             )}
 
@@ -284,8 +284,8 @@ const ABooking = () => {
                           <input type="checkbox" onChange={(event) => handleCheckboxChange(event, item._id)} />
                         </td>
                         <td className="w" style={{ fontSize: '1.2rem', color: '#333' }}>{item.selectedBus}</td>
-                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#333' }}>{item.bus.name1   }</td>
-                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime   }</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#333' }}>{item.bus.name1}</td>
+                        <td className="w-36" style={{ fontSize: '1.2rem', color: '#333' }}>{item.startTime}</td>
                         <td className="w-36" style={{ fontSize: '1.2rem', color: '#555' }}>{item.endTime}</td>
                         <td className="w-40" style={{ fontSize: '1.2rem', color: '#555' }}>{item.calender}</td>
                         <td className="w-48" style={{ fontSize: '1.2rem', color: '#555' }}>{item.startLocation}</td>

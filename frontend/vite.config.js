@@ -8,10 +8,10 @@ export default ({ command }) => {
   return defineConfig({
     plugins: [react()],
     server: {
-      port: parseInt(process.env.VITE_PORT) || 4000,
+      port:4000,
       proxy: {
         '/api': {
-          target: process.env.VITE_BACKEND_URL || 'http://localhost:5000',
+          target: 'http://localhost:6000',
           changeOrigin: true,
         },
       },

@@ -16,7 +16,7 @@ import FormLabel from '@mui/joy/FormLabel';
 import DarkModeToggle from './DarkModeToggle';
 
 import { toast } from 'react-toastify';
-import { useRegisterMutation} from '../slices/usersApiSlice';
+import { useRegisterMutation } from '../slices/usersApiSlice';
 
 
 import LockIcon from '@mui/icons-material/Lock';
@@ -36,16 +36,11 @@ const RegisterPage = () => {
 
   const [register, { isLoading }] = useRegisterMutation();
 
-  
-
-
- 
-
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-     await register({ name, email, password }).unwrap();
-
+      await register({ name, email, password }).unwrap();
+      toast.success("Confirm your email for verification");
       navigate('/login');
     } catch (err) {
       toast.error(err?.data?.message || err.error);

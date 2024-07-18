@@ -38,7 +38,7 @@ const Booking = () => {
   const [getSchedule] = useGetScheduleMutation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCountry, setSelectedCountry] = useState('in'); // Default to India
+  const [selectedCountry, setSelectedCountry] = useState('np'); // Default to India
 
   const [Getseat] = useGetTicketMutation();
   const [selectedTimes, setSelectedTimes] = useState([]);
@@ -50,7 +50,7 @@ const Booking = () => {
     { label: '12:00 - 18:00', value: '12-18' },
     { label: '18:00 - 24:00', value: '18-24' },
   ];
-  const busTypes = ['Delax', 'Super', 'Rapti', 'Baba'];
+  const busTypes = ['Deluxe', 'Super', 'Rapti', 'Baba'];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -409,8 +409,8 @@ const Booking = () => {
             <div className=' mt-2 ml-5 border rounded-md p-0.5 border-[#c2bcbc]'>
               <label htmlFor="country">Select Country: </label>
               <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-                <option value="in">India</option>
                 <option value="np">Nepal</option>
+                <option value="in">India</option>
               </select>
             </div>
           </div>

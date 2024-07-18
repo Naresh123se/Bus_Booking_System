@@ -1,26 +1,46 @@
 import React from 'react'
-
+import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
+import AirlineSeatReclineExtraOutlinedIcon from '@mui/icons-material/AirlineSeatReclineExtraOutlined';
+import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
+import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 const Body1 = () => {
   return (
-
-    <div className='flex gap-96  ml-20  bg-[#F5F5F5]  p-5 '>
-      <div className='  border-[#009DF8] rounded-md bg-[#E5E5E5]'>
-        <img src="./Body1/health.svg" alt="Health and Safety" className=' ml-5 pr-6 size-36 ' />
-        <p className='  flex justify-center font-semibold'>Health and Safety</p>
-      </div>
-      <div className=' rounded-md bg-[#E5E5E5]'>
-        <div>
-        <img src="./Body1/seat.svg" alt="Comfort on board"  className='ml-5  size-36 ' />
-        <p className='font-semibold  flex justify-center' >Comfort on board</p>
+    <>
+      <div className="mx-20 py-12  flex   gap-5  ">
+        <div className="flex  gap-3 h-32  justify-center items-center w-3/12 bg-[#dfdada] px-5 rounded-md .">
+          <AirlineSeatReclineExtraOutlinedIcon sx={{ fontSize: '1.5cm' }} className='text-[#2254AD]' />
+          <span className='flex flex-col'>
+            <h2 className='font-semibold   text-2xl -leading-[10px]'>Confort on board</h2>
+            <p>Equipped comfortable seats</p>
+          </span>
         </div>
-        
+
+        <div className="flex flex-row h-32   items-center gap-3 py-10 bg-[#dfdada] px-5 rounded-md  w-3/12  .">
+          < HealthAndSafetyOutlinedIcon sx={{ fontSize: '1.5cm' }} className='text-[#2254AD]' />
+          <span className='flex flex-col'>
+            <h2 className='font-semibold   text-2xl -leading-[10px]'>Health and Safety</h2>
+            <p>Others safe while traveling</p>
+          </span>
+        </div>
+        <div className="flex flex-row  gap-3 h-32   items-center bg-[#dfdada] px-5 rounded-md  w-3/12 .">
+          <RecyclingOutlinedIcon sx={{ fontSize: '1.5cm' }} className='text-[#2254AD]' />
+          <span className='flex flex-col'>
+            <h2 className='font-semibold   text-2xl -leading-[10px]'>Easy Refund</h2>
+            <p>No Questions Asked</p>
+          </span>
+        </div>
+
+        <div className="flex flex-row  gap-3 h-32  items-center bg-[#dfdada] px-5 rounded-md w-3/12 . ">
+          <SpaOutlinedIcon sx={{ fontSize: '1.5cm' }} className='text-[#2254AD]' />
+          <span className='flex flex-col'>
+            <h2 className='font-semibold   text-2xl -leading-[10px]'>Travel friendly</h2>
+            <p>Our efficient coaches</p>
+          </span>
+        </div>
+
+
       </div>
-      <div className=' bg-[#E5E5E5] rounded-md'>
-        <img src="./Body1/eco-friendly.svg" alt="Travel eco-friendly"  className=' ml-5  size-36  ' />
-        <p className=' flex justify-center  mb-2 font-semibold'>Travel eco-friendly</p>
-      </div>
-    </div>
+    </>
   )
 }
-
 export default Body1
