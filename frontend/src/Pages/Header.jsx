@@ -52,11 +52,11 @@ const Header = () => {
   return (
     <div className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50    ' >
       <Link to='/' className='flex items-center gap-1  '>
-        <div className='w-16  ml-20 sm:ml-3 sm:w-11' > <img src="/3.svg" alt="logo" /></div>
+        <div className='w-16  ml-20 sm:ml-3 sm:w-11'> <img src="/3.svg" alt="logo" /></div>
       </Link>
 
       <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px] font-medium  '>
-        <div className=' cursor-pointer   hover:bg-[#60c5ff] p-1 rounded-md' onClick={blogGo}>Blog</div>
+        <div className=' cursor-pointer text-[white]   p-1 rounded-md hover:scale-110 ' onClick={blogGo}>Blog</div>
         <div
           className="relative inline-block"
           onMouseEnter={() => setIsDropdownOpen(true)}
@@ -64,7 +64,7 @@ const Header = () => {
         >
           <button
             type="button"
-            className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative  "
+            className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative hover:scale-110 text-[white] "
           >
             Ticket
             {/* Drop-down and up arrow icons */}
@@ -84,21 +84,24 @@ const Header = () => {
                   >
                     <div className="ml-4 flex w-full">
                       <div className="flex  items-center mr-2 w-full ">
-                        <PrintIcon />
+                        <PrintIcon  className='text-[#2254AD]'/>
                       </div>
                       <p className="text-base font-medium text-gray-900">
                         Print Ticket
                       </p>
                     </div>
                   </a>
+
+                  <div className= 'h-[2px] bg-[gray]'/>
+
+                
                   <a
                     onClick={cancelTicket}
                     className="hover:bg-[#e3d9d9] flex pr-4  cursor-pointer"
                   >
                     <div className="ml-4 flex" >
-
                       <div className="flex  items-center mr-2 ">
-                        <CancelIcon />
+                        <CancelIcon  className='text-[#2254AD]'/>
                       </div>
                       <p className="text-base font-medium text-gray-900">
                         Cancel Ticket
@@ -146,8 +149,8 @@ const Header = () => {
 
           <Dropdown>
             {/* MenuButton styling */}
-            <MenuButton className='flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-0 sm:pl-0   sm:text-[12px] sm:mr-2 mr-20    hover:bg-hover'>
-              <AccountCircleIcon className='' />
+            <MenuButton className='text-[white] flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-0 sm:pl-0   sm:text-[12px] sm:mr-2 mr-20     hover:bg-[#0b97e9]'>
+              <AccountCircleIcon className='text-[black]' />
               {userInfo.name}
             </MenuButton>
 
@@ -186,17 +189,11 @@ const Header = () => {
             <Link to='/login' className='flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-1 sm:pl-0 pr-1   sm:text-[12px] sm:mr-2 mr-20    hover:bg-hover'>
               <MenuIcon />
               <Avatar alt="Naresh" src="" sx={{ width: 25, height: 25 }} />
-
             </Link>
           )}
         </div>
       </div>
-
-
     </div>
-
-
-
   )
 };
 

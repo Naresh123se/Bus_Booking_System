@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 import { useGetTicketMutation } from '../slices/ticket'
 import { useGetbusMutation } from '../slices/bus.js';
-import { useBookingMailMutation} from '../slices/email';
+import { useBookingMailMutation } from '../slices/email';
 import Button from '@mui/joy/Button';
 const Ticket = () => {
   // Sample data for demonstration
@@ -22,14 +22,14 @@ const Ticket = () => {
   const email = userData.email || userData.email;
   const id = userData._id || userData._id;
   const [bookingMail] = useBookingMailMutation();
-  const ticket1212 = localStorage.getItem('ticketDataResponse') 
-  
-  const all = localStorage.getItem('allData') 
+  const ticket1212 = localStorage.getItem('ticketDataResponse')
+
+  const all = localStorage.getItem('allData')
   const userData1 = JSON.parse(all);
-  const price1212 =  userData1.finalprice.totalPrice
-  const BusName1212 =  userData1.BusName
-  const bus1212 =  userData1.BusNumber
-  const seatString =  userData1.seat
+  const price1212 = userData1.finalprice.totalPrice
+  const BusName1212 = userData1.BusName
+  const bus1212 = userData1.BusNumber
+  const seatString = userData1.seat
   const seat1212 = seatString.join(', ');
 
   console.log(seat1212)
@@ -83,29 +83,26 @@ const Ticket = () => {
   }, []); // Include id as a dependency to re-run the effect when it changes
 
   const emailSentFlag = localStorage.getItem('emailSent');
- 
-useEffect(() => {
 
-  if (!emailSentFlag) {
-    
-    const sendEmail = async () => {
-      
-      try {
-        
-       
-         bookingMail({  email, userName, ticket1212, BusName1212,price1212, bus1212, seat1212 }).unwrap();
-      
-        localStorage.setItem('emailSent', 'true');
-      } catch (error) {
-        console.error('Error sending email:', error);
-      }
-    };
+  useEffect(() => {
 
-    sendEmail();
-  }
-}, []);
+    if (!emailSentFlag) {
 
-  
+      const sendEmail = async () => {
+
+        try {
+          bookingMail({ email, userName, ticket1212, BusName1212, price1212, bus1212, seat1212 }).unwrap();
+          localStorage.setItem('emailSent', 'true');
+        } catch (error) {
+          console.error('Error sending email:', error);
+        }
+      };
+
+      sendEmail();
+    }
+  }, []);
+
+
   //buses
   const fetchData = async () => {
     try {

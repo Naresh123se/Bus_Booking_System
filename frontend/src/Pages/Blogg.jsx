@@ -35,7 +35,8 @@ const Destinations = () => {
 
   return (
     <section className="text-gray-600 body-font bg-[#f5f5f5]">
-      <div className=" ml-20 pt-10 pb-10 mt-20 ">
+      <div className=" ml-20 pt-5 pb-10 mt-20 ">
+        <p className='text-2xl font-semibold pb-5 '>From Our Blog</p>
         <div className="flex flex-wrap  bg-red">
           {data11.map((card, index) => (
             <div key={index} className="w-[22%] h-full flex-shrink-0 bg-white shadow-lg rounded-lg overflow-hidden mr-8 ">
@@ -61,7 +62,7 @@ const Destinations = () => {
                 <h2 className="text-lg font-medium text-gray-900 mb-3">{card.title}</h2>
                 {/* <p className="text-base  mb-3">{card.description}</p> */}
                 <div className="flex items-center  justify-between ">
-                  <button onClick={() => blogDiv(card._id)} className='bg-[#40b5e8] p-2 rounded-md hover:bg-bg1'>
+                  <button onClick={() => blogDiv(card._id)} className='bg-bg1 p-2 rounded-md hover:bg-[#40b5e8]'>
                     Learn More
                   </button>
                   <div className=''>
