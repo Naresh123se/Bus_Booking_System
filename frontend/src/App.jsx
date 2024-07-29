@@ -49,7 +49,7 @@ const App = () => {
 
   return (
     <>
-      {isAdmin ? <Header1 /> : <Header />}
+      {/* {isAdmin ? <Header1 /> : <Header />} */}
       
       <ToastContainer />
       <Outlet />

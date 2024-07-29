@@ -27,10 +27,7 @@ const Blog = () => {
     const [addBlog, { isLoading }] = useAddBlogMutation();
     const [getBlog] = useGetBlogMutation();
     const [deleteBlog, { isLoading1 }] = useDeleteBlogMutation();
-    const [editBlog, { isLoading2 }] = useEditBlogMutation();
-
-
-
+    const [editBlog] = useEditBlogMutation();
 
     useEffect(() => {
         fetchData(); // Fetch data when the component mounts
@@ -60,7 +57,7 @@ const Blog = () => {
         return truncatedText + (wordArray.length > words ? '...' : ''); // Add ellipsis if text is truncated
     };
 
-
+    // imagessss
     const handleImageChange = (e) => {
 
         const files = Array.from(e.target.files);
@@ -143,7 +140,6 @@ const Blog = () => {
         setOpenEditDialog(true);
     };
 
-
     const handleUpdate = (newContent) => {
         // Perform the update operation here, such as saving to the database
         console.log('Updated content:', newContent);
@@ -188,7 +184,6 @@ const Blog = () => {
             setSelectedItems(selectedItems.filter(item => item !== id));
         }
     };
-
 
     const handleDeleteSelected = async () => {
         try {
@@ -246,7 +241,6 @@ const Blog = () => {
                                 </div>
 
                                 <form onSubmit={handleSubmit} className="flex  gap-5 mt-1">
-
                                     <div>
                                         <label className="pb-2">
                                             Title <span className="text-[#df3030]">*</span>
@@ -420,8 +414,7 @@ const Blog = () => {
                             ref={editor}
                             value={editData.blogText}
                             tabIndex={1} // tabIndex of textarea
-                            onBlur={handleUpdate}// preferred to use only this option to update the content for performance reasons
-                        // onChange={handleEditInputChange}
+                            onBlur={handleUpdate}
 
                         />
                     </form>

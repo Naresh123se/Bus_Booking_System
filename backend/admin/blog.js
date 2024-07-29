@@ -35,6 +35,7 @@ const addBlog = asyncHandler(async (req, res) => {
           url: result.secure_url,
         });
       }
+      
       console.log("image upload successful");
       // Creating the Post
       const addDes = await Blog.create({

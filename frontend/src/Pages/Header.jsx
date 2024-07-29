@@ -17,6 +17,8 @@ import { Dropdown } from '@mui/base/Dropdown';
 import { MenuButton } from '@mui/base/MenuButton';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
+import {useGSAP} from '@gsap/react'
+import gsap from 'gsap';
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -49,14 +51,26 @@ const Header = () => {
     }
   };
 
+  const ti = gsap.timeline();
+  useGSAP(() =>{
+    ti.from(".logo, .blog, .ticket, .login", {
+      y:-40,
+      opacity:0,
+      duration: 0.5,
+      delay: 0.7,
+      stagger:0.2,
+      
+    })})
+
+
   return (
     <div className='flex justify-between  pt-3 pb-3 bg-bg1 text-Slate-50    ' >
-      <Link to='/' className='flex items-center gap-1  '>
+      <Link to='/' className='flex items-center gap-1 logo  '>
         <div className='w-16  ml-20 sm:ml-3 sm:w-11'> <img src="/3.svg" alt="logo" /></div>
       </Link>
 
       <div className=' flex items-center space-x-8 sm:space-x-4 sm:text-[13px] font-medium  '>
-        <div className=' cursor-pointer text-[white]   p-1 rounded-md hover:scale-110 ' onClick={blogGo}>Blog</div>
+        <div className=' cursor-pointer text-[white]   p-1 rounded-md hover:scale-110  blog' onClick={blogGo} >Blog</div>
         <div
           className="relative inline-block"
           onMouseEnter={() => setIsDropdownOpen(true)}
@@ -64,7 +78,7 @@ const Header = () => {
         >
           <button
             type="button"
-            className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative hover:scale-110 text-[white] "
+            className=" justify-center mt-1.5  text-sm rounded-md group-hover:bg-[#bbbbd7] relative hover:scale-110 text-[white]  ticket"
           >
             Ticket
             {/* Drop-down and up arrow icons */}
@@ -118,7 +132,7 @@ const Header = () => {
       <div>
 
         {user && (
-          <Dropdown>
+          <Dropdown className='login'>
             {/* MenuButton styling */}
             <MenuButton className='username flex items-center gap-2 border border-gray-300 rounded-full py-1 px-2 cursor-pointer bg-sky-500 hover:bg-hover mr-20 '>
               <AccountCircleIcon />
@@ -147,10 +161,13 @@ const Header = () => {
 
         {userInfo && !user && (
 
-          <Dropdown>
+
+
+<Dropdown >
+  <div className='login'>
             {/* MenuButton styling */}
             <MenuButton className='text-[white] flex items-center gap-2 sm:gap-1 border border-[#aba5cb] rounded-full py-2 px-4   sm:py-0 sm:pl-0   sm:text-[12px] sm:mr-2 mr-20     hover:bg-[#0b97e9]'>
-              <AccountCircleIcon className='text-[black]' />
+              <AccountCircleIcon className='text-[black] ' />
               {userInfo.name}
             </MenuButton>
 
@@ -171,10 +188,11 @@ const Header = () => {
                 Log out
               </MenuItem>
             </Menu>
+            </div>
           </Dropdown>
         )}
 
-        <div>
+        <div children='login'>
           {user ? (
             <div className='hidden'>
               <Navbar>
