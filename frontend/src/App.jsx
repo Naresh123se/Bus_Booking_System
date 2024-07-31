@@ -10,6 +10,15 @@ import { setCredentials } from './slices/authSlice';
 import Header1 from './Admin/Header1';
 import Footer1 from './Admin/AFooter';
 
+import { gsap } from "gsap";
+import { useGSAP } from '@gsap/react';
+
+
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(useGSAP);
+// gsap.registerPlugin(ScrollTrigger);
+
 const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
@@ -41,6 +50,25 @@ const App = () => {
     getUser();
   }, []);
 
+
+
+
+  useGSAP(
+     () => {
+    let ok = gsap.timeline({
+      scrollTrigger:{
+        trigger: ".ok2",
+        start: 'top 80%',
+        end: "top 0%",
+        once: true,
+      }
+    
+      
+    })
+
+  })
+
+
   const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -49,7 +77,10 @@ const App = () => {
 
   return (
     <>
-      {/* {isAdmin ? <Header1 /> : <Header />} */}
+    <div className='ok2'>
+      ok
+    </div>
+      {isAdmin ? <Header1 /> : <Header />}
       
       <ToastContainer />
       <Outlet />

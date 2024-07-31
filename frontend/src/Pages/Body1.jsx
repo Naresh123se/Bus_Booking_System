@@ -3,32 +3,8 @@ import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutl
 import AirlineSeatReclineExtraOutlinedIcon from '@mui/icons-material/AirlineSeatReclineExtraOutlined';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 
 const Body1 = () => {
-const li = gsap.timeline({
-  scrollTrigger:{
-    trigger:'.a',
-    scroller:'.a',
-    markers:true,
-    start: 'top 50%',
-    end:'top 0',
-    scrub:2,
-  }
-})
-
-
-
-  useGSAP(()=>{
-    li.from(".a , .b, .c, .d",{
-      y:-30,
-      opacity: 0,
-      duration: 0.5,
-      delay: 0.7,
-      stagger:0.2,
-    })
-  })
   return (
     <>
       <div className="mx-20 py-12  flex   gap-5  t20 ">
